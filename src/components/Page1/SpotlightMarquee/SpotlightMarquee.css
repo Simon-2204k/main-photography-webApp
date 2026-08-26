@@ -1,0 +1,219 @@
+.spotlight-marquee-section {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 700px;
+  overflow: hidden;
+  background-color: #0c0c0e;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  user-select: none;
+  z-index: 20;
+  contain: paint layout;
+  cursor: default;
+}
+
+/* Nav & Footer Headers */
+.spotlight-nav,
+.spotlight-footer {
+  position: absolute;
+  width: 100%;
+  padding: 2.2rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #8e8e93;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.spotlight-nav {
+  top: 0;
+  left: 0;
+}
+
+.spotlight-nav p {
+  font-family: 'Newsreader', 'Instrument Serif', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  color: #a1a1aa;
+}
+
+.spotlight-footer {
+  bottom: 0;
+  left: 0;
+  justify-content: center;
+  padding-bottom: 2rem;
+}
+
+.spotlight-footer p {
+  text-align: center;
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: #71717a;
+  max-width: 440px;
+  width: 90%;
+  letter-spacing: 0.02em;
+}
+
+/* Horizontal Moving Image Marquee Strip */
+.spotlight-marquee {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  will-change: transform;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.spotlight-marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  will-change: transform;
+  width: max-content;
+}
+
+.spotlight-marquee-item {
+  flex-shrink: 0;
+  width: clamp(17rem, 20vw, 22rem);
+  padding: 0 0.6rem;
+}
+
+.spotlight-marquee-item img {
+  width: 100%;
+  height: clamp(10rem, 12vw, 13.5rem);
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+  background-color: #1a1a20;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  image-rendering: -webkit-optimize-contrast;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Center Difference Blend Mode Typography */
+.spotlight-content-wrapper {
+  position: relative;
+  width: clamp(340px, 36%, 600px);
+  height: 100%;
+  padding-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.8rem;
+  margin: 0 auto;
+  color: #ffffff;
+  mix-blend-mode: difference;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.spotlight-content-wrapper h1 {
+  font-family: 'Instrument Serif', 'Newsreader', serif;
+  font-size: clamp(3.8rem, 6.5vw, 6.4rem);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: #ffffff;
+}
+
+.spotlight-content-wrapper h3 {
+  text-transform: uppercase;
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  font-size: clamp(0.95rem, 1.3vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: center;
+  color: #ffffff;
+}
+
+.spotlight-copy {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+
+.spotlight-copy p {
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.75rem, 0.9vw, 0.85rem);
+  line-height: 1.35;
+  color: #ffffff;
+}
+
+.spotlight-copy p:nth-child(1) {
+  text-align: right;
+}
+
+.spotlight-copy p:nth-child(2) {
+  text-align: left;
+}
+
+/* Individual Displaceable Text Line */
+.spotlight-line {
+  display: block;
+  position: relative;
+  white-space: pre-wrap;
+  will-change: transform;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1000px) {
+  .spotlight-content-wrapper {
+    width: 85%;
+    padding: 2rem;
+  }
+
+  .spotlight-content-wrapper h1 {
+    font-size: 3.8rem;
+  }
+
+  .spotlight-content-wrapper h3 {
+    font-size: 1.1rem;
+  }
+
+  .spotlight-copy {
+    gap: 1.2rem;
+  }
+
+  .spotlight-nav,
+  .spotlight-footer {
+    padding: 1.5rem;
+  }
+
+  .spotlight-footer p {
+    width: 95%;
+  }
+}
+
+@media (max-width: 600px) {
+  .spotlight-content-wrapper {
+    width: 92%;
+    gap: 1.2rem;
+  }
+
+  .spotlight-content-wrapper h1 {
+    font-size: 3rem;
+  }
+
+  .spotlight-copy {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .spotlight-copy p:nth-child(1) {
+    text-align: center;
+  }
+
+  .spotlight-copy p:nth-child(2) {
+    text-align: center;
+  }
+}

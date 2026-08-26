@@ -1,0 +1,151 @@
+.slanted-marquee-section {
+  position: relative;
+  width: 100%;
+  background-color: #0a0a0c;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: clamp(3.5rem, 6vw, 5.5rem) 0 clamp(4rem, 6vw, 6rem) 0;
+  user-select: none;
+  z-index: 20;
+  contain: paint layout;
+}
+
+/* Ribbons Stage */
+.marquee-ribbons-stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+}
+
+/* Base Ribbon Strip — Sleek Editorial Greyish Tone */
+.marquee-ribbon-wrapper {
+  position: relative;
+  width: 135%;
+  left: -17.5%;
+  overflow: hidden;
+  background-color: #24252d;
+  background-image: linear-gradient(135deg, #2a2c36 0%, #1e1f26 100%);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+  backface-visibility: hidden;
+  contain: paint layout;
+}
+
+/* Top Ribbon: Tilted Left (-3deg) & Moving Right */
+.marquee-ribbon-top {
+  height: clamp(130px, 15vw, 190px);
+  transform: rotate(-3deg) skewX(-2deg);
+  z-index: 5;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  margin-bottom: -1.8rem;
+}
+
+/* Bottom Ribbon: Tilted OPPOSITE Right (+3deg) & Moving Left */
+.marquee-ribbon-bottom {
+  height: clamp(140px, 16vw, 200px);
+  transform: rotate(3deg) skewX(2deg);
+  z-index: 6;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Continuous Infinite Hardware-Accelerated Tracks */
+.marquee-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  width: max-content;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+/* Individual Content Repeat Unit */
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 2.2rem);
+  margin-right: clamp(1.5rem, 3vw, 3.5rem);
+  flex-shrink: 0;
+}
+
+/* Giant Main Typography: IT'S A ... RAW SHOT */
+.marquee-text-main {
+  font-family: 'Anton', 'Oswald', sans-serif;
+  font-size: clamp(4.4rem, 9.5vw, 8.8rem);
+  font-weight: 900;
+  line-height: 0.88;
+  color: #f2f2f7;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* Tilted Stamp Badge Box: PRISM OPTICS */
+.marquee-badge-box {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: clamp(3px, 0.38vw, 4.5px) solid #ffffff;
+  padding: clamp(0.25rem, 0.45vw, 0.45rem) clamp(0.65rem, 1.1vw, 1.15rem);
+  transform: rotate(-9deg);
+  margin: 0 clamp(0.3rem, 0.8vw, 0.8rem);
+  line-height: 0.86;
+  background-color: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.marquee-badge-line {
+  font-family: 'Anton', 'Oswald', sans-serif;
+  font-size: clamp(1.8rem, 4.2vw, 3.8rem);
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+/* 3-Line Sub-Label Lockup */
+.marquee-sub-lockup {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-size: clamp(0.72rem, 1.25vw, 1.15rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: 0.04em;
+  color: #e5e5ea;
+  text-transform: uppercase;
+  margin: 0 clamp(0.6rem, 1.5vw, 1.8rem);
+}
+
+.marquee-sub-line {
+  white-space: nowrap;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .marquee-ribbon-wrapper {
+    width: 145%;
+    left: -22.5%;
+  }
+}
+
+@media (max-width: 600px) {
+  .marquee-ribbon-wrapper {
+    width: 160%;
+    left: -30%;
+  }
+}

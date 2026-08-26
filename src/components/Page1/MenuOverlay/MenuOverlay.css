@@ -1,0 +1,283 @@
+:root {
+  /* ========================================================
+     MENU OPTION ROW HEIGHT CONFIGURATION
+     👉 You can edit this single value anytime to adjust the height of all 4 options!
+     ======================================================== */
+  --menu-option-row-height: clamp(95px, 20vh, 170px);
+}
+
+.k72-morph-menu-box {
+  background-color: #000000;
+  color: #ffffff;
+  z-index: 99999;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  height: 100svh;
+  max-height: 100vh;
+  max-height: 100svh;
+  will-change: top, left, width, height, border-radius;
+}
+
+.k72-menu-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  z-index: 20;
+  overflow: hidden;
+}
+
+/* ================= TOPBAR (CENTERED SIMON'S FRAMEWORK) ================= */
+.k72-menu-topbar {
+  display: grid;
+  grid-template-columns: clamp(36px, 3.5vw, 48px) 1fr clamp(36px, 3.5vw, 48px);
+  align-items: center;
+  padding: 1.4rem clamp(1.5rem, 4vw, 3.5rem);
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.k72-topbar-spacer {
+  width: clamp(36px, 3.5vw, 48px);
+  height: 100%;
+}
+
+.k72-brand-center-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.k72-brand-logo {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+  font-weight: 900;
+  font-size: clamp(0.95rem, 1.25vw, 1.25rem);
+  letter-spacing: 0.22em;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.k72-close-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  width: clamp(36px, 3.5vw, 48px);
+  height: clamp(36px, 3.5vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  outline: none;
+  margin-left: auto;
+}
+
+.k72-close-btn:hover {
+  transform: rotate(90deg) scale(1.1);
+  opacity: 0.85;
+}
+
+.k72-close-btn svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ================= CENTRAL NAV ROWS ================= */
+.k72-nav-links {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin: auto 0;
+  flex-shrink: 1;
+}
+
+.k72-nav-row {
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  height: var(--menu-option-row-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 0;
+  transition: background-color 0.2s ease;
+}
+
+.k72-nav-row:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Standard Typography Rows */
+.k72-nav-row.standard-row {
+  background-color: transparent;
+}
+
+.k72-nav-title {
+  margin: 0;
+  padding: 0;
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+  font-size: clamp(2.8rem, 6.4vw, 6.2rem);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-align: center;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease;
+}
+
+.k72-nav-row.standard-row:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Dynamic Electric-Lime Marquee Ribbon on Hover */
+.k72-nav-row.hovered-marquee-active {
+  background-color: #d4ff00;
+  color: #000000;
+  border-color: #d4ff00;
+  padding: 0;
+  height: var(--menu-option-row-height);
+}
+
+.k72-lime-marquee-banner {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.k72-marquee-track-infinite {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: max-content;
+  will-change: transform;
+  animation: k72MarqueeLoop 14s linear infinite;
+}
+
+@keyframes k72MarqueeLoop {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.k72-marquee-segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+  font-size: clamp(2.8rem, 6.4vw, 6.2rem);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: #000000;
+  text-transform: uppercase;
+  padding: 0 0.8rem;
+  box-sizing: border-box;
+}
+
+/* Oval Photo/GIF Pill Inside Ribbon (Sized to match/exceed typography cap height) */
+.k72-photo-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  width: clamp(110px, 13vw, 195px);
+  height: clamp(52px, 6.5vw, 92px);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 0 clamp(1rem, 2vw, 2.5rem);
+  border: 2.5px solid #000000;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  background-color: #000000;
+  flex-shrink: 0;
+}
+
+.k72-photo-pill img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ================= BOTTOMBAR (CENTERED INDIA TIME) ================= */
+.k72-menu-bottombar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.4rem clamp(1.5rem, 4vw, 3.5rem);
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.k72-telemetry-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(0.85rem, 1vw, 1.1rem);
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.k72-globe-icon {
+  font-size: 1.1em;
+}
+
+/* Responsive Scaling */
+@media (max-width: 600px) {
+  .k72-menu-topbar {
+    padding: 1rem 1.2rem;
+  }
+
+  .k72-menu-bottombar {
+    padding: 1rem 1.2rem;
+  }
+
+  .k72-nav-title,
+  .k72-marquee-segment {
+    font-size: clamp(2rem, 9.5vw, 3rem);
+  }
+
+  .k72-nav-row {
+    height: 65px;
+  }
+
+  .k72-photo-pill {
+    width: 80px;
+    height: 38px;
+    margin: 0 0.8rem;
+  }
+}

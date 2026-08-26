@@ -1,0 +1,145 @@
+/* ========================================================
+   DESKTOP ONLY NOTICE (Screen Blocker for < 1024px)
+   ======================================================== */
+.desktop-only-blocker {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .desktop-only-blocker {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100svh;
+    background-color: #08080a;
+    color: #ffffff;
+    z-index: 999999;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    box-sizing: border-box;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .desktop-notice-container {
+    position: relative;
+    z-index: 10;
+    max-width: 540px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .desktop-notice-brand {
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+    font-weight: 900;
+    font-size: 0.9rem;
+    letter-spacing: 0.25em;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+
+  .desktop-notice-aperture {
+    position: relative;
+    width: 84px;
+    height: 84px;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .aperture-svg {
+    width: 100%;
+    height: 100%;
+    animation: apertureRotate 24s linear infinite;
+  }
+
+  @keyframes apertureRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .aperture-pulse-ring {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    animation: pulseRing 2.8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+  }
+
+  @keyframes pulseRing {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 0.15; }
+    100% { transform: scale(0.9); opacity: 0.8; }
+  }
+
+  .desktop-notice-title {
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.4rem, 5.5vw, 2.1rem);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0 0 1.2rem 0;
+  }
+
+  .desktop-notice-desc {
+    font-family: 'Space Grotesk', -apple-system, sans-serif;
+    font-size: clamp(0.85rem, 3.2vw, 0.95rem);
+    line-height: 1.6;
+    color: #a1a1aa;
+    margin: 0 0 2rem 0;
+    font-weight: 400;
+  }
+
+  .desktop-notice-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 8px 18px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 100px;
+    font-family: 'Space Grotesk', monospace;
+    font-size: clamp(0.72rem, 2.8vw, 0.8rem);
+    letter-spacing: 0.06em;
+    color: #ffffff;
+    margin-bottom: 2rem;
+  }
+
+  .pill-dot {
+    width: 7px;
+    height: 7px;
+    background-color: #d4ff00;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #d4ff00;
+    display: inline-block;
+  }
+
+  .pill-divider {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .desktop-notice-pill strong {
+    color: #d4ff00;
+    font-weight: 700;
+  }
+
+  .desktop-notice-footer {
+    font-family: 'Space Grotesk', -apple-system, sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    color: #71717a;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+}
