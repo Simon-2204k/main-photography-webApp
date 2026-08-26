@@ -29,3 +29,10 @@ dist-ssr
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Markdown Documentation
+*.md
+
+# Raw scratch and external copy folders
+copyFromThisFolder/
+images/
