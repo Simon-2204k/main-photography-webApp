@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
+
+// Initialize Global Asset Preloader upfront
+import '../../utils/imagePreloadCache';
 
 import { SpiralGalleryCanvas } from '../../components/Page1/SpiralGallery/SpiralGalleryCanvas';
 import { CustomCursor } from '../../components/Page1/SpiralGallery/CustomCursor';
@@ -57,6 +60,18 @@ export const Page1 = () => {
     };
   }, []);
 
+  const handleOpenMenu = useCallback((rect) => {
+    setMenuTriggerRect(rect);
+    setIsMenuOpen(true);
+  }, []);
+
+  const handleCloseMenu = useCallback(() => {
+    setIsMenuOpen(false);
+  }, []);
+
+  // Section 1 visibility state: Menu and Background Typography visible only during 3D Spiral travel
+  const isSection1Active = scrollProgress < 0.85;
+
   return (
     <div className="page1-root-wrapper">
       {/* Device Restriction Blocker: Displays exclusively for phones and tablets (< 1024px) */}
@@ -66,18 +81,20 @@ export const Page1 = () => {
       <FilmGrain />
 
       <CustomCursor />
+
+      {/* Section 1 Background Typography & Menu Trigger: Visible exclusively in Section 1 */}
       <BackgroundTypography 
-        onOpenMenu={(rect) => {
-          setMenuTriggerRect(rect);
-          setIsMenuOpen(true);
-        }} 
+        isVisible={isSection1Active}
+        onOpenMenu={handleOpenMenu} 
       />
-      <HeaderHUD />
+
+      {/* Section 1 HUD Overlay: Visible exclusively in Section 1 */}
+      <HeaderHUD isVisible={isSection1Active} />
 
       {/* Fullscreen GSAP Morph-Scaled Navigation Menu */}
       <MenuOverlay 
         isOpen={isMenuOpen} 
-        onClose={() => setIsMenuOpen(false)} 
+        onClose={handleCloseMenu} 
         triggerRect={menuTriggerRect}
       />
 

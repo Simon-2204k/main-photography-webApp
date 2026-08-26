@@ -1,16 +1,26 @@
 import React, { useRef, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { PerspectiveCamera } from '@react-three/drei';
+import { PerspectiveCamera, useTexture } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette, BrightnessContrast } from '@react-three/postprocessing';
 import * as THREE from 'three';
-import gsap from 'gsap';
-
 import { SpiralRibbonMesh } from './SpiralRibbonMesh';
+import { projectsData } from '../../../data/page1/projectsData';
+
+// Eagerly preload all 44 spiral gallery textures into GPU cache
+if (typeof window !== 'undefined') {
+  projectsData.forEach((p) => {
+    try {
+      useTexture.preload(p.image);
+    } catch {
+      // safe fallback
+    }
+  });
+}
 
 const SpiralScene = ({ projects, scrollProgress }) => {
   const mainGroupRef = useRef();
   const spiralGroupRef = useRef();
-  const { camera, viewport } = useThree();
+  const { camera } = useThree();
 
   const minRadius = 2.9;
   const maxRadius = 4;
@@ -69,7 +79,7 @@ const SpiralScene = ({ projects, scrollProgress }) => {
     };
   }, []);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (!spiralGroupRef.current || !mainGroupRef.current) return;
 
     const mouseX = mousePosRef.current.x;
@@ -83,7 +93,7 @@ const SpiralScene = ({ projects, scrollProgress }) => {
       0.08
     );
 
-    // Feature 1: Left mouse -> spiral moves right (+X), Right mouse -> spiral moves left (-X)
+    // Mouse movement interaction
     const targetPosX = -mouseX * 1.6;
     spiralGroupRef.current.position.x = THREE.MathUtils.lerp(
       spiralGroupRef.current.position.x,
@@ -91,8 +101,6 @@ const SpiralScene = ({ projects, scrollProgress }) => {
       0.06
     );
 
-    // Feature 1 & 2 (Transform-origin -top tilt effect):
-    // Pivot tilt around top origin using Z and X rotations (Smoothly resets to 0 when mouse leaves)
     const targetRotZ = mouseX * 0.12;
     const targetRotX = -mouseY * 0.1;
     spiralGroupRef.current.rotation.z = THREE.MathUtils.lerp(
@@ -117,16 +125,13 @@ const SpiralScene = ({ projects, scrollProgress }) => {
     const initialAngleOffset = -totalTurns * Math.PI * 2;
     spiralGroupRef.current.rotation.y = initialAngleOffset + (currentScroll * 1.2);
 
-    // Camera look target
     camera.lookAt(0, 0, 0);
   });
 
   return (
     <>
-      {/* 1. BACKGROUND ATMOSPHERE COLOR */}
       <color attach="background" args={['#161618']} />
 
-      {/* 2. SCENE LIGHTING & HIGHLIGHTS */}
       <ambientLight intensity={1.6} />
       <directionalLight position={[0, 14, 16]} intensity={2.5} />
       <directionalLight position={[0, -14, -16]} intensity={1.4} />
@@ -145,21 +150,17 @@ const SpiralScene = ({ projects, scrollProgress }) => {
         </group>
       </group>
 
-      {/* 3. POST-PROCESSING: GLOOMY GLOW, BRIGHTNESS & HIGHLIGHT EFFECTS */}
       <EffectComposer multisampling={4}>
-        {/* Luminous Gloomy Glow & Specular Highlights */}
         <Bloom
           luminanceThreshold={0.4}
           luminanceSmoothing={0.8}
           intensity={1.25}
           mipmapBlur={true}
         />
-        {/* Brightness & Contrast Booster */}
         <BrightnessContrast
           brightness={0.06}
           contrast={0.18}
         />
-        {/* Moody Gloomy Vignette on Viewport Edges */}
         <Vignette
           offset={0.25}
           darkness={0.6}
@@ -170,16 +171,17 @@ const SpiralScene = ({ projects, scrollProgress }) => {
   );
 };
 
-export const SpiralGalleryCanvas = ({ projects, scrollProgress }) => {
+export const SpiralGalleryCanvas = React.memo(({ projects, scrollProgress }) => {
   return (
     <div className="canvas-wrapper">
       <Canvas
         gl={{
           antialias: true,
+          powerPreference: "high-performance",
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.5
         }}
-        dpr={[1, 2]}
+        dpr={[1, 1.75]}
       >
         <PerspectiveCamera
           makeDefault
@@ -192,4 +194,6 @@ export const SpiralGalleryCanvas = ({ projects, scrollProgress }) => {
       </Canvas>
     </div>
   );
-};
+});
+
+export default SpiralGalleryCanvas;

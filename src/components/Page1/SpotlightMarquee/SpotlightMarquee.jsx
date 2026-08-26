@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
 import './SpotlightMarquee.css';
 
@@ -11,7 +11,7 @@ const GALLERY_IMAGES = [
   '/assets/page1/spotlight-marquee/user_spotlight_06.webp',
 ];
 
-export const SpotlightMarquee = () => {
+const SpotlightMarqueeComponent = () => {
   const sectionRef = useRef(null);
   const stripRef = useRef(null);
   const trackRef = useRef(null);
@@ -264,4 +264,5 @@ export const SpotlightMarquee = () => {
   );
 };
 
+export const SpotlightMarquee = memo(SpotlightMarqueeComponent);
 export default SpotlightMarquee;

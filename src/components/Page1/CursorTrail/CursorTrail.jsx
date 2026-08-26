@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
 import { TRAIL_IMAGES } from '../../../data/page1/trailImagesData';
+import { globalImageCache } from '../../../utils/imagePreloadCache';
 
 const IMAGE_SIZE = 200; // Crisp 200px display size
 const DISTANCE_THRESHOLD = 30; // Min px distance during mouse movement to trigger image
@@ -8,7 +9,7 @@ const MAX_TRAIL_IMAGES = 14; // Strict FIFO queue limit of 14 images
 const FAST_IDLE_SPAWN_INTERVAL = 150; // High-speed spawn rate when mouse STOPS inside container (150ms)
 const MIN_LIFETIME_MS = 1000; // 1 second minimum visible time
 
-export const CursorTrail = ({ zIndex = 2 }) => {
+export const CursorTrailComponent = ({ zIndex = 2 }) => {
   const containerRef = useRef(null);
   const clientPosRef = useRef({ x: -9999, y: -9999 });
   const lastSpawnPosRef = useRef({ x: -9999, y: -9999 });
@@ -23,12 +24,6 @@ export const CursorTrail = ({ zIndex = 2 }) => {
     const container = containerRef.current;
     if (!container) return;
     const parent = container.parentElement || container;
-
-    // Preload images into memory
-    TRAIL_IMAGES.forEach((imgObj) => {
-      const img = new Image();
-      img.src = imgObj.url;
-    });
 
     const removeOldestImage = () => {
       if (trailQueueRef.current.length === 0) return;
@@ -231,5 +226,5 @@ export const CursorTrail = ({ zIndex = 2 }) => {
     />
   );
 };
-
+export const CursorTrail = memo(CursorTrailComponent);
 export default CursorTrail;

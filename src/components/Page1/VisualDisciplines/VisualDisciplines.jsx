@@ -111,7 +111,7 @@ const DISCIPLINES = [
   }
 ];
 
-export const VisualDisciplines = () => {
+const VisualDisciplinesComponent = () => {
   const [activeIndex, setActiveIndex] = useState(-1); // -1 when not yet in range
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef(null);
@@ -395,4 +395,5 @@ export const VisualDisciplines = () => {
   );
 };
 
+export const VisualDisciplines = React.memo(VisualDisciplinesComponent);
 export default VisualDisciplines;

@@ -1,8 +1,8 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, memo } from 'react';
 import * as THREE from 'three';
 import { useTexture } from '@react-three/drei';
 
-export const CurvedCardMesh = ({ 
+const CurvedCardMeshComponent = ({ 
   item, 
   radius = 2.0, 
   cardHeight = 1.6, 
@@ -51,12 +51,15 @@ export const CurvedCardMesh = ({
           map={texture}
           emissiveMap={texture}
           emissive={new THREE.Color(0xffffff)}
-          emissiveIntensity={0.65}  /* <-- Change here: Boost/lower card glow brightness */
+          emissiveIntensity={0.65}
           side={THREE.DoubleSide}
-          roughness={0.06}          /* <-- Change here: Lower roughness gives glossy highlights */
-          metalness={0.14}          /* <-- Change here: Higher metalness gives sharper specular reflections */
+          roughness={0.06}
+          metalness={0.14}
         />
       </mesh>
     </group>
   );
 };
+
+export const CurvedCardMesh = memo(CurvedCardMeshComponent);
+export default CurvedCardMesh;

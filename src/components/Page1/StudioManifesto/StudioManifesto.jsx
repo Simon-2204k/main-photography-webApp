@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { CursorTrail } from '../CursorTrail/CursorTrail';
 
-export const StudioManifesto = () => {
+const StudioManifestoComponent = () => {
   return (
     <section
       id="manifesto-section"
@@ -88,4 +88,5 @@ const underlineStyle = {
   color: '#ffffff'
 };
 
+export const StudioManifesto = memo(StudioManifestoComponent);
 export default StudioManifesto;

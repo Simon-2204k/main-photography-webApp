@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
 import { EXPANDING_GALLERY_DATA } from '../../../data/page1/expandingGalleryData';
 
 const ROWS_COUNT = 8;
 const ITEMS_PER_ROW = 8;
 
-export const ExpandingGallery = () => {
+const ExpandingGalleryComponent = () => {
   const sectionRef = useRef(null);
   const rowsRef = useRef([]);
 
@@ -211,4 +211,5 @@ export const ExpandingGallery = () => {
   );
 };
 
+export const ExpandingGallery = memo(ExpandingGalleryComponent);
 export default ExpandingGallery;

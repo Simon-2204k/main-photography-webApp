@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
 import './SlantedMarquee.css';
 
@@ -25,7 +25,7 @@ const MarqueeUnit = ({ keyPrefix = 'u' }) => (
   </div>
 );
 
-export const SlantedMarquee = () => {
+const SlantedMarqueeComponent = () => {
   const sectionRef = useRef(null);
   const topTrackRef = useRef(null);
   const bottomTrackRef = useRef(null);
@@ -161,4 +161,5 @@ export const SlantedMarquee = () => {
   );
 };
 
+export const SlantedMarquee = memo(SlantedMarqueeComponent);
 export default SlantedMarquee;

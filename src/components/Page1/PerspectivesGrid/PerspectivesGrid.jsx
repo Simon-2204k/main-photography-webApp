@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { CursorTrail } from '../CursorTrail/CursorTrail';
-import { VisualDisciplines } from '../VisualDisciplines/VisualDisciplines';
 
-export const PerspectivesGrid = () => {
+const PerspectivesGridComponent = () => {
   const [offsets, setOffsets] = useState({ col1: 140, col2: 320, col3: 220 });
   const sectionRef = useRef(null);
 
@@ -406,3 +405,6 @@ const badgeOverlayStyle = {
   boxSizing: 'border-box',
   borderRadius: '0px'
 };
+
+export const PerspectivesGrid = memo(PerspectivesGridComponent);
+export default PerspectivesGrid;

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 
-export const HeaderHUD = () => {
+export const HeaderHUDComponent = ({ isVisible = true }) => {
   const [coords, setCoords] = useState({ x: 1152, y: 477 });
 
   useEffect(() => {
@@ -28,7 +28,10 @@ export const HeaderHUD = () => {
         padding: '30px 45px',
         boxSizing: 'border-box',
         color: '#ffffff',
-        fontFamily: 'Inter, system-ui, sans-serif'
+        fontFamily: 'Inter, system-ui, sans-serif',
+        opacity: isVisible ? 1 : 0,
+        visibility: isVisible ? 'visible' : 'hidden',
+        transition: 'opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s'
       }}
     >
       {/* Top HUD Row */}
@@ -49,7 +52,7 @@ export const HeaderHUD = () => {
             fontWeight: '900',
             letterSpacing: '2.5px',
             textTransform: 'uppercase',
-            pointerEvents: 'auto',
+            pointerEvents: isVisible ? 'auto' : 'none',
             cursor: 'pointer',
             color: '#ffffff',
             mixBlendMode: 'difference'
@@ -112,7 +115,7 @@ export const HeaderHUD = () => {
           </p>
         </div>
 
-        {/* Top Right Live Telemetry (Fixed Width to Avoid Any Layout Shifts) */}
+        {/* Top Right Live Telemetry */}
         <div
           style={{
             minWidth: '130px',
@@ -130,3 +133,6 @@ export const HeaderHUD = () => {
     </div>
   );
 };
+
+export const HeaderHUD = memo(HeaderHUDComponent);
+export default HeaderHUD;

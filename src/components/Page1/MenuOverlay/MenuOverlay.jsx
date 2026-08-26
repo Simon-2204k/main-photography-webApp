@@ -8,32 +8,32 @@ const MENU_ITEMS = [
     id: 'page1',
     title: 'SEE EVERYTHING',
     gifs: [
-      'https://media.giphy.com/media/WsjKOc0cURCtGmjESu/giphy.gif',
-      'https://media.giphy.com/media/iFZzRx0sV3CjFrUo73/giphy.gif',
+      '/assets/page1/menu-gifs/gif_1.gif',
+      '/assets/page1/menu-gifs/gif_2.gif',
     ],
   },
   {
     id: 'page2',
     title: 'DARKROOM',
     gifs: [
-      'https://media.giphy.com/media/3o7btQOpMhE43bPEUo/giphy.gif',
-      'https://media.giphy.com/media/c71PoFdZD12iepS9b0/giphy.gif',
+      '/assets/page1/menu-gifs/gif_3.gif',
+      '/assets/page1/menu-gifs/gif_4.gif',
     ],
   },
   {
     id: 'page3',
     title: 'EXHIBITS',
     gifs: [
-      'https://media.giphy.com/media/fHifZooT04kPB7w7hS/giphy.gif',
-      'https://media.giphy.com/media/Cgl2VNjPPq1WE8aM7x/giphy.gif',
+      '/assets/page1/menu-gifs/gif_5.gif',
+      '/assets/page1/menu-gifs/gif_6.gif',
     ],
   },
   {
     id: 'page4',
     title: 'SPEC SHEET',
     gifs: [
-      'https://media.giphy.com/media/LgJ4qb5xJseqTFAaPO/giphy.gif',
-      'https://media.giphy.com/media/efNt8I9MU3gkB22nZy/giphy.gif',
+      '/assets/page1/menu-gifs/gif_7.gif',
+      '/assets/page1/menu-gifs/gif_8.gif',
     ],
   },
 ];

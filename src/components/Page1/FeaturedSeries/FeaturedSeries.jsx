@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, memo } from 'react';
 import gsap from 'gsap';
 import { FEATURED_SERIES_DATA, SIDEBAR_NAV_LINKS } from '../../../data/page1/featuredSeriesData';
 import './FeaturedSeries.css';
 
-export const FeaturedSeries = () => {
+const FeaturedSeriesComponent = () => {
   const [hoveredTag, setHoveredTag] = useState(null);
   const [activeItemId, setActiveItemId] = useState(null);
   const hoverCardRef = useRef(null);
@@ -111,4 +111,5 @@ export const FeaturedSeries = () => {
   );
 };
 
+export const FeaturedSeries = memo(FeaturedSeriesComponent);
 export default FeaturedSeries;

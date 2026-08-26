@@ -33,6 +33,7 @@ dist-ssr
 # Markdown Documentation
 *.md
 
-# Raw scratch and external copy folders
-copyFromThisFolder/
-images/
+# Raw scratch and external copy folders (root level only)
+/copyFromThisFolder/
+/images/
+/scratch/

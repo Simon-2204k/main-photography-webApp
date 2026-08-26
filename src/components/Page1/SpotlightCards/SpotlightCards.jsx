@@ -51,7 +51,7 @@ const DAMPING = 0.86;
 const TILT = 0.08;
 const SMOOTH = 0.8;
 
-export const SpotlightCards = () => {
+const SpotlightCardsComponent = () => {
   const spotlightRef = useRef(null);
   const containerRef = useRef(null);
   const cardRefs = useRef([]);
@@ -320,4 +320,5 @@ export const SpotlightCards = () => {
   );
 };
 
+export const SpotlightCards = React.memo(SpotlightCardsComponent);
 export default SpotlightCards;

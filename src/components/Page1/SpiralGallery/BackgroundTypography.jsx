@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-export const BackgroundTypography = ({ onOpenMenu }) => {
+export const BackgroundTypographyComponent = ({ onOpenMenu, isVisible = true }) => {
   return (
     <div
       style={{
         position: 'fixed',
         top: '20px',
         left: '50%',
-        transform: 'translateX(-50%)',
+        transform: isVisible ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(-18px)',
         width: '100%',
         textAlign: 'center',
-        pointerEvents: 'none',
+        pointerEvents: isVisible ? 'auto' : 'none',
         zIndex: 15,
         userSelect: 'none',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        mixBlendMode: 'difference'
+        mixBlendMode: 'difference',
+        opacity: isVisible ? 1 : 0,
+        visibility: isVisible ? 'visible' : 'hidden',
+        transition: 'opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s'
       }}
     >
       <h1
@@ -46,7 +49,7 @@ export const BackgroundTypography = ({ onOpenMenu }) => {
         aria-label="Open Navigation Menu"
         style={{
           marginTop: '16px',
-          pointerEvents: 'auto',
+          pointerEvents: isVisible ? 'auto' : 'none',
           cursor: 'pointer',
           border: 'none',
           outline: 'none',
@@ -82,4 +85,5 @@ export const BackgroundTypography = ({ onOpenMenu }) => {
   );
 };
 
+export const BackgroundTypography = memo(BackgroundTypographyComponent);
 export default BackgroundTypography;
