@@ -3,7 +3,7 @@
      MENU OPTION ROW HEIGHT CONFIGURATION
      👉 You can edit this single value anytime to adjust the height of all 4 options!
      ======================================================== */
-  --menu-option-row-height: clamp(95px, 20vh, 170px);
+  --menu-option-row-height: 19vh;
 }
 
 .k72-morph-menu-box {

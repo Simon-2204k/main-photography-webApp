@@ -117,11 +117,22 @@ All the following components, data structures, and assets comprise **Page 1** of
   3. `EXHIBITS` (Page 3: Spatial Curations & Gallery Shows): `fHifZooT04kPB7w7hS` (Clio Light Photo) & `Cgl2VNjPPq1WE8aM7x` (Bounce TV Photoshoot).
   4. `SPEC SHEET` (Page 4: Technical Specifications & Optics): `LgJ4qb5xJseqTFAaPO` (Hollyoaks Zoom) & `efNt8I9MU3gkB22nZy` (USA Hockey Flash).
   - Hovering ANY option dynamically turns it into the electric-lime scrolling marquee (`#d4ff00` / black text) with both enlarged GIFs (`height: clamp(52px, 6.5vw, 92px); width: clamp(110px, 13vw, 195px);`) alternating continuously along the track.
+- **Configurable Row Height via CSS Variable (`MenuOverlay.css` Line 1)**:
+  - `--menu-option-row-height: clamp(92px, 13.5vh, 138px);` — allows instant manual tuning of option row dimensions.
 - **Aligned Spatial Layout & Symmetric Typography Padding**:
   - **Top**: `SIMON'S FRAMEWORK` centered at top with geometric `✕` close button on top-right.
-  - **Center**: 4 options with calibrated row height (`height: clamp(75px, 12vh, 115px)`), shifted upward to guarantee zero clipping, with symmetric optical top/bottom (`pt`/`pb`) alignment.
+  - **Center**: 4 options driven by `--menu-option-row-height`, with symmetric optical top/bottom (`pt`/`pb`) alignment.
   - **Bottom**: 🌐 `INDIA_HH:MM:SS` (Live real-time IST clock `Asia/Kolkata`) 100% visible and centered at bottom.
 - **Clean Cursor Experience**: Excluded from global crosshair in `CustomCursor.jsx`.
+
+### 📱 13. Responsive Device Restriction (Desktop & Laptop Only — `< 1024px`) (`src/components/Page1/DesktopOnlyNotice/`)
+- Restricts interactive 3D WebGL experience to screens `1024px` and wider.
+- Below `1024px` (phones and tablets), displays a fullscreen cinematic darkroom blocker:
+  - Header: `SIMON'S FRAMEWORK`
+  - Animated aperture wireframe camera reticle with pulse ring.
+  - Heading: `EXPERIENCE DESIGNED FOR DESKTOP & LAPTOP`
+  - Live resolution indicator badge: `CURRENT DISPLAY: ${width}px · REQUIRED: 1024px+`
+  - Continuous procedural 24 FPS `FilmGrain` overlay.
 
 ---
 

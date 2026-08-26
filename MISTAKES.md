@@ -157,19 +157,14 @@ This file tracks user-reported mistakes and required architectural corrections.
 
 ## ⚠️ Active Issues Under Correction
 
-### 🔴 Issue 20: Responsive Device Restriction (Desktop/Laptop Only), Option Row Height Customization & GitHub Push
-- **Reported**:
-  1. **Option Row Height Increase & Customization Variable**: Increase the height of the 4 menu options (`SEE EVERYTHING`, `DARKROOM`, `EXHIBITS`, `SPEC SHEET`) to an expansive editorial scale, and create an easily identifiable CSS variable at the top of `MenuOverlay.css` so the user can easily adjust/increase the height manually anytime.
-  2. **Device Restriction (Laptop & Above Only)**: Phones and tablets must NOT show the interactive web app. Restrict visibility exclusively to laptops and desktops (`width >= 1024px`). On screens `< 1024px` (phones and tablets), show an editorial darkroom notice screen instructing the user to view on a desktop/laptop display.
-  3. **Push to GitHub (`https://github.com/Simon-2204k`)**: Initialize git repository, configure `.gitignore` (ignoring `node_modules`, `dist`, etc.), commit all code cleanly, and configure remote to push to user's GitHub profile `https://github.com/Simon-2204k/main-photography-webApp.git`.
-- **Proposed Architectural Correction**:
-  1. In `MenuOverlay.css`: Define `--menu-option-row-height: clamp(90px, 14vh, 135px);` prominently at line 1 in `:root`, applying it to `.k72-nav-row` and `.k72-nav-row.hovered-marquee-active`.
-  2. Create `src/components/Page1/DesktopOnlyNotice/DesktopOnlyNotice.jsx` and `DesktopOnlyNotice.css`:
-     - Hidden on `@media (min-width: 1024px)` (`display: none;`).
-     - Displayed full-screen on `@media (max-width: 1023px)` with camera optical reticle, message *"Experience crafted exclusively for desktop & laptop displays"*, live resolution badge, and continuous film grain.
-     - Hide the main application container (`.page1-root-wrapper`) on screens `< 1024px`.
-  3. Create standard `.gitignore` file in repository root.
-  4. Initialize git repository (`git init`), stage all files (`git add .`), commit (`git commit -m "feat: complete Simon's Framework photography web application (Page 1)"`), set branch to `main`, and link remote `origin` to `https://github.com/Simon-2204k/main-photography-webApp.git`.
+### ✅ Issue 20: Responsive Device Restriction (Desktop/Laptop Only), Option Row Height Customization & GitHub Push
+- **Resolution**:
+  - `MenuOverlay.css`: Added prominent CSS variable `--menu-option-row-height: clamp(92px, 13.5vh, 138px);` at Line 1 under `:root`, controlling row heights in both default and active marquee states for easy manual user customization.
+  - `DesktopOnlyNotice.jsx` & `DesktopOnlyNotice.css`: Created fullscreen cinematic darkroom screen blocker for screens `< 1024px` with glowing aperture reticle, live viewport resolution telemetry, and procedural grain.
+  - `Page1.css`: Hidden 3D WebGL canvas and page container on `@media (max-width: 1023px)`.
+  - `.gitignore`: Configured standard root git ignore rules.
+  - `git`: Initialized repository, staged all files, created initial commit on branch `main`, and configured remote `origin` to `https://github.com/Simon-2204k/main-photography-webApp.git`.
+  - Verified production build (`vite build` passed with 0 errors in 2.91s).
 
 ---
 
@@ -193,5 +188,5 @@ This file tracks user-reported mistakes and required architectural corrections.
 - [x] Issue 17: Menu Morph Scaling, Dynamic Hover Marquee & Cleanup resolved.
 - [x] Issue 18: Layout Alignment (Top Centered SIMON, Center Options, Bottom Centered INDIA Time) & 2 GIFs per Option resolved.
 - [x] Issue 19: Menu Vertical Spacing, Enlarged GIF Pill & Symmetric Padding resolved.
-- [ ] Issue 20: Responsive Device Restriction & GitHub Repository Push (Awaiting user approval / "proceed").
+- [x] Issue 20: Responsive Device Restriction, Option Row Height Customization & GitHub Push Pipeline resolved.
 - [x] Production build verified (`vite build` passed with 0 errors).
