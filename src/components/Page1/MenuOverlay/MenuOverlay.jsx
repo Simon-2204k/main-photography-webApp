@@ -221,19 +221,28 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
     <div
       id="menu-overlay-container"
       ref={overlayRef}
-      className="k72-fullscreen-overlay"
+      className="k72-morph-menu-box"
       style={{ display: 'none' }}
     >
       <div ref={innerRef} className="k72-menu-inner">
-        {/* Top Header: Centered SIMON Branding with Close Button on Right */}
-        <header ref={topBarRef} className="k72-menu-top-bar">
-          <div className="k72-brand-center">SIMON</div>
-          <button
-            className="k72-close-button"
+        {/* Top Header Bar: Centered SIMON'S FRAMEWORK + Right Rotating SVG Close Button */}
+        <header ref={topBarRef} className="k72-menu-topbar">
+          <div className="k72-topbar-spacer" />
+          
+          <div className="k72-brand-center-container">
+            <span className="k72-brand-logo">SIMON'S FRAMEWORK</span>
+          </div>
+
+          {/* Large Geometric Rotating SVG Close Button (Top Right) */}
+          <button 
+            className="k72-close-btn" 
             onClick={handleCloseClick}
-            aria-label="Close menu"
+            aria-label="Close navigation menu"
           >
-            CLOSE
+            <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <line x1="8" y1="8" x2="32" y2="32" />
+              <line x1="32" y1="8" x2="8" y2="32" />
+            </svg>
           </button>
         </header>
 
@@ -278,9 +287,12 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
           })}
         </nav>
 
-        {/* Bottom Screen: Centered India Time */}
-        <footer ref={bottomBarRef} className="k72-menu-bottom-bar">
-          <div className="k72-time-centered">{timeString}</div>
+        {/* Bottom Screen: Centered India Time with Globe Icon */}
+        <footer ref={bottomBarRef} className="k72-menu-bottombar">
+          <div className="k72-telemetry-centered">
+            <span className="k72-globe-icon">🌐</span>
+            <span className="k72-clock-text">{timeString || 'INDIA_21:50:30'}</span>
+          </div>
         </footer>
       </div>
     </div>
