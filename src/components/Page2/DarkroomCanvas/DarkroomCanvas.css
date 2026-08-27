@@ -19,7 +19,7 @@
   z-index: -1;
 }
 
-/* Middle Bar — Modular Segmented Capsule Blocks matching Image 3 */
+/* Middle Bar — Modular Segmented Capsule Blocks with Higher Z-Index and Frosted Glass Blur */
 .darkroom-middle-bar-segmented {
   position: fixed;
   top: 50%;
@@ -28,7 +28,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  z-index: 12;
+  z-index: 900;
   pointer-events: none;
   white-space: nowrap;
 }
@@ -39,15 +39,16 @@
   justify-content: center;
   height: 42px;
   padding: 0 16px;
-  background: rgba(22, 10, 10, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(18, 18, 22, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   font-family: 'Space Mono', monospace;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 1.5px;
-  color: #ededf4;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
   text-transform: uppercase;
 }
 
@@ -66,7 +67,7 @@
 .darkroom-segment .grip-matrix span {
   width: 4px;
   height: 4px;
-  background-color: rgba(255, 255, 255, 0.45);
+  background-color: rgba(255, 255, 255, 0.6);
   border-radius: 1px;
 }
 
@@ -84,7 +85,7 @@
 
 /* Category block */
 .darkroom-segment.segment-category {
-  color: #d4d4dc;
+  color: #ededf4;
 }
 
 /* Status block */

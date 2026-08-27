@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
-
-// Initialize Global Asset Preloader upfront
-import '../../utils/imagePreloadCache';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { SpiralGalleryCanvas } from '../../components/Page1/SpiralGallery/SpiralGalleryCanvas';
-import { CustomCursor } from '../../components/Page1/SpiralGallery/CustomCursor';
-import { HeaderHUD } from '../../components/Page1/SpiralGallery/HeaderHUD';
 import { BackgroundTypography } from '../../components/Page1/SpiralGallery/BackgroundTypography';
-import { MenuOverlay } from '../../components/Page1/MenuOverlay/MenuOverlay';
+import { HeaderHUD } from '../../components/Page1/SpiralGallery/HeaderHUD';
+import { CustomCursor } from '../../components/Page1/SpiralGallery/CustomCursor';
+import { CursorTrail } from '../../components/Page1/CursorTrail/CursorTrail';
 import { PerspectivesGrid } from '../../components/Page1/PerspectivesGrid/PerspectivesGrid';
 import { VisualDisciplines } from '../../components/Page1/VisualDisciplines/VisualDisciplines';
 import { StudioManifesto } from '../../components/Page1/StudioManifesto/StudioManifesto';
@@ -25,10 +23,8 @@ import { DesktopOnlyNotice } from '../../components/Page1/DesktopOnlyNotice/Desk
 import { projectsData } from '../../data/page1/projectsData';
 import './Page1.css';
 
-export const Page1 = ({ onSelectPage }) => {
+export const Page1Component = ({ onOpenMenu }) => {
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [menuTriggerRect, setMenuTriggerRect] = useState(null);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -60,15 +56,6 @@ export const Page1 = ({ onSelectPage }) => {
     };
   }, []);
 
-  const handleOpenMenu = useCallback((rect) => {
-    setMenuTriggerRect(rect);
-    setIsMenuOpen(true);
-  }, []);
-
-  const handleCloseMenu = useCallback(() => {
-    setIsMenuOpen(false);
-  }, []);
-
   // Section 1 visibility state: Menu and Background Typography visible only during 3D Spiral travel
   const isSection1Active = scrollProgress < 0.85;
 
@@ -85,57 +72,57 @@ export const Page1 = ({ onSelectPage }) => {
       {/* Section 1 Background Typography & Menu Trigger: Visible exclusively in Section 1 */}
       <BackgroundTypography 
         isVisible={isSection1Active}
-        onOpenMenu={handleOpenMenu} 
+        onOpenMenu={onOpenMenu} 
       />
 
       {/* Section 1 HUD Overlay: Visible exclusively in Section 1 */}
       <HeaderHUD isVisible={isSection1Active} />
 
-      {/* Fullscreen GSAP Morph-Scaled Navigation Menu */}
-      <MenuOverlay 
-        isOpen={isMenuOpen} 
-        onClose={handleCloseMenu} 
-        onSelectPage={onSelectPage}
-        triggerRect={menuTriggerRect}
-      />
-
       {/* Fixed 3D Spiral Background */}
       <div className="page1-fixed-spiral-canvas">
         <SpiralGalleryCanvas 
           projects={projectsData} 
-          scrollProgress={scrollProgress}
+          scrollProgress={scrollProgress} 
         />
       </div>
 
-      {/* Calibrated Hero Spacer (235vh): Ensures users view 90% of spiral travel before lower sections emerge */}
-      <section className="page1-hero-spacer" />
+      {/* Section 1 Space: Spacer for 3D Camera Path */}
+      <div className="page1-hero-spacer" />
 
-      {/* Lower Sections Container (Perspectives Editorial Grid + Visual Disciplines + Studio Manifesto) */}
-      <div id="page-2-container" className="page1-editorial-container">
-        <PerspectivesGrid />
-        <VisualDisciplines />
-        <StudioManifesto />
+      {/* Section 2: Cursor Trail Gallery */}
+      <div id="page-2-container">
+        <CursorTrail />
       </div>
 
-      {/* Expanding Scroll Multi-Row Archive Gallery (64 Cards) */}
+      {/* Section 3: Perspectives Photography Editorial Grid */}
+      <PerspectivesGrid />
+
+      {/* Section 4: Visual Disciplines Typography Showcase */}
+      <VisualDisciplines />
+
+      {/* Section 5: Studio Manifesto */}
+      <StudioManifesto />
+
+      {/* Section 6: Expanding Gallery */}
       <ExpandingGallery />
 
-      {/* Magnetic Spotlight Cards (Kinetic Magnetic Repulsion Physics) */}
+      {/* Section 7: Spotlight Interactive Cards (Physics Engine) */}
       <SpotlightCards />
 
-      {/* Dual Slanted Kinetic Ribbon Marquee Section */}
+      {/* Section 8: Slanted Kinetic Ribbon Marquee */}
       <SlantedMarquee />
 
-      {/* Featured Series Editorial Directory (30 Projects Grid) */}
+      {/* Section 9: Featured Photography Series */}
       <FeaturedSeries />
 
-      {/* Magnetic Spotlight Marquee Strip (divLike Cursor) */}
+      {/* Section 10: Spotlight Infinite Marquee Gallery */}
       <SpotlightMarquee />
 
-      {/* Simon Editorial Footer (Monochrome Black & White) */}
+      {/* Footer Section */}
       <Footer />
     </div>
   );
 };
 
+export const Page1 = memo(Page1Component);
 export default Page1;

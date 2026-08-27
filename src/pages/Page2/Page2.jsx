@@ -1,26 +1,13 @@
-import React, { useState, useCallback, memo } from 'react';
+import React, { memo } from 'react';
 import { FilmGrain } from '../../components/Page1/FilmGrain/FilmGrain';
 import { CustomCursor } from '../../components/Page1/SpiralGallery/CustomCursor';
 import { DesktopOnlyNotice } from '../../components/Page1/DesktopOnlyNotice/DesktopOnlyNotice';
-import { MenuOverlay } from '../../components/Page1/MenuOverlay/MenuOverlay';
 import { DarkroomCanvas } from '../../components/Page2/DarkroomCanvas/DarkroomCanvas';
 import { DarkroomHeader } from '../../components/Page2/DarkroomHeader/DarkroomHeader';
 import { DarkroomGridGrain } from '../../components/Page2/DarkroomGridGrain/DarkroomGridGrain';
 import './Page2.css';
 
-export const Page2Component = ({ onSelectPage }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [menuTriggerRect, setMenuTriggerRect] = useState(null);
-
-  const handleOpenMenu = useCallback((rect) => {
-    setMenuTriggerRect(rect);
-    setIsMenuOpen(true);
-  }, []);
-
-  const handleCloseMenu = useCallback(() => {
-    setIsMenuOpen(false);
-  }, []);
-
+export const Page2Component = ({ onOpenMenu }) => {
   return (
     <div className="page2-root-wrapper">
       {/* Device Restriction Blocker (< 1024px) */}
@@ -35,7 +22,7 @@ export const Page2Component = ({ onSelectPage }) => {
       {/* Section 1 Header: CHRONICLES IN LIGHT + MENU */}
       <DarkroomHeader
         isVisible={true}
-        onOpenMenu={handleOpenMenu}
+        onOpenMenu={onOpenMenu}
       />
 
       {/* Technical Grid Grain & Telemetry Overlay */}
@@ -43,14 +30,6 @@ export const Page2Component = ({ onSelectPage }) => {
 
       {/* Section 1 Interactive HUD Video Canvas */}
       <DarkroomCanvas />
-
-      {/* Fullscreen Navigation Menu Overlay */}
-      <MenuOverlay
-        isOpen={isMenuOpen}
-        onClose={handleCloseMenu}
-        onSelectPage={onSelectPage}
-        triggerRect={menuTriggerRect}
-      />
     </div>
   );
 };
