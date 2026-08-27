@@ -5,6 +5,7 @@ import { DesktopOnlyNotice } from '../../components/Page1/DesktopOnlyNotice/Desk
 import { MenuOverlay } from '../../components/Page1/MenuOverlay/MenuOverlay';
 import { DarkroomCanvas } from '../../components/Page2/DarkroomCanvas/DarkroomCanvas';
 import { DarkroomHeader } from '../../components/Page2/DarkroomHeader/DarkroomHeader';
+import { DarkroomGridGrain } from '../../components/Page2/DarkroomGridGrain/DarkroomGridGrain';
 import './Page2.css';
 
 export const Page2Component = ({ onSelectPage }) => {
@@ -36,6 +37,9 @@ export const Page2Component = ({ onSelectPage }) => {
         isVisible={true}
         onOpenMenu={handleOpenMenu}
       />
+
+      {/* Technical Grid Grain & Telemetry Overlay */}
+      <DarkroomGridGrain />
 
       {/* Section 1 Interactive HUD Video Canvas */}
       <DarkroomCanvas />

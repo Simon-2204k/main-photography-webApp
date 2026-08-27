@@ -1,0 +1,168 @@
+/* Darkroom Grid Grain & Telemetry Overlay */
+.darkroom-grid-grain-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 15;
+  user-select: none;
+  font-family: 'Space Mono', monospace, 'Courier New';
+}
+
+/* 1. Viewport Corner Brackets */
+.darkroom-corner-bracket {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+}
+
+.darkroom-corner-bracket.top-left {
+  top: 24px;
+  left: 24px;
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.darkroom-corner-bracket.top-right {
+  top: 24px;
+  right: 24px;
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.darkroom-corner-bracket.bottom-left {
+  bottom: 24px;
+  left: 24px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.darkroom-corner-bracket.bottom-right {
+  bottom: 24px;
+  right: 24px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 2. Precision Crosshairs & Alignment Marks */
+.darkroom-cross-marker {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.28);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+}
+
+.darkroom-target-box {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.28);
+  font-size: 11px;
+  transform: translate(-50%, -50%);
+}
+
+.darkroom-reticle-circle {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 3. Right-Side Vertical Scale Tick Ladder */
+.darkroom-tick-scale {
+  position: absolute;
+  right: 28px;
+  top: 48%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-end;
+  opacity: 0.45;
+}
+
+.darkroom-tick-scale .tick-line {
+  height: 1.5px;
+  background-color: #ffffff;
+}
+
+.darkroom-tick-scale .tick-line.long {
+  width: 26px;
+}
+
+.darkroom-tick-scale .tick-line.med {
+  width: 18px;
+}
+
+.darkroom-tick-scale .tick-line.short {
+  width: 12px;
+}
+
+/* 4. Top-Left Telemetry Block */
+.darkroom-telemetry-top-left {
+  position: absolute;
+  top: 130px;
+  left: 65px;
+  font-size: 11px;
+  line-height: 1.65;
+  letter-spacing: 1px;
+  color: #888894;
+  text-transform: uppercase;
+}
+
+.darkroom-telemetry-top-left .title-line {
+  color: #d0d0d8;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 2px;
+}
+
+.darkroom-telemetry-top-left .divider {
+  color: #555560;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.darkroom-telemetry-top-left .data-val {
+  color: #c4c4cc;
+}
+
+/* 5. Bottom-Right Telemetry Block */
+.darkroom-telemetry-bottom-right {
+  position: absolute;
+  bottom: 45px;
+  right: 65px;
+  font-size: 10px;
+  line-height: 1.6;
+  letter-spacing: 0.8px;
+  color: #727280;
+  text-align: right;
+  text-transform: uppercase;
+  max-width: 480px;
+}
+
+.darkroom-telemetry-bottom-right .data-val {
+  color: #a8a8b2;
+}
+
+.darkroom-telemetry-bottom-right .sub-parsing-block {
+  margin-top: 14px;
+  text-align: right;
+  color: #888894;
+}
+
+.darkroom-telemetry-bottom-right .sub-parsing-block .title-line {
+  color: #d0d0d8;
+  font-weight: 700;
+}

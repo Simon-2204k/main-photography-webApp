@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState, memo } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import './DarkroomCanvas.css';
 
 const INITIAL_BOXES = [
-  { id: 1, width: 460, height: 210, top: 110, left: 70, zIndex: 10 },
-  { id: 2, width: 500, height: 310, top: 130, right: 70, zIndex: 10 },
-  { id: 3, width: 390, height: 250, bottom: 100, left: 100, zIndex: 10 },
-  { id: 4, width: 560, height: 360, bottom: 60, right: 90, zIndex: 10 },
-  { id: 5, width: 440, height: 280, top: null, left: null, isCenter: true, zIndex: 11 },
+  { id: 1, width: 480, height: 200, top: 70, left: 60, zIndex: 10 },
+  { id: 2, width: 520, height: 320, top: 80, right: 60, zIndex: 10 },
+  { id: 3, width: 380, height: 260, bottom: 90, left: 90, zIndex: 10 },
+  { id: 4, width: 580, height: 380, bottom: 50, right: 80, zIndex: 10 },
+  { id: 5, width: 420, height: 300, top: null, left: null, isCenter: true, zIndex: 11 },
 ];
 
 export const DarkroomCanvasComponent = () => {
@@ -55,7 +55,7 @@ export const DarkroomCanvasComponent = () => {
     badge.textContent = `X:${x}PX Y:${y}PX`;
   };
 
-  // Drag and drop interaction handlers
+  // Drag and drop interaction handlers matching reference
   const handleMouseDown = (e, idx) => {
     e.preventDefault();
     const box = boxRefs.current[idx];
@@ -180,7 +180,7 @@ export const DarkroomCanvasComponent = () => {
 
   return (
     <div ref={containerRef} className="darkroom-canvas-container">
-      {/* Hidden Offscreen Video Element for Performance Stream */}
+      {/* Hidden Offscreen Video Element */}
       <video
         ref={videoRef}
         className="darkroom-source-video"
@@ -192,13 +192,14 @@ export const DarkroomCanvasComponent = () => {
         preload="auto"
       />
 
-      {/* Middle Telemetry HUD Bar */}
+      {/* Middle Bar — Stylized matching reference */}
       <div className="darkroom-middle-bar">
-        <span>C: \DARKROOM \CHRONICLES_IN_LIGHT</span>
+        <span className="darkroom-dots-icon">⠿</span>
+        <span>C: \DARKROOM \HOME</span>
         <span className="darkroom-sep">+</span>
-        <span>ANALOG SILVER HALIDE & EMULSION</span>
-        <span>RAW VIDEO LOG, MOTION CAPTURE</span>
-        <span className="darkroom-status">LIVE STREAM</span>
+        <span>CHRONICLES_IN_LIGHT</span>
+        <span>ANALOG, SILVER HALIDE</span>
+        <span>LIVE</span>
         <span className="darkroom-count">001/001</span>
       </div>
 
@@ -217,6 +218,7 @@ export const DarkroomCanvasComponent = () => {
             X:0000PX Y:0000PX
           </div>
           <canvas ref={(el) => (canvasRefs.current[idx] = el)} />
+          <div className="darkroom-grab-label">GRAB</div>
         </div>
       ))}
     </div>
