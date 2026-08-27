@@ -44,7 +44,7 @@ export default function ParallaxPages() {
   const timelineBarRef = useRef(null);
   const progressBarRefs = useRef([]);
   const marqueeXRef = useRef(0);
-  const scrollDirRef = useRef(1); // 1 = Scroll Down (Left), -1 = Scroll Up (Right)
+  const scrollDirRef = useRef(1);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   const activeIndexRef = useRef(0);
@@ -54,10 +54,6 @@ export default function ParallaxPages() {
   const newsContainerRef = useRef(null);
   const newsCardRef = useRef(null);
   const newsCtaRef = useRef(null);
-
-  const videoSectionRef = useRef(null);
-  const videoRef = useRef(null);
-  const playBtnRef = useRef(null);
 
   useEffect(() => {
     progressBarRefs.current = progressBarRefs.current.slice(0, PAGES.length);
@@ -89,7 +85,7 @@ export default function ParallaxPages() {
         }
       }
 
-      // 3. Helper to Create Slide DOM Element with generous vertical padding (prevents g, y, p clipping)
+      // 3. Helper to Create Slide DOM Element with Camera Viewfinder HUD (Image 3) & Marquee
       const createSlideElement = (slideData) => {
         const slide = document.createElement('div');
         slide.className = 'slide absolute inset-0 w-full h-full overflow-hidden flex flex-col justify-center items-center pointer-events-none select-none z-10';
@@ -97,6 +93,49 @@ export default function ParallaxPages() {
           <div class="slide-img absolute inset-0 w-full h-full overflow-hidden z-0">
             <img src="${slideData.image}" alt="" class="w-full h-full object-cover object-center transform scale-100 opacity-100 will-change-transform" />
           </div>
+
+          <!-- Camera Viewfinder HUD Overlay (Image 3) -->
+          <div class="slide-hud absolute inset-0 pointer-events-none z-30 p-6 sm:p-10 lg:p-14 flex flex-col justify-between select-none">
+            <!-- Top HUD Bar: Blinking REC + ISO + WB + BAT -->
+            <div class="flex justify-between items-center text-xs sm:text-sm font-mono tracking-widest text-white/90">
+              <div class="flex items-center gap-2.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse inline-block shadow-[0_0_8px_#ef4444]"></span>
+                <span class="font-bold text-red-500 tracking-wider">● REC</span>
+                <span class="text-white/80 font-normal">[4K 60FPS RAW]</span>
+              </div>
+              <div class="flex items-center gap-4 text-white/75">
+                <span>ISO 400</span>
+                <span>WB 5600K</span>
+                <span>[BAT 98%]</span>
+              </div>
+            </div>
+
+            <!-- 4 Viewfinder Corner Brackets & Center Focus Reticle -->
+            <div class="absolute inset-6 sm:inset-12 lg:inset-16 pointer-events-none">
+              <div class="absolute top-0 left-0 w-6 sm:w-10 h-6 sm:h-10 border-t-2 border-l-2 border-white/70"></div>
+              <div class="absolute top-0 right-0 w-6 sm:w-10 h-6 sm:h-10 border-t-2 border-r-2 border-white/70"></div>
+              <div class="absolute bottom-0 left-0 w-6 sm:w-10 h-6 sm:h-10 border-b-2 border-l-2 border-white/70"></div>
+              <div class="absolute bottom-0 right-0 w-6 sm:w-10 h-6 sm:h-10 border-b-2 border-r-2 border-white/70"></div>
+              <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 border border-white/20 flex items-center justify-center pointer-events-none">
+                <span class="text-white/40 text-xs font-mono">+</span>
+              </div>
+            </div>
+
+            <!-- Bottom HUD Bar: F-stop, Shutter, EV, Focal Length -->
+            <div class="flex justify-between items-center text-xs sm:text-sm font-mono tracking-widest text-white/90">
+              <div class="flex items-center gap-4 text-white/80">
+                <span>F/2.8</span>
+                <span>1/250s</span>
+                <span>+0.7 EV</span>
+                <span>50mm [AF-C]</span>
+              </div>
+              <div class="flex items-center gap-3 text-white/70">
+                <span>[•] CENTER</span>
+                <span>GRID 3x3</span>
+              </div>
+            </div>
+          </div>
+
           <div class="slide-copy absolute inset-0 flex items-center justify-center w-full overflow-hidden z-20 pointer-events-auto">
             <div class="slide-marquee w-full overflow-hidden px-0 mx-0 py-8 sm:py-12 lg:py-16">
               <div class="marquee-track flex whitespace-nowrap will-change-transform py-4" style="width: max-content;">
@@ -113,7 +152,7 @@ export default function ParallaxPages() {
         return slide;
       };
 
-      // 4. Zero-Jitter Infinite Marquee Engine (Scroll Down -> Left, Scroll Up -> Right)
+      // 4. Zero-Jitter Infinite Marquee Engine
       const animateMarquee = () => {
         const tracks = carousel.querySelectorAll('.marquee-track');
         if (!tracks.length) return;
@@ -344,29 +383,7 @@ export default function ParallaxPages() {
         );
       }
 
-      // 8. One-Time Random Square Block GSAP Reveal for Final Full-Screen Video Page
-      const videoSection = videoSectionRef.current;
-      const gridTiles = videoSection?.querySelectorAll('.video-grid-tile');
-
-      if (videoSection && gridTiles && gridTiles.length) {
-        gsap.to(gridTiles, {
-          opacity: 0,
-          duration: 0.1,
-          ease: 'steps(1)',
-          stagger: {
-            amount: 1.2,
-            from: 'random',
-          },
-          scrollTrigger: {
-            trigger: videoSection,
-            start: 'top 70%',
-            toggleActions: 'play none none none',
-            once: true,
-          },
-        });
-      }
-
-      // 9. Zero-Jitter Infinite Left-to-Right Marquee for Footer (Dual-track with -50% wrap)
+      // 8. Zero-Jitter Infinite Left-to-Right Marquee for Footer
       const footerTrack = containerRef.current?.querySelector('.footer-marquee-track');
       let footerX = -50;
       const animateFooterMarquee = () => {
@@ -401,6 +418,48 @@ export default function ParallaxPages() {
               alt=""
               className="w-full h-full object-cover object-center transform scale-100 opacity-100 will-change-transform"
             />
+          </div>
+
+          {/* Camera Viewfinder HUD Overlay (Image 3) */}
+          <div className="slide-hud absolute inset-0 pointer-events-none z-30 p-6 sm:p-10 lg:p-14 flex flex-col justify-between select-none">
+            {/* Top HUD Bar */}
+            <div className="flex justify-between items-center text-xs sm:text-sm font-mono tracking-widest text-white/90">
+              <div className="flex items-center gap-2.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse inline-block shadow-[0_0_8px_#ef4444]"></span>
+                <span className="font-bold text-red-500 tracking-wider">● REC</span>
+                <span className="text-white/80 font-normal">[4K 60FPS RAW]</span>
+              </div>
+              <div className="flex items-center gap-4 text-white/75">
+                <span>ISO 400</span>
+                <span>WB 5600K</span>
+                <span>[BAT 98%]</span>
+              </div>
+            </div>
+
+            {/* 4 Viewfinder Corner Brackets & Center Crosshair */}
+            <div className="absolute inset-6 sm:inset-12 lg:inset-16 pointer-events-none">
+              <div className="absolute top-0 left-0 w-6 sm:w-10 h-6 sm:h-10 border-t-2 border-l-2 border-white/70"></div>
+              <div className="absolute top-0 right-0 w-6 sm:w-10 h-6 sm:h-10 border-t-2 border-r-2 border-white/70"></div>
+              <div className="absolute bottom-0 left-0 w-6 sm:w-10 h-6 sm:h-10 border-b-2 border-l-2 border-white/70"></div>
+              <div className="absolute bottom-0 right-0 w-6 sm:w-10 h-6 sm:h-10 border-b-2 border-r-2 border-white/70"></div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 border border-white/20 flex items-center justify-center pointer-events-none">
+                <span className="text-white/40 text-xs font-mono">+</span>
+              </div>
+            </div>
+
+            {/* Bottom HUD Bar */}
+            <div className="flex justify-between items-center text-xs sm:text-sm font-mono tracking-widest text-white/90">
+              <div className="flex items-center gap-4 text-white/80">
+                <span>F/2.8</span>
+                <span>1/250s</span>
+                <span>+0.7 EV</span>
+                <span>50mm [AF-C]</span>
+              </div>
+              <div className="flex items-center gap-3 text-white/70">
+                <span>[•] CENTER</span>
+                <span>GRID 3x3</span>
+              </div>
+            </div>
           </div>
 
           <div className="slide-copy absolute inset-0 flex items-center justify-center w-full overflow-hidden z-20 pointer-events-auto">
@@ -454,73 +513,81 @@ export default function ParallaxPages() {
         </div>
       </div>
 
-      {/* Transitional Bio Statement Section with All 5 GIF Capsules & CursorTrail Strictly BEHIND Text */}
-      <div className="relative w-full bg-black text-white py-32 sm:py-48 px-6 sm:px-12 lg:px-20 z-40 border-none overflow-hidden select-none">
+      {/* 
+        ========================================================================
+        EDITORIAL STATEMENT & CAPABILITY SHOWCASE (IMAGE 4 ALADESIGN.CZ STYLE)
+        ========================================================================
+      */}
+      <div className="relative w-full bg-[#0a0a0c] text-white py-32 sm:py-48 px-6 sm:px-12 lg:px-20 z-40 border-none overflow-hidden select-none">
         {/* Photo Cursor Trail Layer: Behind text at z-index 1 */}
         <CursorTrail zIndex={1} />
 
         {/* Text Content: Strictly in FRONT of cursor trail at relative z-30 */}
-        <div className="max-w-6xl mx-auto text-center relative z-30 pointer-events-auto">
-          <h2 className="font-sans font-normal text-3xl sm:text-5xl lg:text-[50px] leading-[2.0] sm:leading-[2.3] lg:leading-[2.5] tracking-tight text-white select-none">
-            Hi, I'm <span className="font-extrabold text-white">SIMON</span>.{' '}
-            <span className="inline-flex align-middle mx-2.5 sm:mx-3.5 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden transform hover:scale-105 transition-transform duration-300">
-              <img
-                src="/gifFolder/Camera Recording GIF by Amy Winehouse.gif"
-                alt=""
-                className="w-full h-full object-cover rounded-full"
-              />
-            </span>{' '}
-            I believe that every great photograph is a blend of technical precision{' '}
-            <span className="inline-flex align-middle mx-2.5 sm:mx-3.5 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden transform hover:scale-105 transition-transform duration-300">
-              <img
-                src="/gifFolder/Fun Photography GIF by 2TON Agency.gif"
-                alt=""
-                className="w-full h-full object-cover rounded-full"
-              />
-            </span>{' '}
-            and raw emotion. Whether I'm chasing the perfect natural light{' '}
-            <span className="inline-flex align-middle mx-2.5 sm:mx-3.5 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden transform hover:scale-105 transition-transform duration-300">
-              <img
-                src="/gifFolder/Photography Photo GIF by A$AP NAST.gif"
-                alt=""
-                className="w-full h-full object-cover rounded-full"
-              />
-            </span>{' '}
-            or meticulously setting up a studio shoot, my goal is to capture the authentic essence of my subjects. When I don't have a camera in my hand,{' '}
-            <span className="inline-flex align-middle mx-2.5 sm:mx-3.5 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden transform hover:scale-105 transition-transform duration-300">
-              <img
-                src="/gifFolder/Photography Photo GIF by Reconnecting Roots.gif"
-                alt=""
-                className="w-full h-full object-cover rounded-full"
-              />
-            </span>{' '}
-            I'm usually exploring new hiking trails or tweaking digital frontend experiences{' '}
-            <span className="inline-flex align-middle mx-2.5 sm:mx-3.5 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden transform hover:scale-105 transition-transform duration-300">
-              <img
-                src="/gifFolder/Toronto International Film Festival Camera GIF by TIFF.gif"
-                alt=""
-                className="w-full h-full object-cover rounded-full"
-              />
-            </span>
-            . Take a look around, and let's create something beautiful together.
+        <div className="max-w-6xl mx-auto relative z-30 pointer-events-auto">
+          {/* Main High-Fashion Editorial Serif Statement (Image 4 Style) */}
+          <h2 className="font-serif font-normal text-3xl sm:text-5xl lg:text-[54px] leading-[1.22] tracking-tight text-white/95 mb-20 select-none">
+            Our approach combines analogue discipline with a deep understanding of cinematic light, allowing us to create imagery that not only captures attention, but commands an enduring emotional resonance.
           </h2>
+
+          {/* 2-Column Capability / Discipline Rows (Image 4 Style) */}
+          <div className="border-t border-white/15 divide-y divide-white/15 text-left font-sans">
+            <div className="py-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+              <div className="md:col-span-4 font-sans font-semibold text-lg sm:text-xl text-white">
+                Strategic Creative Direction
+              </div>
+              <div className="md:col-span-8 font-sans font-normal text-sm sm:text-base text-neutral-300 leading-relaxed">
+                Ability to curate the photographic narrative and implement visual aesthetics that not only meet editorial goals, but innovatively transform brand stories into enduring cultural moments with high visual impact.
+              </div>
+            </div>
+
+            <div className="py-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+              <div className="md:col-span-4 font-sans font-semibold text-lg sm:text-xl text-white">
+                Medium Format &amp; Analogue Craft
+              </div>
+              <div className="md:col-span-8 font-sans font-normal text-sm sm:text-base text-neutral-300 leading-relaxed">
+                Working across medium format digital and 120 film, capturing raw texture, grain, and authentic atmosphere that digital sensors alone cannot replicate, ensuring high differentiation in modern editorial imagery.
+              </div>
+            </div>
+
+            <div className="py-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+              <div className="md:col-span-4 font-sans font-semibold text-lg sm:text-xl text-white">
+                Exhibition &amp; Fine Art Printmaking
+              </div>
+              <div className="md:col-span-8 font-sans font-normal text-sm sm:text-base text-neutral-300 leading-relaxed">
+                Curating gallery-grade prints, limited-edition monographs, and visual exhibitions with timeless framing, museum-quality color calibration, and uncompromising physical craft.
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* 3-Step Pinned GSAP Outro Section Page with 100px 3D Levitation & Image 4 Blueprint Back Face */}
+      {/* 
+        ========================================================================
+        3-STEP PINNED GSAP OUTRO CARD: SOLID BASE PLATE & WILDYRIFTIAN BACK FACE
+        ========================================================================
+      */}
       <div
         ref={newsContainerRef}
         id="outro-black"
         className="relative w-full h-screen bg-black z-40 flex items-center justify-center overflow-hidden [perspective:1400px] border-none"
       >
-        {/* Base Card Plate (Dark charcoal #141416 with distinct border and 3D context) */}
+        {/* Base Card Plate (Solid dark charcoal #1e1e22 with distinct border and 3D context) */}
         <div
           ref={newsCardRef}
-          className="relative w-full max-w-[92vw] bg-[#141416] border border-white/15 p-8 sm:p-12 lg:p-14 rounded-[28px] [transform-style:preserve-3d]"
-          style={{ transformOrigin: 'center center', boxShadow: '0 30px 60px rgba(0,0,0,0.8)' }}
+          className="relative w-full max-w-[92vw] bg-[#1e1e22] border border-white/15 p-8 sm:p-12 lg:p-14 rounded-[28px] [transform-style:preserve-3d]"
+          style={{
+            transformOrigin: 'center center',
+            boxShadow: '0 30px 60px rgba(0,0,0,0.8)',
+          }}
         >
-          {/* FRONT FACE: Heading + 3 News Cards with 3D Levitation Depth */}
-          <div className="w-full flex flex-col justify-center [transform-style:preserve-3d]">
+          {/* FRONT FACE: Solid Opaque Background Plate with 100px 3D Levitating News Cards */}
+          <div
+            className="w-full flex flex-col justify-center [transform-style:preserve-3d] bg-[#1e1e22] rounded-[24px]"
+            style={{
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
+            }}
+          >
             {/* Section Heading with 30px depth */}
             <div className="mb-6 sm:mb-8" style={{ transform: 'translateZ(30px)', transformStyle: 'preserve-3d' }}>
               <h2 className="font-sans font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.15] text-white">
@@ -552,7 +619,7 @@ export default function ParallaxPages() {
               ].map((item) => (
                 <article
                   key={item.id}
-                  className="flex flex-col bg-[#1e1e22] rounded-xl border border-white/20 overflow-hidden select-none"
+                  className="flex flex-col bg-[#242429] rounded-xl border border-white/20 overflow-hidden select-none"
                   style={{
                     transform: 'translateZ(100px)',
                     transformStyle: 'preserve-3d',
@@ -569,7 +636,7 @@ export default function ParallaxPages() {
                   </div>
 
                   {/* Card Text Details Content */}
-                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between bg-[#1e1e22]">
+                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between bg-[#242429]">
                     <div>
                       <span className="block text-xs font-mono text-neutral-400 mb-2 uppercase tracking-wider">
                         {item.category}
@@ -584,12 +651,14 @@ export default function ParallaxPages() {
             </div>
           </div>
 
-          {/* BACK FACE: Styled exactly like Image 4 (wildyriftian.com Blueprint / Film Card Style, NO vertical text) */}
+          {/* BACK FACE: Styled exactly like Image 2 (wildyriftian.com solid dark charcoal card with "read more") */}
           <div
-            className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-[#18181b] border border-white/15 rounded-[28px] p-8 sm:p-12 overflow-hidden [backface-visibility:hidden] select-none"
+            className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-[#1e1e22] border border-white/15 rounded-[28px] p-8 sm:p-12 overflow-hidden select-none"
             style={{
               transform: 'rotateY(180deg)',
               boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.9)',
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
             }}
           >
             {/* Blueprint Inner Dotted Guide Frame */}
@@ -600,14 +669,14 @@ export default function ParallaxPages() {
               }}
             />
 
-            {/* Left Film Sprocket Dot Holes (5 dots like film reel perforations in Image 4) */}
+            {/* Left Film Sprocket Dot Holes (5 punched holes like film reel in Image 2) */}
             <div className="absolute left-8 sm:left-12 top-1/2 -translate-y-1/2 flex flex-col justify-between h-3/4 pointer-events-none">
               {[...Array(5)].map((_, i) => (
                 <div
                   key={i}
                   className="w-2.5 h-2.5 rounded-full"
                   style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.18)',
                     border: '1px solid rgba(255, 255, 255, 0.35)',
                   }}
                 />
@@ -622,74 +691,30 @@ export default function ParallaxPages() {
               ABOUT
             </div>
 
-            {/* Centered CTA Content */}
-            <div ref={newsCtaRef} className="relative z-10 opacity-0 filter blur-lg flex flex-col items-center gap-6">
-              <span className="text-xs font-mono uppercase tracking-[0.35em] text-neutral-400">
-                Exclusive Content
-              </span>
-              <button
-                onClick={() => {
-                  const videoSec = document.getElementById('video-outro');
-                  if (videoSec) videoSec.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="flex items-center gap-4 px-8 sm:px-10 py-4 sm:py-5 rounded-full bg-white text-black font-extrabold text-sm sm:text-base uppercase tracking-wider shadow-none hover:bg-neutral-200 transition-colors cursor-pointer"
-              >
-                <span>[WATCH THE PHOTOGRAPHY TIPS VIDEO]</span>
-                <span className="text-lg">▶</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Final Full-Screen Video Page with 50px Margin Inset & 112-Tile Random GSAP Reveal */}
-      <div
-        ref={videoSectionRef}
-        id="video-outro"
-        className="relative w-full h-screen bg-black z-40 p-6 sm:p-10 lg:p-[50px] select-none flex items-center justify-center"
-      >
-        <div className="relative w-full h-full bg-black rounded-[24px] overflow-hidden border border-white/10 shadow-none flex items-center justify-center">
-          {/* Piece-by-Piece Staggered 100% Perfect Square Grid Tile Overlay Matrix */}
-          <div className="absolute inset-0 w-full h-full grid grid-cols-10 sm:grid-cols-12 md:grid-cols-14 grid-rows-6 sm:grid-rows-8 z-30 pointer-events-none overflow-hidden bg-transparent">
-            {[...Array(112)].map((_, i) => (
-              <div key={i} className="video-grid-tile w-full h-full bg-black rounded-none border-none opacity-100" />
-            ))}
-          </div>
-
-          {/* Background Video */}
-          <video
-            ref={videoRef}
-            src="/video/These are the only shots you will ever need..mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover z-10 rounded-[24px]"
-          />
-
-          {/* Bottom-Left SIMON Photography Quote */}
-          <div className="absolute bottom-12 sm:bottom-16 left-6 sm:left-12 lg:left-16 z-40 max-w-2xl text-white select-none">
-            <blockquote className="font-sans font-medium text-2xl sm:text-3xl lg:text-4xl leading-tight tracking-tight text-white mb-4">
-              "If you want long-term visual impact, there's only one frame to capture. Here. Period. End of story. Amen."
-            </blockquote>
-            <div className="font-sans text-sm sm:text-base font-semibold text-neutral-300">
-              SIMON <span className="font-normal text-neutral-400">— Founder & Lead Photographer, SIMON Photography</span>
-            </div>
-          </div>
-
-          {/* Center-Right Static Circular Play Button (No Bounce) */}
-          <div className="absolute top-1/2 right-12 sm:right-24 lg:right-32 -translate-y-1/2 z-40 p-12">
-            <button
-              ref={playBtnRef}
-              className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/40 flex items-center justify-center cursor-pointer transition-colors duration-300 hover:bg-white hover:text-black shadow-none"
+            {/* Right Vertical Work Label (Image 2 style) */}
+            <div
+              className="absolute right-7 sm:right-9 top-1/2 -translate-y-1/2 font-mono text-[9px] sm:text-[10px] tracking-[0.35em] text-neutral-500 uppercase pointer-events-none"
+              style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg) translateY(50%)' }}
             >
-              <span className="text-2xl sm:text-3xl lg:text-4xl ml-1 text-white hover:text-black">▶</span>
-            </button>
+              WILDYRIFTIANWORKS
+            </div>
+
+            {/* Centered "read more" Script Link / CTA */}
+            <div ref={newsCtaRef} className="relative z-10 opacity-0 filter blur-lg flex flex-col items-center gap-4">
+              <span
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="font-serif italic text-4xl sm:text-6xl lg:text-7xl text-white hover:text-neutral-300 transition-colors cursor-pointer tracking-wide"
+              >
+                read more
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* 50vh Footer Section with 100vw Full-Width Zero-Jitter Infinite Marquee (Back to Top Removed) */}
+      {/* 50vh Footer Section with 100vw Full-Width Zero-Jitter Infinite Marquee */}
       <footer className="relative w-screen max-w-none bg-black text-white z-40 flex flex-col justify-between items-center border-t border-white/10 py-10 px-0 select-none overflow-hidden left-1/2 -translate-x-1/2">
         {/* Full-Width Edge-to-Edge Zero-Jitter Marquee Track */}
         <div className="w-full flex-1 flex items-center overflow-hidden px-0 mx-0">
