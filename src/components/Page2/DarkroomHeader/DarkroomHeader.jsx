@@ -1,13 +1,13 @@
 import React, { memo } from 'react';
 
-export const DarkroomHeaderComponent = ({ onOpenMenu, isVisible = true }) => {
+export const DarkroomHeaderComponent = ({ onOpenMenu }) => {
   return (
     <div
       style={{
-        position: 'fixed',
+        position: 'absolute',
         top: '20px',
         left: '50%',
-        transform: isVisible ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(-18px)',
+        transform: 'translateX(-50%)',
         width: '100%',
         textAlign: 'center',
         pointerEvents: 'none',
@@ -18,9 +18,6 @@ export const DarkroomHeaderComponent = ({ onOpenMenu, isVisible = true }) => {
         alignItems: 'center',
         justifyContent: 'center',
         mixBlendMode: 'difference',
-        opacity: isVisible ? 1 : 0,
-        visibility: isVisible ? 'visible' : 'hidden',
-        transition: 'opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s'
       }}
     >
       <h1
@@ -41,7 +38,7 @@ export const DarkroomHeaderComponent = ({ onOpenMenu, isVisible = true }) => {
         CHRONICLES IN LIGHT
       </h1>
 
-      {/* Clean Box-Shape Menu Trigger with interactive pointerEvents and higher z-index */}
+      {/* Clean Box-Shape Menu Trigger with interactive pointerEvents */}
       <button
         onClick={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
@@ -50,7 +47,7 @@ export const DarkroomHeaderComponent = ({ onOpenMenu, isVisible = true }) => {
         aria-label="Open Navigation Menu"
         style={{
           marginTop: '16px',
-          pointerEvents: isVisible ? 'auto' : 'none',
+          pointerEvents: 'auto',
           cursor: 'pointer',
           border: 'none',
           outline: 'none',

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { CursorTrail } from '../../Page1/CursorTrail/CursorTrail';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -8,32 +9,32 @@ const PAGES = [
   {
     id: 1,
     image: '/img1.jpg',
-    marquee: 'Cinematic Light, Raw Emotion, and Timeless Framing ',
+    marquee: 'Cinematic Light, Raw Emotion, and Timeless Framing',
   },
   {
     id: 2,
     image: '/img2.jpg',
-    marquee: 'Shadows Define the Depth of Every Story ',
+    marquee: 'Shadows Define the Depth of Every Story',
   },
   {
     id: 3,
     image: '/img3.jpg',
-    marquee: 'Analog Grain, High Contrast, and Vivid Focus ',
+    marquee: 'Analog Grain, High Contrast, and Vivid Focus',
   },
   {
     id: 4,
     image: '/img4.jpeg',
-    marquee: 'Artistry in Canvas, Warm Sunlight, and Brushstrokes ',
+    marquee: 'Artistry in Canvas, Warm Sunlight, and Brushstrokes',
   },
   {
     id: 5,
     image: '/img5.jpeg',
-    marquee: 'Urban Glow, Electric Motion, and Freedom ',
+    marquee: 'Urban Glow, Electric Motion, and Freedom',
   },
   {
     id: 6,
     image: '/img6.jpeg',
-    marquee: 'Atmospheric Rays, Velvet Shadows, and Subtle Grace ',
+    marquee: 'Atmospheric Rays, Velvet Shadows, and Subtle Grace',
   },
 ];
 
@@ -56,7 +57,6 @@ export default function ParallaxPages() {
 
   const videoSectionRef = useRef(null);
   const videoRef = useRef(null);
-  const pixelCanvasRef = useRef(null);
   const playBtnRef = useRef(null);
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export default function ParallaxPages() {
         }
       }
 
-      // 3. Helper to Create Slide DOM Element
+      // 3. Helper to Create Slide DOM Element with mathematically seamless 2-span marquee track
       const createSlideElement = (slideData) => {
         const slide = document.createElement('div');
         slide.className = 'slide absolute inset-0 w-full h-full overflow-hidden flex flex-col justify-center items-center pointer-events-none select-none z-10';
@@ -98,10 +98,13 @@ export default function ParallaxPages() {
             <img src="${slideData.image}" alt="" class="w-full h-full object-cover object-center transform scale-100 opacity-100 will-change-transform" />
           </div>
           <div class="slide-copy absolute inset-0 flex items-center justify-center w-full overflow-hidden z-20 pointer-events-auto">
-            <div class="slide-marquee w-full overflow-hidden">
-              <div class="marquee-container w-[1000%] flex whitespace-nowrap gap-12 will-change-transform">
-                <span class="font-sans font-extrabold text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-none text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.04]" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
-                  ${slideData.marquee} ${slideData.marquee} ${slideData.marquee}
+            <div class="slide-marquee w-full overflow-hidden px-0 mx-0">
+              <div class="marquee-track flex whitespace-nowrap will-change-transform" style="width: max-content;">
+                <span class="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-none text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
+                  ${slideData.marquee} • ${slideData.marquee} • &nbsp;
+                </span>
+                <span class="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-none text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
+                  ${slideData.marquee} • ${slideData.marquee} • &nbsp;
                 </span>
               </div>
             </div>
@@ -110,18 +113,18 @@ export default function ParallaxPages() {
         return slide;
       };
 
-      // 4. gsap.utils.wrap Bi-Directional Infinite Marquee Engine (Scroll Down -> Left, Scroll Up -> Right)
+      // 4. Zero-Jitter Infinite Marquee Engine (Scroll Down -> Left, Scroll Up -> Right)
       const animateMarquee = () => {
-        const containers = carousel.querySelectorAll('.marquee-container');
-        if (!containers.length) return;
+        const tracks = carousel.querySelectorAll('.marquee-track');
+        if (!tracks.length) return;
 
-        const step = 0.09 * scrollDirRef.current;
+        const step = 0.08 * scrollDirRef.current;
         marqueeXRef.current -= step;
 
-        const wrappedX = gsap.utils.wrap(-33.33, 0, marqueeXRef.current);
+        const wrappedX = gsap.utils.wrap(-50, 0, marqueeXRef.current);
 
-        containers.forEach((container) => {
-          gsap.set(container, { xPercent: wrappedX });
+        tracks.forEach((track) => {
+          gsap.set(track, { xPercent: wrappedX });
         });
       };
 
@@ -219,7 +222,7 @@ export default function ParallaxPages() {
             ease: 'power4.inOut',
           });
 
-          gsap.to([newSlideImg, newSlideCopy], {
+          gsap.to([newSlideCopy, newSlideImg], {
             y: '0%',
             duration: 1,
             ease: 'power4.inOut',
@@ -255,53 +258,53 @@ export default function ParallaxPages() {
         }
       };
 
-      // 6. Codegrid Pinned ScrollTrigger (.carousel)
+      // 6. Master Pinned GSAP ScrollTrigger for 6-Slide Carousel
       ScrollTrigger.create({
-        trigger: carouselRef.current,
+        trigger: carousel,
         start: 'top top',
-        end: () => `+=${window.innerHeight * 14}px`,
+        end: () => '+=' + window.innerHeight * 14 + 'px',
         pin: true,
         pinSpacing: true,
         scrub: 1,
         onUpdate: (self) => {
-          const progress = self.progress;
-          updateProgressBars(progress);
+          const currentProgress = self.progress;
 
-          // Update scroll direction instantly (1 = Scroll Down -> Left, -1 = Scroll Up -> Right)
-          if (self.direction !== 0) {
-            scrollDirRef.current = self.direction > 0 ? 1 : -1;
-          }
-
-          // Timeline Bar Visibility: Hidden before Carousel, Visible during Carousel & Beyond
+          // Fade in/out the bottom carousel progress timeline
           if (timelineBarRef.current) {
-            const isAtOrPastStart = self.scroll() >= self.start;
-            timelineBarRef.current.style.opacity = isAtOrPastStart ? '1' : '0';
-          }
-
-          if (isAnimatingRef.current) {
-            previousProgressRef.current = progress;
-            return;
-          }
-
-          const isScrollingForward = progress > previousProgressRef.current;
-          const targetSlideIndex = Math.min(Math.floor(progress * PAGES.length), PAGES.length - 1);
-
-          if (targetSlideIndex !== activeIndexRef.current) {
-            isAnimatingRef.current = true;
-
-            try {
-              createAndAnimateSlide(targetSlideIndex, isScrollingForward);
-              activeIndexRef.current = targetSlideIndex;
-            } catch (err) {
-              isAnimatingRef.current = false;
+            if (currentProgress > 0.01 && currentProgress < 0.99) {
+              timelineBarRef.current.style.opacity = '1';
+            } else {
+              timelineBarRef.current.style.opacity = '0';
             }
           }
 
-          previousProgressRef.current = progress;
+          // Detect scroll direction
+          if (currentProgress > previousProgressRef.current) {
+            scrollDirRef.current = 1;
+          } else if (currentProgress < previousProgressRef.current) {
+            scrollDirRef.current = -1;
+          }
+          previousProgressRef.current = currentProgress;
+
+          // Calculate current active slide index based on progress
+          const segmentSize = 1 / PAGES.length;
+          const targetIndex = Math.min(
+            Math.floor(currentProgress / segmentSize),
+            PAGES.length - 1
+          );
+
+          if (targetIndex !== activeIndexRef.current && !isAnimatingRef.current) {
+            const isScrollingForward = targetIndex > activeIndexRef.current;
+            isAnimatingRef.current = true;
+            activeIndexRef.current = targetIndex;
+            createAndAnimateSlide(targetIndex, isScrollingForward);
+          }
+
+          updateProgressBars(currentProgress);
         },
       });
 
-      // 7. 3-Step 3D Card Flip GSAP Pinned Timeline Engine for SIMON Photography News Outro
+      // 7. 3-Step Outro Card Sequence with 3D Flip & Levitation
       const newsContainer = newsContainerRef.current;
       const newsCard = newsCardRef.current;
       const newsCta = newsCtaRef.current;
@@ -318,7 +321,7 @@ export default function ParallaxPages() {
           },
         });
 
-        // Step 1: Scale down from full screen (1 -> 0.75) and round corners (0px -> 28px) simultaneously
+        // Step 1: Scale down from full screen (1 -> 0.75) and round corners (0px -> 28px)
         outroTl.to(newsCard, {
           scale: 0.75,
           borderRadius: '28px',
@@ -326,7 +329,7 @@ export default function ParallaxPages() {
           ease: 'power2.inOut',
         });
 
-        // Step 2: 3D Flip 180 degrees on Y-axis (Flips front face away & reveals back face)
+        // Step 2: 3D Flip 180 degrees on Y-axis
         outroTl.to(newsCard, {
           rotationY: 180,
           duration: 1.5,
@@ -341,7 +344,7 @@ export default function ParallaxPages() {
         );
       }
 
-      // 8. One-Time Hyperactive Random Square Block GSAP Reveal for Final Full-Screen Video Page
+      // 8. One-Time Random Square Block GSAP Reveal for Final Full-Screen Video Page
       const videoSection = videoSectionRef.current;
       const gridTiles = videoSection?.querySelectorAll('.video-grid-tile');
 
@@ -363,20 +366,20 @@ export default function ParallaxPages() {
         });
       }
 
-      // 9. Infinite Left-to-Right Marquee for Footer
-      const footerMarquee = containerRef.current?.querySelector('.footer-marquee-container');
-      if (footerMarquee) {
-        let xPos = -50;
-        const animateFooterMarquee = () => {
-          xPos += 0.12;
-          if (xPos >= 0) xPos = -50;
-          gsap.set(footerMarquee, { xPercent: xPos });
-        };
-        gsap.ticker.add(animateFooterMarquee);
-      }
+      // 9. Zero-Jitter Infinite Left-to-Right Marquee for Footer (Dual-track with -50% wrap)
+      const footerTrack = containerRef.current?.querySelector('.footer-marquee-track');
+      let footerX = -50;
+      const animateFooterMarquee = () => {
+        if (!footerTrack) return;
+        footerX += 0.07;
+        if (footerX >= 0) footerX = -50;
+        gsap.set(footerTrack, { xPercent: footerX });
+      };
+      gsap.ticker.add(animateFooterMarquee);
 
       return () => {
         gsap.ticker.remove(animateMarquee);
+        gsap.ticker.remove(animateFooterMarquee);
       };
     }, containerRef);
 
@@ -423,10 +426,10 @@ export default function ParallaxPages() {
           </div>
 
           <div className="slide-copy absolute inset-0 flex items-center justify-center w-full overflow-hidden z-20 pointer-events-auto">
-            <div className="slide-marquee w-full overflow-hidden">
-              <div className="marquee-container w-[1000%] flex whitespace-nowrap gap-12 will-change-transform">
+            <div className="slide-marquee w-full overflow-hidden px-0 mx-0">
+              <div className="marquee-track flex whitespace-nowrap will-change-transform" style={{ width: 'max-content' }}>
                 <span
-                  className="font-sans font-extrabold text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-none text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.04]"
+                  className="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-none text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]"
                   onMouseEnter={(e) => {
                     e.currentTarget.style.color = 'transparent';
                     e.currentTarget.style.WebkitTextStroke = '1.5px rgba(255, 255, 255, 0.9)';
@@ -436,7 +439,20 @@ export default function ParallaxPages() {
                     e.currentTarget.style.WebkitTextStroke = '0px transparent';
                   }}
                 >
-                  {PAGES[0].marquee} {PAGES[0].marquee} {PAGES[0].marquee}
+                  {PAGES[0].marquee} • {PAGES[0].marquee} • &nbsp;
+                </span>
+                <span
+                  className="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-none text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]"
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = 'transparent';
+                    e.currentTarget.style.WebkitTextStroke = '1.5px rgba(255, 255, 255, 0.9)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.WebkitTextStroke = '0px transparent';
+                  }}
+                >
+                  {PAGES[0].marquee} • {PAGES[0].marquee} • &nbsp;
                 </span>
               </div>
             </div>
@@ -448,25 +464,27 @@ export default function ParallaxPages() {
           ref={timelineBarRef}
           className="carousel-progress fixed bottom-8 left-0 w-full px-8 sm:px-16 lg:px-24 z-50 pointer-events-none select-none transition-opacity duration-300 opacity-0"
         >
-          <div className="w-full max-w-6xl mx-auto flex items-center gap-4 sm:gap-6">
-            {PAGES.map((_, idx) => (
+          <div className="flex gap-2 sm:gap-4 w-full">
+            {PAGES.map((page, index) => (
               <div
-                key={idx}
-                ref={(el) => (progressBarRefs.current[idx] = el)}
-                className="progress-bar flex-1 h-[2px] bg-white/20 overflow-hidden relative backdrop-blur-sm rounded-full"
-                style={{ '--progress': '0' }}
+                key={page.id}
+                ref={(el) => (progressBarRefs.current[index] = el)}
+                className="progress-bar"
               />
             ))}
           </div>
         </div>
       </div>
 
-      {/* Transitional Bio Statement Section with All 5 GIF Capsules & Culture-driven Typography */}
-      <div className="relative w-full bg-black text-white py-32 sm:py-48 px-6 sm:px-12 lg:px-20 z-40 border-none">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="font-sans font-normal text-3xl sm:text-5xl lg:text-[52px] leading-[1.2] tracking-tight text-white select-none">
+      {/* Transitional Bio Statement Section with All 5 GIF Capsules & CursorTrail Active inside */}
+      <div className="relative w-full bg-black text-white py-32 sm:py-48 px-6 sm:px-12 lg:px-20 z-40 border-none overflow-hidden select-none">
+        {/* Photo Cursor Trail Layer: Active when mouse enters/moves inside this section */}
+        <CursorTrail zIndex={10} />
+
+        <div className="max-w-6xl mx-auto text-center relative z-20">
+          <h2 className="font-sans font-normal text-3xl sm:text-5xl lg:text-[50px] leading-[2.0] sm:leading-[2.3] lg:leading-[2.5] tracking-tight text-white select-none">
             Hi, I'm <span className="font-extrabold text-white">SIMON</span>.{' '}
-            <span className="inline-flex align-middle mx-2 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden align-baseline transform hover:scale-105 transition-transform duration-300">
+            <span className="inline-flex align-middle mx-2.5 sm:mx-3.5 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden transform hover:scale-105 transition-transform duration-300">
               <img
                 src="/gifFolder/Camera Recording GIF by Amy Winehouse.gif"
                 alt=""
@@ -474,7 +492,7 @@ export default function ParallaxPages() {
               />
             </span>{' '}
             I believe that every great photograph is a blend of technical precision{' '}
-            <span className="inline-flex align-middle mx-2 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden align-baseline transform hover:scale-105 transition-transform duration-300">
+            <span className="inline-flex align-middle mx-2.5 sm:mx-3.5 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden transform hover:scale-105 transition-transform duration-300">
               <img
                 src="/gifFolder/Fun Photography GIF by 2TON Agency.gif"
                 alt=""
@@ -482,7 +500,7 @@ export default function ParallaxPages() {
               />
             </span>{' '}
             and raw emotion. Whether I'm chasing the perfect natural light{' '}
-            <span className="inline-flex align-middle mx-2 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden align-baseline transform hover:scale-105 transition-transform duration-300">
+            <span className="inline-flex align-middle mx-2.5 sm:mx-3.5 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden transform hover:scale-105 transition-transform duration-300">
               <img
                 src="/gifFolder/Photography Photo GIF by A$AP NAST.gif"
                 alt=""
@@ -490,7 +508,7 @@ export default function ParallaxPages() {
               />
             </span>{' '}
             or meticulously setting up a studio shoot, my goal is to capture the authentic essence of my subjects. When I don't have a camera in my hand,{' '}
-            <span className="inline-flex align-middle mx-2 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden align-baseline transform hover:scale-105 transition-transform duration-300">
+            <span className="inline-flex align-middle mx-2.5 sm:mx-3.5 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden transform hover:scale-105 transition-transform duration-300">
               <img
                 src="/gifFolder/Photography Photo GIF by Reconnecting Roots.gif"
                 alt=""
@@ -498,7 +516,7 @@ export default function ParallaxPages() {
               />
             </span>{' '}
             I'm usually exploring new hiking trails or tweaking digital frontend experiences{' '}
-            <span className="inline-flex align-middle mx-2 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden align-baseline transform hover:scale-105 transition-transform duration-300">
+            <span className="inline-flex align-middle mx-2.5 sm:mx-3.5 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden transform hover:scale-105 transition-transform duration-300">
               <img
                 src="/gifFolder/Toronto International Film Festival Camera GIF by TIFF.gif"
                 alt=""
@@ -510,7 +528,7 @@ export default function ParallaxPages() {
         </div>
       </div>
 
-      {/* 3-Step Pinned GSAP Outro Section Page (Pins 100% Steady at top top, Pure Black & Borderless) */}
+      {/* 3-Step Pinned GSAP Outro Section Page with Levitation & Image 3 Blueprint Back Face */}
       <div
         ref={newsContainerRef}
         id="outro-black"
@@ -522,7 +540,7 @@ export default function ParallaxPages() {
           className="relative w-full max-w-[92vw] bg-black border-none shadow-none p-8 sm:p-12 lg:p-14 overflow-visible rounded-none [transform-style:preserve-3d]"
           style={{ transformOrigin: 'center center' }}
         >
-          {/* FRONT FACE: Heading + 3 News Cards Grid */}
+          {/* FRONT FACE: Heading + 3 News Cards with 3D Levitation Depth */}
           <div className="w-full flex flex-col justify-center [backface-visibility:hidden]">
             {/* Section Heading */}
             <div className="mb-6 sm:mb-8">
@@ -531,8 +549,8 @@ export default function ParallaxPages() {
               </h2>
             </div>
 
-            {/* 3-Column News Card Grid with 10px Gap, Sharp Rectangular Corners, 0 Hover Effects */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-[10px]">
+            {/* 3-Column News Card Grid with 3D Levitation Depth on each Card (Image 1) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 [transform-style:preserve-3d]">
               {[
                 {
                   id: 1,
@@ -555,19 +573,25 @@ export default function ParallaxPages() {
               ].map((item) => (
                 <article
                   key={item.id}
-                  className="flex flex-col bg-[#1c1c1c] rounded-none border-none overflow-hidden select-none"
+                  className="flex flex-col bg-[#18181b] rounded-none border border-white/10 overflow-hidden select-none"
+                  style={{
+                    transform: 'translateZ(65px)',
+                    transformStyle: 'preserve-3d',
+                    boxShadow: '0 30px 60px -12px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 0, 0, 0.7)',
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  }}
                 >
                   {/* Card Image */}
                   <div className="relative w-full aspect-[4/3] overflow-hidden bg-neutral-900 rounded-none">
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-full h-full object-cover object-center rounded-none"
+                      className="w-full h-full object-cover object-center rounded-none transform transition-transform duration-500 hover:scale-105"
                     />
                   </div>
 
                   {/* Card Text Details Content */}
-                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between">
+                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between bg-[#18181b]">
                     <div>
                       <span className="block text-xs font-mono text-neutral-400 mb-2 uppercase tracking-wider">
                         {item.category}
@@ -582,16 +606,70 @@ export default function ParallaxPages() {
             </div>
           </div>
 
-          {/* BACK FACE: Placed directly on back of card [rotateY(180deg)], holding the Video CTA Button */}
+          {/* BACK FACE: Styled like Image 3 (wildyriftian.com Blueprint / Film Card Style) */}
           <div
-            className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-black border-none rounded-[28px] p-8 [backface-visibility:hidden]"
-            style={{ transform: 'rotateY(180deg)' }}
+            className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-[#131316] border border-white/10 rounded-[28px] p-8 sm:p-12 overflow-hidden [backface-visibility:hidden] select-none"
+            style={{
+              transform: 'rotateY(180deg)',
+              boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.8)',
+            }}
           >
-            <div ref={newsCtaRef} className="opacity-0 filter blur-lg flex flex-col items-center gap-6">
-              <span className="text-xs font-mono uppercase tracking-[0.3em] text-neutral-400">
+            {/* Blueprint Inner Dotted Guide Frame */}
+            <div
+              className="absolute inset-6 sm:inset-10 pointer-events-none rounded-[16px]"
+              style={{
+                border: '1px dotted rgba(255, 255, 255, 0.22)',
+              }}
+            />
+
+            {/* Left Film Sprocket Dot Holes (5 dots like film reel perforations in Image 3) */}
+            <div className="absolute left-8 sm:left-12 top-1/2 -translate-y-1/2 flex flex-col justify-between h-3/4 pointer-events-none">
+              {[...Array(5)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-2.5 h-2.5 rounded-full"
+                  style={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    border: '1px solid rgba(255, 255, 255, 0.35)',
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Top and Bottom Technical Blueprint Labels */}
+            <div className="absolute top-9 left-1/2 -translate-x-1/2 font-mono text-[10px] sm:text-xs tracking-[0.35em] text-neutral-400 uppercase pointer-events-none">
+              ABOUT
+            </div>
+            <div className="absolute bottom-9 left-1/2 -translate-x-1/2 font-mono text-[10px] sm:text-xs tracking-[0.35em] text-neutral-400 uppercase pointer-events-none">
+              ABOUT
+            </div>
+
+            {/* Right Vertical Blueprint Watermark */}
+            <div
+              className="absolute right-8 sm:right-12 top-1/2 -translate-y-1/2 font-mono text-[9px] tracking-[0.3em] text-neutral-500 uppercase pointer-events-none hidden sm:block"
+              style={{ writingMode: 'vertical-rl' }}
+            >
+              WILDYRIFTIANWORKS
+            </div>
+
+            {/* 4 Corner Registration Crosses */}
+            <span className="absolute top-8 left-8 text-neutral-500 font-mono text-xs pointer-events-none">+</span>
+            <span className="absolute top-8 right-8 text-neutral-500 font-mono text-xs pointer-events-none">+</span>
+            <span className="absolute bottom-8 left-8 text-neutral-500 font-mono text-xs pointer-events-none">+</span>
+            <span className="absolute bottom-8 right-8 text-neutral-500 font-mono text-xs pointer-events-none">+</span>
+
+            {/* Centered CTA Content */}
+            <div ref={newsCtaRef} className="relative z-10 opacity-0 filter blur-lg flex flex-col items-center gap-6">
+              <span className="text-xs font-mono uppercase tracking-[0.35em] text-neutral-400">
                 Exclusive Content
               </span>
-              <button className="flex items-center gap-4 px-8 sm:px-10 py-4 sm:py-5 rounded-full bg-white text-black font-extrabold text-sm sm:text-base uppercase tracking-wider shadow-none hover:bg-neutral-200 transition-colors">
+              <button
+                onClick={() => {
+                  const videoSec = document.getElementById('video-outro');
+                  if (videoSec) videoSec.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="flex items-center gap-4 px-8 sm:px-10 py-4 sm:py-5 rounded-full bg-white text-black font-extrabold text-sm sm:text-base uppercase tracking-wider shadow-none hover:bg-neutral-200 transition-all duration-300 hover:scale-105 cursor-pointer"
+              >
                 <span>[WATCH THE PHOTOGRAPHY TIPS VIDEO]</span>
                 <span className="text-lg">▶</span>
               </button>
@@ -600,7 +678,7 @@ export default function ParallaxPages() {
         </div>
       </div>
 
-      {/* Final Full-Screen Video Page with 50px Margin Inset, 100% Perfect Square Grid Tile GSAP Reveal & Magnetic Elastic Play Button */}
+      {/* Final Full-Screen Video Page with 50px Margin Inset & 112-Tile Random GSAP Reveal */}
       <div
         ref={videoSectionRef}
         id="video-outro"
@@ -614,7 +692,7 @@ export default function ParallaxPages() {
             ))}
           </div>
 
-          {/* Background Video (100% Brightness & Opacity) */}
+          {/* Background Video */}
           <video
             ref={videoRef}
             src="/video/These are the only shots you will ever need..mp4"
@@ -635,10 +713,12 @@ export default function ParallaxPages() {
             </div>
           </div>
 
-          {/* Center-Right Play Button Badge (Static Positioning, No Magnetic Tracking) */}
+          {/* Center-Right Play Button Badge */}
           <div className="absolute top-1/2 right-12 sm:right-24 lg:right-32 -translate-y-1/2 z-40 p-12">
             <button
               ref={playBtnRef}
+              onMouseMove={handlePlayBtnMouseMove}
+              onMouseLeave={handlePlayBtnMouseLeave}
               className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/40 flex items-center justify-center cursor-pointer transition-colors duration-300 hover:bg-white hover:text-black hover:scale-110 shadow-none"
             >
               <span className="text-2xl sm:text-3xl lg:text-4xl ml-1 text-white hover:text-black">▶</span>
@@ -647,30 +727,23 @@ export default function ParallaxPages() {
         </div>
       </div>
 
-      {/* 50vh Footer Section with Infinite Left-to-Right Marquee ("MADE BY SIMON") */}
-      <footer className="relative w-full h-[50vh] bg-black text-white z-40 flex flex-col justify-between items-center border-t border-white/10 py-10 px-6 sm:px-12 select-none overflow-hidden">
-        {/* Center Row: Infinite Left-to-Right Marquee Container */}
-        <div className="w-full flex-1 flex items-center overflow-hidden">
-          <div className="footer-marquee-container w-[400%] flex whitespace-nowrap gap-12 will-change-transform">
-            <span className="font-sans font-extrabold text-5xl sm:text-7xl lg:text-[115px] xl:text-[130px] leading-none uppercase tracking-tight text-white/90 shrink-0">
-              MADE BY SIMON • MADE BY SIMON • MADE BY SIMON • MADE BY SIMON •
+      {/* 50vh Footer Section with 100vw Full-Width Zero-Jitter Infinite Marquee (Back to Top Removed) */}
+      <footer className="relative w-screen max-w-none bg-black text-white z-40 flex flex-col justify-between items-center border-t border-white/10 py-10 px-0 select-none overflow-hidden left-1/2 -translate-x-1/2">
+        {/* Full-Width Edge-to-Edge Zero-Jitter Marquee Track */}
+        <div className="w-full flex-1 flex items-center overflow-hidden px-0 mx-0">
+          <div className="footer-marquee-track flex whitespace-nowrap will-change-transform" style={{ width: 'max-content' }}>
+            <span className="font-sans font-extrabold text-5xl sm:text-7xl lg:text-[115px] xl:text-[130px] leading-none uppercase tracking-tight text-white/90 shrink-0 px-8">
+              MADE BY SIMON • MADE BY SIMON • MADE BY SIMON • MADE BY SIMON • &nbsp;
             </span>
-            <span className="font-sans font-extrabold text-5xl sm:text-7xl lg:text-[115px] xl:text-[130px] leading-none uppercase tracking-tight text-white/90 shrink-0">
-              MADE BY SIMON • MADE BY SIMON • MADE BY SIMON • MADE BY SIMON •
+            <span className="font-sans font-extrabold text-5xl sm:text-7xl lg:text-[115px] xl:text-[130px] leading-none uppercase tracking-tight text-white/90 shrink-0 px-8">
+              MADE BY SIMON • MADE BY SIMON • MADE BY SIMON • MADE BY SIMON • &nbsp;
             </span>
           </div>
         </div>
 
-        {/* Bottom Row Bar: Copyright & Back-to-Top Button */}
-        <div className="w-full max-w-7xl mx-auto flex items-center justify-between pt-6 border-t border-white/10 text-xs sm:text-sm font-mono text-neutral-400">
+        {/* Bottom Row Bar: Centered Copyright Only */}
+        <div className="w-full max-w-7xl mx-auto flex items-center justify-center pt-6 border-t border-white/10 text-xs sm:text-sm font-mono text-neutral-400 px-6">
           <div>© {new Date().getFullYear()} SIMON Photography. All Rights Reserved.</div>
-          <button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer uppercase tracking-wider"
-          >
-            <span>BACK TO TOP</span>
-            <span className="text-base">↑</span>
-          </button>
         </div>
       </footer>
     </section>

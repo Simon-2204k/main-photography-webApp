@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useEffect, memo } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -18,7 +18,7 @@ import { HeroCanvas } from '../../components/Page2/HeroCanvas/HeroCanvas';
 // Section 3: Statement Text Page with Alpha Gradient Mask
 import { ThisIsESE } from '../../components/Page2/ThisIsESE/ThisIsESE';
 
-// Section 4: 6-Slide Codegrid Parallax Carousel + 5 GIFs Bio + 3D Flip Card + Video Reveal + Footer
+// Section 4: 6-Page Cinematic Parallax Carousel + 5 GIFs Bio + 3D Flip Card + Video Reveal + Footer
 import ParallaxPages from '../../components/Page2/ParallaxPages/ParallaxPages';
 
 import './PageOneStyles.css';
@@ -27,8 +27,6 @@ import './Page2.css';
 gsap.registerPlugin(ScrollTrigger);
 
 export const Page2Component = ({ onOpenMenu }) => {
-  const [isSection1Active, setIsSection1Active] = useState(true);
-
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -42,8 +40,6 @@ export const Page2Component = ({ onOpenMenu }) => {
     // Sync Lenis scroll with GSAP ScrollTrigger
     lenis.on('scroll', () => {
       ScrollTrigger.update();
-      // Section 1 Header (CHRONICLES IN LIGHT + MENU) visible exclusively in Section 1
-      setIsSection1Active(window.scrollY < window.innerHeight * 0.7);
     });
 
     const updateLenis = (time) => {
@@ -70,14 +66,9 @@ export const Page2Component = ({ onOpenMenu }) => {
       {/* Interactive Custom Cursor */}
       <CustomCursor />
 
-      {/* Section 1 Header: CHRONICLES IN LIGHT + MENU (Visible exclusively in Section 1) */}
-      <DarkroomHeader
-        isVisible={isSection1Active}
-        onOpenMenu={onOpenMenu}
-      />
-
-      {/* Section 1: Hero Interactive HUD Video Canvas & Grid Grain Telemetry */}
+      {/* Section 1: Hero Interactive HUD Video Canvas, Grid Grain Telemetry & Natural Scrolling Header */}
       <section id="darkroom-hero-section" className="darkroom-hero-wrapper">
+        <DarkroomHeader onOpenMenu={onOpenMenu} />
         <DarkroomGridGrain />
         <DarkroomCanvas />
       </section>

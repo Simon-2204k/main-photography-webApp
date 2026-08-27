@@ -12,7 +12,7 @@ export const ThisIsESEComponent = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Smooth fade-in on scroll into Section 2 statement text
+      // Smooth fade-in on scroll into Section 3 statement text
       gsap.fromTo(
         textRef.current,
         { opacity: 0.1, y: 30 },
@@ -40,7 +40,6 @@ export const ThisIsESEComponent = () => {
       id="about"
       className="relative z-20 bg-black text-white pt-2 pb-32 lg:pt-4 lg:pb-48 px-0 overflow-hidden -mt-44 sm:-mt-52"
       style={{
-        /* Option 1 Alpha Gradient Masking */
         maskImage: 'linear-gradient(to bottom, transparent 0%, black 180px, black 100%)',
         WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 180px, black 100%)',
       }}
@@ -66,11 +65,11 @@ export const ThisIsESEComponent = () => {
         </div>
       </div>
 
-      {/* Centered Main HTML Statement Text (Shifted DOWNWARD with mt-24 sm:mt-32) */}
+      {/* Centered Main HTML Statement Text */}
       <div className="max-w-5xl mx-auto text-center px-6 sm:px-12 lg:px-24 relative z-20 mt-24 sm:mt-32">
         <div ref={textRef}>
-          <h2 className="font-sans font-normal text-3xl sm:text-5xl lg:text-[52px] leading-[1.2] tracking-tight text-white select-none">
-            Culture-driven, creative and competitive. Our digital agency creates impact for brands. In the disciplines Websites, social media, content marketing, campaigning and branding. Between timeless and zeitgeist. When we communicate: Effectively. Quick witted. Ambitious. This is ESE Agency.
+          <h2 className="font-sans font-normal text-3xl sm:text-5xl lg:text-[52px] leading-[1.25] tracking-tight text-white select-none">
+            Concept-driven, atmospheric and cinematic. Our visual laboratory creates enduring imagery for visionary brands and people. In the disciplines of editorial campaigns, lookbooks, gallery exhibitions and medium format. Between analogue craft and contemporary vision. How we frame: Sharp. Expressive. Bold. This is Raw Lab.
           </h2>
         </div>
       </div>
