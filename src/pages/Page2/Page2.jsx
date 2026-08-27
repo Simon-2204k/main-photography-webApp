@@ -4,7 +4,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { FilmGrain } from '../../components/Page1/FilmGrain/FilmGrain';
-import { CustomCursor } from '../../components/Page1/SpiralGallery/CustomCursor';
 import { DesktopOnlyNotice } from '../../components/Page1/DesktopOnlyNotice/DesktopOnlyNotice';
 
 // Section 1: Darkroom HUD Video Canvas & Telemetry
@@ -62,9 +61,6 @@ export const Page2Component = ({ onOpenMenu }) => {
 
       {/* Cinematic Film Grain Overlay */}
       <FilmGrain />
-
-      {/* Interactive Custom Cursor */}
-      <CustomCursor />
 
       {/* Section 1: Hero Interactive HUD Video Canvas, Grid Grain Telemetry & Natural Scrolling Header */}
       <section id="darkroom-hero-section" className="darkroom-hero-wrapper">

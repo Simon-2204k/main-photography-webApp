@@ -89,7 +89,7 @@ export default function ParallaxPages() {
         }
       }
 
-      // 3. Helper to Create Slide DOM Element with mathematically seamless 2-span marquee track
+      // 3. Helper to Create Slide DOM Element with generous vertical padding (prevents g, y, p clipping)
       const createSlideElement = (slideData) => {
         const slide = document.createElement('div');
         slide.className = 'slide absolute inset-0 w-full h-full overflow-hidden flex flex-col justify-center items-center pointer-events-none select-none z-10';
@@ -98,12 +98,12 @@ export default function ParallaxPages() {
             <img src="${slideData.image}" alt="" class="w-full h-full object-cover object-center transform scale-100 opacity-100 will-change-transform" />
           </div>
           <div class="slide-copy absolute inset-0 flex items-center justify-center w-full overflow-hidden z-20 pointer-events-auto">
-            <div class="slide-marquee w-full overflow-hidden px-0 mx-0">
-              <div class="marquee-track flex whitespace-nowrap will-change-transform" style="width: max-content;">
-                <span class="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-none text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
+            <div class="slide-marquee w-full overflow-hidden px-0 mx-0 py-8 sm:py-12 lg:py-16">
+              <div class="marquee-track flex whitespace-nowrap will-change-transform py-4" style="width: max-content;">
+                <span class="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-[1.3] text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
                   ${slideData.marquee} • ${slideData.marquee} • &nbsp;
                 </span>
-                <span class="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-none text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
+                <span class="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-[1.3] text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
                   ${slideData.marquee} • ${slideData.marquee} • &nbsp;
                 </span>
               </div>
@@ -304,7 +304,7 @@ export default function ParallaxPages() {
         },
       });
 
-      // 7. 3-Step Outro Card Sequence with 3D Flip & Levitation
+      // 7. 3-Step Outro Card Sequence with 3D Flip & 100px 3D Levitation
       const newsContainer = newsContainerRef.current;
       const newsCard = newsCardRef.current;
       const newsCta = newsCtaRef.current;
@@ -386,28 +386,6 @@ export default function ParallaxPages() {
     return () => ctx.revert();
   }, []);
 
-  const handlePlayBtnMouseMove = (e) => {
-    const btn = playBtnRef.current;
-    if (!btn) return;
-    const rect = btn.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const deltaX = (e.clientX - centerX) * 1.8;
-    const deltaY = (e.clientY - centerY) * 1.8;
-    const distance = Math.hypot(deltaX, deltaY);
-    const maxDist = 160;
-    const factor = distance > maxDist ? maxDist / distance : 1;
-    const x = deltaX * factor;
-    const y = deltaY * factor;
-    gsap.to(btn, { x, y, duration: 0.8, ease: 'elastic.out(1.8, 0.25)' });
-  };
-
-  const handlePlayBtnMouseLeave = () => {
-    const btn = playBtnRef.current;
-    if (!btn) return;
-    gsap.to(btn, { x: 0, y: 0, duration: 1.2, ease: 'elastic.out(2, 0.2)' });
-  };
-
   return (
     <section ref={containerRef} className="relative w-full bg-black text-white">
       {/* Pinned Codegrid Carousel Container */}
@@ -426,10 +404,10 @@ export default function ParallaxPages() {
           </div>
 
           <div className="slide-copy absolute inset-0 flex items-center justify-center w-full overflow-hidden z-20 pointer-events-auto">
-            <div className="slide-marquee w-full overflow-hidden px-0 mx-0">
-              <div className="marquee-track flex whitespace-nowrap will-change-transform" style={{ width: 'max-content' }}>
+            <div className="slide-marquee w-full overflow-hidden px-0 mx-0 py-8 sm:py-12 lg:py-16">
+              <div className="marquee-track flex whitespace-nowrap will-change-transform py-4" style={{ width: 'max-content' }}>
                 <span
-                  className="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-none text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]"
+                  className="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-[1.3] text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]"
                   onMouseEnter={(e) => {
                     e.currentTarget.style.color = 'transparent';
                     e.currentTarget.style.WebkitTextStroke = '1.5px rgba(255, 255, 255, 0.9)';
@@ -439,10 +417,10 @@ export default function ParallaxPages() {
                     e.currentTarget.style.WebkitTextStroke = '0px transparent';
                   }}
                 >
-                  {PAGES[0].marquee} • {PAGES[0].marquee} • &nbsp;
+                  ${PAGES[0].marquee} • ${PAGES[0].marquee} • &nbsp;
                 </span>
                 <span
-                  className="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-none text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]"
+                  className="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-[1.3] text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]"
                   onMouseEnter={(e) => {
                     e.currentTarget.style.color = 'transparent';
                     e.currentTarget.style.WebkitTextStroke = '1.5px rgba(255, 255, 255, 0.9)';
@@ -452,7 +430,7 @@ export default function ParallaxPages() {
                     e.currentTarget.style.WebkitTextStroke = '0px transparent';
                   }}
                 >
-                  {PAGES[0].marquee} • {PAGES[0].marquee} • &nbsp;
+                  ${PAGES[0].marquee} • ${PAGES[0].marquee} • &nbsp;
                 </span>
               </div>
             </div>
@@ -476,12 +454,13 @@ export default function ParallaxPages() {
         </div>
       </div>
 
-      {/* Transitional Bio Statement Section with All 5 GIF Capsules & CursorTrail Active inside */}
+      {/* Transitional Bio Statement Section with All 5 GIF Capsules & CursorTrail Strictly BEHIND Text */}
       <div className="relative w-full bg-black text-white py-32 sm:py-48 px-6 sm:px-12 lg:px-20 z-40 border-none overflow-hidden select-none">
-        {/* Photo Cursor Trail Layer: Active when mouse enters/moves inside this section */}
-        <CursorTrail zIndex={10} />
+        {/* Photo Cursor Trail Layer: Behind text at z-index 1 */}
+        <CursorTrail zIndex={1} />
 
-        <div className="max-w-6xl mx-auto text-center relative z-20">
+        {/* Text Content: Strictly in FRONT of cursor trail at relative z-30 */}
+        <div className="max-w-6xl mx-auto text-center relative z-30 pointer-events-auto">
           <h2 className="font-sans font-normal text-3xl sm:text-5xl lg:text-[50px] leading-[2.0] sm:leading-[2.3] lg:leading-[2.5] tracking-tight text-white select-none">
             Hi, I'm <span className="font-extrabold text-white">SIMON</span>.{' '}
             <span className="inline-flex align-middle mx-2.5 sm:mx-3.5 my-1 h-14 sm:h-20 lg:h-24 w-28 sm:w-44 lg:w-56 rounded-full border-none shadow-none overflow-hidden transform hover:scale-105 transition-transform duration-300">
@@ -528,29 +507,29 @@ export default function ParallaxPages() {
         </div>
       </div>
 
-      {/* 3-Step Pinned GSAP Outro Section Page with Levitation & Image 3 Blueprint Back Face */}
+      {/* 3-Step Pinned GSAP Outro Section Page with 100px 3D Levitation & Image 4 Blueprint Back Face */}
       <div
         ref={newsContainerRef}
         id="outro-black"
-        className="relative w-full h-screen bg-black z-40 flex items-center justify-center overflow-hidden [perspective:1200px] border-none"
+        className="relative w-full h-screen bg-black z-40 flex items-center justify-center overflow-hidden [perspective:1400px] border-none"
       >
-        {/* Glossy Parent 3D Card Div (Scales down 1 -> 0.75 & Flips 180deg on Y-axis) */}
+        {/* Base Card Plate (Dark charcoal #141416 with distinct border and 3D context) */}
         <div
           ref={newsCardRef}
-          className="relative w-full max-w-[92vw] bg-black border-none shadow-none p-8 sm:p-12 lg:p-14 overflow-visible rounded-none [transform-style:preserve-3d]"
-          style={{ transformOrigin: 'center center' }}
+          className="relative w-full max-w-[92vw] bg-[#141416] border border-white/15 p-8 sm:p-12 lg:p-14 rounded-[28px] [transform-style:preserve-3d]"
+          style={{ transformOrigin: 'center center', boxShadow: '0 30px 60px rgba(0,0,0,0.8)' }}
         >
           {/* FRONT FACE: Heading + 3 News Cards with 3D Levitation Depth */}
-          <div className="w-full flex flex-col justify-center [backface-visibility:hidden]">
-            {/* Section Heading */}
-            <div className="mb-6 sm:mb-8">
+          <div className="w-full flex flex-col justify-center [transform-style:preserve-3d]">
+            {/* Section Heading with 30px depth */}
+            <div className="mb-6 sm:mb-8" style={{ transform: 'translateZ(30px)', transformStyle: 'preserve-3d' }}>
               <h2 className="font-sans font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.15] text-white">
                 Latest news from the world of SIMON Photography
               </h2>
             </div>
 
-            {/* 3-Column News Card Grid with 3D Levitation Depth on each Card (Image 1) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 [transform-style:preserve-3d]">
+            {/* 3-Column News Card Grid with 100px 3D Levitation Depth */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 [transform-style:preserve-3d]">
               {[
                 {
                   id: 1,
@@ -573,16 +552,15 @@ export default function ParallaxPages() {
               ].map((item) => (
                 <article
                   key={item.id}
-                  className="flex flex-col bg-[#18181b] rounded-none border border-white/10 overflow-hidden select-none"
+                  className="flex flex-col bg-[#1e1e22] rounded-xl border border-white/20 overflow-hidden select-none"
                   style={{
-                    transform: 'translateZ(65px)',
+                    transform: 'translateZ(100px)',
                     transformStyle: 'preserve-3d',
-                    boxShadow: '0 30px 60px -12px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 0, 0, 0.7)',
-                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    boxShadow: '0 50px 100px rgba(0, 0, 0, 0.95), 0 20px 40px rgba(0, 0, 0, 0.9)',
                   }}
                 >
                   {/* Card Image */}
-                  <div className="relative w-full aspect-[4/3] overflow-hidden bg-neutral-900 rounded-none">
+                  <div className="relative w-full aspect-[4/3] overflow-hidden bg-neutral-900">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -591,7 +569,7 @@ export default function ParallaxPages() {
                   </div>
 
                   {/* Card Text Details Content */}
-                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between bg-[#18181b]">
+                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between bg-[#1e1e22]">
                     <div>
                       <span className="block text-xs font-mono text-neutral-400 mb-2 uppercase tracking-wider">
                         {item.category}
@@ -606,23 +584,23 @@ export default function ParallaxPages() {
             </div>
           </div>
 
-          {/* BACK FACE: Styled like Image 3 (wildyriftian.com Blueprint / Film Card Style) */}
+          {/* BACK FACE: Styled exactly like Image 4 (wildyriftian.com Blueprint / Film Card Style, NO vertical text) */}
           <div
-            className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-[#131316] border border-white/10 rounded-[28px] p-8 sm:p-12 overflow-hidden [backface-visibility:hidden] select-none"
+            className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-[#18181b] border border-white/15 rounded-[28px] p-8 sm:p-12 overflow-hidden [backface-visibility:hidden] select-none"
             style={{
               transform: 'rotateY(180deg)',
-              boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.8)',
+              boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.9)',
             }}
           >
             {/* Blueprint Inner Dotted Guide Frame */}
             <div
               className="absolute inset-6 sm:inset-10 pointer-events-none rounded-[16px]"
               style={{
-                border: '1px dotted rgba(255, 255, 255, 0.22)',
+                border: '1px dotted rgba(255, 255, 255, 0.25)',
               }}
             />
 
-            {/* Left Film Sprocket Dot Holes (5 dots like film reel perforations in Image 3) */}
+            {/* Left Film Sprocket Dot Holes (5 dots like film reel perforations in Image 4) */}
             <div className="absolute left-8 sm:left-12 top-1/2 -translate-y-1/2 flex flex-col justify-between h-3/4 pointer-events-none">
               {[...Array(5)].map((_, i) => (
                 <div
@@ -644,20 +622,6 @@ export default function ParallaxPages() {
               ABOUT
             </div>
 
-            {/* Right Vertical Blueprint Watermark */}
-            <div
-              className="absolute right-8 sm:right-12 top-1/2 -translate-y-1/2 font-mono text-[9px] tracking-[0.3em] text-neutral-500 uppercase pointer-events-none hidden sm:block"
-              style={{ writingMode: 'vertical-rl' }}
-            >
-              WILDYRIFTIANWORKS
-            </div>
-
-            {/* 4 Corner Registration Crosses */}
-            <span className="absolute top-8 left-8 text-neutral-500 font-mono text-xs pointer-events-none">+</span>
-            <span className="absolute top-8 right-8 text-neutral-500 font-mono text-xs pointer-events-none">+</span>
-            <span className="absolute bottom-8 left-8 text-neutral-500 font-mono text-xs pointer-events-none">+</span>
-            <span className="absolute bottom-8 right-8 text-neutral-500 font-mono text-xs pointer-events-none">+</span>
-
             {/* Centered CTA Content */}
             <div ref={newsCtaRef} className="relative z-10 opacity-0 filter blur-lg flex flex-col items-center gap-6">
               <span className="text-xs font-mono uppercase tracking-[0.35em] text-neutral-400">
@@ -668,7 +632,7 @@ export default function ParallaxPages() {
                   const videoSec = document.getElementById('video-outro');
                   if (videoSec) videoSec.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="flex items-center gap-4 px-8 sm:px-10 py-4 sm:py-5 rounded-full bg-white text-black font-extrabold text-sm sm:text-base uppercase tracking-wider shadow-none hover:bg-neutral-200 transition-all duration-300 hover:scale-105 cursor-pointer"
+                className="flex items-center gap-4 px-8 sm:px-10 py-4 sm:py-5 rounded-full bg-white text-black font-extrabold text-sm sm:text-base uppercase tracking-wider shadow-none hover:bg-neutral-200 transition-colors cursor-pointer"
               >
                 <span>[WATCH THE PHOTOGRAPHY TIPS VIDEO]</span>
                 <span className="text-lg">▶</span>
@@ -713,13 +677,11 @@ export default function ParallaxPages() {
             </div>
           </div>
 
-          {/* Center-Right Play Button Badge */}
+          {/* Center-Right Static Circular Play Button (No Bounce) */}
           <div className="absolute top-1/2 right-12 sm:right-24 lg:right-32 -translate-y-1/2 z-40 p-12">
             <button
               ref={playBtnRef}
-              onMouseMove={handlePlayBtnMouseMove}
-              onMouseLeave={handlePlayBtnMouseLeave}
-              className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/40 flex items-center justify-center cursor-pointer transition-colors duration-300 hover:bg-white hover:text-black hover:scale-110 shadow-none"
+              className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 rounded-full bg-white/10 backdrop-blur-md text-white border border-white/40 flex items-center justify-center cursor-pointer transition-colors duration-300 hover:bg-white hover:text-black shadow-none"
             >
               <span className="text-2xl sm:text-3xl lg:text-4xl ml-1 text-white hover:text-black">▶</span>
             </button>
