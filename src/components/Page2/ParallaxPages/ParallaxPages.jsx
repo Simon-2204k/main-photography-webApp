@@ -343,7 +343,7 @@ export default function ParallaxPages() {
         },
       });
 
-      // 7. 3-Step Outro Card Sequence with 3D Flip & 100px 3D Levitation
+      // 7. 3-Step Outro Card Sequence with 3D Flip & Solid GREY Base Plate
       const newsContainer = newsContainerRef.current;
       const newsCard = newsCardRef.current;
       const newsCta = newsCtaRef.current;
@@ -516,14 +516,15 @@ export default function ParallaxPages() {
       {/* 
         ========================================================================
         EDITORIAL STATEMENT & CAPABILITY SHOWCASE (IMAGE 4 ALADESIGN.CZ STYLE)
+        CURSOR TRAIL LAYER IS DIRECTLY OVER THE TEXT (Z-INDEX 40)
         ========================================================================
       */}
       <div className="relative w-full bg-[#0a0a0c] text-white py-32 sm:py-48 px-6 sm:px-12 lg:px-20 z-40 border-none overflow-hidden select-none">
-        {/* Photo Cursor Trail Layer: Behind text at z-index 1 */}
-        <CursorTrail zIndex={1} />
+        {/* Photo Cursor Trail Layer: SPAWNS OVER THE TEXT (zIndex 40) */}
+        <CursorTrail zIndex={40} />
 
-        {/* Text Content: Strictly in FRONT of cursor trail at relative z-30 */}
-        <div className="max-w-6xl mx-auto relative z-30 pointer-events-auto">
+        {/* Text Content: Under cursor trail at relative z-10 */}
+        <div className="max-w-6xl mx-auto relative z-10 pointer-events-auto">
           {/* Main High-Fashion Editorial Serif Statement (Image 4 Style) */}
           <h2 className="font-serif font-normal text-3xl sm:text-5xl lg:text-[54px] leading-[1.22] tracking-tight text-white/95 mb-20 select-none">
             Our approach combines analogue discipline with a deep understanding of cinematic light, allowing us to create imagery that not only captures attention, but commands an enduring emotional resonance.
@@ -563,7 +564,7 @@ export default function ParallaxPages() {
 
       {/* 
         ========================================================================
-        3-STEP PINNED GSAP OUTRO CARD: SOLID BASE PLATE & WILDYRIFTIAN BACK FACE
+        3-STEP PINNED GSAP OUTRO CARD: SOLID GREY BASE PLATE & CLEAN "read more"
         ========================================================================
       */}
       <div
@@ -571,21 +572,22 @@ export default function ParallaxPages() {
         id="outro-black"
         className="relative w-full h-screen bg-black z-40 flex items-center justify-center overflow-hidden [perspective:1400px] border-none"
       >
-        {/* Base Card Plate (Solid dark charcoal #1e1e22 with distinct border and 3D context) */}
+        {/* Rotating 3D Card Parent Container */}
         <div
           ref={newsCardRef}
-          className="relative w-full max-w-[92vw] bg-[#1e1e22] border border-white/15 p-8 sm:p-12 lg:p-14 rounded-[28px] [transform-style:preserve-3d]"
+          className="relative w-full max-w-[92vw] h-[80vh] max-h-[760px] rounded-[28px] [transform-style:preserve-3d]"
           style={{
             transformOrigin: 'center center',
-            boxShadow: '0 30px 60px rgba(0,0,0,0.8)',
+            boxShadow: '0 35px 80px rgba(0,0,0,0.95)',
           }}
         >
-          {/* FRONT FACE: Solid Opaque Background Plate with 100px 3D Levitating News Cards */}
+          {/* FRONT FACE PLANE: Solid Opaque GREY Base Plate (#2d2d34) */}
           <div
-            className="w-full flex flex-col justify-center [transform-style:preserve-3d] bg-[#1e1e22] rounded-[24px]"
+            className="absolute inset-0 w-full h-full bg-[#2d2d34] border border-white/20 p-8 sm:p-12 lg:p-14 rounded-[28px] flex flex-col justify-center [transform-style:preserve-3d] select-none"
             style={{
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
+              transform: 'rotateY(0deg)',
             }}
           >
             {/* Section Heading with 30px depth */}
@@ -619,7 +621,7 @@ export default function ParallaxPages() {
               ].map((item) => (
                 <article
                   key={item.id}
-                  className="flex flex-col bg-[#242429] rounded-xl border border-white/20 overflow-hidden select-none"
+                  className="flex flex-col bg-[#1e1e22] rounded-xl border border-white/20 overflow-hidden select-none"
                   style={{
                     transform: 'translateZ(100px)',
                     transformStyle: 'preserve-3d',
@@ -636,7 +638,7 @@ export default function ParallaxPages() {
                   </div>
 
                   {/* Card Text Details Content */}
-                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between bg-[#242429]">
+                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between bg-[#1e1e22]">
                     <div>
                       <span className="block text-xs font-mono text-neutral-400 mb-2 uppercase tracking-wider">
                         {item.category}
@@ -651,63 +653,27 @@ export default function ParallaxPages() {
             </div>
           </div>
 
-          {/* BACK FACE: Styled exactly like Image 2 (wildyriftian.com solid dark charcoal card with "read more") */}
+          {/* BACK FACE PLANE: Solid Opaque GREY Base Plate (#2d2d34) with ONLY "scroll more to read" / "read more" */}
           <div
-            className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-[#1e1e22] border border-white/15 rounded-[28px] p-8 sm:p-12 overflow-hidden select-none"
+            className="absolute inset-0 w-full h-full bg-[#2d2d34] border border-white/20 rounded-[28px] flex items-center justify-center select-none"
             style={{
               transform: 'rotateY(180deg)',
-              boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.9)',
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
             }}
           >
-            {/* Blueprint Inner Dotted Guide Frame */}
-            <div
-              className="absolute inset-6 sm:inset-10 pointer-events-none rounded-[16px]"
-              style={{
-                border: '1px dotted rgba(255, 255, 255, 0.25)',
-              }}
-            />
-
-            {/* Left Film Sprocket Dot Holes (5 punched holes like film reel in Image 2) */}
-            <div className="absolute left-8 sm:left-12 top-1/2 -translate-y-1/2 flex flex-col justify-between h-3/4 pointer-events-none">
-              {[...Array(5)].map((_, i) => (
-                <div
-                  key={i}
-                  className="w-2.5 h-2.5 rounded-full"
-                  style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.18)',
-                    border: '1px solid rgba(255, 255, 255, 0.35)',
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* Top and Bottom Technical Blueprint Labels */}
-            <div className="absolute top-9 left-1/2 -translate-x-1/2 font-mono text-[10px] sm:text-xs tracking-[0.35em] text-neutral-400 uppercase pointer-events-none">
-              ABOUT
-            </div>
-            <div className="absolute bottom-9 left-1/2 -translate-x-1/2 font-mono text-[10px] sm:text-xs tracking-[0.35em] text-neutral-400 uppercase pointer-events-none">
-              ABOUT
-            </div>
-
-            {/* Right Vertical Work Label (Image 2 style) */}
-            <div
-              className="absolute right-7 sm:right-9 top-1/2 -translate-y-1/2 font-mono text-[9px] sm:text-[10px] tracking-[0.35em] text-neutral-500 uppercase pointer-events-none"
-              style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg) translateY(50%)' }}
-            >
-              WILDYRIFTIANWORKS
-            </div>
-
-            {/* Centered "read more" Script Link / CTA */}
-            <div ref={newsCtaRef} className="relative z-10 opacity-0 filter blur-lg flex flex-col items-center gap-4">
+            {/* Center Content: ONLY "read more" / "SCROLL MORE TO READ" on Clean Solid Grey Plate */}
+            <div ref={newsCtaRef} className="opacity-0 filter blur-lg flex flex-col items-center justify-center gap-3">
               <span
                 onClick={() => {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="font-serif italic text-4xl sm:text-6xl lg:text-7xl text-white hover:text-neutral-300 transition-colors cursor-pointer tracking-wide"
+                className="font-serif italic text-5xl sm:text-7xl lg:text-8xl text-white hover:text-neutral-300 transition-colors cursor-pointer tracking-wide drop-shadow-lg"
               >
                 read more
+              </span>
+              <span className="text-xs font-mono tracking-[0.35em] text-neutral-400 uppercase">
+                SCROLL MORE TO READ
               </span>
             </div>
           </div>

@@ -15,7 +15,7 @@ export const ThisIsESEComponent = () => {
       // Smooth fade-in on scroll into Section 3
       gsap.fromTo(
         contentRef.current,
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: 50 },
         {
           opacity: 1,
           y: 0,
@@ -23,8 +23,8 @@ export const ThisIsESEComponent = () => {
           ease: 'power3.out',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 75%',
-            end: 'top 30%',
+            start: 'top 70%',
+            end: 'top 20%',
             scrub: 0.6,
           },
         }
@@ -38,11 +38,7 @@ export const ThisIsESEComponent = () => {
     <section
       ref={sectionRef}
       id="about"
-      className="relative z-20 bg-[#0a0a0c] text-white pt-2 pb-28 lg:pt-4 lg:pb-40 px-0 overflow-hidden -mt-44 sm:-mt-52 select-none"
-      style={{
-        maskImage: 'linear-gradient(to bottom, transparent 0%, black 180px, black 100%)',
-        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 180px, black 100%)',
-      }}
+      className="relative z-20 bg-[#0a0a0c] text-white pt-6 pb-32 lg:pt-10 lg:pb-44 px-0 overflow-hidden select-none"
     >
       {/* Subtle Topographical Background Vector Curves (Image 2 style) */}
       <svg
@@ -79,12 +75,12 @@ export const ThisIsESEComponent = () => {
 
       {/* 
         ========================================================================
-        SINGLE UNIFIED MARQUEE ELEMENT (Z-INDEX z-40 above mask layers)
+        SINGLE UNIFIED MARQUEE ELEMENT (Z-INDEX z-40)
         ========================================================================
       */}
       <div
         id="unified-marquee"
-        className="w-full overflow-hidden -mt-8 sm:-mt-12 mb-12 sm:mb-20 pointer-events-none select-none transition-all duration-300 opacity-0 -translate-y-[10px] z-40 relative"
+        className="w-full overflow-hidden mb-12 sm:mb-16 pointer-events-none select-none transition-all duration-300 opacity-0 -translate-y-[10px] z-40 relative"
       >
         <div className="animate-marquee-reverse whitespace-nowrap flex items-center gap-8">
           {[...Array(4)].map((_, i) => (
@@ -100,26 +96,29 @@ export const ThisIsESEComponent = () => {
 
       {/* 
         ========================================================================
-        LANDO NORRIS INSPIRED EDITORIAL PHOTOGRAPHY HERO LAYOUT (IMAGE 2)
+        PUSHED DOWN 50VH TO GUARANTEE ZERO MARQUEE OVERLAP WITH HERO TEXT
         ========================================================================
       */}
-      <div ref={contentRef} className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-20">
+      <div
+        ref={contentRef}
+        className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-20 mt-[45vh] lg:mt-[50vh]"
+      >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Left Column: Stacked Mixed Typography & Photography Copy */}
+          {/* Left Column: Stacked Mixed Typography & Photography Narrative */}
           <div className="lg:col-span-6 flex flex-col justify-center">
             {/* Monospace Eyebrow Tag */}
             <div className="inline-flex items-center gap-2 mb-6">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-              <span className="text-xs sm:text-sm font-mono uppercase tracking-[0.25em] text-neutral-400">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse inline-block shadow-[0_0_8px_#fbbf24]" />
+              <span className="text-xs sm:text-sm font-mono uppercase tracking-[0.25em] text-neutral-300 font-semibold">
                 ✦ SIMON PHOTOGRAPHY ARCHIVE
               </span>
             </div>
 
             {/* Giant 3-Line Mixed Typography Headline (Matching Image 2 WORLD DRIVERS' CHAMPION font contrast) */}
-            <h2 className="font-sans font-black text-5xl sm:text-7xl lg:text-[84px] leading-[0.92] tracking-tighter text-white uppercase mb-8">
+            <h2 className="font-sans font-black text-5xl sm:text-7xl lg:text-[80px] leading-[0.94] tracking-tighter text-white uppercase mb-8">
               <span className="block font-black tracking-tight text-white">MASTER OF</span>
               <span className="block font-black tracking-tight text-white">LIGHT &amp;</span>
-              <span className="block font-serif font-normal italic tracking-normal text-white text-6xl sm:text-8xl lg:text-[92px] capitalize mt-1.5 drop-shadow-md">
+              <span className="block font-serif font-normal italic tracking-normal text-white text-6xl sm:text-8xl lg:text-[88px] capitalize mt-1 drop-shadow-md">
                 Perspective
               </span>
             </h2>
@@ -142,66 +141,98 @@ export const ThisIsESEComponent = () => {
             </div>
           </div>
 
-          {/* Right Column: Layered Floating Editorial Photography Cards (Image 2 Composition) */}
-          <div className="lg:col-span-6 relative flex items-center justify-center min-h-[460px] sm:min-h-[540px] lg:min-h-[580px]">
-            {/* Top-Right Tilted Metallic Gold Photo Card */}
+          {/* Right Column: 5-Image Composition in 9:16 Aspect Ratio (400px Main, 200px Satellites from /images) */}
+          <div className="lg:col-span-6 relative flex items-center justify-center min-h-[460px] sm:min-h-[520px] lg:min-h-[560px]">
+            {/* 1. Top-Left Satellite Card: 200px (9:16) */}
             <div
-              className="absolute top-0 right-2 sm:right-6 w-48 sm:w-60 aspect-[4/3] rounded-xl overflow-hidden border border-amber-400/40 shadow-[0_20px_50px_rgba(212,175,55,0.22)] transform rotate-6 z-20 transition-transform duration-500 hover:rotate-3 hover:scale-105"
+              className="absolute top-2 left-0 sm:left-4 w-[112px] h-[200px] aspect-[9/16] rounded-xl overflow-hidden border border-white/25 shadow-[0_15px_35px_rgba(0,0,0,0.85)] transform -rotate-6 z-10 transition-transform duration-500 hover:rotate-0 hover:scale-105"
             >
               <img
-                src="/img4.jpeg"
-                alt="Golden Hour Canvas Series"
+                src="/images/pexels-fidan-nazim-qizi-134456769-12414434.jpg"
+                alt="Archive Photography Print 1"
                 className="w-full h-full object-cover object-center"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-3">
-                <span className="text-[10px] font-mono tracking-widest text-amber-300 uppercase font-semibold">
-                  GOLDEN HOUR LAB
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-2">
+                <span className="text-[8px] font-mono tracking-widest text-neutral-300 uppercase font-semibold">
+                  ARCHIVE 01
                 </span>
               </div>
             </div>
 
-            {/* Center Main Large Framed Portrait */}
+            {/* 2. Top-Right Satellite Card: 200px (9:16) */}
             <div
-              className="relative w-64 sm:w-80 lg:w-96 aspect-[3/4] rounded-2xl overflow-hidden border border-white/20 shadow-[0_30px_70px_rgba(0,0,0,0.9)] z-10 transform -rotate-2 transition-transform duration-500 hover:rotate-0 hover:scale-[1.02]"
+              className="absolute top-0 right-2 sm:right-6 w-[112px] h-[200px] aspect-[9/16] rounded-xl overflow-hidden border border-amber-400/40 shadow-[0_15px_40px_rgba(212,175,55,0.2)] transform rotate-6 z-10 transition-transform duration-500 hover:rotate-0 hover:scale-105"
             >
               <img
-                src="/img2.jpg"
-                alt="Main Cinematic Photography Series"
+                src="/images/pexels-ekam-juneja-61080223-32379941.jpg"
+                alt="Archive Photography Print 2"
                 className="w-full h-full object-cover object-center"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-5">
-                <span className="text-xs font-mono tracking-widest text-neutral-300 uppercase">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-2">
+                <span className="text-[8px] font-mono tracking-widest text-amber-300 uppercase font-semibold">
+                  GOLDEN LAB
+                </span>
+              </div>
+            </div>
+
+            {/* 3. Primary Center Main Card: 400px (9:16) */}
+            <div
+              className="relative w-[225px] h-[400px] aspect-[9/16] rounded-2xl overflow-hidden border border-white/30 shadow-[0_30px_70px_rgba(0,0,0,0.95)] z-20 transform -rotate-1 transition-transform duration-500 hover:rotate-0 hover:scale-[1.02]"
+            >
+              <img
+                src="/images/pexels-elina-araja-1743227-3343318.jpg"
+                alt="Main Cinematic Photography"
+                className="w-full h-full object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-4">
+                <span className="text-[9px] font-mono tracking-widest text-neutral-400 uppercase">
                   EDITORIAL SERIES
                 </span>
-                <span className="font-sans font-bold text-lg text-white">
-                  SHADOWS &amp; CINEMA
+                <span className="font-sans font-bold text-sm text-white">
+                  SHADOWS &amp; LIGHT
                 </span>
               </div>
             </div>
 
-            {/* Bottom-Left Floating Foreground Card */}
+            {/* 4. Bottom-Left Satellite Card: 200px (9:16) */}
             <div
-              className="absolute -bottom-4 sm:bottom-0 left-0 sm:left-4 w-44 sm:w-56 aspect-square rounded-xl overflow-hidden border border-white/30 shadow-[0_25px_60px_rgba(0,0,0,0.85)] transform -rotate-6 z-30 transition-transform duration-500 hover:rotate-0 hover:scale-105"
+              className="absolute -bottom-4 sm:bottom-0 left-4 sm:left-10 w-[112px] h-[200px] aspect-[9/16] rounded-xl overflow-hidden border border-white/20 shadow-[0_20px_45px_rgba(0,0,0,0.85)] transform -rotate-3 z-30 transition-transform duration-500 hover:rotate-0 hover:scale-105"
             >
               <img
-                src="/img1.jpg"
-                alt="Archive Photography Print"
+                src="/images/pexels-ilham-munawar-wijaksana-312593206-13568050.jpg"
+                alt="Archive Photography Print 3"
                 className="w-full h-full object-cover object-center"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-3">
-                <span className="text-[10px] font-mono tracking-widest text-white uppercase font-bold">
-                  ARCHIVE N° 01
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-2">
+                <span className="text-[8px] font-mono tracking-widest text-white uppercase font-bold">
+                  RAW 120
                 </span>
               </div>
             </div>
 
-            {/* Bottom-Right Golden Foil Badge Stamp (Matching LN1 Badge in Image 2) */}
-            <div className="absolute -bottom-6 right-4 sm:right-10 bg-gradient-to-br from-[#ffd700] via-[#dfb15b] to-[#996515] p-[1.5px] rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.9)] transform rotate-3 z-40">
-              <div className="bg-[#121214] px-5 py-3 rounded-2xl flex flex-col items-center">
-                <span className="font-sans font-black text-xl text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 tracking-tight">
+            {/* 5. Bottom-Right Satellite Card: 200px (9:16) */}
+            <div
+              className="absolute -bottom-4 sm:bottom-0 right-4 sm:right-10 w-[112px] h-[200px] aspect-[9/16] rounded-xl overflow-hidden border border-white/20 shadow-[0_20px_45px_rgba(0,0,0,0.85)] transform rotate-3 z-30 transition-transform duration-500 hover:rotate-0 hover:scale-105"
+            >
+              <img
+                src="/images/pexels-sevil-yeva-1175061542-29209493.jpg"
+                alt="Archive Photography Print 4"
+                className="w-full h-full object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-2">
+                <span className="text-[8px] font-mono tracking-widest text-white uppercase font-bold">
+                  CINEMA N° 04
+                </span>
+              </div>
+            </div>
+
+            {/* Gold Foil Badge Stamp (Matching LN1 Badge in Image 2) */}
+            <div className="absolute -bottom-7 right-0 sm:right-4 bg-gradient-to-br from-[#ffd700] via-[#dfb15b] to-[#996515] p-[1.5px] rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.9)] transform rotate-6 z-40 pointer-events-none">
+              <div className="bg-[#121214] px-4 py-2.5 rounded-2xl flex flex-col items-center">
+                <span className="font-sans font-black text-lg text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 tracking-tight">
                   SIMON
                 </span>
-                <span className="text-[9px] font-mono tracking-widest text-amber-300/90 uppercase font-semibold">
+                <span className="text-[8px] font-mono tracking-widest text-amber-300/90 uppercase font-semibold">
                   N°1 ARCHIVE
                 </span>
               </div>
