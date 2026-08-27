@@ -38,10 +38,10 @@ export const ThisIsESEComponent = () => {
     <section
       ref={sectionRef}
       id="about"
-      className="relative z-20 bg-black text-white pt-10 pb-28 sm:pt-16 sm:pb-36 lg:pt-20 lg:pb-40 px-0 overflow-hidden -mt-44 sm:-mt-52 select-none"
+      className="relative z-20 bg-black text-white px-0 overflow-hidden select-none -mt-44 sm:-mt-52"
       style={{
-        maskImage: 'linear-gradient(to bottom, transparent 0%, black 200px, black 100%)',
-        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 200px, black 100%)',
+        maskImage: 'linear-gradient(to bottom, transparent 0%, black 220px, black 100%)',
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 220px, black 100%)',
       }}
     >
       {/* 
@@ -51,7 +51,7 @@ export const ThisIsESEComponent = () => {
       */}
       <div
         id="unified-marquee"
-        className="w-full overflow-hidden mb-10 sm:mb-16 pointer-events-none select-none transition-all duration-300 opacity-0 -translate-y-[10px] z-40 relative pt-12 sm:pt-16"
+        className="w-full overflow-hidden mb-6 pointer-events-none select-none transition-all duration-300 opacity-0 -translate-y-[10px] z-40 relative pt-12 sm:pt-16"
       >
         <div className="animate-marquee-reverse whitespace-nowrap flex items-center gap-8">
           {[...Array(4)].map((_, i) => (
@@ -67,81 +67,87 @@ export const ThisIsESEComponent = () => {
 
       {/* 
         ========================================================================
-        MAIN SECTION 3 CONTAINER: 2-ROW ARCHITECTURE
+        PUSHED 50VH DOWN -> STRICT 50% LEFT & 50% RIGHT WINDOW SPLIT
         ========================================================================
       */}
       <div
         ref={contentRef}
-        className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 relative z-20 pt-10 sm:pt-16"
+        className="w-full relative z-20 pt-[45vh] sm:pt-[50vh] pb-28 sm:pb-36 lg:pb-44 px-6 sm:px-12 lg:px-20"
       >
-        {/* ROW 1: Eyebrow + Full-Width Headline */}
-        <div className="w-full mb-10 sm:mb-14 text-left">
-          {/* Monospace Eyebrow Tag */}
-          <div className="inline-flex items-center gap-2 mb-4">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse inline-block shadow-[0_0_8px_#fbbf24]" />
-            <span className="text-xs sm:text-sm font-mono uppercase tracking-[0.25em] text-neutral-300 font-semibold">
-              ✦ SIMON PHOTOGRAPHY ARCHIVE
-            </span>
+        <div className="w-full flex flex-row items-start justify-between">
+          {/* STRICT LEFT 50% OF WINDOW */}
+          <div
+            style={{ width: '50%' }}
+            className="pr-4 sm:pr-8 lg:pr-14 flex flex-col justify-start text-left"
+          >
+            {/* Monospace Eyebrow Tag */}
+            <div className="inline-flex items-center gap-2 mb-4">
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse inline-block shadow-[0_0_8px_#fbbf24]" />
+              <span className="text-xs sm:text-sm font-mono uppercase tracking-[0.25em] text-neutral-300 font-semibold">
+                ✦ SIMON PHOTOGRAPHY ARCHIVE
+              </span>
+            </div>
+
+            {/* Stacked Headline */}
+            <h2 className="font-sans font-black text-3xl sm:text-5xl lg:text-[54px] xl:text-[64px] leading-[0.95] tracking-tighter text-white uppercase mb-8">
+              <span className="block font-black tracking-tight text-white">MASTER OF</span>
+              <span className="block font-black tracking-tight text-white">LIGHT &amp;</span>
+              <span className="block font-serif font-normal italic tracking-normal text-white text-4xl sm:text-6xl lg:text-[60px] xl:text-[70px] capitalize mt-1 drop-shadow-md">
+                Perspective
+              </span>
+            </h2>
+
+            {/* 4 Optics Specs Cards in 2x2 Grid */}
+            <div className="grid grid-cols-2 gap-3 font-mono text-xs w-full max-w-lg">
+              <div className="bg-white/[0.04] p-3 sm:p-3.5 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
+                <span className="text-neutral-500 uppercase tracking-widest text-[9px] mb-1">
+                  MEDIUM
+                </span>
+                <span className="text-white font-semibold text-xs sm:text-sm">
+                  120 Film &amp; Medium Format
+                </span>
+              </div>
+
+              <div className="bg-white/[0.04] p-3 sm:p-3.5 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
+                <span className="text-neutral-500 uppercase tracking-widest text-[9px] mb-1">
+                  OPTICS
+                </span>
+                <span className="text-white font-semibold text-xs sm:text-sm">
+                  Hasselblad HC &amp; Leica
+                </span>
+              </div>
+
+              <div className="bg-white/[0.04] p-3 sm:p-3.5 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
+                <span className="text-neutral-500 uppercase tracking-widest text-[9px] mb-1">
+                  EMULSION
+                </span>
+                <span className="text-white font-semibold text-xs sm:text-sm">
+                  Tri-X 400 &amp; Portra 800
+                </span>
+              </div>
+
+              <div className="bg-white/[0.04] p-3 sm:p-3.5 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
+                <span className="text-neutral-500 uppercase tracking-widest text-[9px] mb-1">
+                  ATMOSPHERE
+                </span>
+                <span className="text-white font-semibold text-xs sm:text-sm">
+                  Chiaroscuro &amp; Grain
+                </span>
+              </div>
+            </div>
           </div>
 
-          {/* Giant Headline */}
-          <h2 className="font-sans font-black text-4xl sm:text-6xl lg:text-[76px] leading-[0.95] tracking-tighter text-white uppercase">
-            <span className="inline font-black tracking-tight text-white">MASTER OF LIGHT &amp; </span>
-            <span className="inline font-serif font-normal italic tracking-normal text-white text-5xl sm:text-7xl lg:text-[84px] capitalize drop-shadow-md">
-              Perspective
-            </span>
-          </h2>
-        </div>
-
-        {/* ROW 2: Side-by-Side Content Split (50% Specs Left / 50% Narrative Right) */}
-        <div className="w-full flex flex-col md:flex-row gap-8 lg:gap-14 items-start justify-between text-left">
-          {/* Left Side: 4 Photography Optics & Craft Cards */}
-          <div className="w-full md:w-1/2 grid grid-cols-2 gap-3.5 font-mono text-xs">
-            <div className="bg-white/[0.04] p-4 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
-              <span className="text-neutral-500 uppercase tracking-widest text-[10px] mb-1">
-                MEDIUM
-              </span>
-              <span className="text-white font-semibold text-xs sm:text-sm">
-                120 Film &amp; Medium Format
-              </span>
-            </div>
-
-            <div className="bg-white/[0.04] p-4 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
-              <span className="text-neutral-500 uppercase tracking-widest text-[10px] mb-1">
-                OPTICS
-              </span>
-              <span className="text-white font-semibold text-xs sm:text-sm">
-                Hasselblad HC &amp; Leica
-              </span>
-            </div>
-
-            <div className="bg-white/[0.04] p-4 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
-              <span className="text-neutral-500 uppercase tracking-widest text-[10px] mb-1">
-                EMULSION
-              </span>
-              <span className="text-white font-semibold text-xs sm:text-sm">
-                Tri-X 400 &amp; Portra 800
-              </span>
-            </div>
-
-            <div className="bg-white/[0.04] p-4 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
-              <span className="text-neutral-500 uppercase tracking-widest text-[10px] mb-1">
-                ATMOSPHERE
-              </span>
-              <span className="text-white font-semibold text-xs sm:text-sm">
-                Chiaroscuro &amp; Grain
-              </span>
-            </div>
-          </div>
-
-          {/* Right Side: Narrative Editorial Statement & Meta Bar */}
-          <div className="w-full md:w-1/2 flex flex-col justify-between pt-1">
-            <p className="font-sans font-normal text-lg sm:text-xl lg:text-[23px] leading-[1.4] tracking-tight text-neutral-200 mb-6">
+          {/* STRICT RIGHT 50% OF WINDOW */}
+          <div
+            style={{ width: '50%' }}
+            className="pl-4 sm:pl-8 lg:pl-14 flex flex-col justify-between text-left pt-2 sm:pt-4"
+          >
+            <p className="font-sans font-normal text-base sm:text-xl lg:text-[23px] xl:text-[27px] leading-[1.38] tracking-tight text-neutral-200 mb-8">
               Concept-driven, atmospheric and cinematic. Our visual laboratory creates enduring imagery for visionary brands and authentic people. In the disciplines of editorial campaigns, lookbooks, gallery exhibitions and medium format. Between analogue craft and contemporary vision. Frame it, preserve it, treasure it forever. This is <span className="font-extrabold text-white underline decoration-amber-400/50 decoration-2 underline-offset-4">SIMON Photography</span>.
             </p>
 
-            {/* Bottom Metadata Bar */}
-            <div className="flex flex-wrap items-center gap-6 pt-5 border-t border-white/15 text-xs font-mono text-neutral-400 uppercase tracking-wider">
+            {/* Bottom Photography Meta Bar */}
+            <div className="flex flex-wrap items-center gap-6 pt-6 border-t border-white/15 text-xs font-mono text-neutral-400 uppercase tracking-wider">
               <div>
                 <span className="text-neutral-500">DISCIPLINE:</span>{' '}
                 <span className="text-white font-semibold">MEDIUM FORMAT &amp; 120 FILM</span>

@@ -137,11 +137,18 @@ export default function ParallaxPages() {
           </div>
 
           <div class="slide-copy absolute inset-0 flex items-center justify-center w-full overflow-hidden z-20 pointer-events-auto">
-            <div class="slide-marquee w-full overflow-hidden py-8 sm:py-12">
-              <div class="marquee-container w-[1000%] flex whitespace-nowrap gap-12 will-change-transform">
-                <span class="font-sans font-extrabold text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-[1.3] text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.04]" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
-                  ${slideData.marquee} ${slideData.marquee} ${slideData.marquee}
-                </span>
+            <div class="slide-marquee w-full overflow-hidden py-16 sm:py-24 lg:py-28 flex items-center">
+              <div class="marquee-track flex whitespace-nowrap will-change-transform" style="width: max-content;">
+                <div class="marquee-group flex items-center shrink-0 pr-8">
+                  <span class="marquee-text font-sans font-black text-5xl sm:text-7xl md:text-8xl lg:text-[105px] xl:text-[120px] leading-[1.4] py-4 text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
+                    ${slideData.marquee} • ${slideData.marquee} • &nbsp;
+                  </span>
+                </div>
+                <div class="marquee-group flex items-center shrink-0 pr-8">
+                  <span class="marquee-text font-sans font-black text-5xl sm:text-7xl md:text-8xl lg:text-[105px] xl:text-[120px] leading-[1.4] py-4 text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
+                    ${slideData.marquee} • ${slideData.marquee} • &nbsp;
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -149,18 +156,18 @@ export default function ParallaxPages() {
         return slide;
       };
 
-      // 4. Infinite Marquee Engine
+      // 4. Infinite Zero-Jitter Marquee Engine (100% Mathematically Seamless Wrap at -50%)
       const animateMarquee = () => {
-        const containers = carousel.querySelectorAll('.marquee-container');
-        if (!containers.length) return;
+        const tracks = carousel.querySelectorAll('.marquee-track');
+        if (!tracks.length) return;
 
-        const step = 0.09 * scrollDirRef.current;
+        const step = 0.08 * scrollDirRef.current;
         marqueeXRef.current -= step;
 
-        const wrappedX = gsap.utils.wrap(-33.33, 0, marqueeXRef.current);
+        const wrappedX = gsap.utils.wrap(-50, 0, marqueeXRef.current);
 
-        containers.forEach((container) => {
-          gsap.set(container, { xPercent: wrappedX });
+        tracks.forEach((track) => {
+          gsap.set(track, { xPercent: wrappedX });
         });
       };
 
@@ -460,21 +467,38 @@ export default function ParallaxPages() {
           </div>
 
           <div className="slide-copy absolute inset-0 flex items-center justify-center w-full overflow-hidden z-20 pointer-events-auto">
-            <div className="slide-marquee w-full overflow-hidden py-8 sm:py-12">
-              <div className="marquee-container w-[1000%] flex whitespace-nowrap gap-12 will-change-transform">
-                <span
-                  className="font-sans font-extrabold text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-[1.3] text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.04]"
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = 'transparent';
-                    e.currentTarget.style.WebkitTextStroke = '1.5px rgba(255, 255, 255, 0.9)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = '#ffffff';
-                    e.currentTarget.style.WebkitTextStroke = '0px transparent';
-                  }}
-                >
-                  {PAGES[0].marquee} {PAGES[0].marquee} {PAGES[0].marquee}
-                </span>
+            <div className="slide-marquee w-full overflow-hidden py-16 sm:py-24 lg:py-28 flex items-center">
+              <div className="marquee-track flex whitespace-nowrap will-change-transform" style={{ width: 'max-content' }}>
+                <div className="marquee-group flex items-center shrink-0 pr-8">
+                  <span
+                    className="marquee-text font-sans font-black text-5xl sm:text-7xl md:text-8xl lg:text-[105px] xl:text-[120px] leading-[1.4] py-4 text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto"
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'transparent';
+                      e.currentTarget.style.WebkitTextStroke = '1.5px rgba(255, 255, 255, 0.9)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = '#ffffff';
+                      e.currentTarget.style.WebkitTextStroke = '0px transparent';
+                    }}
+                  >
+                    {PAGES[0].marquee} • {PAGES[0].marquee} • &nbsp;
+                  </span>
+                </div>
+                <div className="marquee-group flex items-center shrink-0 pr-8">
+                  <span
+                    className="marquee-text font-sans font-black text-5xl sm:text-7xl md:text-8xl lg:text-[105px] xl:text-[120px] leading-[1.4] py-4 text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto"
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = 'transparent';
+                      e.currentTarget.style.WebkitTextStroke = '1.5px rgba(255, 255, 255, 0.9)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = '#ffffff';
+                      e.currentTarget.style.WebkitTextStroke = '0px transparent';
+                    }}
+                  >
+                    {PAGES[0].marquee} • {PAGES[0].marquee} • &nbsp;
+                  </span>
+                </div>
               </div>
             </div>
           </div>
