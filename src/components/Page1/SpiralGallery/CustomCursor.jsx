@@ -1,24 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
+import React, { useEffect, useRef, useState, memo } from 'react';
 
-export const CustomCursor = () => {
+export const CustomCursorComponent = ({ isSection1Active = true }) => {
   const cursorRef = useRef(null);
   const hLineRef = useRef(null);
   const vLineRef = useRef(null);
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      // Check if mouse is hovering over interactive lower pages, mask boxes, or menu overlay
-      const overExcluded = !!e.target.closest('#page-2-container, #perspectives-section, #visual-disciplines-section, #magnetic-spotlight-section, #slanted-marquee-section, #featured-series-section, #spotlight-marquee-section, #footer-section, #menu-overlay-container, .darkroom-mask-box');
+      // If Section 1 is no longer active (scrolled past hero) or hovering lower interactive sections
+      if (!isSection1Active || window.scrollY > window.innerHeight * 0.8) {
+        setIsVisible(false);
+        return;
+      }
+
+      const overExcluded = !!e.target.closest('#manifesto-section, #page-2-container, #perspectives-section, #visual-disciplines-section, #magnetic-spotlight-section, #slanted-marquee-section, #featured-series-section, #spotlight-marquee-section, #footer-section, #menu-overlay-container, .darkroom-mask-box');
       if (overExcluded) {
         setIsVisible(false);
         return;
       }
 
       setIsVisible(true);
-      setCoords({ x: Math.round(e.clientX), y: Math.round(e.clientY) });
 
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
@@ -38,7 +40,9 @@ export const CustomCursor = () => {
     };
 
     const handleMouseEnter = () => {
-      setIsVisible(true);
+      if (isSection1Active && window.scrollY <= window.innerHeight * 0.8) {
+        setIsVisible(true);
+      }
     };
 
     window.addEventListener('mousemove', handleMouseMove);
@@ -50,7 +54,9 @@ export const CustomCursor = () => {
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, []);
+  }, [isSection1Active]);
+
+  const shouldRenderVisible = isVisible && isSection1Active;
 
   return (
     <>
@@ -66,7 +72,7 @@ export const CustomCursor = () => {
           backgroundColor: 'rgba(255, 255, 255, 0.12)',
           pointerEvents: 'none',
           zIndex: 9998,
-          opacity: isVisible ? 1 : 0,
+          opacity: shouldRenderVisible ? 1 : 0,
           transition: 'opacity 0.25s ease'
         }}
       />
@@ -83,7 +89,7 @@ export const CustomCursor = () => {
           backgroundColor: 'rgba(255, 255, 255, 0.12)',
           pointerEvents: 'none',
           zIndex: 9998,
-          opacity: isVisible ? 1 : 0,
+          opacity: shouldRenderVisible ? 1 : 0,
           transition: 'opacity 0.25s ease'
         }}
       />
@@ -110,7 +116,7 @@ export const CustomCursor = () => {
           lineHeight: 1,
           userSelect: 'none',
           mixBlendMode: 'difference',
-          opacity: isVisible ? 1 : 0,
+          opacity: shouldRenderVisible ? 1 : 0,
           transition: 'opacity 0.2s ease'
         }}
       >
@@ -119,3 +125,6 @@ export const CustomCursor = () => {
     </>
   );
 };
+
+export const CustomCursor = memo(CustomCursorComponent);
+export default CustomCursor;

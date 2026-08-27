@@ -67,7 +67,8 @@ export const Page1Component = ({ onOpenMenu }) => {
       {/* Global Continuous Animated Analog Film Grain Overlay */}
       <FilmGrain />
 
-      <CustomCursor />
+      {/* Custom + Cursor (Restricted exclusively to Section 1) */}
+      <CustomCursor isSection1Active={isSection1Active} />
 
       {/* Section 1 Background Typography & Menu Trigger: Visible exclusively in Section 1 */}
       <BackgroundTypography 
@@ -89,37 +90,40 @@ export const Page1Component = ({ onOpenMenu }) => {
       {/* Section 1 Space: Spacer for 3D Camera Path */}
       <div className="page1-hero-spacer" />
 
-      {/* Section 2: Cursor Trail Gallery */}
-      <div id="page-2-container">
-        <CursorTrail />
+      {/* Solid Editorial Container wrapping all lower sections to eliminate any canvas bleed-through */}
+      <div className="page1-editorial-container" style={{ background: '#0a0a0c', position: 'relative', zIndex: 10, width: '100%' }}>
+        {/* Section 2: Cursor Trail Gallery */}
+        <div id="page-2-container">
+          <CursorTrail />
+        </div>
+
+        {/* Section 3: Perspectives Photography Editorial Grid */}
+        <PerspectivesGrid />
+
+        {/* Section 4: Visual Disciplines Typography Showcase */}
+        <VisualDisciplines />
+
+        {/* Section 5: Studio Manifesto */}
+        <StudioManifesto />
+
+        {/* Section 6: Expanding Gallery */}
+        <ExpandingGallery />
+
+        {/* Section 7: Spotlight Interactive Cards (Physics Engine) */}
+        <SpotlightCards />
+
+        {/* Section 8: Slanted Kinetic Ribbon Marquee */}
+        <SlantedMarquee />
+
+        {/* Section 9: Featured Photography Series */}
+        <FeaturedSeries />
+
+        {/* Section 10: Spotlight Infinite Marquee Gallery */}
+        <SpotlightMarquee />
+
+        {/* Footer Section */}
+        <Footer />
       </div>
-
-      {/* Section 3: Perspectives Photography Editorial Grid */}
-      <PerspectivesGrid />
-
-      {/* Section 4: Visual Disciplines Typography Showcase */}
-      <VisualDisciplines />
-
-      {/* Section 5: Studio Manifesto */}
-      <StudioManifesto />
-
-      {/* Section 6: Expanding Gallery */}
-      <ExpandingGallery />
-
-      {/* Section 7: Spotlight Interactive Cards (Physics Engine) */}
-      <SpotlightCards />
-
-      {/* Section 8: Slanted Kinetic Ribbon Marquee */}
-      <SlantedMarquee />
-
-      {/* Section 9: Featured Photography Series */}
-      <FeaturedSeries />
-
-      {/* Section 10: Spotlight Infinite Marquee Gallery */}
-      <SpotlightMarquee />
-
-      {/* Footer Section */}
-      <Footer />
     </div>
   );
 };

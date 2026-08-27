@@ -21,6 +21,9 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
   const trailQueueRef = useRef([]);
 
   useEffect(() => {
+    // Eagerly pre-warm all 57 trail images into GPU memory
+    globalImageCache.preloadAll();
+
     const container = containerRef.current;
     if (!container) return;
     const parent = container.parentElement || container;
@@ -59,6 +62,8 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
       const imgEl = document.createElement('img');
       imgEl.src = currentImgObj.url;
       imgEl.alt = "cursor trail asset";
+      imgEl.decoding = 'async';
+      imgEl.loading = 'eager';
       imgEl.style.position = 'absolute';
       imgEl.style.top = '0px';
       imgEl.style.left = '0px';
@@ -70,6 +75,11 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
       imgEl.style.height = `${IMAGE_SIZE}px`;
       imgEl.style.willChange = 'transform, opacity';
       imgEl.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.55)';
+
+      // Auto-fallback in case any individual image network fails
+      imgEl.onerror = () => {
+        imgEl.src = TRAIL_IMAGES[0].url;
+      };
 
       container.appendChild(imgEl);
 
@@ -226,5 +236,6 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
     />
   );
 };
+
 export const CursorTrail = memo(CursorTrailComponent);
 export default CursorTrail;

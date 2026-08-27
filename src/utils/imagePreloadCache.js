@@ -1,6 +1,6 @@
 /**
  * Global Eager Image & GIF Preload Cache
- * Pre-decodes all cursor trail images and menu GIFs into GPU memory upfront
+ * Pre-decodes all 57 cursor trail images and menu GIFs into GPU memory upfront
  * so interactions have 0ms spawn latency and 0 missing frames.
  */
 import { TRAIL_IMAGES } from '../data/page1/trailImagesData';
@@ -10,6 +10,7 @@ const MENU_GIF_URLS = Array.from({ length: 8 }, (_, i) => `/assets/page1/menu-gi
 class ImagePreloadCache {
   constructor() {
     this.cache = new Map();
+    this.loadedUrls = new Set();
     this.isPreloaded = false;
     this.init();
   }
@@ -18,7 +19,7 @@ class ImagePreloadCache {
     if (typeof window === 'undefined' || this.isPreloaded) return;
     this.isPreloaded = true;
 
-    // 1. Preload and decode all 57 cursor trail WebPs
+    // 1. Eagerly preload and GPU-decode all 57 cursor trail WebPs immediately
     TRAIL_IMAGES.forEach((item) => {
       this.preload(item.url);
     });
@@ -35,11 +36,20 @@ class ImagePreloadCache {
     const img = new Image();
     img.src = url;
     
-    // Use HTMLImageElement.decode() if supported for zero-jank frame rendering
+    // Track when image is completely loaded
+    img.onload = () => {
+      this.loadedUrls.add(url);
+    };
+
+    // Use HTMLImageElement.decode() for zero-jank immediate frame rendering
     if ('decode' in img) {
-      img.decode().catch(() => {
-        // Fallback gracefully on decode failure
-      });
+      img.decode()
+        .then(() => {
+          this.loadedUrls.add(url);
+        })
+        .catch(() => {
+          this.loadedUrls.add(url);
+        });
     }
 
     this.cache.set(url, img);
@@ -51,6 +61,16 @@ class ImagePreloadCache {
       return this.preload(url);
     }
     return this.cache.get(url);
+  }
+
+  isReady(url) {
+    return this.loadedUrls.has(url);
+  }
+
+  preloadAll() {
+    TRAIL_IMAGES.forEach((item) => {
+      this.preload(item.url);
+    });
   }
 }
 
