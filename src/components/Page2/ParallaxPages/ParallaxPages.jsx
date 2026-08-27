@@ -559,15 +559,17 @@ export default function ParallaxPages() {
         {/* Rotating 3D Card Parent Container */}
         <div
           ref={newsCardRef}
-          className="relative w-full max-w-[92vw] min-h-[520px] max-h-[760px] bg-[#32323a] border border-white/20 rounded-[28px] [transform-style:preserve-3d] shadow-[0_35px_80px_rgba(0,0,0,0.95)]"
+          className="relative w-full max-w-[92vw] min-h-[520px] max-h-[760px] border border-white/30 rounded-[28px] [transform-style:preserve-3d] shadow-[0_35px_80px_rgba(0,0,0,0.95)]"
           style={{
+            backgroundColor: '#4a4a54',
             transformOrigin: 'center center',
           }}
         >
-          {/* FRONT FACE PLANE: Solid Opaque GREY Base Plate (#32323a) */}
+          {/* FRONT FACE PLANE: Solid Opaque Distinct GREY Base Plate (#4a4a54) */}
           <div
-            className="w-full h-full p-8 sm:p-12 lg:p-14 flex flex-col justify-center select-none"
+            className="w-full h-full p-8 sm:p-12 lg:p-14 flex flex-col justify-center select-none rounded-[28px]"
             style={{
+              backgroundColor: '#4a4a54',
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
             }}
@@ -630,26 +632,27 @@ export default function ParallaxPages() {
             </div>
           </div>
 
-          {/* BACK FACE PLANE: Solid Opaque GREY Base Plate (#32323a) with ONLY "scroll more to read" / "read more" */}
+          {/* BACK FACE PLANE: Solid Opaque Distinct GREY Base Plate (#4a4a54) with ONLY "scroll more to read" / "read more" */}
           <div
-            className="absolute inset-0 w-full h-full bg-[#32323a] border border-white/20 rounded-[28px] flex items-center justify-center select-none"
+            className="absolute inset-0 w-full h-full border border-white/30 rounded-[28px] flex items-center justify-center select-none"
             style={{
+              backgroundColor: '#4a4a54',
               transform: 'rotateY(180deg)',
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
             }}
           >
-            {/* Center Content: ONLY "read more" / "SCROLL MORE TO READ" on Clean Solid Grey Plate */}
+            {/* Center Content: ONLY "read more" / "SCROLL MORE TO READ" on Clean Distinct Solid Grey Plate */}
             <div ref={newsCtaRef} className="opacity-0 filter blur-lg flex flex-col items-center justify-center gap-3">
               <span
                 onClick={() => {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="font-serif italic text-5xl sm:text-7xl lg:text-8xl text-white hover:text-neutral-300 transition-colors cursor-pointer tracking-wide drop-shadow-lg"
+                className="font-serif italic text-5xl sm:text-7xl lg:text-8xl text-white hover:text-neutral-200 transition-colors cursor-pointer tracking-wide drop-shadow-lg"
               >
                 read more
               </span>
-              <span className="text-xs font-mono tracking-[0.35em] text-neutral-400 uppercase">
+              <span className="text-xs font-mono tracking-[0.35em] text-neutral-200 uppercase font-semibold">
                 SCROLL MORE TO READ
               </span>
             </div>
