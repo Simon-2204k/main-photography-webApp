@@ -51,9 +51,6 @@ export default function ParallaxPages() {
   const previousProgressRef = useRef(0);
   const isAnimatingRef = useRef(false);
 
-  const newsContainerRef = useRef(null);
-  const newsCardRef = useRef(null);
-  const newsCtaRef = useRef(null);
 
   useEffect(() => {
     progressBarRefs.current = progressBarRefs.current.slice(0, PAGES.length);
@@ -347,47 +344,7 @@ export default function ParallaxPages() {
         },
       });
 
-      // 7. 3-Step Outro Card Sequence with 3D Flip & Solid GREY Base Plate
-      const newsContainer = newsContainerRef.current;
-      const newsCard = newsCardRef.current;
-      const newsCta = newsCtaRef.current;
-
-      if (newsContainer && newsCard && newsCta) {
-        const outroTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: newsContainer,
-            start: 'top top',
-            end: '+=350%',
-            pin: true,
-            pinSpacing: true,
-            scrub: 2,
-          },
-        });
-
-        // Step 1: Scale down from full screen (1 -> 0.8) and round corners (0px -> 28px)
-        outroTl.to(newsCard, {
-          scale: 0.8,
-          borderRadius: '28px',
-          duration: 1.2,
-          ease: 'power2.inOut',
-        });
-
-        // Step 2: 3D Flip 180 degrees on Y-axis
-        outroTl.to(newsCard, {
-          rotationY: 180,
-          duration: 1.5,
-          ease: 'power2.inOut',
-        });
-
-        // Step 3: Button on back face resolves Blur to Clear
-        outroTl.fromTo(
-          newsCta,
-          { opacity: 0, filter: 'blur(16px)', scale: 0.9 },
-          { opacity: 1, filter: 'blur(0px)', scale: 1, duration: 1, ease: 'power2.out' }
-        );
-      }
-
-      // 8. Zero-Jitter Infinite Left-to-Right Marquee for Footer
+      // 7. Zero-Jitter Infinite Left-to-Right Marquee for Footer
       const footerTrack = containerRef.current?.querySelector('.footer-marquee-track');
       let footerX = -50;
       const animateFooterMarquee = () => {
@@ -565,118 +522,6 @@ export default function ParallaxPages() {
               <div className="md:col-span-8 font-sans font-normal text-sm sm:text-base text-neutral-300 leading-relaxed">
                 Curating gallery-grade prints, limited-edition monographs, and visual exhibitions with timeless framing, museum-quality color calibration, and uncompromising physical craft.
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 
-        ========================================================================
-        3-STEP PINNED GSAP OUTRO CARD: SOLID GREY BASE PLATE & CLEAN "read more"
-        ========================================================================
-      */}
-      <div
-        ref={newsContainerRef}
-        id="outro-black"
-        className="relative w-full h-screen bg-black z-40 flex items-center justify-center overflow-hidden [perspective:1400px] border-none"
-      >
-        {/* Rotating 3D Card Parent Container */}
-        <div
-          ref={newsCardRef}
-          className="relative w-full max-w-[92vw] min-h-[520px] max-h-[760px] border border-white/20 rounded-[28px] [transform-style:preserve-3d] shadow-[0_35px_80px_rgba(0,0,0,0.95)]"
-          style={{
-            transformOrigin: 'center center',
-          }}
-        >
-          {/* FRONT FACE PLANE: Normal Background (Same as page background: #0a0a0c) */}
-          <div
-            className="w-full h-full p-8 sm:p-12 lg:p-14 flex flex-col justify-center select-none rounded-[28px] bg-[#0a0a0c]"
-            style={{
-              backfaceVisibility: 'hidden',
-              WebkitBackfaceVisibility: 'hidden',
-            }}
-          >
-            {/* Section Heading */}
-            <div className="mb-6 sm:mb-8">
-              <h2 className="font-sans font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.15] text-white">
-                Latest news from the world of SIMON Photography
-              </h2>
-            </div>
-
-            {/* 3-Column News Card Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                {
-                  id: 1,
-                  category: 'Denner',
-                  title: 'SIMON Studio & Manifesto Visuals: Denner Editorial Series with Granit Xhaka and Terence Hill, Captured Cinematically',
-                  image: '/img1.jpg',
-                },
-                {
-                  id: 2,
-                  category: 'Migros Gruppe',
-                  title: 'New Corporate Photo Identity for the Migros Group',
-                  image: '/img2.jpg',
-                },
-                {
-                  id: 3,
-                  category: 'Denner',
-                  title: 'Denner signs the Easter Bunny as official model for spring photoshoot',
-                  image: '/img3.jpg',
-                },
-              ].map((item) => (
-                <article
-                  key={item.id}
-                  className="flex flex-col bg-[#16161c] rounded-xl border border-white/15 overflow-hidden select-none shadow-[0_20px_40px_rgba(0,0,0,0.7)] hover:border-white/40 transition-colors"
-                >
-                  {/* Card Image */}
-                  <div className="relative w-full aspect-[4/3] overflow-hidden bg-neutral-900">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover object-center rounded-none transform transition-transform duration-500 hover:scale-105"
-                    />
-                  </div>
-
-                  {/* Card Text Details Content */}
-                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between bg-[#16161c]">
-                    <div>
-                      <span className="block text-xs font-mono text-neutral-400 mb-2 uppercase tracking-wider">
-                        {item.category}
-                      </span>
-                      <h3 className="font-sans font-semibold text-base sm:text-lg text-white leading-snug">
-                        {item.title}
-                      </h3>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-
-          {/* BACK FACE PLANE: ONLY "read more" / "SCROLL MORE TO READ" on Solid Distinct GREY Base Plate (#4a4a54) */}
-          <div
-            className="absolute inset-0 w-full h-full border border-white/30 rounded-[28px] flex items-center justify-center select-none"
-            style={{
-              backgroundColor: '#4a4a54',
-              transform: 'rotateY(180deg)',
-              backfaceVisibility: 'hidden',
-              WebkitBackfaceVisibility: 'hidden',
-            }}
-          >
-            {/* Center Content: ONLY "read more" / "SCROLL MORE TO READ" on Clean Distinct Solid Grey Plate */}
-            <div ref={newsCtaRef} className="opacity-0 filter blur-lg flex flex-col items-center justify-center gap-3">
-              <span
-                onClick={() => {
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="font-serif italic text-5xl sm:text-7xl lg:text-8xl text-white hover:text-neutral-200 transition-colors cursor-pointer tracking-wide drop-shadow-lg"
-              >
-                read more
-              </span>
-              <span className="text-xs font-mono tracking-[0.35em] text-neutral-200 uppercase font-semibold">
-                SCROLL MORE TO READ
-              </span>
             </div>
           </div>
         </div>
