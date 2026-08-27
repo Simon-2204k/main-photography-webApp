@@ -7,12 +7,18 @@ import { FilmGrain } from '../../components/Page1/FilmGrain/FilmGrain';
 import { CustomCursor } from '../../components/Page1/SpiralGallery/CustomCursor';
 import { DesktopOnlyNotice } from '../../components/Page1/DesktopOnlyNotice/DesktopOnlyNotice';
 
+// Section 1: Darkroom HUD Video Canvas & Telemetry
 import { DarkroomCanvas } from '../../components/Page2/DarkroomCanvas/DarkroomCanvas';
 import { DarkroomHeader } from '../../components/Page2/DarkroomHeader/DarkroomHeader';
 import { DarkroomGridGrain } from '../../components/Page2/DarkroomGridGrain/DarkroomGridGrain';
 
-// Exact components from copyFromThisFolder/PAGE_1
+// Section 2: 49-Frame Image Sequence with MODERN / HIGH QUALITY / FRESH tags & scroll reveal
+import { HeroCanvas } from '../../components/Page2/HeroCanvas/HeroCanvas';
+
+// Section 3: Statement Text Page with Alpha Gradient Mask
 import { ThisIsESE } from '../../components/Page2/ThisIsESE/ThisIsESE';
+
+// Section 4: 6-Slide Codegrid Parallax Carousel + 5 GIFs Bio + 3D Flip Card + Video Reveal + Footer
 import ParallaxPages from '../../components/Page2/ParallaxPages/ParallaxPages';
 
 import './PageOneStyles.css';
@@ -76,10 +82,13 @@ export const Page2Component = ({ onOpenMenu }) => {
         <DarkroomCanvas />
       </section>
 
-      {/* Section 2: Statement Text Page (from copyFromThisFolder/PAGE_1) */}
+      {/* Section 2: 49-Frame Image Sequence with MODERN / HIGH QUALITY / FRESH tags & scroll reveal */}
+      <HeroCanvas />
+
+      {/* Section 3: Statement Text Page */}
       <ThisIsESE />
 
-      {/* Section 3: 6-Page Cinematic Parallax Carousel + Outro Suite (from copyFromThisFolder/PAGE_1) */}
+      {/* Section 4: 6-Page Cinematic Parallax Carousel + Bio Statement + 3D Flip Card + Video Reveal + Footer */}
       <ParallaxPages />
     </div>
   );
