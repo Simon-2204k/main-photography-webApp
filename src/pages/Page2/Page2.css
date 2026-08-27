@@ -1,11 +1,19 @@
 .page2-root-wrapper {
   position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #000000;
+  color: #ffffff;
+  overflow-x: hidden;
+  user-select: none;
+}
+
+.darkroom-hero-wrapper {
+  position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: #030305;
-  color: #ffffff;
   overflow: hidden;
-  user-select: none;
+  background-color: #000000;
 }
 
 /* Hide on mobile/tablets (< 1024px) */

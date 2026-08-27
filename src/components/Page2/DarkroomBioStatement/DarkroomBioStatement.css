@@ -1,0 +1,73 @@
+.darkroom-bio-section {
+  position: relative;
+  width: 100%;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 10rem clamp(1.5rem, 5vw, 6rem);
+  z-index: 30;
+  box-sizing: border-box;
+}
+
+.darkroom-bio-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.darkroom-bio-text {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+  font-weight: 400;
+  font-size: clamp(2rem, 3.8vw, 3.75rem);
+  line-height: 1.45;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  user-select: none;
+}
+
+.darkroom-bio-highlight {
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.darkroom-gif-capsule {
+  display: inline-flex;
+  vertical-align: middle;
+  margin: 0 0.5rem;
+  height: clamp(52px, 6.5vw, 84px);
+  width: clamp(100px, 12vw, 180px);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background-color: #111111;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  transform: translateY(-2px);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.darkroom-gif-capsule:hover {
+  transform: translateY(-4px) scale(1.06);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 12px 32px rgba(255, 255, 255, 0.15);
+}
+
+.darkroom-gif-capsule img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .darkroom-bio-section {
+    padding: 6rem 1.5rem;
+  }
+  .darkroom-bio-text {
+    font-size: 1.6rem;
+    line-height: 1.5;
+  }
+  .darkroom-gif-capsule {
+    height: 42px;
+    width: 82px;
+    margin: 0 0.3rem;
+  }
+}

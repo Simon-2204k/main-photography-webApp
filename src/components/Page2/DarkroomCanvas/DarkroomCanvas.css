@@ -21,7 +21,7 @@
 
 /* Middle Bar — Modular Segmented Capsule Blocks with Higher Z-Index and Frosted Glass Blur */
 .darkroom-middle-bar-segmented {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -99,9 +99,9 @@
   letter-spacing: 2px;
 }
 
-/* Mask Boxes — Matches Reference style.css Exactly */
+/* Mask Boxes — Absolute within Section 1 container */
 .darkroom-mask-box {
-  position: fixed;
+  position: absolute;
   border: 1px solid rgba(255, 255, 255, 0.3);
   cursor: grab;
   background: #000000;
