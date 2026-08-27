@@ -581,24 +581,24 @@ export default function ParallaxPages() {
             boxShadow: '0 35px 80px rgba(0,0,0,0.95)',
           }}
         >
-          {/* FRONT FACE PLANE: Solid Opaque GREY Base Plate (#2d2d34) */}
+          {/* FRONT FACE PLANE: Solid Opaque GREY Base Plate (#32323a) */}
           <div
-            className="absolute inset-0 w-full h-full bg-[#2d2d34] border border-white/20 p-8 sm:p-12 lg:p-14 rounded-[28px] flex flex-col justify-center [transform-style:preserve-3d] select-none"
+            className="absolute inset-0 w-full h-full bg-[#32323a] border border-white/25 p-8 sm:p-12 lg:p-14 rounded-[28px] flex flex-col justify-center overflow-hidden select-none"
             style={{
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
               transform: 'rotateY(0deg)',
             }}
           >
-            {/* Section Heading with 30px depth */}
-            <div className="mb-6 sm:mb-8" style={{ transform: 'translateZ(30px)', transformStyle: 'preserve-3d' }}>
+            {/* Section Heading */}
+            <div className="mb-6 sm:mb-8">
               <h2 className="font-sans font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.15] text-white">
                 Latest news from the world of SIMON Photography
               </h2>
             </div>
 
-            {/* 3-Column News Card Grid with 100px 3D Levitation Depth */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 [transform-style:preserve-3d]">
+            {/* 3-Column News Card Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 {
                   id: 1,
@@ -621,12 +621,7 @@ export default function ParallaxPages() {
               ].map((item) => (
                 <article
                   key={item.id}
-                  className="flex flex-col bg-[#1e1e22] rounded-xl border border-white/20 overflow-hidden select-none"
-                  style={{
-                    transform: 'translateZ(100px)',
-                    transformStyle: 'preserve-3d',
-                    boxShadow: '0 50px 100px rgba(0, 0, 0, 0.95), 0 20px 40px rgba(0, 0, 0, 0.9)',
-                  }}
+                  className="flex flex-col bg-[#222228] rounded-xl border border-white/20 overflow-hidden select-none shadow-[0_20px_40px_rgba(0,0,0,0.7)] hover:border-white/40 transition-colors"
                 >
                   {/* Card Image */}
                   <div className="relative w-full aspect-[4/3] overflow-hidden bg-neutral-900">
@@ -638,7 +633,7 @@ export default function ParallaxPages() {
                   </div>
 
                   {/* Card Text Details Content */}
-                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between bg-[#1e1e22]">
+                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between bg-[#222228]">
                     <div>
                       <span className="block text-xs font-mono text-neutral-400 mb-2 uppercase tracking-wider">
                         {item.category}
@@ -653,9 +648,9 @@ export default function ParallaxPages() {
             </div>
           </div>
 
-          {/* BACK FACE PLANE: Solid Opaque GREY Base Plate (#2d2d34) with ONLY "scroll more to read" / "read more" */}
+          {/* BACK FACE PLANE: Solid Opaque GREY Base Plate (#32323a) with ONLY "scroll more to read" / "read more" */}
           <div
-            className="absolute inset-0 w-full h-full bg-[#2d2d34] border border-white/20 rounded-[28px] flex items-center justify-center select-none"
+            className="absolute inset-0 w-full h-full bg-[#32323a] border border-white/25 rounded-[28px] flex items-center justify-center select-none"
             style={{
               transform: 'rotateY(180deg)',
               backfaceVisibility: 'hidden',
