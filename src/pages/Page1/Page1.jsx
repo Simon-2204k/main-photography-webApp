@@ -25,7 +25,7 @@ import { DesktopOnlyNotice } from '../../components/Page1/DesktopOnlyNotice/Desk
 import { projectsData } from '../../data/page1/projectsData';
 import './Page1.css';
 
-export const Page1 = () => {
+export const Page1 = ({ onSelectPage }) => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [menuTriggerRect, setMenuTriggerRect] = useState(null);
@@ -95,6 +95,7 @@ export const Page1 = () => {
       <MenuOverlay 
         isOpen={isMenuOpen} 
         onClose={handleCloseMenu} 
+        onSelectPage={onSelectPage}
         triggerRect={menuTriggerRect}
       />
 

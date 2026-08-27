@@ -1,0 +1,139 @@
+.darkroom-canvas-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: #050507;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Hidden offscreen source video */
+.darkroom-source-video {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Darkroom Middle Telemetry Bar */
+.darkroom-middle-bar {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: rgba(14, 14, 18, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 10px 22px;
+  font-family: 'Space Mono', monospace, 'Courier New';
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #d0d0d8;
+  z-index: 12;
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.darkroom-middle-bar .darkroom-sep {
+  color: #666670;
+}
+
+.darkroom-middle-bar .darkroom-status {
+  color: #e5a956;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.darkroom-middle-bar .darkroom-count {
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+  padding-left: 16px;
+  color: #ffffff;
+}
+
+/* HUD Mask Box Container */
+.darkroom-mask-box {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  cursor: grab;
+  background: #000000;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.darkroom-mask-box:hover {
+  border-color: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 255, 255, 0.15);
+}
+
+.darkroom-mask-box.is-dragging {
+  cursor: grabbing !important;
+  border-color: #ffffff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 25px rgba(255, 255, 255, 0.25);
+}
+
+.darkroom-mask-box canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Telemetry Position Badge */
+.darkroom-pos-badge {
+  position: absolute;
+  top: -26px;
+  left: -1px;
+  background: rgba(16, 16, 20, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #e0e0e8;
+  font-family: 'Space Mono', monospace, 'Courier New';
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  letter-spacing: 1.2px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.darkroom-mask-box:hover .darkroom-pos-badge {
+  border-color: rgba(255, 255, 255, 0.75);
+  color: #ffffff;
+}
+
+.darkroom-mask-box.is-dragging .darkroom-pos-badge {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+/* Subtle corner reticles on mask boxes */
+.darkroom-mask-box::before,
+.darkroom-mask-box::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-color: #ffffff;
+  pointer-events: none;
+}
+
+.darkroom-mask-box::before {
+  top: -1px;
+  right: -1px;
+  border-top: 2px solid rgba(255, 255, 255, 0.8);
+  border-right: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.darkroom-mask-box::after {
+  bottom: -1px;
+  left: -1px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+  border-left: 2px solid rgba(255, 255, 255, 0.8);
+}

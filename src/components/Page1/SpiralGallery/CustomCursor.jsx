@@ -10,8 +10,8 @@ export const CustomCursor = () => {
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      // Check if mouse is hovering over interactive lower pages or menu overlay
-      const overExcluded = !!e.target.closest('#page-2-container, #perspectives-section, #visual-disciplines-section, #magnetic-spotlight-section, #slanted-marquee-section, #featured-series-section, #spotlight-marquee-section, #footer-section, #menu-overlay-container');
+      // Check if mouse is hovering over interactive lower pages, mask boxes, or menu overlay
+      const overExcluded = !!e.target.closest('#page-2-container, #perspectives-section, #visual-disciplines-section, #magnetic-spotlight-section, #slanted-marquee-section, #featured-series-section, #spotlight-marquee-section, #footer-section, #menu-overlay-container, .darkroom-mask-box');
       if (overExcluded) {
         setIsVisible(false);
         return;

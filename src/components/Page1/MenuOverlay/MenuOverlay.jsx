@@ -38,7 +38,7 @@ const MENU_ITEMS = [
   },
 ];
 
-export const MenuOverlay = ({ isOpen, onClose, triggerRect }) => {
+export const MenuOverlay = ({ isOpen, onClose, onSelectPage, triggerRect }) => {
   const overlayRef = useRef(null);
   const innerRef = useRef(null);
   const topBarRef = useRef(null);
@@ -223,7 +223,10 @@ export const MenuOverlay = ({ isOpen, onClose, triggerRect }) => {
                 className={`k72-nav-row ${isHovered ? 'hovered-marquee-active' : 'standard-row'}`}
                 onMouseEnter={() => setHoveredIndex(idx)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                onClick={onClose}
+                onClick={() => {
+                  if (onSelectPage) onSelectPage(item.id);
+                  onClose();
+                }}
               >
                 {isHovered ? (
                   /* Dynamic Electric-Lime Marquee Ribbon on Hover with 2 Alternating GIFs */

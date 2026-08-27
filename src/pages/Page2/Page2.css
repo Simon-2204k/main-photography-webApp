@@ -1,0 +1,16 @@
+.page2-root-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: #030305;
+  color: #ffffff;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Hide on mobile/tablets (< 1024px) */
+@media (max-width: 1023px) {
+  .page2-root-wrapper {
+    display: none !important;
+  }
+}
