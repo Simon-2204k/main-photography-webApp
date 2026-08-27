@@ -9,32 +9,32 @@ const PAGES = [
   {
     id: 1,
     image: '/img1.jpg',
-    marquee: 'Cinematic Light, Raw Emotion, and Timeless Framing',
+    marquee: 'Cinematic Light, Raw Emotion, and Timeless Framing ',
   },
   {
     id: 2,
     image: '/img2.jpg',
-    marquee: 'Shadows Define the Depth of Every Story',
+    marquee: 'Shadows Define the Depth of Every Story ',
   },
   {
     id: 3,
     image: '/img3.jpg',
-    marquee: 'Analog Grain, High Contrast, and Vivid Focus',
+    marquee: 'Analog Grain, High Contrast, and Vivid Focus ',
   },
   {
     id: 4,
     image: '/img4.jpeg',
-    marquee: 'Artistry in Canvas, Warm Sunlight, and Brushstrokes',
+    marquee: 'Artistry in Canvas, Warm Sunlight, and Brushstrokes ',
   },
   {
     id: 5,
     image: '/img5.jpeg',
-    marquee: 'Urban Glow, Electric Motion, and Freedom',
+    marquee: 'Urban Glow, Electric Motion, and Freedom ',
   },
   {
     id: 6,
     image: '/img6.jpeg',
-    marquee: 'Atmospheric Rays, Velvet Shadows, and Subtle Grace',
+    marquee: 'Atmospheric Rays, Velvet Shadows, and Subtle Grace ',
   },
 ];
 
@@ -44,7 +44,7 @@ export default function ParallaxPages() {
   const timelineBarRef = useRef(null);
   const progressBarRefs = useRef([]);
   const marqueeXRef = useRef(0);
-  const scrollDirRef = useRef(1);
+  const scrollDirRef = useRef(1); // 1 = Scroll Down (Left), -1 = Scroll Up (Right)
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   const activeIndexRef = useRef(0);
@@ -85,7 +85,7 @@ export default function ParallaxPages() {
         }
       }
 
-      // 3. Helper to Create Slide DOM Element with Camera Viewfinder HUD (Image 3) & Marquee
+      // 3. Helper to Create Slide DOM Element with Camera HUD Overlay
       const createSlideElement = (slideData) => {
         const slide = document.createElement('div');
         slide.className = 'slide absolute inset-0 w-full h-full overflow-hidden flex flex-col justify-center items-center pointer-events-none select-none z-10';
@@ -96,7 +96,7 @@ export default function ParallaxPages() {
 
           <!-- Camera Viewfinder HUD Overlay (Image 3) -->
           <div class="slide-hud absolute inset-0 pointer-events-none z-30 p-6 sm:p-10 lg:p-14 flex flex-col justify-between select-none">
-            <!-- Top HUD Bar: Blinking REC + ISO + WB + BAT -->
+            <!-- Top HUD Bar -->
             <div class="flex justify-between items-center text-xs sm:text-sm font-mono tracking-widest text-white/90">
               <div class="flex items-center gap-2.5">
                 <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse inline-block shadow-[0_0_8px_#ef4444]"></span>
@@ -121,7 +121,7 @@ export default function ParallaxPages() {
               </div>
             </div>
 
-            <!-- Bottom HUD Bar: F-stop, Shutter, EV, Focal Length -->
+            <!-- Bottom HUD Bar -->
             <div class="flex justify-between items-center text-xs sm:text-sm font-mono tracking-widest text-white/90">
               <div class="flex items-center gap-4 text-white/80">
                 <span>F/2.8</span>
@@ -137,13 +137,10 @@ export default function ParallaxPages() {
           </div>
 
           <div class="slide-copy absolute inset-0 flex items-center justify-center w-full overflow-hidden z-20 pointer-events-auto">
-            <div class="slide-marquee w-full overflow-hidden px-0 mx-0 py-8 sm:py-12 lg:py-16">
-              <div class="marquee-track flex whitespace-nowrap will-change-transform py-4" style="width: max-content;">
-                <span class="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-[1.3] text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
-                  ${slideData.marquee} • ${slideData.marquee} • &nbsp;
-                </span>
-                <span class="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-[1.3] text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
-                  ${slideData.marquee} • ${slideData.marquee} • &nbsp;
+            <div class="slide-marquee w-full overflow-hidden py-8 sm:py-12">
+              <div class="marquee-container w-[1000%] flex whitespace-nowrap gap-12 will-change-transform">
+                <span class="font-sans font-extrabold text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-[1.3] text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.04]" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
+                  ${slideData.marquee} ${slideData.marquee} ${slideData.marquee}
                 </span>
               </div>
             </div>
@@ -152,18 +149,18 @@ export default function ParallaxPages() {
         return slide;
       };
 
-      // 4. Zero-Jitter Infinite Marquee Engine
+      // 4. Infinite Marquee Engine
       const animateMarquee = () => {
-        const tracks = carousel.querySelectorAll('.marquee-track');
-        if (!tracks.length) return;
+        const containers = carousel.querySelectorAll('.marquee-container');
+        if (!containers.length) return;
 
-        const step = 0.08 * scrollDirRef.current;
+        const step = 0.09 * scrollDirRef.current;
         marqueeXRef.current -= step;
 
-        const wrappedX = gsap.utils.wrap(-50, 0, marqueeXRef.current);
+        const wrappedX = gsap.utils.wrap(-33.33, 0, marqueeXRef.current);
 
-        tracks.forEach((track) => {
-          gsap.set(track, { xPercent: wrappedX });
+        containers.forEach((container) => {
+          gsap.set(container, { xPercent: wrappedX });
         });
       };
 
@@ -360,9 +357,9 @@ export default function ParallaxPages() {
           },
         });
 
-        // Step 1: Scale down from full screen (1 -> 0.75) and round corners (0px -> 28px)
+        // Step 1: Scale down from full screen (1 -> 0.8) and round corners (0px -> 28px)
         outroTl.to(newsCard, {
-          scale: 0.75,
+          scale: 0.8,
           borderRadius: '28px',
           duration: 1.2,
           ease: 'power2.inOut',
@@ -463,10 +460,10 @@ export default function ParallaxPages() {
           </div>
 
           <div className="slide-copy absolute inset-0 flex items-center justify-center w-full overflow-hidden z-20 pointer-events-auto">
-            <div className="slide-marquee w-full overflow-hidden px-0 mx-0 py-8 sm:py-12 lg:py-16">
-              <div className="marquee-track flex whitespace-nowrap will-change-transform py-4" style={{ width: 'max-content' }}>
+            <div className="slide-marquee w-full overflow-hidden py-8 sm:py-12">
+              <div className="marquee-container w-[1000%] flex whitespace-nowrap gap-12 will-change-transform">
                 <span
-                  className="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-[1.3] text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]"
+                  className="font-sans font-extrabold text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-[1.3] text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.04]"
                   onMouseEnter={(e) => {
                     e.currentTarget.style.color = 'transparent';
                     e.currentTarget.style.WebkitTextStroke = '1.5px rgba(255, 255, 255, 0.9)';
@@ -476,20 +473,7 @@ export default function ParallaxPages() {
                     e.currentTarget.style.WebkitTextStroke = '0px transparent';
                   }}
                 >
-                  ${PAGES[0].marquee} • ${PAGES[0].marquee} • &nbsp;
-                </span>
-                <span
-                  className="marquee-text font-sans font-black text-6xl sm:text-8xl md:text-9xl lg:text-[140px] xl:text-[165px] leading-[1.3] text-white tracking-tight shrink-0 px-8 transition-colors duration-300 cursor-pointer pointer-events-auto hover:scale-[1.03]"
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = 'transparent';
-                    e.currentTarget.style.WebkitTextStroke = '1.5px rgba(255, 255, 255, 0.9)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = '#ffffff';
-                    e.currentTarget.style.WebkitTextStroke = '0px transparent';
-                  }}
-                >
-                  ${PAGES[0].marquee} • ${PAGES[0].marquee} • &nbsp;
+                  {PAGES[0].marquee} {PAGES[0].marquee} {PAGES[0].marquee}
                 </span>
               </div>
             </div>
@@ -575,19 +559,17 @@ export default function ParallaxPages() {
         {/* Rotating 3D Card Parent Container */}
         <div
           ref={newsCardRef}
-          className="relative w-full max-w-[92vw] h-[80vh] max-h-[760px] rounded-[28px] [transform-style:preserve-3d]"
+          className="relative w-full max-w-[92vw] min-h-[520px] max-h-[760px] bg-[#32323a] border border-white/20 rounded-[28px] [transform-style:preserve-3d] shadow-[0_35px_80px_rgba(0,0,0,0.95)]"
           style={{
             transformOrigin: 'center center',
-            boxShadow: '0 35px 80px rgba(0,0,0,0.95)',
           }}
         >
           {/* FRONT FACE PLANE: Solid Opaque GREY Base Plate (#32323a) */}
           <div
-            className="absolute inset-0 w-full h-full bg-[#32323a] border border-white/25 p-8 sm:p-12 lg:p-14 rounded-[28px] flex flex-col justify-center overflow-hidden select-none"
+            className="w-full h-full p-8 sm:p-12 lg:p-14 flex flex-col justify-center select-none"
             style={{
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
-              transform: 'rotateY(0deg)',
             }}
           >
             {/* Section Heading */}
@@ -650,7 +632,7 @@ export default function ParallaxPages() {
 
           {/* BACK FACE PLANE: Solid Opaque GREY Base Plate (#32323a) with ONLY "scroll more to read" / "read more" */}
           <div
-            className="absolute inset-0 w-full h-full bg-[#32323a] border border-white/25 rounded-[28px] flex items-center justify-center select-none"
+            className="absolute inset-0 w-full h-full bg-[#32323a] border border-white/20 rounded-[28px] flex items-center justify-center select-none"
             style={{
               transform: 'rotateY(180deg)',
               backfaceVisibility: 'hidden',
