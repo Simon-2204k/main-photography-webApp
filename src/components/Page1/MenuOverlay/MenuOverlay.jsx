@@ -8,25 +8,25 @@ const MENU_ITEMS = [
     id: 'page1',
     title: 'SEE EVERYTHING',
     category: 'LANDSCAPE / EDITORIAL',
-    gifs: ['/assets/page1/menu-gifs/gif_see_1.gif', '/assets/page1/menu-gifs/gif_see_2.gif'],
+    gifs: ['/assets/page1/menu-gifs/gif_1.gif', '/assets/page1/menu-gifs/gif_2.gif'],
   },
   {
     id: 'page2',
     title: 'DARKROOM',
     category: 'EXPERIMENTAL FILM',
-    gifs: ['/assets/page1/menu-gifs/gif_dark_1.gif', '/assets/page1/menu-gifs/gif_dark_2.gif'],
+    gifs: ['/assets/page1/menu-gifs/gif_3.gif', '/assets/page1/menu-gifs/gif_4.gif'],
   },
   {
     id: 'page3',
     title: 'EXHIBITS',
     category: 'ARCHIVAL GALLERY',
-    gifs: ['/assets/page1/menu-gifs/gif_exhibit_1.gif', '/assets/page1/menu-gifs/gif_exhibit_2.gif'],
+    gifs: ['/assets/page1/menu-gifs/gif_5.gif', '/assets/page1/menu-gifs/gif_6.gif'],
   },
   {
     id: 'page4',
     title: 'SPEC SHEET',
     category: 'ANALOG CAMERAS',
-    gifs: ['/assets/page1/menu-gifs/gif_spec_1.gif', '/assets/page1/menu-gifs/gif_spec_2.gif'],
+    gifs: ['/assets/page1/menu-gifs/gif_7.gif', '/assets/page1/menu-gifs/gif_8.gif'],
   },
 ];
 
