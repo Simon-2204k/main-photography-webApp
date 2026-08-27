@@ -38,10 +38,10 @@ export const ThisIsESEComponent = () => {
     <section
       ref={sectionRef}
       id="about"
-      className="relative z-20 bg-black text-white px-0 overflow-hidden select-none -mt-44 sm:-mt-52"
+      className="relative z-20 bg-black text-white w-full min-h-screen h-screen flex flex-col justify-center px-0 overflow-hidden select-none"
       style={{
-        maskImage: 'linear-gradient(to bottom, transparent 0%, black 220px, black 100%)',
-        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 220px, black 100%)',
+        maskImage: 'linear-gradient(to bottom, transparent 0%, black 140px, black 100%)',
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 140px, black 100%)',
       }}
     >
       {/* 
@@ -51,7 +51,7 @@ export const ThisIsESEComponent = () => {
       */}
       <div
         id="unified-marquee"
-        className="w-full overflow-hidden mb-6 pointer-events-none select-none transition-all duration-300 opacity-0 -translate-y-[10px] z-40 relative pt-12 sm:pt-16"
+        className="w-full overflow-hidden pointer-events-none select-none transition-all duration-300 opacity-0 -translate-y-[10px] z-40 absolute top-8 sm:top-12 left-0"
       >
         <div className="animate-marquee-reverse whitespace-nowrap flex items-center gap-8">
           {[...Array(4)].map((_, i) => (
@@ -67,14 +67,14 @@ export const ThisIsESEComponent = () => {
 
       {/* 
         ========================================================================
-        PUSHED 50VH DOWN -> STRICT 50% LEFT & 50% RIGHT WINDOW SPLIT
+        100VH VERTICALLY CENTERED: STRICT 50% LEFT / 50% RIGHT WINDOW SPLIT
         ========================================================================
       */}
       <div
         ref={contentRef}
-        className="w-full relative z-20 pt-[45vh] sm:pt-[50vh] pb-28 sm:pb-36 lg:pb-44 px-6 sm:px-12 lg:px-20"
+        className="w-full relative z-20 px-6 sm:px-12 lg:px-20 flex items-center justify-center pt-8"
       >
-        <div className="w-full flex flex-row items-start justify-between">
+        <div className="w-full flex flex-row items-center justify-between">
           {/* STRICT LEFT 50% OF WINDOW */}
           <div
             style={{ width: '50%' }}

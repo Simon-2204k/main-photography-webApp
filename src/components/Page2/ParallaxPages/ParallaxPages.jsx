@@ -583,17 +583,15 @@ export default function ParallaxPages() {
         {/* Rotating 3D Card Parent Container */}
         <div
           ref={newsCardRef}
-          className="relative w-full max-w-[92vw] min-h-[520px] max-h-[760px] border border-white/30 rounded-[28px] [transform-style:preserve-3d] shadow-[0_35px_80px_rgba(0,0,0,0.95)]"
+          className="relative w-full max-w-[92vw] min-h-[520px] max-h-[760px] border border-white/20 rounded-[28px] [transform-style:preserve-3d] shadow-[0_35px_80px_rgba(0,0,0,0.95)]"
           style={{
-            backgroundColor: '#4a4a54',
             transformOrigin: 'center center',
           }}
         >
-          {/* FRONT FACE PLANE: Solid Opaque Distinct GREY Base Plate (#4a4a54) */}
+          {/* FRONT FACE PLANE: Normal Background (Same as page background: #0a0a0c) */}
           <div
-            className="w-full h-full p-8 sm:p-12 lg:p-14 flex flex-col justify-center select-none rounded-[28px]"
+            className="w-full h-full p-8 sm:p-12 lg:p-14 flex flex-col justify-center select-none rounded-[28px] bg-[#0a0a0c]"
             style={{
-              backgroundColor: '#4a4a54',
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
             }}
@@ -629,7 +627,7 @@ export default function ParallaxPages() {
               ].map((item) => (
                 <article
                   key={item.id}
-                  className="flex flex-col bg-[#222228] rounded-xl border border-white/20 overflow-hidden select-none shadow-[0_20px_40px_rgba(0,0,0,0.7)] hover:border-white/40 transition-colors"
+                  className="flex flex-col bg-[#16161c] rounded-xl border border-white/15 overflow-hidden select-none shadow-[0_20px_40px_rgba(0,0,0,0.7)] hover:border-white/40 transition-colors"
                 >
                   {/* Card Image */}
                   <div className="relative w-full aspect-[4/3] overflow-hidden bg-neutral-900">
@@ -641,7 +639,7 @@ export default function ParallaxPages() {
                   </div>
 
                   {/* Card Text Details Content */}
-                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between bg-[#222228]">
+                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between bg-[#16161c]">
                     <div>
                       <span className="block text-xs font-mono text-neutral-400 mb-2 uppercase tracking-wider">
                         {item.category}
@@ -656,7 +654,7 @@ export default function ParallaxPages() {
             </div>
           </div>
 
-          {/* BACK FACE PLANE: Solid Opaque Distinct GREY Base Plate (#4a4a54) with ONLY "scroll more to read" / "read more" */}
+          {/* BACK FACE PLANE: ONLY "read more" / "SCROLL MORE TO READ" on Solid Distinct GREY Base Plate (#4a4a54) */}
           <div
             className="absolute inset-0 w-full h-full border border-white/30 rounded-[28px] flex items-center justify-center select-none"
             style={{
