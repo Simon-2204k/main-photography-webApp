@@ -44,7 +44,7 @@ export const ThisIsESEComponent = () => {
         WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 180px, black 100%)',
       }}
     >
-      {/* Subtle Topographical Background Vector Curves (Image 2 style) */}
+      {/* Subtle Topographical Background Vector Curves */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none opacity-10"
         xmlns="http://www.w3.org/2000/svg"
@@ -100,16 +100,16 @@ export const ThisIsESEComponent = () => {
 
       {/* 
         ========================================================================
-        STRICT 2-COLUMN LAYOUT (50% TEXT LEFT / 50% SMALL PHOTOS RIGHT)
+        STRICT 2-COLUMN SIDE-BY-SIDE CONTAINER (50% TEXT LEFT / 50% PHOTOS RIGHT)
         ========================================================================
       */}
       <div
         ref={contentRef}
         className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-14 relative z-20 pt-6 sm:pt-10"
       >
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-10 w-full">
-          {/* Left Column (50% width on md+): Stacked Mixed Typography & Photography Narrative */}
-          <div className="w-full md:w-1/2 flex flex-col justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-between gap-8 md:gap-12 w-full">
+          {/* Left Column: 50% Width Text */}
+          <div className="w-full flex flex-col justify-center">
             {/* Monospace Eyebrow Tag */}
             <div className="inline-flex items-center gap-2 mb-4">
               <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse inline-block shadow-[0_0_8px_#fbbf24]" />
@@ -119,10 +119,10 @@ export const ThisIsESEComponent = () => {
             </div>
 
             {/* Giant 3-Line Mixed Typography Headline */}
-            <h2 className="font-sans font-black text-4xl sm:text-6xl lg:text-[70px] leading-[0.95] tracking-tighter text-white uppercase mb-5">
+            <h2 className="font-sans font-black text-4xl sm:text-6xl lg:text-[68px] leading-[0.95] tracking-tighter text-white uppercase mb-5">
               <span className="block font-black tracking-tight text-white">MASTER OF</span>
               <span className="block font-black tracking-tight text-white">LIGHT &amp;</span>
-              <span className="block font-serif font-normal italic tracking-normal text-white text-5xl sm:text-7xl lg:text-[78px] capitalize mt-1 drop-shadow-md">
+              <span className="block font-serif font-normal italic tracking-normal text-white text-5xl sm:text-7xl lg:text-[76px] capitalize mt-1 drop-shadow-md">
                 Perspective
               </span>
             </h2>
@@ -145,8 +145,8 @@ export const ThisIsESEComponent = () => {
             </div>
           </div>
 
-          {/* Right Column (50% width on md+): Small Randomized Organic Photo Collage */}
-          <div className="w-full md:w-1/2 relative h-[360px] sm:h-[400px] flex items-center justify-center overflow-visible">
+          {/* Right Column: 50% Width Contained Small Photo Collage */}
+          <div className="w-full relative h-[360px] sm:h-[400px] flex items-center justify-center overflow-hidden rounded-2xl">
             {/* Image 1 (Top Left, -12° tilt, small 9:16) */}
             <div className="absolute top-2 left-[5%] w-[95px] h-[168px] sm:w-[105px] sm:h-[186px] aspect-[9/16] rounded-lg overflow-hidden border border-white/20 shadow-[0_15px_30px_rgba(0,0,0,0.85)] transform -rotate-12 z-10 transition-transform duration-500 hover:rotate-0 hover:scale-105">
               <img
