@@ -55,14 +55,14 @@ export const DarkroomCanvasComponent = () => {
     badge.textContent = `X:${x}PX Y:${y}PX`;
   };
 
-  // Drag and drop interaction handlers matching reference
+  // Drag and drop interaction handlers matching reference, capped at zIndex 500
   const handleMouseDown = (e, idx) => {
     e.preventDefault();
     const box = boxRefs.current[idx];
     if (!box) return;
 
     isDraggingRef.current = true;
-    highestZIndexRef.current += 1;
+    highestZIndexRef.current = Math.min(500, highestZIndexRef.current + 1);
     box.style.zIndex = highestZIndexRef.current;
     box.classList.add('is-dragging');
 
@@ -192,15 +192,42 @@ export const DarkroomCanvasComponent = () => {
         preload="auto"
       />
 
-      {/* Middle Bar — Stylized matching reference */}
-      <div className="darkroom-middle-bar">
-        <span className="darkroom-dots-icon">⠿</span>
-        <span>C: \DARKROOM \HOME</span>
-        <span className="darkroom-sep">+</span>
-        <span>CHRONICLES_IN_LIGHT</span>
-        <span>ANALOG, SILVER HALIDE</span>
-        <span>LIVE</span>
-        <span className="darkroom-count">001/001</span>
+      {/* Middle Bar — 6 Modular Segmented Capsule Blocks matching Image 3 Exactly */}
+      <div className="darkroom-middle-bar-segmented">
+        {/* Tile 1: Dot Matrix Grip */}
+        <div className="darkroom-segment segment-grip">
+          <div className="grip-matrix">
+            <span /><span />
+            <span /><span />
+            <span /><span />
+          </div>
+        </div>
+
+        {/* Tile 2: Path & Bold White + */}
+        <div className="darkroom-segment segment-path">
+          <span>C: \DARKROOM \HOME</span>
+          <span className="segment-plus">+</span>
+        </div>
+
+        {/* Tile 3: Title */}
+        <div className="darkroom-segment segment-title">
+          CHRONICLES_IN_LIGHT
+        </div>
+
+        {/* Tile 4: Category */}
+        <div className="darkroom-segment segment-category">
+          ANALOG, SILVER HALIDE
+        </div>
+
+        {/* Tile 5: Status */}
+        <div className="darkroom-segment segment-status">
+          LIVE
+        </div>
+
+        {/* Tile 6: Count */}
+        <div className="darkroom-segment segment-count">
+          001/001
+        </div>
       </div>
 
       {/* 5 Interactive HUD Mask Boxes with Canvas */}

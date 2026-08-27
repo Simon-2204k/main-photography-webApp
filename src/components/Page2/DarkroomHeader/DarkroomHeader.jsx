@@ -10,8 +10,8 @@ export const DarkroomHeaderComponent = ({ onOpenMenu, isVisible = true }) => {
         transform: isVisible ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(-18px)',
         width: '100%',
         textAlign: 'center',
-        pointerEvents: isVisible ? 'auto' : 'none',
-        zIndex: 25,
+        pointerEvents: 'none',
+        zIndex: 1000,
         userSelect: 'none',
         display: 'flex',
         flexDirection: 'column',
@@ -34,13 +34,14 @@ export const DarkroomHeaderComponent = ({ onOpenMenu, isVisible = true }) => {
           color: '#ffffff',
           textTransform: 'uppercase',
           fontFamily: 'Inter, system-ui, sans-serif',
-          whiteSpace: 'nowrap'
+          whiteSpace: 'nowrap',
+          pointerEvents: 'none'
         }}
       >
         CHRONICLES IN LIGHT
       </h1>
 
-      {/* Clean Box-Shape Menu Trigger */}
+      {/* Clean Box-Shape Menu Trigger with interactive pointerEvents and higher z-index */}
       <button
         onClick={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
@@ -66,6 +67,7 @@ export const DarkroomHeaderComponent = ({ onOpenMenu, isVisible = true }) => {
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',
+          zIndex: 1001,
           transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
         onMouseEnter={(e) => {

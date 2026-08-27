@@ -19,44 +19,83 @@
   z-index: -1;
 }
 
-/* Middle Bar — Matches Reference Exactly */
-.darkroom-middle-bar {
+/* Middle Bar — Modular Segmented Capsule Blocks matching Image 3 */
+.darkroom-middle-bar-segmented {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
-  gap: 20px;
-  background: rgba(18, 18, 18, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  padding: 10px 20px;
+  gap: 4px;
+  z-index: 12;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.darkroom-segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 16px;
+  background: rgba(22, 10, 10, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   font-family: 'Space Mono', monospace;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 1.5px;
-  color: #d0d0d0;
-  z-index: 999;
-  backdrop-filter: blur(6px);
-  white-space: nowrap;
-  pointer-events: none;
+  color: #ededf4;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
 }
 
-.darkroom-middle-bar .darkroom-dots-icon {
-  display: inline-flex;
-  gap: 3px;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 14px;
+/* Grip icon block (::) */
+.darkroom-segment.segment-grip {
+  width: 42px;
+  padding: 0;
 }
 
-.darkroom-middle-bar .darkroom-sep {
-  color: #666;
+.darkroom-segment .grip-matrix {
+  display: grid;
+  grid-template-columns: repeat(2, 4px);
+  grid-gap: 3px;
 }
 
-.darkroom-middle-bar .darkroom-count {
-  border-left: 1px solid rgba(255, 255, 255, 0.25);
-  padding-left: 16px;
+.darkroom-segment .grip-matrix span {
+  width: 4px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.45);
+  border-radius: 1px;
+}
+
+/* Path block with bold + */
+.darkroom-segment.segment-path {
+  gap: 14px;
+}
+
+.darkroom-segment .segment-plus {
+  font-weight: 900;
+  font-size: 15px;
   color: #ffffff;
+  line-height: 1;
+}
+
+/* Category block */
+.darkroom-segment.segment-category {
+  color: #d4d4dc;
+}
+
+/* Status block */
+.darkroom-segment.segment-status {
+  color: #ffffff;
+}
+
+/* Count block */
+.darkroom-segment.segment-count {
+  color: #ffffff;
+  letter-spacing: 2px;
 }
 
 /* Mask Boxes — Matches Reference style.css Exactly */
