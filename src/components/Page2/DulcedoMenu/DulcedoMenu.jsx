@@ -188,9 +188,8 @@ export const DulcedoMenu = memo(() => {
               className="relative w-full flex items-center justify-center py-0.5 sm:py-1 cursor-pointer group"
             >
               <h2
-                className={`font-sans font-black text-4xl sm:text-6xl md:text-7xl lg:text-[5.6vw] xl:text-[6.2vw] tracking-[-0.04em] uppercase leading-[0.9] text-center transition-colors duration-150 ${
-                  isHovered ? 'text-white' : 'text-black'
-                }`}
+                className={`font-sans font-black text-6xl sm:text-6xl md:text-7xl lg:text-[5.6vw] xl:text-[6.2vw] tracking-[-0.04em] uppercase leading-[0.9] text-center transition-colors duration-150 ${isHovered ? 'text-white' : 'text-black'
+                  }`}
               >
                 {item.title}
               </h2>
@@ -203,10 +202,9 @@ export const DulcedoMenu = memo(() => {
       <div className="relative z-20 w-full max-w-2xl mx-auto text-center font-sans text-[11px] sm:text-xs tracking-normal leading-relaxed text-neutral-600 pb-2 space-y-1">
         <p>
           Lumen Archive® operates at the intersection of optical physics and documentary visuals, producing ultra-high resolution mono prints.
-        </p>
-        <p className="text-neutral-400">
           Sub-Atmospheric® is a visual practice focusing on low-light perspectives, unretouched emulsion archives, and spatial composition.
         </p>
+
       </div>
     </section>
   );
