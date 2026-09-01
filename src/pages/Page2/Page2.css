@@ -16,9 +16,11 @@
   background-color: #000000;
 }
 
-/* Hide on mobile/tablets (< 1024px) */
+/* Temporarily disabled mobile/tablet hiding so user can test and inspect on any device */
+/*
 @media (max-width: 1023px) {
   .page2-root-wrapper {
     display: none !important;
   }
 }
+*/
