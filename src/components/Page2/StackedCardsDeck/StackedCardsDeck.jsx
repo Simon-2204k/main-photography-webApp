@@ -40,7 +40,6 @@ const STACKED_CARDS = [
 export const StackedCardsDeck = memo(() => {
   const containerRef = useRef(null);
   const cardRefs = useRef([]);
-  const counterRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -85,11 +84,6 @@ export const StackedCardsDeck = memo(() => {
                 opacity: 1,
                 duration: 1,
                 ease: 'power2.inOut',
-                onUpdate: () => {
-                  if (counterRef.current) {
-                    counterRef.current.innerText = `0${i + 2} / 06`;
-                  }
-                },
               },
               `step-${i}`
             );
@@ -135,16 +129,6 @@ export const StackedCardsDeck = memo(() => {
             </div>
           );
         })}
-      </div>
-
-      {/* Bottom Counter Indicator */}
-      <div className="absolute bottom-8 z-30 flex items-center justify-center">
-        <span
-          ref={counterRef}
-          className="font-mono text-xs uppercase tracking-[0.3em] text-neutral-400 bg-white/[0.06] border border-white/10 px-4 py-1.5 rounded-full backdrop-blur-sm"
-        >
-          01 / 06
-        </span>
       </div>
     </section>
   );

@@ -17,8 +17,19 @@ import { HeroCanvas } from '../../components/Page2/HeroCanvas/HeroCanvas';
 // Section 3: Statement Text Page with Alpha Gradient Mask
 import { ThisIsESE } from '../../components/Page2/ThisIsESE/ThisIsESE';
 
-// Section 4: 6-Page Cinematic Parallax Carousel + 5 GIFs Bio + 3D Flip Card + Video Reveal + Footer
+// Section 4 & 5: 6-Page Cinematic Camera HUD Carousel + High-Fashion Capability Showcase
 import ParallaxPages from '../../components/Page2/ParallaxPages/ParallaxPages';
+
+// New Post-Capability 6-Section Suite (Clean Standalone Sections)
+import { DulcedoMenu } from '../../components/Page2/DulcedoMenu/DulcedoMenu';
+import { PhysicsDisciplines } from '../../components/Page2/PhysicsDisciplines/PhysicsDisciplines';
+import { StackedCardsDeck } from '../../components/Page2/StackedCardsDeck/StackedCardsDeck';
+import { FolderArchive } from '../../components/Page2/FolderArchive/FolderArchive';
+import { LaptopFoldingDeck } from '../../components/Page2/LaptopFoldingDeck/LaptopFoldingDeck';
+import { KeyholeParallaxMask } from '../../components/Page2/KeyholeParallaxMask/KeyholeParallaxMask';
+
+// Footer: Standalone 50vh Marquee
+import { Footer } from '../../components/Page2/Footer/Footer';
 
 import './PageOneStyles.css';
 import './Page2.css';
@@ -47,7 +58,13 @@ export const Page2Component = ({ onOpenMenu }) => {
     gsap.ticker.add(updateLenis);
     gsap.ticker.lagSmoothing(0);
 
+    // Refresh ScrollTrigger to ensure all isolated pinned sections calculate accurate start/end offsets
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 200);
+
     return () => {
+      clearTimeout(refreshTimer);
       delete window.lenis;
       lenis.destroy();
       gsap.ticker.remove(updateLenis);
@@ -75,8 +92,34 @@ export const Page2Component = ({ onOpenMenu }) => {
       {/* Section 3: Statement Text Page */}
       <ThisIsESE />
 
-      {/* Section 4: 6-Page Cinematic Parallax Carousel + Bio Statement + 3D Flip Card + Video Reveal + Footer */}
+      {/* Section 4 & 5: 6-Slide Camera Viewfinder Carousel + Editorial Capability Showcase */}
       <ParallaxPages />
+
+      {/* 
+        ========================================================================
+        STANDALONE POST-SECTION 5 SUITE (ISOLATED SCROLLTRIGGER PINNING)
+        ========================================================================
+      */}
+      {/* Section 1: Dulcedo-Inspired Interactive Typography Menu */}
+      <DulcedoMenu />
+
+      {/* Section 2: Griflan-Style Physics Gravity Disciplines */}
+      <PhysicsDisciplines />
+
+      {/* Section 3: Pinned 3D Stacked 6-Image Depth Deck */}
+      <StackedCardsDeck />
+
+      {/* Section 4: WildyRiftian-Style Folder Tab Archive */}
+      <FolderArchive />
+
+      {/* Section 5: Laptop-Folding Photography Deck */}
+      <LaptopFoldingDeck />
+
+      {/* Section 6: Keyhole Parallax Mask Expansion into Footer */}
+      <KeyholeParallaxMask />
+
+      {/* 50vh Footer Section with Infinite Zero-Jitter Marquee */}
+      <Footer />
     </div>
   );
 };

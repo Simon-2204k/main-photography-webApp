@@ -2,12 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CursorTrail } from '../../Page1/CursorTrail/CursorTrail';
-import { DulcedoMenu } from '../DulcedoMenu/DulcedoMenu';
-import { PhysicsDisciplines } from '../PhysicsDisciplines/PhysicsDisciplines';
-import { StackedCardsDeck } from '../StackedCardsDeck/StackedCardsDeck';
-import { FolderArchive } from '../FolderArchive/FolderArchive';
-import { LaptopFoldingDeck } from '../LaptopFoldingDeck/LaptopFoldingDeck';
-import { KeyholeParallaxMask } from '../KeyholeParallaxMask/KeyholeParallaxMask';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -350,20 +344,8 @@ export default function ParallaxPages() {
         },
       });
 
-      // 7. Zero-Jitter Infinite Left-to-Right Marquee for Footer
-      const footerTrack = containerRef.current?.querySelector('.footer-marquee-track');
-      let footerX = -50;
-      const animateFooterMarquee = () => {
-        if (!footerTrack) return;
-        footerX += 0.07;
-        if (footerX >= 0) footerX = -50;
-        gsap.set(footerTrack, { xPercent: footerX });
-      };
-      gsap.ticker.add(animateFooterMarquee);
-
       return () => {
         gsap.ticker.remove(animateMarquee);
-        gsap.ticker.remove(animateFooterMarquee);
       };
     }, containerRef);
 
@@ -532,49 +514,6 @@ export default function ParallaxPages() {
           </div>
         </div>
       </div>
-
-      {/* 
-        ========================================================================
-        NEW POST-CAPABILITY 6-SECTION SUITE
-        ========================================================================
-      */}
-      {/* Section 1: Dulcedo-Inspired Interactive Typography Menu */}
-      <DulcedoMenu />
-
-      {/* Section 2: Griflan-Style Physics Gravity Disciplines */}
-      <PhysicsDisciplines />
-
-      {/* Section 3: Pinned 3D Stacked 6-Image Depth Deck */}
-      <StackedCardsDeck />
-
-      {/* Section 4: WildyRiftian-Style Folder Tab Archive */}
-      <FolderArchive />
-
-      {/* Section 5: Laptop-Folding Photography Deck */}
-      <LaptopFoldingDeck />
-
-      {/* Section 6: Keyhole Parallax Mask Expansion into Footer */}
-      <KeyholeParallaxMask />
-
-      {/* 50vh Footer Section with 100vw Full-Width Zero-Jitter Infinite Marquee */}
-      <footer className="relative w-screen max-w-none bg-black text-white z-40 flex flex-col justify-between items-center border-t border-white/10 py-10 px-0 select-none overflow-hidden left-1/2 -translate-x-1/2">
-        {/* Full-Width Edge-to-Edge Zero-Jitter Marquee Track */}
-        <div className="w-full flex-1 flex items-center overflow-hidden px-0 mx-0">
-          <div className="footer-marquee-track flex whitespace-nowrap will-change-transform" style={{ width: 'max-content' }}>
-            <span className="font-sans font-extrabold text-5xl sm:text-7xl lg:text-[115px] xl:text-[130px] leading-none uppercase tracking-tight text-white/90 shrink-0 px-8">
-              MADE BY SIMON • MADE BY SIMON • MADE BY SIMON • MADE BY SIMON • &nbsp;
-            </span>
-            <span className="font-sans font-extrabold text-5xl sm:text-7xl lg:text-[115px] xl:text-[130px] leading-none uppercase tracking-tight text-white/90 shrink-0 px-8">
-              MADE BY SIMON • MADE BY SIMON • MADE BY SIMON • MADE BY SIMON • &nbsp;
-            </span>
-          </div>
-        </div>
-
-        {/* Bottom Row Bar: Centered Copyright Only */}
-        <div className="w-full max-w-7xl mx-auto flex items-center justify-center pt-6 border-t border-white/10 text-xs sm:text-sm font-mono text-neutral-400 px-6">
-          <div>© {new Date().getFullYear()} SIMON Photography. All Rights Reserved.</div>
-        </div>
-      </footer>
     </section>
   );
 }
