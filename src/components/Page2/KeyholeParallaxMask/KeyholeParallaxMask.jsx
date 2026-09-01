@@ -99,7 +99,7 @@ export const KeyholeParallaxMask = memo(() => {
           className="absolute left-[8%] sm:left-[12%] top-[30%] w-48 sm:w-64 aspect-[3/4] grayscale contrast-125 opacity-70 rounded-none shadow-xl overflow-hidden will-change-transform"
         >
           <img
-            src="/images/section3/baptiste-merel--bYa_kDl_tk-unsplash.jpg"
+            src="/images/section3/baptiste-merel--bYa_kDl_tk-unsplash.webp"
             alt=""
             className="w-full h-full object-cover"
           />
@@ -111,7 +111,7 @@ export const KeyholeParallaxMask = memo(() => {
           className="absolute right-[8%] sm:right-[14%] top-[18%] w-56 sm:w-80 aspect-[3/4] grayscale contrast-125 opacity-70 rounded-none shadow-xl overflow-hidden will-change-transform"
         >
           <img
-            src="/images/section2/alessandro-rodriguez-Z-hkVVWZiOI-unsplash.jpg"
+            src="/images/section2/alessandro-rodriguez-Z-hkVVWZiOI-unsplash.webp"
             alt=""
             className="w-full h-full object-cover"
           />
@@ -123,7 +123,7 @@ export const KeyholeParallaxMask = memo(() => {
           className="absolute left-[30%] bottom-[-10%] w-44 sm:w-56 aspect-[3/4] grayscale contrast-125 opacity-60 rounded-none shadow-xl overflow-hidden will-change-transform"
         >
           <img
-            src="/images/section3/mahdi-bafande-niZ0qgwIEUk-unsplash.jpg"
+            src="/images/section3/mahdi-bafande-niZ0qgwIEUk-unsplash.webp"
             alt=""
             className="w-full h-full object-cover"
           />
@@ -158,7 +158,7 @@ export const KeyholeParallaxMask = memo(() => {
         >
           {/* Vibrant Colorful High-Fashion Portrait Inside Keyhole */}
           <img
-            src="/images/section5/yunus-emre-mM5tCQ0uJo8-unsplash.jpg"
+            src="/images/section5/yunus-emre-mM5tCQ0uJo8-unsplash.webp"
             alt=""
             className="w-full h-full object-cover object-center transform scale-110"
           />

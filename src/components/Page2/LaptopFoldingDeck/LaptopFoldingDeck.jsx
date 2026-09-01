@@ -20,9 +20,9 @@ const LAPTOP_CARDS = [
     author: 'Elena Rostova',
     role: 'Senior Art Director @ Substratum Press',
     images: [
-      '/images/section5/brian-lundquist-aA6NVwzqWJg-unsplash.jpg',
-      '/images/section5/brooke-balentine-Bs15bCACD_0-unsplash.jpg',
-      '/images/section5/daniel-khor-rZtdwCZTibY-unsplash.jpg',
+      '/images/section5/brian-lundquist-aA6NVwzqWJg-unsplash.webp',
+      '/images/section5/brooke-balentine-Bs15bCACD_0-unsplash.webp',
+      '/images/section5/daniel-khor-rZtdwCZTibY-unsplash.webp',
     ],
   },
   {
@@ -40,9 +40,9 @@ const LAPTOP_CARDS = [
     author: 'Julian Thorne',
     role: 'Founder & Curator @ Halide Journal',
     images: [
-      '/images/section5/eduardo-kenji-amorim-m6FlHxLBlVs-unsplash.jpg',
-      '/images/section5/hamza-nouasria-25NzjUbPIcc-unsplash.jpg',
-      '/images/section5/jan-oblak-O1H4keiH-Io-unsplash.jpg',
+      '/images/section5/eduardo-kenji-amorim-m6FlHxLBlVs-unsplash.webp',
+      '/images/section5/hamza-nouasria-25NzjUbPIcc-unsplash.webp',
+      '/images/section5/jan-oblak-O1H4keiH-Io-unsplash.webp',
     ],
   },
   {
@@ -60,9 +60,9 @@ const LAPTOP_CARDS = [
     author: 'Kaelen Voss',
     role: 'Principal Architect @ Monolith Design',
     images: [
-      '/images/section5/oscar-ramirez-IHYP1yLWEek-unsplash.jpg',
-      '/images/section5/rock-staar-xYcnWXtURrs-unsplash.jpg',
-      '/images/section5/steven-weeks-xAHbt6YpAJ4-unsplash.jpg',
+      '/images/section5/oscar-ramirez-IHYP1yLWEek-unsplash.webp',
+      '/images/section5/rock-staar-xYcnWXtURrs-unsplash.webp',
+      '/images/section5/steven-weeks-xAHbt6YpAJ4-unsplash.webp',
     ],
   },
   {
@@ -80,9 +80,9 @@ const LAPTOP_CARDS = [
     author: 'Marcus Vance',
     role: 'Creative Director @ Studio Monochrome',
     images: [
-      '/images/section5/vinicius-amnx-amano-3BvtFNc1MYY-unsplash.jpg',
-      '/images/section5/windah-limbai-x9y7-4VvS38-unsplash.jpg',
-      '/images/section5/yunus-emre-mM5tCQ0uJo8-unsplash.jpg',
+      '/images/section5/vinicius-amnx-amano-3BvtFNc1MYY-unsplash.webp',
+      '/images/section5/windah-limbai-x9y7-4VvS38-unsplash.webp',
+      '/images/section5/yunus-emre-mM5tCQ0uJo8-unsplash.webp',
     ],
   },
 ];

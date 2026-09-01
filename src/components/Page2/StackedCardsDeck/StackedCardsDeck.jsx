@@ -8,32 +8,32 @@ const STACKED_CARDS = [
   {
     id: 1,
     tag: 'BRAND IDENTITY',
-    image: '/images/section3/baptiste-merel--bYa_kDl_tk-unsplash.jpg',
+    image: '/images/section3/baptiste-merel--bYa_kDl_tk-unsplash.webp',
   },
   {
     id: 2,
     tag: 'ARCHITECTURAL FORM',
-    image: '/images/section3/brian-lundquist-xJWUhJP-qPc-unsplash.jpg',
+    image: '/images/section3/brian-lundquist-xJWUhJP-qPc-unsplash.webp',
   },
   {
     id: 3,
     tag: 'WEBSITE',
-    image: '/images/section3/erik-mclean-7jRqtUvNFgA-unsplash.jpg',
+    image: '/images/section3/erik-mclean-7jRqtUvNFgA-unsplash.webp',
   },
   {
     id: 4,
     tag: 'PRODUCT INNOVATION',
-    image: '/images/section3/jr-korpa-07mULu__htY-unsplash.jpg',
+    image: '/images/section3/jr-korpa-07mULu__htY-unsplash.webp',
   },
   {
     id: 5,
     tag: 'CONTENT',
-    image: '/images/section3/mahdi-bafande-niZ0qgwIEUk-unsplash.jpg',
+    image: '/images/section3/mahdi-bafande-niZ0qgwIEUk-unsplash.webp',
   },
   {
     id: 6,
     tag: 'EDITORIAL ARCHIVE',
-    image: '/images/section3/olegs-jonins-w13BMngq7JM-unsplash.jpg',
+    image: '/images/section3/olegs-jonins-w13BMngq7JM-unsplash.webp',
   },
 ];
 

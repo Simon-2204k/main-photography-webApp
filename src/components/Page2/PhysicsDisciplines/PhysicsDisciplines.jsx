@@ -7,9 +7,9 @@ const DISCIPLINES = [
     id: 'portraiture',
     title: 'PORTRAITURE',
     cards: [
-      '/images/section2/alessandro-rodriguez-Z-hkVVWZiOI-unsplash.jpg',
-      '/images/section2/eric-soubeyrand-de-saint-prix-wpGHqh_1D84-unsplash.jpg',
-      '/images/section2/erwi-bZZwOLx7zX0-unsplash.jpg',
+      '/images/section2/alessandro-rodriguez-Z-hkVVWZiOI-unsplash.webp',
+      '/images/section2/eric-soubeyrand-de-saint-prix-wpGHqh_1D84-unsplash.webp',
+      '/images/section2/erwi-bZZwOLx7zX0-unsplash.webp',
     ],
     pills: [
       'Natural Light',
@@ -28,9 +28,9 @@ const DISCIPLINES = [
     id: 'editorial',
     title: 'EDITORIAL',
     cards: [
-      '/images/section2/fethi-benattallah-5HIAAj1-XD8-unsplash.jpg',
-      '/images/section2/juan-ordonez-rdta95kcS78-unsplash.jpg',
-      '/images/section2/kyle-johnson-i9oQ8auj5hk-unsplash.jpg',
+      '/images/section2/fethi-benattallah-5HIAAj1-XD8-unsplash.webp',
+      '/images/section2/juan-ordonez-rdta95kcS78-unsplash.webp',
+      '/images/section2/kyle-johnson-i9oQ8auj5hk-unsplash.webp',
     ],
     pills: [
       'Fashion Campaigns',
@@ -49,9 +49,9 @@ const DISCIPLINES = [
     id: 'documentary',
     title: 'DOCUMENTARY',
     cards: [
-      '/images/section2/lev-yarmanov-m5HaYd0NqBM-unsplash.jpg',
-      '/images/section2/priscilla-du-preez-H5yqXWC-XMk-unsplash.jpg',
-      '/images/section2/yanny-mishchuk-iJQ-FDykacg-unsplash.jpg',
+      '/images/section2/lev-yarmanov-m5HaYd0NqBM-unsplash.webp',
+      '/images/section2/priscilla-du-preez-H5yqXWC-XMk-unsplash.webp',
+      '/images/section2/yanny-mishchuk-iJQ-FDykacg-unsplash.webp',
     ],
     pills: [
       'Street Life',

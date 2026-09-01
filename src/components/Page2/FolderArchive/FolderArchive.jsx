@@ -8,10 +8,10 @@ const FOLDERS = [
     textColor: '#1a1a1a',
     col: 'left',
     images: [
-      '/images/section4/pexels-304109370-14232091.jpg',
-      '/images/section4/pexels-abdelilah-hibat-allah-1652683667-33393728.jpg',
-      '/images/section4/pexels-aloevera-17612352.jpg',
-      '/images/section4/pexels-aloevera-20240486.jpg',
+      '/images/section4/pexels-304109370-14232091.webp',
+      '/images/section4/pexels-abdelilah-hibat-allah-1652683667-33393728.webp',
+      '/images/section4/pexels-aloevera-17612352.webp',
+      '/images/section4/pexels-aloevera-20240486.webp',
     ],
   },
   {
@@ -21,10 +21,10 @@ const FOLDERS = [
     textColor: '#1a1a1a',
     col: 'right',
     images: [
-      '/images/section4/pexels-andrew-schwark-540305-22468990.jpg',
-      '/images/section4/pexels-andrew-schwark-540305-9200496.jpg',
-      '/images/section4/pexels-fakhri98-16104931.jpg',
-      '/images/section4/pexels-fromsalih-36456611.jpg',
+      '/images/section4/pexels-andrew-schwark-540305-22468990.webp',
+      '/images/section4/pexels-andrew-schwark-540305-9200496.webp',
+      '/images/section4/pexels-fakhri98-16104931.webp',
+      '/images/section4/pexels-fromsalih-36456611.webp',
     ],
   },
   {
@@ -34,10 +34,10 @@ const FOLDERS = [
     textColor: '#1a1a1a',
     col: 'left',
     images: [
-      '/images/section4/pexels-gin-311039220-34175280.jpg',
-      '/images/section4/pexels-hazily-light-672092024-18022480.jpg',
-      '/images/section4/pexels-krista-glizdeniece-2150567376-31603972.jpg',
-      '/images/section4/pexels-kyle-miller-169884138-13411957.jpg',
+      '/images/section4/pexels-gin-311039220-34175280.webp',
+      '/images/section4/pexels-hazily-light-672092024-18022480.webp',
+      '/images/section4/pexels-krista-glizdeniece-2150567376-31603972.webp',
+      '/images/section4/pexels-kyle-miller-169884138-13411957.webp',
     ],
   },
   {
@@ -47,10 +47,10 @@ const FOLDERS = [
     textColor: '#1a1a1a',
     col: 'right',
     images: [
-      '/images/section4/pexels-luiz-antico-1846061-4847526.jpg',
-      '/images/section4/pexels-marianamontrazi-6757343.jpg',
-      '/images/section4/pexels-minimoy-18532184.jpg',
-      '/images/section4/pexels-myatezhny39-3994122.jpg',
+      '/images/section4/pexels-luiz-antico-1846061-4847526.webp',
+      '/images/section4/pexels-marianamontrazi-6757343.webp',
+      '/images/section4/pexels-minimoy-18532184.webp',
+      '/images/section4/pexels-myatezhny39-3994122.webp',
     ],
   },
   {
@@ -60,10 +60,10 @@ const FOLDERS = [
     textColor: '#1a1a1a',
     col: 'left',
     images: [
-      '/images/section4/pexels-osvaldosam-28111495.jpg',
-      '/images/section4/pexels-phuc-lai-1112451390-20788936.jpg',
-      '/images/section4/pexels-phuc-lai-1112451390-20788967.jpg',
-      '/images/section4/pexels-plato-terentev-3804555-5891794.jpg',
+      '/images/section4/pexels-osvaldosam-28111495.webp',
+      '/images/section4/pexels-phuc-lai-1112451390-20788936.webp',
+      '/images/section4/pexels-phuc-lai-1112451390-20788967.webp',
+      '/images/section4/pexels-plato-terentev-3804555-5891794.webp',
     ],
   },
   {
@@ -73,10 +73,10 @@ const FOLDERS = [
     textColor: '#1a1a1a',
     col: 'right',
     images: [
-      '/images/section4/pexels-simlibas-13417127.jpg',
-      '/images/section4/pexels-tr-n-long-3093985-7164274.jpg',
-      '/images/section4/pexels-vitalyagorbachev-11191758.jpg',
-      '/images/section4/pexels-zahra-talebizadeh-423932604-20820384.jpg',
+      '/images/section4/pexels-simlibas-13417127.webp',
+      '/images/section4/pexels-tr-n-long-3093985-7164274.webp',
+      '/images/section4/pexels-vitalyagorbachev-11191758.webp',
+      '/images/section4/pexels-zahra-talebizadeh-423932604-20820384.webp',
     ],
   },
 ];

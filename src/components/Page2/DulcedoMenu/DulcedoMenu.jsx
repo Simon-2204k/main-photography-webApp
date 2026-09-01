@@ -5,27 +5,27 @@ const ITEMS = [
   {
     id: 1,
     title: 'CHRONICLE (+)',
-    image: '/images/section1/pexels-ekam-juneja-61080223-32379941.jpg',
+    image: '/images/section1/pexels-ekam-juneja-61080223-32379941.webp',
   },
   {
     id: 2,
     title: 'OBSERVATIONAL',
-    image: '/images/section1/pexels-elina-araja-1743227-3343318.jpg',
+    image: '/images/section1/pexels-elina-araja-1743227-3343318.webp',
   },
   {
     id: 3,
     title: 'ENVIRONMENTAL',
-    image: '/images/section1/pexels-fidan-nazim-qizi-134456769-12414434.jpg',
+    image: '/images/section1/pexels-fidan-nazim-qizi-134456769-12414434.webp',
   },
   {
     id: 4,
     title: 'ISOLATION',
-    image: '/images/section1/pexels-ilham-munawar-wijaksana-312593206-13568050.jpg',
+    image: '/images/section1/pexels-ilham-munawar-wijaksana-312593206-13568050.webp',
   },
   {
     id: 5,
     title: 'PERSPECTIVE',
-    image: '/images/section1/pexels-sevil-yeva-1175061542-29209493.jpg',
+    image: '/images/section1/pexels-sevil-yeva-1175061542-29209493.webp',
   },
 ];
 
