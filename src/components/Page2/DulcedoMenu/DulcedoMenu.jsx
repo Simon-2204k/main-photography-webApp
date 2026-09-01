@@ -63,20 +63,21 @@ export const DulcedoMenu = memo(() => {
       opacity: 1,
       top: targetTop,
       height: targetHeight,
-      duration: 0.3,
+      duration: 0.25,
       ease: 'power3.out',
     });
 
     // 2. Animate preview image position vertically centered to hovered row
+    const previewHeight = preview.offsetHeight || 360;
     gsap.to(preview, {
       opacity: 1,
       scale: 1,
-      y: targetCenterY - 170, // Centered vertically relative to the row
-      duration: 0.4,
+      y: targetCenterY - previewHeight / 2,
+      duration: 0.45,
       ease: 'power3.out',
     });
 
-    // 3. Directional ClipPath wipe reveal
+    // 3. Directional ClipPath polygon wipe reveal (power4.inOut)
     if (incomingImgRef.current && currentImgRef.current) {
       const isMovingDown = prevIndex === null || index >= prevIndex;
       const newSrc = ITEMS[index].image;
@@ -88,13 +89,14 @@ export const DulcedoMenu = memo(() => {
         : 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)';
       const endClip = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)';
 
+      gsap.killTweensOf(incomingImgRef.current);
       gsap.fromTo(
         incomingImgRef.current,
         { clipPath: startClip },
         {
           clipPath: endClip,
-          duration: 0.45,
-          ease: 'power3.inOut',
+          duration: 0.5,
+          ease: 'power4.inOut',
           onComplete: () => {
             if (currentImgRef.current) {
               currentImgRef.current.src = newSrc;
@@ -114,7 +116,7 @@ export const DulcedoMenu = memo(() => {
     if (previewRef.current) {
       gsap.to(previewRef.current, {
         opacity: 0,
-        scale: 0.96,
+        scale: 0.95,
         duration: 0.3,
         ease: 'power2.out',
       });
@@ -133,7 +135,7 @@ export const DulcedoMenu = memo(() => {
     <section
       ref={containerRef}
       onMouseLeave={handleMouseLeave}
-      className="relative w-full h-screen min-h-screen text-black select-none overflow-hidden flex flex-col justify-between py-10 sm:py-12 px-6 sm:px-12 lg:px-16 z-30"
+      className="relative w-full h-screen min-h-screen text-black select-none overflow-hidden flex flex-col justify-between pt-16 sm:pt-20 lg:pt-24 pb-8 sm:pb-10 px-6 sm:px-12 lg:px-20 z-30"
       style={{
         backgroundColor: '#f4f4f4',
         isolation: 'isolate',
@@ -146,13 +148,13 @@ export const DulcedoMenu = memo(() => {
         style={{ top: 0, height: 0 }}
       />
 
-      {/* Floating Image Preview Card (Positioned on the Right Side overlapping text like dulcedo.com) */}
+      {/* Floating Image Preview Card (Anchored at top-0, right side, elevated at z-30) */}
       <div
         ref={previewRef}
-        className="absolute right-[5%] sm:right-[8%] lg:right-[12%] w-[200px] sm:w-[260px] md:w-[320px] lg:w-[360px] aspect-[4/5] z-20 pointer-events-none opacity-0 shadow-2xl overflow-hidden bg-neutral-200 will-change-transform"
+        className="absolute top-0 right-[6%] sm:right-[10%] lg:right-[14%] w-[200px] sm:w-[260px] md:w-[310px] aspect-[3/4] z-30 pointer-events-none opacity-0 shadow-2xl overflow-hidden bg-neutral-200 will-change-transform rounded-sm"
         style={{ transformOrigin: 'center center' }}
       >
-        {/* Current Image */}
+        {/* Base / Current Image */}
         <img
           ref={currentImgRef}
           src={ITEMS[0].image}
@@ -160,7 +162,7 @@ export const DulcedoMenu = memo(() => {
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
 
-        {/* Incoming Image for ClipPath Wipe */}
+        {/* Incoming Image for Directional ClipPath Wipe */}
         <img
           ref={incomingImgRef}
           src={ITEMS[0].image}
@@ -170,11 +172,11 @@ export const DulcedoMenu = memo(() => {
         />
       </div>
 
-      {/* Spacer Top */}
+      {/* Top Spacer for balanced vertical layout */}
       <div className="w-full flex-shrink-0" />
 
-      {/* Main 5-Option Stacked Typography List (Tight, Massive Grotesque, exactly like dulcedo.com) */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto flex flex-col items-center justify-center my-auto">
+      {/* Main 5-Option Stacked Typography List (Balanced Size, No Top Clipping) */}
+      <div className="relative z-20 w-full max-w-6xl mx-auto flex flex-col items-center justify-center my-auto">
         {ITEMS.map((item, idx) => {
           const isHovered = activeIndex === idx;
 
@@ -183,10 +185,10 @@ export const DulcedoMenu = memo(() => {
               key={item.id}
               ref={(el) => (rowRefs.current[idx] = el)}
               onMouseEnter={() => handleMouseEnter(idx)}
-              className="relative w-full flex items-center justify-center py-0 my-0 cursor-pointer group"
+              className="relative w-full flex items-center justify-center py-0.5 sm:py-1 cursor-pointer group"
             >
               <h2
-                className={`font-sans font-black text-5xl sm:text-7xl md:text-8xl lg:text-[7.8vw] xl:text-[8.5vw] tracking-[-0.04em] uppercase leading-[0.88] text-center transition-colors duration-150 ${
+                className={`font-sans font-black text-4xl sm:text-6xl md:text-7xl lg:text-[5.6vw] xl:text-[6.2vw] tracking-[-0.04em] uppercase leading-[0.9] text-center transition-colors duration-150 ${
                   isHovered ? 'text-white' : 'text-black'
                 }`}
               >
@@ -197,13 +199,13 @@ export const DulcedoMenu = memo(() => {
         })}
       </div>
 
-      {/* Centered Bottom Bio Block */}
-      <div className="relative z-20 w-full max-w-4xl mx-auto text-center font-sans text-xs sm:text-sm tracking-wider uppercase leading-relaxed text-neutral-800 space-y-2 pb-2">
-        <p className="font-semibold text-neutral-900">
-          LUMEN ARCHIVE® OPERATES AT THE INTERSECTION OF OPTICAL PHYSICS AND DOCUMENTARY VISUALS, PRODUCING ULTRA-HIGH RESOLUTION MONO PRINTS.
+      {/* Centered Bottom Bio Block in Normal Sentence Case & Small Font */}
+      <div className="relative z-20 w-full max-w-2xl mx-auto text-center font-sans text-[11px] sm:text-xs tracking-normal leading-relaxed text-neutral-600 pb-2 space-y-1">
+        <p>
+          Lumen Archive® operates at the intersection of optical physics and documentary visuals, producing ultra-high resolution mono prints.
         </p>
-        <p className="font-semibold text-neutral-600">
-          SUB-ATMOSPHERIC® IS A VISUAL PRACTICE FOCUSING ON LOW-LIGHT PERSPECTIVES, UNRETOUCHED EMULSION ARCHIVES, AND SPATIAL COMPOSITION.
+        <p className="text-neutral-400">
+          Sub-Atmospheric® is a visual practice focusing on low-light perspectives, unretouched emulsion archives, and spatial composition.
         </p>
       </div>
     </section>
