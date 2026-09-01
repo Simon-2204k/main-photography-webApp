@@ -2,6 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CursorTrail } from '../../Page1/CursorTrail/CursorTrail';
+import { DulcedoMenu } from '../DulcedoMenu/DulcedoMenu';
+import { PhysicsDisciplines } from '../PhysicsDisciplines/PhysicsDisciplines';
+import { StackedCardsDeck } from '../StackedCardsDeck/StackedCardsDeck';
+import { FolderArchive } from '../FolderArchive/FolderArchive';
+import { LaptopFoldingDeck } from '../LaptopFoldingDeck/LaptopFoldingDeck';
+import { KeyholeParallaxMask } from '../KeyholeParallaxMask/KeyholeParallaxMask';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -526,6 +532,29 @@ export default function ParallaxPages() {
           </div>
         </div>
       </div>
+
+      {/* 
+        ========================================================================
+        NEW POST-CAPABILITY 6-SECTION SUITE
+        ========================================================================
+      */}
+      {/* Section 1: Dulcedo-Inspired Interactive Typography Menu */}
+      <DulcedoMenu />
+
+      {/* Section 2: Griflan-Style Physics Gravity Disciplines */}
+      <PhysicsDisciplines />
+
+      {/* Section 3: Pinned 3D Stacked 6-Image Depth Deck */}
+      <StackedCardsDeck />
+
+      {/* Section 4: WildyRiftian-Style Folder Tab Archive */}
+      <FolderArchive />
+
+      {/* Section 5: Laptop-Folding Photography Deck */}
+      <LaptopFoldingDeck />
+
+      {/* Section 6: Keyhole Parallax Mask Expansion into Footer */}
+      <KeyholeParallaxMask />
 
       {/* 50vh Footer Section with 100vw Full-Width Zero-Jitter Infinite Marquee */}
       <footer className="relative w-screen max-w-none bg-black text-white z-40 flex flex-col justify-between items-center border-t border-white/10 py-10 px-0 select-none overflow-hidden left-1/2 -translate-x-1/2">
