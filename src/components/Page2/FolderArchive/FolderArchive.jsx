@@ -186,7 +186,7 @@ export const FolderArchive = memo(() => {
               position: 'relative',
               display: 'flex',
               width: '100%',
-              zIndex: row.zIndex,
+              zIndex: row.folders.some((f) => f.id === hoveredId) ? 40 : row.zIndex,
               marginTop: row.marginTop || '0px',
             }}
           >
@@ -215,16 +215,15 @@ export const FolderArchive = memo(() => {
                   <div
                     style={{
                       position: 'absolute',
-                      bottom: '100px',
+                      bottom: '125px',
                       left: '50%',
                       transformOrigin: 'bottom center',
-                      transform: `translateX(-50%) ${
-                        isHovered ? 'translateY(0px) scale(1)' : 'translateY(120px) scale(0.85)'
-                      }`,
+                      transform: `translateX(-50%) ${isHovered ? 'translateY(-70px) scale(1)' : 'translateY(-10px) scale(0.85)'
+                        }`,
                       opacity: isHovered ? 1 : 0,
                       pointerEvents: 'none',
                       transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease',
-                      zIndex: 60,
+                      zIndex: 2,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -319,8 +318,8 @@ export const FolderArchive = memo(() => {
                       position: 'relative',
                       zIndex: 10,
                       width: '100%',
-                      height: '135px',
-                      minHeight: '130px',
+                      height: '160px',
+                      minHeight: '155px',
                       backgroundColor: bg,
                       border: borderStyle,
                       clipPath: `polygon(0% 0%, ${folder.tabWidth} 0%, calc(${folder.tabWidth} + 40px) 28px, 100% 28px, 100% 100%, 0% 100%)`,
