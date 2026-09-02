@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 const LAPTOP_CARDS = [
   {
     id: '01',
-    bg: '#3b2db5', // Royal Purple
+    bg: '#3b2db5',
     titleLines: [
       'Light engineered with absolute precision.',
       'Shadows crafted for narrative tension.',
@@ -27,7 +27,7 @@ const LAPTOP_CARDS = [
   },
   {
     id: '02',
-    bg: '#ff5d22', // Vibrant Orange
+    bg: '#ff5d22',
     titleLines: [
       'Emulsion textures that hold time still.',
       'Unvarnished grain with cinematic weight.',
@@ -47,7 +47,7 @@ const LAPTOP_CARDS = [
   },
   {
     id: '03',
-    bg: '#ff333a', // Coral Red
+    bg: '#ff333a',
     titleLines: [
       'Form and shadow aligned in symmetry.',
       'Structural scale captured without distortion.',
@@ -67,7 +67,7 @@ const LAPTOP_CARDS = [
   },
   {
     id: '04',
-    bg: '#6c584c', // Warm Earthy Taupe
+    bg: '#6c584c',
     titleLines: [
       'Imagery that commands focus & emotion.',
       'Visuals that redefine perspective & scale.',
@@ -88,7 +88,8 @@ const LAPTOP_CARDS = [
 ];
 
 export const LaptopFoldingDeck = memo(() => {
-  const containerRef = useRef(null);
+  const sectionRef = useRef(null);
+  const laptopPinRef = useRef(null);
   const cardRefs = useRef([]);
 
   useEffect(() => {
@@ -98,23 +99,22 @@ export const LaptopFoldingDeck = memo(() => {
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
+          trigger: laptopPinRef.current,
+          start: 'center center',
           end: `+=${totalCards * 120}%`,
           pin: true,
+          pinSpacing: true,
           scrub: 1.2,
         },
       });
 
-      // 3D Laptop folding animation: each card flips backwards on X axis
       cards.forEach((card, i) => {
         if (i < totalCards - 1) {
           tl.to(
             card,
             {
-              rotateX: -70,
+              rotateX: 90,
               yPercent: -20,
-              opacity: 0,
               scale: 0.9,
               duration: 1.2,
               ease: 'power2.inOut',
@@ -133,97 +133,240 @@ export const LaptopFoldingDeck = memo(() => {
           }
         }
       });
-    }, containerRef);
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
     <section
-      ref={containerRef}
-      className="relative w-full h-screen bg-[#f7f5f0] text-black py-16 px-6 sm:px-12 lg:px-20 select-none overflow-hidden flex flex-col justify-between [perspective:1600px]"
+      ref={sectionRef}
+      style={{
+        position: 'relative',
+        width: '100%',
+        backgroundColor: '#f7f5f0',
+        color: '#000000',
+        paddingTop: '15vh',
+        paddingBottom: '15vh',
+        boxSizing: 'border-box',
+        userSelect: 'none',
+        overflow: 'visible',
+      }}
     >
-      {/* Top Header */}
-      <div className="w-full max-w-5xl mx-auto text-center z-10 pt-4 mb-8">
-        <h2 className="font-sans font-extrabold text-2xl sm:text-4xl lg:text-5xl tracking-tight leading-snug text-neutral-900">
+      <div
+        style={{
+          width: '100%',
+          maxWidth: '1100px',
+          margin: '0 auto 60px auto',
+          padding: '0 24px',
+          textAlign: 'center',
+          boxSizing: 'border-box',
+        }}
+      >
+        <h2
+          style={{
+            fontFamily: "'Inter', sans-serif",
+            fontWeight: 800,
+            fontSize: 'clamp(1.8rem, 3.2vw, 3rem)',
+            lineHeight: 1.25,
+            letterSpacing: '-0.02em',
+            color: '#111111',
+            margin: 0,
+          }}
+        >
           High-speed focal locks, rapid frame bursts, and instantaneous shutter response.
         </h2>
       </div>
 
-      {/* Center 4 Stacked Laptop-Folding Cards */}
-      <div className="relative w-full max-w-6xl mx-auto flex-1 flex items-center justify-center [transform-style:preserve-3d]">
-        {LAPTOP_CARDS.map((card, idx) => {
-          return (
+      <div
+        ref={laptopPinRef}
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '80vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          perspective: '1600px',
+          overflow: 'visible',
+        }}
+      >
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            maxWidth: '1140px',
+            height: '100%',
+            margin: '0 auto',
+            transformStyle: 'preserve-3d',
+          }}
+        >
+          {LAPTOP_CARDS.map((card, idx) => (
             <div
               key={card.id}
               ref={(el) => (cardRefs.current[idx] = el)}
-              className="absolute inset-x-0 mx-auto w-full max-w-5xl rounded-[32px] p-8 sm:p-12 lg:p-14 text-white shadow-2xl overflow-hidden flex flex-col justify-between will-change-transform"
               style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                borderRadius: '10px',
                 backgroundColor: card.bg,
                 zIndex: LAPTOP_CARDS.length - idx,
                 transformOrigin: 'top center',
-                minHeight: '480px',
-                maxHeight: '620px',
+                boxShadow: '0 25px 60px rgba(0,0,0,0.3)',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                padding: '44px 52px',
+                boxSizing: 'border-box',
+                color: '#ffffff',
+                willChange: 'transform',
               }}
             >
-              {/* Card Header & Index */}
-              <div className="flex justify-between items-start gap-4 mb-6">
-                <div className="max-w-3xl">
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  gap: '16px',
+                }}
+              >
+                <div style={{ maxWidth: '850px' }}>
                   {card.titleLines.map((line, lIdx) => (
                     <h3
                       key={lIdx}
-                      className="font-sans font-bold text-2xl sm:text-3xl lg:text-4xl tracking-tight leading-tight"
+                      style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontWeight: 700,
+                        fontSize: 'clamp(1.5rem, 2.5vw, 2.5rem)',
+                        letterSpacing: '-0.02em',
+                        lineHeight: 1.15,
+                        margin: '0 0 4px 0',
+                      }}
                     >
                       {line}
                     </h3>
                   ))}
                 </div>
-                <span className="font-mono text-lg sm:text-xl font-semibold opacity-80 shrink-0">
+                <span
+                  style={{
+                    fontFamily: 'monospace',
+                    fontSize: '18px',
+                    fontWeight: 600,
+                    opacity: 0.85,
+                    flexShrink: 0,
+                  }}
+                >
                   ({card.id})
                 </span>
               </div>
 
-              {/* Sub-headline Paragraph */}
-              <p className="font-sans text-sm sm:text-base text-white/90 leading-relaxed max-w-3xl mb-8">
+              <p
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 'clamp(0.9rem, 1.2vw, 1.05rem)',
+                  lineHeight: 1.6,
+                  color: 'rgba(255, 255, 255, 0.92)',
+                  maxWidth: '850px',
+                  margin: '16px 0',
+                }}
+              >
                 {card.paragraph}
               </p>
 
-              {/* Bottom Row: Testimonial on Left & 3 Asset Image Cards on Right */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end pt-6 border-t border-white/20">
-                {/* Left Testimonial */}
-                <div className="lg:col-span-6 flex flex-col justify-between">
-                  <blockquote className="font-sans italic text-xs sm:text-sm text-white/90 mb-3 leading-relaxed">
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(12, 1fr)',
+                  gap: '32px',
+                  alignItems: 'flex-end',
+                  paddingTop: '20px',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.22)',
+                }}
+              >
+                <div
+                  style={{
+                    gridColumn: 'span 6',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <blockquote
+                    style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontStyle: 'italic',
+                      fontSize: 'clamp(0.8rem, 1.05vw, 0.95rem)',
+                      color: 'rgba(255, 255, 255, 0.92)',
+                      margin: '0 0 12px 0',
+                      lineHeight: 1.5,
+                    }}
+                  >
                     "{card.quote}"
                   </blockquote>
                   <div>
-                    <span className="font-sans font-bold text-sm text-white block">
+                    <span
+                      style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontWeight: 700,
+                        fontSize: '14px',
+                        display: 'block',
+                      }}
+                    >
                       {card.author}
                     </span>
-                    <span className="font-sans text-xs text-white/75 block">
+                    <span
+                      style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: '12px',
+                        color: 'rgba(255, 255, 255, 0.75)',
+                        display: 'block',
+                      }}
+                    >
                       {card.role}
                     </span>
                   </div>
                 </div>
 
-                {/* Right 3 Asset Cards */}
-                <div className="lg:col-span-6 grid grid-cols-3 gap-3">
+                <div
+                  style={{
+                    gridColumn: 'span 6',
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: '12px',
+                  }}
+                >
                   {card.images.map((imgSrc, imgIdx) => (
                     <div
                       key={imgIdx}
-                      className="aspect-[4/3] rounded-xl overflow-hidden bg-black/30 border border-white/25 shadow-lg"
+                      style={{
+                        aspectRatio: '4 / 3',
+                        borderRadius: '8px',
+                        overflow: 'hidden',
+                        backgroundColor: 'rgba(0,0,0,0.3)',
+                        border: '1px solid rgba(255, 255, 255, 0.25)',
+                        boxShadow: '0 10px 25px rgba(0,0,0,0.25)',
+                      }}
                     >
                       <img
                         src={imgSrc}
                         alt=""
-                        className="w-full h-full object-cover object-center"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          objectPosition: 'center',
+                        }}
                       />
                     </div>
                   ))}
                 </div>
               </div>
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
     </section>
   );
