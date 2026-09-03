@@ -97,6 +97,13 @@ export const LaptopFoldingDeck = memo(() => {
       const cards = cardRefs.current;
       const totalCards = cards.length;
 
+      cards.forEach((card, idx) => {
+        gsap.set(card, {
+          scale: 1 - idx * 0.04,
+          transformOrigin: 'top center',
+        });
+      });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: laptopPinRef.current,
@@ -114,21 +121,24 @@ export const LaptopFoldingDeck = memo(() => {
             card,
             {
               rotateX: 90,
-              yPercent: -20,
+              y: '-60vh',
               scale: 0.9,
-              duration: 1.2,
-              ease: 'power2.inOut',
+              duration: 1.0,
+              ease: 'power3.out',
             },
             `step-${i}`
           );
 
-          const nextCard = cards[i + 1];
-          if (nextCard) {
-            tl.fromTo(
-              nextCard,
-              { scale: 0.95, opacity: 0.8 },
-              { scale: 1, opacity: 1, duration: 1.2, ease: 'power2.inOut' },
-              `step-${i}`
+          for (let j = i + 1; j < totalCards; j++) {
+            const targetScale = 1 - (j - (i + 1)) * 0.04;
+            tl.to(
+              cards[j],
+              {
+                scale: targetScale,
+                duration: 0.8,
+                ease: 'power2.out',
+              },
+              `step-${i}+=0.1`
             );
           }
         }
@@ -183,7 +193,7 @@ export const LaptopFoldingDeck = memo(() => {
         style={{
           position: 'relative',
           width: '100%',
-          height: '80vh',
+          height: '90vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -194,8 +204,7 @@ export const LaptopFoldingDeck = memo(() => {
         <div
           style={{
             position: 'relative',
-            width: '100%',
-            maxWidth: '1140px',
+            width: '75vw',
             height: '100%',
             margin: '0 auto',
             transformStyle: 'preserve-3d',
@@ -214,7 +223,7 @@ export const LaptopFoldingDeck = memo(() => {
                 backgroundColor: card.bg,
                 zIndex: LAPTOP_CARDS.length - idx,
                 transformOrigin: 'top center',
-                boxShadow: '0 25px 60px rgba(0,0,0,0.3)',
+                boxShadow: 'none',
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
@@ -347,7 +356,7 @@ export const LaptopFoldingDeck = memo(() => {
                         overflow: 'hidden',
                         backgroundColor: 'rgba(0,0,0,0.3)',
                         border: '1px solid rgba(255, 255, 255, 0.25)',
-                        boxShadow: '0 10px 25px rgba(0,0,0,0.25)',
+                        boxShadow: 'none',
                       }}
                     >
                       <img
