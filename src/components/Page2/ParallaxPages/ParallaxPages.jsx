@@ -21,21 +21,6 @@ const PAGES = [
     image: '/img3.jpg',
     marquee: 'Analog Grain, High Contrast, and Vivid Focus ',
   },
-  {
-    id: 4,
-    image: '/img4.jpeg',
-    marquee: 'Artistry in Canvas, Warm Sunlight, and Brushstrokes ',
-  },
-  {
-    id: 5,
-    image: '/img5.jpeg',
-    marquee: 'Urban Glow, Electric Motion, and Freedom ',
-  },
-  {
-    id: 6,
-    image: '/img6.jpeg',
-    marquee: 'Atmospheric Rays, Velvet Shadows, and Subtle Grace ',
-  },
 ];
 
 export default function ParallaxPages() {

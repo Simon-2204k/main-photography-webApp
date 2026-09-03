@@ -28,9 +28,6 @@ import { FolderArchive } from '../../components/Page2/FolderArchive/FolderArchiv
 import { LaptopFoldingDeck } from '../../components/Page2/LaptopFoldingDeck/LaptopFoldingDeck';
 import { KeyholeParallaxMask } from '../../components/Page2/KeyholeParallaxMask/KeyholeParallaxMask';
 
-// Footer: Standalone 50vh Marquee
-import { Footer } from '../../components/Page2/Footer/Footer';
-
 import './PageOneStyles.css';
 import './Page2.css';
 
@@ -115,11 +112,8 @@ export const Page2Component = ({ onOpenMenu }) => {
       {/* Section 5: Laptop-Folding Photography Deck */}
       <LaptopFoldingDeck />
 
-      {/* Section 6: Keyhole Parallax Mask Expansion into Footer */}
+      {/* Section 6: Keyhole Parallax Mask Destination Page (Image + Embedded Footer) */}
       <KeyholeParallaxMask />
-
-      {/* 50vh Footer Section with Infinite Zero-Jitter Marquee */}
-      <Footer />
     </div>
   );
 };
