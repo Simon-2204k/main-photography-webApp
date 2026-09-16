@@ -64,7 +64,7 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
   }, []);
 
   // Symmetrical Reverse Morph Close Animation
-  const animateClose = useCallback((callback) => {
+  const animateClose = useCallback((callback, customRect) => {
     if (isAnimatingCloseRef.current) return;
     isAnimatingCloseRef.current = true;
 
@@ -75,7 +75,7 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
       return;
     }
 
-    const rect = triggerRect || {
+    const rect = customRect || triggerRect || {
       top: 20,
       left: window.innerWidth / 2 - 40,
       width: 80,
@@ -100,7 +100,7 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
       duration: 0.18,
       ease: 'power2.in',
     })
-    // 2. Morph box smoothly back into the exact spot and size of the MENU button
+    // 2. Morph box smoothly back into the exact spot and size of the destination MENU button
     .to(el, {
       top: rect.top,
       left: rect.left,
@@ -114,10 +114,31 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
 
   // Handle Option Click: smoothly close back into MENU spot, then switch page
   const handleItemClick = (pageId) => {
+    // 1. Immediately switch page behind the black overlay so the old page never flashes
+    if (onSelectPage) onSelectPage(pageId);
+
+    // 2. Determine destination MENU button coordinates
+    let destRect;
+    if (pageId === 'page3') {
+      destRect = {
+        top: 24,
+        left: window.innerWidth - 32 - 90,
+        width: 90,
+        height: 36,
+      };
+    } else {
+      destRect = {
+        top: 20,
+        left: window.innerWidth / 2 - 40,
+        width: 80,
+        height: 32,
+      };
+    }
+
+    // 3. Smoothly reverse morph shrink to the destination MENU button
     animateClose(() => {
-      if (onSelectPage) onSelectPage(pageId);
       if (onClose) onClose();
-    });
+    }, destRect);
   };
 
   // Handle Close Button Click

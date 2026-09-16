@@ -1,0 +1,118 @@
+/* Scoped styling for Multi-Cylindrical 3D Gallery (Section 9) */
+.multi-cyc-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  background-color: #212121;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  margin: 0;
+  padding: 0;
+}
+
+.multi-cyc-section .scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0.25)
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  opacity: 0.12;
+  z-index: 10;
+}
+
+.multi-cyc-section .glass-panel {
+  background: rgba(33, 33, 33, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.multi-cyc-section .glass-button {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.multi-cyc-section .glass-button:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: #0a0a0c;
+  border-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Minimal Black & White Scroll-Lock Button */
+.multi-cyc-bw-lock-btn {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: 'Space Mono', monospace, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.multi-cyc-bw-lock-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+.multi-cyc-bw-lock-btn:active {
+  transform: scale(0.97);
+}
+
+.bw-lock-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.25s ease;
+}
+
+.bw-shackle {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: 7px 11px;
+}
+
+.multi-cyc-bw-lock-btn.is-unlocked .bw-shackle {
+  transform: translateY(-2px) rotate(-10deg);
+}
+
+.bw-lock-text {
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .multi-cyc-bw-lock-btn {
+    top: 1.25rem;
+    right: 1.25rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.65rem;
+  }
+}
+

@@ -1,0 +1,221 @@
+.arc-step-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0a0a0c;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Background Soft Atmosphere */
+.arc-vignette-layer {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 35%, #050507 90%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.arc-radial-spotlight {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75vw;
+  height: 65vh;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Giant Kinetic Typography - Left Stacked (z-index 2 behind cards) */
+.arc-huge-typography {
+  position: absolute;
+  top: 50%;
+  left: clamp(2.5rem, 6vw, 7rem);
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.step-label-row {
+  display: flex;
+  align-items: center;
+}
+
+.step-label-char-wrapper {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.step-label-char {
+  display: inline-block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(70px, 11.5vw, 155px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 0.84;
+  letter-spacing: -0.04em;
+}
+
+.step-number-mask-box {
+  position: relative;
+  height: clamp(65px, 10.5vw, 140px);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 4px;
+}
+
+.step-number-roll {
+  display: flex;
+  flex-direction: column;
+}
+
+.step-number-row {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(70px, 11.5vw, 155px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 0.84;
+  letter-spacing: -0.04em;
+  height: clamp(65px, 10.5vw, 140px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Convex Arc Track Viewport (z-index 10 above typography) */
+.arc-track-viewport {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  overflow: hidden;
+}
+
+/* True Dead-Center Positioned Square Cards - No Border Roundness */
+.arc-square-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(340px, 36vw, 520px);
+  height: clamp(340px, 36vw, 520px);
+  margin-left: calc(-0.5 * clamp(340px, 36vw, 520px));
+  margin-top: calc(-0.5 * clamp(340px, 36vw, 520px));
+  border-radius: 0px;
+  overflow: hidden;
+  box-shadow: 
+    0 30px 70px -10px rgba(0, 0, 0, 0.98),
+    0 0 30px rgba(255, 255, 255, 0.08),
+    0 0 1px rgba(255, 255, 255, 0.35);
+  will-change: transform;
+  transform-origin: center center;
+}
+
+.arc-square-card.is-active {
+  box-shadow: 
+    0 40px 85px -10px rgba(0, 0, 0, 1),
+    0 0 45px rgba(255, 255, 255, 0.12),
+    0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.card-image-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #141416;
+  border-radius: 0px;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0px;
+}
+
+.card-inner-frame {
+  position: absolute;
+  inset: 0;
+  border-radius: 0px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  pointer-events: none;
+}
+
+/* Outro Photography Statement */
+.arc-outro-statement-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.outro-eyebrow-line {
+  margin-bottom: 24px;
+}
+
+.outro-eyebrow-text {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  color: #d4ff00;
+  text-transform: uppercase;
+}
+
+.outro-masked-headline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1080px;
+  gap: 6px;
+}
+
+.outro-mask-line {
+  overflow: hidden;
+  display: block;
+}
+
+.outro-line-text {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(26px, 3.8vw, 56px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-shadow: none;
+}
+
+.outro-meta-line {
+  margin-top: 36px;
+}
+
+.outro-meta-text {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+}

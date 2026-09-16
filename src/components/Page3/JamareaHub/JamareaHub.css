@@ -1,0 +1,216 @@
+.jamarea-hub-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 20px 0 20px;
+  user-select: none;
+  -webkit-user-select: none;
+  box-sizing: border-box;
+}
+
+/* Topbar Navigation: Centered without menu and contact */
+.jamarea-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  z-index: 20;
+}
+
+.jamarea-top-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+}
+
+.top-sep {
+  margin-right: 6px;
+  opacity: 0.4;
+}
+
+/* Center Content Grid - Pushed Outward for ample breathing room */
+.jamarea-main-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.45fr 0.85fr 1.4fr 0.85fr 1.45fr;
+  align-items: center;
+  width: 100%;
+  height: calc(100vh - 190px);
+  margin-top: auto;
+  margin-bottom: auto;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+/* Flanking Giant Typography - Pushed Outward */
+.jamarea-flank {
+  display: flex;
+  align-items: center;
+}
+
+.flank-left {
+  justify-content: flex-start;
+  transform: translateX(-15px);
+}
+
+.flank-right {
+  justify-content: flex-end;
+  transform: translateX(15px);
+}
+
+.jamarea-huge-title {
+  font-family: 'Anton', 'Oswald', sans-serif;
+  font-size: clamp(70px, 11.5vw, 170px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Metadata Columns */
+.jamarea-meta-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.meta-left {
+  padding-left: clamp(10px, 1.8vw, 24px);
+}
+
+.meta-right {
+  padding-right: clamp(10px, 1.8vw, 24px);
+  text-align: right;
+}
+
+.meta-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-label {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+.meta-sub {
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.4;
+}
+
+.meta-val {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.meta-tag {
+  display: inline-block;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.tag-accent {
+  color: #ff3344;
+}
+
+/* Center Cycling Image Portal: Landscape (3:2 Aspect Ratio) */
+.jamarea-center-portal-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.jamarea-center-portal {
+  position: relative;
+  width: clamp(300px, 32vw, 480px);
+  aspect-ratio: 3 / 2;
+  border-radius: 0px !important;
+  overflow: hidden;
+  background: #111114;
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.9), 0 0 1px rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.portal-stream-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0px !important;
+}
+
+.portal-scanline {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(0, 0, 0, 0.15) 51%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+
+/* Bottom Mouse-Driven Text Track */
+.jamarea-bottom-marquee-container {
+  width: 100vw;
+  margin-left: -20px;
+  margin-right: -20px;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 0;
+  background: #000000;
+  cursor: ew-resize;
+}
+
+.jamarea-marquee-track.is-mouse-driven {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+}
+
+.jamarea-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Anton', 'Oswald', sans-serif;
+  font-size: clamp(55px, 8.5vw, 125px);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 0.85;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  padding: 0 16px;
+  white-space: nowrap;
+}
+
+.marquee-separator {
+  margin-right: 12px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.marquee-red-dot {
+  color: #ff3344;
+  font-size: clamp(16px, 2vw, 26px);
+  margin-left: 12px;
+}
