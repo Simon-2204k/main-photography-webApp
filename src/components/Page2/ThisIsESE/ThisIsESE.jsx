@@ -38,13 +38,16 @@ export const ThisIsESEComponent = () => {
     <section
       ref={sectionRef}
       id="about"
-      className="relative z-20 text-white w-full min-h-screen flex flex-col justify-center px-0 overflow-hidden select-none py-16 sm:py-24 lg:py-32"
+      className="relative z-20 text-white w-full min-h-screen flex flex-col justify-center items-center px-0 overflow-hidden select-none"
       style={{
         backgroundColor: '#000000',
+        paddingTop: 'clamp(80px, 10vh, 120px)',
+        paddingBottom: 'clamp(40px, 6vh, 70px)',
         maskImage: 'linear-gradient(to bottom, transparent 0%, black 140px, black 100%)',
         WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 140px, black 100%)',
       }}
     >
+
       {/* 
         ========================================================================
         SINGLE UNIFIED MARQUEE ELEMENT (Z-INDEX z-40)
@@ -73,23 +76,23 @@ export const ThisIsESEComponent = () => {
       */}
       <div
         ref={contentRef}
-        className="w-full relative z-20 px-6 sm:px-12 lg:px-20 flex items-center justify-center pt-8"
+        className="w-full relative z-20 px-6 sm:px-12 lg:px-20 flex items-center justify-center my-auto"
       >
-        <div className="w-full flex flex-col lg:flex-row items-start lg:items-center justify-between gap-12 lg:gap-8">
+        <div className="w-full flex flex-col mt-4 sm:mt-12 xl:mt-8 lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-8">
           {/* LEFT COLUMN */}
           <div
             className="w-full lg:w-1/2 pr-0 lg:pr-10 xl:pr-14 flex flex-col justify-start text-left"
           >
             {/* Monospace Eyebrow Tag */}
-            <div className="inline-flex items-center gap-2 mb-4">
+            <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
               <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse inline-block" />
-              <span className="text-xs sm:text-sm font-mono uppercase tracking-[0.25em] text-neutral-300 font-semibold">
+              <span className="text-[11px] sm:text-sm font-mono uppercase tracking-[0.2em] sm:tracking-[0.25em] text-neutral-300 font-semibold">
                 ✦ SIMON PHOTOGRAPHY ARCHIVE
               </span>
             </div>
 
             {/* Stacked Headline */}
-            <h2 className="font-sans font-black text-3xl sm:text-5xl lg:text-[52px] xl:text-[64px] leading-[0.95] tracking-tighter text-white uppercase mb-8">
+            <h2 className="font-sans font-black text-3xl sm:text-5xl lg:text-[52px] xl:text-[64px] leading-[0.95] tracking-tighter text-white uppercase mb-6 sm:mb-8">
               <span className="block font-black tracking-tight text-white">MASTER OF</span>
               <span className="block font-black tracking-tight text-white">LIGHT &amp;</span>
               <span className="block font-serif font-normal italic tracking-normal text-white text-4xl sm:text-6xl lg:text-[58px] xl:text-[70px] capitalize mt-1">
@@ -98,39 +101,39 @@ export const ThisIsESEComponent = () => {
             </h2>
 
             {/* 4 Optics Specs Cards in 2x2 Grid */}
-            <div className="grid grid-cols-2 gap-3 font-mono text-xs w-full max-w-lg">
-              <div className="bg-white/[0.04] p-3 sm:p-3.5 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-3 font-mono text-xs w-full max-w-lg">
+              <div className="bg-white/[0.04] p-2.5 sm:p-3.5 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
                 <span className="text-neutral-500 uppercase tracking-widest text-[9px] mb-1">
                   MEDIUM
                 </span>
-                <span className="text-white font-semibold text-xs sm:text-sm">
+                <span className="text-white font-semibold text-[11px] sm:text-sm">
                   120 Film &amp; Medium Format
                 </span>
               </div>
 
-              <div className="bg-white/[0.04] p-3 sm:p-3.5 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
+              <div className="bg-white/[0.04] p-2.5 sm:p-3.5 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
                 <span className="text-neutral-500 uppercase tracking-widest text-[9px] mb-1">
                   OPTICS
                 </span>
-                <span className="text-white font-semibold text-xs sm:text-sm">
+                <span className="text-white font-semibold text-[11px] sm:text-sm">
                   Hasselblad HC &amp; Leica
                 </span>
               </div>
 
-              <div className="bg-white/[0.04] p-3 sm:p-3.5 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
+              <div className="bg-white/[0.04] p-2.5 sm:p-3.5 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
                 <span className="text-neutral-500 uppercase tracking-widest text-[9px] mb-1">
                   EMULSION
                 </span>
-                <span className="text-white font-semibold text-xs sm:text-sm">
+                <span className="text-white font-semibold text-[11px] sm:text-sm">
                   Tri-X 400 &amp; Portra 800
                 </span>
               </div>
 
-              <div className="bg-white/[0.04] p-3 sm:p-3.5 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
+              <div className="bg-white/[0.04] p-2.5 sm:p-3.5 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
                 <span className="text-neutral-500 uppercase tracking-widest text-[9px] mb-1">
                   ATMOSPHERE
                 </span>
-                <span className="text-white font-semibold text-xs sm:text-sm">
+                <span className="text-white font-semibold text-[11px] sm:text-sm">
                   Chiaroscuro &amp; Grain
                 </span>
               </div>
@@ -139,14 +142,14 @@ export const ThisIsESEComponent = () => {
 
           {/* RIGHT COLUMN */}
           <div
-            className="w-full lg:w-1/2 pl-0 lg:pl-10 xl:pl-14 flex flex-col justify-between text-left pt-2 sm:pt-4"
+            className="w-full lg:w-1/2 pl-0 lg:pl-10 xl:pl-14 flex flex-col justify-between text-left pt-0 sm:pt-4"
           >
             <p className="font-sans font-normal text-base sm:text-xl lg:text-[22px] xl:text-[26px] leading-[1.38] tracking-tight text-neutral-200 mb-8">
               Concept-driven, atmospheric and cinematic. Our visual laboratory creates enduring imagery for visionary brands and authentic people. In the disciplines of editorial campaigns, lookbooks, gallery exhibitions and medium format. Between analogue craft and contemporary vision. Frame it, preserve it, treasure it forever. This is <span className="font-extrabold text-white underline decoration-amber-400/50 decoration-2 underline-offset-4">SIMON Photography</span>.
             </p>
 
             {/* Bottom Photography Meta Bar */}
-            <div className="flex flex-wrap items-center gap-6 pt-6 border-t border-white/15 text-xs font-mono text-neutral-400 uppercase tracking-wider">
+            <div className="flex flex-wrap items-center gap-6 pt-6 pb-6 border-t border-white/15 text-xs font-mono text-neutral-400 uppercase tracking-wider">
               <div>
                 <span className="text-neutral-500">DISCIPLINE:</span>{' '}
                 <span className="text-white font-semibold">MEDIUM FORMAT &amp; 120 FILM</span>

@@ -53,7 +53,13 @@ export const HeroCanvasComponent = () => {
     } else {
       drawHeight = height;
       drawWidth = height * imgRatio;
-      drawX = (width - drawWidth) / 2;
+      // On narrow/mobile/tablet portrait screens (<= 1024px), center on subject's focal point (38% of image width)
+      if (width <= 1024) {
+        const focalX = drawWidth * 0.38;
+        drawX = Math.min(0, Math.max(width - drawWidth, width / 2 - focalX));
+      } else {
+        drawX = (width - drawWidth) / 2;
+      }
       drawY = 0;
     }
 
@@ -173,9 +179,9 @@ export const HeroCanvasComponent = () => {
         </div>
       </div>
 
-      {/* Floating Subtitle Tags: Shifted UPWARD & Pure Text (MODERN / HIGH QUALITY / FRESH) */}
+      {/* Floating Subtitle Tags: Cleanly Positioned (MODERN / HIGH QUALITY / FRESH) */}
       <div className="absolute inset-0 z-20 pointer-events-none flex flex-col justify-center p-6 sm:p-12 lg:p-16">
-        <div className="w-full flex items-center justify-between text-xs sm:text-sm font-medium tracking-widest text-white uppercase px-4 sm:px-12 -mt-16 sm:-mt-20">
+        <div className="w-full flex items-center justify-between text-xs sm:text-sm font-medium tracking-widest text-white uppercase px-6 sm:px-12 mt-12 sm:mt-16">
           <span className="select-none">
             modern
           </span>

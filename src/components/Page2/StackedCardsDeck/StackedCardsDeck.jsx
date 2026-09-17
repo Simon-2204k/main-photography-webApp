@@ -50,20 +50,21 @@ export const StackedCardsDeck = memo(() => {
 
       cards.forEach((card, idx) => {
         if (!card) return;
-        if (idx > 0) {
-          gsap.set(card, { yPercent: 100, scale: 1, opacity: 1, rotation: 0 });
-        } else {
-          gsap.set(card, { yPercent: 0, scale: 1, opacity: 1, rotation: 0 });
-        }
+        gsap.set(card, {
+          yPercent: idx === 0 ? 0 : 100,
+          scale: 1,
+          opacity: 1,
+          rotation: 0,
+        });
       });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
-          end: `+=${(totalCards - 1) * 140}%`,
+          end: `+=${(totalCards - 1) * 120}%`,
           pin: true,
-          scrub: 1.5,
+          scrub: 1.2,
         },
       });
 
@@ -73,17 +74,20 @@ export const StackedCardsDeck = memo(() => {
         const targetRot = ROTATIONS[i % ROTATIONS.length];
         const stepStart = `step-${i}`;
 
-        tl.fromTo(
+        tl.to(
           nextCard,
-          { yPercent: 100, scale: 1, rotation: 0, opacity: 1 },
-          { yPercent: 0, scale: 1, rotation: 0, opacity: 1, duration: 1.0, ease: 'power1.inOut' },
+          {
+            yPercent: 0,
+            duration: 1.0,
+            ease: 'power1.inOut',
+          },
           stepStart
         );
 
         tl.to(
           currentCard,
           {
-            scale: 0.5,
+            scale: 0.7,
             opacity: 0,
             rotation: targetRot,
             yPercent: -16,
@@ -134,7 +138,7 @@ export const StackedCardsDeck = memo(() => {
                 src={item.image}
                 alt={item.title}
                 className="w-full h-full object-cover object-center transform scale-100"
-                loading="lazy"
+                loading="eager"
                 decoding="async"
               />
 

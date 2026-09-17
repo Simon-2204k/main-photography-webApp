@@ -23,29 +23,33 @@ const SECTION5_IMAGES = [
 ];
 
 const PARALLAX_CARDS = [
-  { id: 1, src: '/images/section6/float-1.webp', left: '6%', width: 140, startY: '110vh', targetY: '-150vh' },
-  { id: 2, src: '/images/section6/float-2.webp', left: '14%', width: 150, startY: '230vh', targetY: '-150vh' },
-  { id: 3, src: '/images/section6/float-3.webp', left: '8%', width: 135, startY: '350vh', targetY: '-150vh' },
-  { id: 4, src: '/images/section6/float-4.webp', left: '16%', width: 155, startY: '470vh', targetY: '-150vh' },
-  { id: 5, src: '/images/section6/float-5.webp', left: '7%', width: 145, startY: '590vh', targetY: '-150vh' },
+  // Outer Left Column (balanced at ~5%)
+  { id: 1, src: '/images/section6/float-1.webp', left: '5%', width: 140, startY: '110vh', targetY: '-150vh' },
+  { id: 2, src: '/images/section6/float-2.webp', left: '7%', width: 150, startY: '230vh', targetY: '-150vh' },
+  { id: 3, src: '/images/section6/float-3.webp', left: '4%', width: 135, startY: '350vh', targetY: '-150vh' },
+  { id: 4, src: '/images/section6/float-4.webp', left: '6%', width: 155, startY: '470vh', targetY: '-150vh' },
+  { id: 5, src: '/images/section6/float-5.webp', left: '5%', width: 145, startY: '590vh', targetY: '-150vh' },
 
-  { id: 6, src: '/images/section6/float-6.webp', left: '28%', width: 130, startY: '140vh', targetY: '-150vh' },
-  { id: 7, src: '/images/section6/float-7.webp', left: '23%', width: 145, startY: '260vh', targetY: '-150vh' },
-  { id: 8, src: '/images/section6/float-8.webp', left: '31%', width: 135, startY: '380vh', targetY: '-150vh' },
-  { id: 9, src: '/images/section6/float-9.webp', left: '25%', width: 150, startY: '500vh', targetY: '-150vh' },
-  { id: 10, src: '/images/section6/float-10.webp', left: '29%', width: 140, startY: '620vh', targetY: '-150vh' },
+  // Inner Left Column (balanced at ~24%)
+  { id: 6, src: '/images/section6/float-6.webp', left: '25%', width: 130, startY: '140vh', targetY: '-150vh' },
+  { id: 7, src: '/images/section6/float-7.webp', left: '22%', width: 145, startY: '260vh', targetY: '-150vh' },
+  { id: 8, src: '/images/section6/float-8.webp', left: '26%', width: 135, startY: '380vh', targetY: '-150vh' },
+  { id: 9, src: '/images/section6/float-9.webp', left: '23%', width: 150, startY: '500vh', targetY: '-150vh' },
+  { id: 10, src: '/images/section6/float-10.webp', left: '25%', width: 140, startY: '620vh', targetY: '-150vh' },
 
-  { id: 11, src: '/images/section6/float-11.webp', left: '69%', width: 140, startY: '125vh', targetY: '-150vh' },
-  { id: 12, src: '/images/section6/float-12.webp', left: '76%', width: 155, startY: '245vh', targetY: '-150vh' },
-  { id: 13, src: '/images/section6/float-13.webp', left: '70%', width: 135, startY: '365vh', targetY: '-150vh' },
-  { id: 14, src: '/images/section6/float-14.webp', left: '77%', width: 145, startY: '485vh', targetY: '-150vh' },
-  { id: 15, src: '/images/section6/float-15.webp', left: '71%', width: 150, startY: '605vh', targetY: '-150vh' },
+  // Inner Right Column (balanced at ~24% from right)
+  { id: 11, src: '/images/section6/float-11.webp', right: '25%', width: 140, startY: '125vh', targetY: '-150vh' },
+  { id: 12, src: '/images/section6/float-12.webp', right: '22%', width: 155, startY: '245vh', targetY: '-150vh' },
+  { id: 13, src: '/images/section6/float-13.webp', right: '26%', width: 135, startY: '365vh', targetY: '-150vh' },
+  { id: 14, src: '/images/section6/float-14.webp', right: '23%', width: 145, startY: '485vh', targetY: '-150vh' },
+  { id: 15, src: '/images/section6/float-15.webp', right: '25%', width: 150, startY: '605vh', targetY: '-150vh' },
 
-  { id: 16, src: '/images/section6/float-16.webp', left: '88%', width: 150, startY: '155vh', targetY: '-150vh' },
-  { id: 17, src: '/images/section6/float-17.webp', left: '84%', width: 135, startY: '275vh', targetY: '-150vh' },
-  { id: 18, src: '/images/section6/float-18.webp', left: '90%', width: 160, startY: '395vh', targetY: '-150vh' },
-  { id: 19, src: '/images/section6/float-19.webp', left: '85%', width: 140, startY: '515vh', targetY: '-150vh' },
-  { id: 20, src: '/images/section6/float-20.webp', left: '89%', width: 155, startY: '635vh', targetY: '-150vh' },
+  // Outer Right Column (balanced at ~5% from right)
+  { id: 16, src: '/images/section6/float-16.webp', right: '5%', width: 150, startY: '155vh', targetY: '-150vh' },
+  { id: 17, src: '/images/section6/float-17.webp', right: '7%', width: 135, startY: '275vh', targetY: '-150vh' },
+  { id: 18, src: '/images/section6/float-18.webp', right: '4%', width: 160, startY: '395vh', targetY: '-150vh' },
+  { id: 19, src: '/images/section6/float-19.webp', right: '6%', width: 140, startY: '515vh', targetY: '-150vh' },
+  { id: 20, src: '/images/section6/float-20.webp', right: '5%', width: 155, startY: '635vh', targetY: '-150vh' },
 ];
 
 export const KeyholeParallaxMask = memo(() => {
@@ -279,6 +283,7 @@ export const KeyholeParallaxMask = memo(() => {
             zIndex: 10,
             backgroundColor: '#ffffff',
             color: '#000000',
+            isolation: 'isolate',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -300,12 +305,12 @@ export const KeyholeParallaxMask = memo(() => {
                 ref={(el) => (cardRefs.current[idx] = el)}
                 style={{
                   position: 'absolute',
-                  left: card.left,
+                  ...(card.right ? { right: card.right } : { left: card.left }),
                   top: 0,
                   width: `clamp(75px, 12vw, ${card.width}px)`,
                   aspectRatio: '3 / 4',
                   filter: 'grayscale(100%) contrast(120%)',
-                  opacity: 0.75,
+                  opacity: 0.85,
                   overflow: 'hidden',
                   willChange: 'transform',
                   borderRadius: '4px',
@@ -326,10 +331,10 @@ export const KeyholeParallaxMask = memo(() => {
             ref={text1Ref}
             style={{
               position: 'relative',
-              zIndex: 15,
               textAlign: 'center',
               maxWidth: '900px',
               padding: '0 24px',
+              pointerEvents: 'none',
             }}
           >
             <h2
@@ -340,7 +345,8 @@ export const KeyholeParallaxMask = memo(() => {
                 letterSpacing: '-0.03em',
                 lineHeight: 0.95,
                 textTransform: 'uppercase',
-                color: '#111111',
+                color: '#ffffff',
+                mixBlendMode: 'difference',
                 margin: 0,
               }}
             >

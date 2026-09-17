@@ -1,0 +1,46 @@
+/* Scoped styles for DulcedoMenu Mobile Viewfinder & Desktop Preview */
+
+.dulcedo-mobile-viewfinder {
+  display: block;
+  width: 90%;
+  max-width: 330px;
+  aspect-ratio: 4 / 3;
+  height: auto;
+  max-height: clamp(175px, 25vh, 225px);
+  margin: 0 auto clamp(10px, 2vh, 20px) auto;
+  position: relative;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+  background-color: #171717;
+  flex-shrink: 0;
+  z-index: 20;
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.7);
+}
+
+.dulcedo-desktop-preview {
+  display: none;
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+  opacity: 0;
+  overflow: hidden;
+  background-color: #171717;
+  will-change: transform;
+  border-radius: 2px;
+  transform-origin: center center;
+  right: 8%;
+  width: clamp(240px, 25vw, 320px);
+  height: clamp(320px, 35vw, 420px);
+  z-index: 40;
+}
+
+@media (min-width: 1025px) {
+  .dulcedo-mobile-viewfinder {
+    display: none !important;
+  }
+
+  .dulcedo-desktop-preview {
+    display: block;
+  }
+}

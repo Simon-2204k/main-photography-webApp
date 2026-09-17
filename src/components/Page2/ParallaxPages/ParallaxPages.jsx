@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CursorTrail } from '../../Page1/CursorTrail/CursorTrail';
+import './ParallaxPages.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,44 +77,44 @@ export default function ParallaxPages() {
             <img src="${slideData.image}" alt="" class="w-full h-full object-cover object-center transform scale-100 opacity-100 will-change-transform" />
           </div>
 
-          <!-- Camera Viewfinder HUD Overlay (Image 3) -->
-          <div class="slide-hud absolute inset-0 pointer-events-none z-30 p-4 sm:p-8 lg:p-14 flex flex-col justify-between select-none">
+          <!-- Camera Viewfinder HUD Overlay -->
+          <div class="parallax-hud-container">
             <!-- Top HUD Bar -->
-            <div class="flex justify-between items-center text-[10px] sm:text-xs md:text-sm font-mono tracking-widest text-white/90">
-              <div class="flex items-center gap-2 sm:gap-2.5">
-                <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-600 animate-pulse inline-block"></span>
+            <div class="parallax-hud-row">
+              <div class="flex items-center gap-1.5 sm:gap-2.5">
+                <span class="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-red-600 animate-pulse inline-block"></span>
                 <span class="font-bold text-red-500 tracking-wider">● REC</span>
-                <span class="text-white/80 font-normal hidden sm:inline">[4K 60FPS RAW]</span>
+                <span class="text-white/80 font-normal">[4K RAW]</span>
               </div>
-              <div class="flex items-center gap-2 sm:gap-4 text-white/75">
+              <div class="flex items-center gap-1.5 sm:gap-4 text-white/75">
                 <span>ISO 400</span>
                 <span>WB 5600K</span>
-                <span class="hidden sm:inline">[BAT 98%]</span>
+                <span>[BAT 98%]</span>
               </div>
             </div>
 
             <!-- 4 Viewfinder Corner Brackets & Center Focus Reticle -->
-            <div class="absolute inset-4 sm:inset-10 lg:inset-16 pointer-events-none">
-              <div class="absolute top-0 left-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-t-2 border-l-2 border-white/70"></div>
-              <div class="absolute top-0 right-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-t-2 border-r-2 border-white/70"></div>
-              <div class="absolute bottom-0 left-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-b-2 border-l-2 border-white/70"></div>
-              <div class="absolute bottom-0 right-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-b-2 border-r-2 border-white/70"></div>
-              <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 sm:w-14 lg:w-16 h-10 sm:h-14 lg:h-16 border border-white/20 flex items-center justify-center pointer-events-none">
+            <div class="parallax-hud-brackets">
+              <div class="absolute top-0 left-0 w-4 sm:w-8 lg:w-10 h-4 sm:h-8 lg:h-10 border-t-2 border-l-2 border-white/70"></div>
+              <div class="absolute top-0 right-0 w-4 sm:w-8 lg:w-10 h-4 sm:h-8 lg:h-10 border-t-2 border-r-2 border-white/70"></div>
+              <div class="absolute bottom-0 left-0 w-4 sm:w-8 lg:w-10 h-4 sm:h-8 lg:h-10 border-b-2 border-l-2 border-white/70"></div>
+              <div class="absolute bottom-0 right-0 w-4 sm:w-8 lg:w-10 h-4 sm:h-8 lg:h-10 border-b-2 border-r-2 border-white/70"></div>
+              <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 sm:w-14 lg:w-16 h-8 sm:h-14 lg:h-16 border border-white/20 flex items-center justify-center pointer-events-none">
                 <span class="text-white/40 text-xs font-mono">+</span>
               </div>
             </div>
 
             <!-- Bottom HUD Bar -->
-            <div class="flex justify-between items-center text-[10px] sm:text-xs md:text-sm font-mono tracking-widest text-white/90">
-              <div class="flex items-center gap-2 sm:gap-4 text-white/80">
+            <div class="parallax-hud-row">
+              <div class="flex items-center gap-1.5 sm:gap-4 text-white/80">
                 <span>F/2.8</span>
                 <span>1/250s</span>
-                <span class="hidden sm:inline">+0.7 EV</span>
+                <span>+0.7 EV</span>
                 <span>50mm</span>
               </div>
-              <div class="flex items-center gap-2 sm:gap-3 text-white/70">
+              <div class="flex items-center gap-1.5 sm:gap-3 text-white/70">
                 <span>[•] CENTER</span>
-                <span class="hidden sm:inline">GRID 3x3</span>
+                <span>GRID 3x3</span>
               </div>
             </div>
           </div>
@@ -178,6 +179,11 @@ export default function ParallaxPages() {
         gsap.killTweensOf(currentSlideImg);
         gsap.killTweensOf(currentSlideCopy);
 
+        const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+        const animDuration = 0.6;
+        const animEase = 'power2.out';
+        const imgShift = isMobile ? '15%' : '25%';
+
         if (isScrollingForward) {
           const newSlideImg = newSlide.querySelector('.slide-img img');
           const newSlideCopy = newSlide.querySelector('.slide-copy');
@@ -185,37 +191,37 @@ export default function ParallaxPages() {
           gsap.set(newSlide, {
             clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)',
           });
-          gsap.set(newSlideImg, { y: '25%' });
+          gsap.set(newSlideImg, { y: imgShift });
           gsap.set(newSlideCopy, { y: '100%' });
 
           carousel.appendChild(newSlide);
 
           gsap.to(newSlide, {
             clipPath: 'polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)',
-            duration: 1,
-            ease: 'power4.inOut',
+            duration: animDuration,
+            ease: animEase,
           });
 
           gsap.to([newSlideCopy, newSlideImg], {
             y: '0%',
-            duration: 1,
-            ease: 'power4.inOut',
+            duration: animDuration,
+            ease: animEase,
           });
 
           gsap.to(currentSlide, {
             clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)',
-            duration: 1,
-            ease: 'power4.inOut',
+            duration: animDuration,
+            ease: animEase,
             onStart: () => {
               gsap.to(currentSlideImg, {
-                y: '-25%',
-                duration: 1,
-                ease: 'power4.inOut',
+                y: `-${imgShift}`,
+                duration: animDuration,
+                ease: animEase,
               });
               gsap.to(currentSlideCopy, {
                 y: '-100%',
-                duration: 1,
-                ease: 'power4.inOut',
+                duration: animDuration,
+                ease: animEase,
               });
             },
             onComplete: () => {
@@ -236,37 +242,37 @@ export default function ParallaxPages() {
           gsap.set(newSlide, {
             clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)',
           });
-          gsap.set(newSlideImg, { y: '-25%' });
+          gsap.set(newSlideImg, { y: `-${imgShift}` });
           gsap.set(newSlideCopy, { y: '-100%' });
 
           carousel.insertBefore(newSlide, currentSlide);
 
           gsap.to(newSlide, {
             clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
-            duration: 1,
-            ease: 'power4.inOut',
+            duration: animDuration,
+            ease: animEase,
           });
 
           gsap.to([newSlideCopy, newSlideImg], {
             y: '0%',
-            duration: 1,
-            ease: 'power4.inOut',
+            duration: animDuration,
+            ease: animEase,
           });
 
           gsap.to(currentSlide, {
             clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)',
-            duration: 1,
-            ease: 'power4.inOut',
+            duration: animDuration,
+            ease: animEase,
             onStart: () => {
               gsap.to(currentSlideImg, {
-                y: '25%',
-                duration: 1,
-                ease: 'power4.inOut',
+                y: imgShift,
+                duration: animDuration,
+                ease: animEase,
               });
               gsap.to(currentSlideCopy, {
                 y: '100%',
-                duration: 1,
-                ease: 'power4.inOut',
+                duration: animDuration,
+                ease: animEase,
               });
             },
             onComplete: () => {
@@ -287,16 +293,30 @@ export default function ParallaxPages() {
       ScrollTrigger.create({
         trigger: carousel,
         start: 'top top',
-        end: () => '+=' + window.innerHeight * 14 + 'px',
+        end: () => '+=' + window.innerHeight * 9.8 + 'px',
         pin: true,
         pinSpacing: true,
-        scrub: 1,
+        anticipatePin: 0,
+        invalidateOnRefresh: true,
+        scrub: 1.2,
+        onEnter: () => {
+          if (timelineBarRef.current) timelineBarRef.current.style.opacity = '1';
+        },
+        onEnterBack: () => {
+          if (timelineBarRef.current) timelineBarRef.current.style.opacity = '1';
+        },
+        onLeave: () => {
+          if (timelineBarRef.current) timelineBarRef.current.style.opacity = '0';
+        },
+        onLeaveBack: () => {
+          if (timelineBarRef.current) timelineBarRef.current.style.opacity = '0';
+        },
         onUpdate: (self) => {
           const currentProgress = self.progress;
 
           // Fade in/out the bottom carousel progress timeline
           if (timelineBarRef.current) {
-            if (currentProgress > 0.01 && currentProgress < 0.99) {
+            if (self.isActive || (currentProgress >= 0.001 && currentProgress <= 0.999)) {
               timelineBarRef.current.style.opacity = '1';
             } else {
               timelineBarRef.current.style.opacity = '0';
@@ -355,44 +375,44 @@ export default function ParallaxPages() {
             />
           </div>
 
-          {/* Camera Viewfinder HUD Overlay (Image 3) */}
-          <div className="slide-hud absolute inset-0 pointer-events-none z-30 p-4 sm:p-8 lg:p-14 flex flex-col justify-between select-none">
+          {/* Camera Viewfinder HUD Overlay */}
+          <div className="parallax-hud-container">
             {/* Top HUD Bar */}
-            <div className="flex justify-between items-center text-[10px] sm:text-xs md:text-sm font-mono tracking-widest text-white/90">
-              <div className="flex items-center gap-2 sm:gap-2.5">
-                <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-600 animate-pulse inline-block"></span>
+            <div className="parallax-hud-row">
+              <div className="flex items-center gap-1.5 sm:gap-2.5">
+                <span className="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-red-600 animate-pulse inline-block"></span>
                 <span className="font-bold text-red-500 tracking-wider">● REC</span>
-                <span className="text-white/80 font-normal hidden sm:inline">[4K 60FPS RAW]</span>
+                <span className="text-white/80 font-normal">[4K RAW]</span>
               </div>
-              <div className="flex items-center gap-2 sm:gap-4 text-white/75">
+              <div className="flex items-center gap-1.5 sm:gap-4 text-white/75">
                 <span>ISO 400</span>
                 <span>WB 5600K</span>
-                <span className="hidden sm:inline">[BAT 98%]</span>
+                <span>[BAT 98%]</span>
               </div>
             </div>
 
             {/* 4 Viewfinder Corner Brackets & Center Crosshair */}
-            <div className="absolute inset-4 sm:inset-10 lg:inset-16 pointer-events-none">
-              <div className="absolute top-0 left-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-t-2 border-l-2 border-white/70"></div>
-              <div className="absolute top-0 right-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-t-2 border-r-2 border-white/70"></div>
-              <div className="absolute bottom-0 left-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-b-2 border-l-2 border-white/70"></div>
-              <div className="absolute bottom-0 right-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-b-2 border-r-2 border-white/70"></div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 sm:w-14 lg:w-16 h-10 sm:h-14 lg:h-16 border border-white/20 flex items-center justify-center pointer-events-none">
+            <div className="parallax-hud-brackets">
+              <div className="absolute top-0 left-0 w-4 sm:w-8 lg:w-10 h-4 sm:h-8 lg:h-10 border-t-2 border-l-2 border-white/70"></div>
+              <div className="absolute top-0 right-0 w-4 sm:w-8 lg:w-10 h-4 sm:h-8 lg:h-10 border-t-2 border-r-2 border-white/70"></div>
+              <div className="absolute bottom-0 left-0 w-4 sm:w-8 lg:w-10 h-4 sm:h-8 lg:h-10 border-b-2 border-l-2 border-white/70"></div>
+              <div className="absolute bottom-0 right-0 w-4 sm:w-8 lg:w-10 h-4 sm:h-8 lg:h-10 border-b-2 border-r-2 border-white/70"></div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 sm:w-14 lg:w-16 h-8 sm:h-14 lg:h-16 border border-white/20 flex items-center justify-center pointer-events-none">
                 <span className="text-white/40 text-xs font-mono">+</span>
               </div>
             </div>
 
             {/* Bottom HUD Bar */}
-            <div className="flex justify-between items-center text-[10px] sm:text-xs md:text-sm font-mono tracking-widest text-white/90">
-              <div className="flex items-center gap-2 sm:gap-4 text-white/80">
+            <div className="parallax-hud-row">
+              <div className="flex items-center gap-1.5 sm:gap-4 text-white/80">
                 <span>F/2.8</span>
                 <span>1/250s</span>
-                <span className="hidden sm:inline">+0.7 EV</span>
+                <span>+0.7 EV</span>
                 <span>50mm</span>
               </div>
-              <div className="flex items-center gap-2 sm:gap-3 text-white/70">
+              <div className="flex items-center gap-1.5 sm:gap-3 text-white/70">
                 <span>[•] CENTER</span>
-                <span className="hidden sm:inline">GRID 3x3</span>
+                <span>GRID 3x3</span>
               </div>
             </div>
           </div>
@@ -438,7 +458,7 @@ export default function ParallaxPages() {
         {/* Codegrid Bottom Carousel Progress Bar Container */}
         <div
           ref={timelineBarRef}
-          className="carousel-progress fixed bottom-8 left-0 w-full px-8 sm:px-16 lg:px-24 z-50 pointer-events-none select-none transition-opacity duration-300 opacity-0"
+          className="carousel-progress-wrapper px-8 sm:px-16 lg:px-24"
         >
           <div className="flex gap-2 sm:gap-4 w-full">
             {PAGES.map((page, index) => (
@@ -458,42 +478,42 @@ export default function ParallaxPages() {
         CURSOR TRAIL LAYER IS DIRECTLY OVER THE TEXT (Z-INDEX 40)
         ========================================================================
       */}
-      <div className="relative w-full bg-[#0a0a0c] text-white py-20 sm:py-32 lg:py-48 px-6 sm:px-12 lg:px-20 z-40 border-none overflow-hidden select-none">
+      <div className="relative w-full bg-[#000000] text-white py-16 sm:py-24 lg:py-36 px-7 sm:px-12 lg:px-20 z-40 border-none overflow-hidden select-none">
         {/* Photo Cursor Trail Layer: SPAWNS OVER THE TEXT (zIndex 40) */}
         <CursorTrail zIndex={40} />
 
         {/* Text Content: Under cursor trail at relative z-10 */}
         <div className="max-w-6xl mx-auto relative z-10 pointer-events-auto">
           {/* Main High-Fashion Editorial Serif Statement (Image 4 Style) */}
-          <h2 className="font-serif font-normal text-2xl sm:text-4xl lg:text-[48px] xl:text-[54px] leading-[1.25] tracking-tight text-white/95 mb-12 sm:mb-20 select-none">
+          <h2 className="font-serif font-normal text-xl sm:text-3xl lg:text-[44px] xl:text-[50px] leading-[1.38] tracking-tight text-white/95 mb-10 sm:mb-16 select-none">
             Our approach combines analogue discipline with a deep understanding of cinematic light, allowing us to create imagery that not only captures attention, but commands an enduring emotional resonance.
           </h2>
 
           {/* 2-Column Capability / Discipline Rows (Image 4 Style) */}
           <div className="border-t border-white/15 divide-y divide-white/15 text-left font-sans">
-            <div className="py-8 sm:py-10 grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-6 items-start">
-              <div className="md:col-span-4 font-sans font-semibold text-lg sm:text-xl text-white">
+            <div className="py-6 sm:py-9 grid grid-cols-1 md:grid-cols-12 gap-2.5 sm:gap-6 items-start">
+              <div className="md:col-span-4 font-sans font-semibold text-base sm:text-xl text-white">
                 Strategic Creative Direction
               </div>
-              <div className="md:col-span-8 font-sans font-normal text-sm sm:text-base text-neutral-300 leading-relaxed">
+              <div className="md:col-span-8 font-sans font-normal text-xs sm:text-base text-neutral-300 leading-relaxed">
                 Ability to curate the photographic narrative and implement visual aesthetics that not only meet editorial goals, but innovatively transform brand stories into enduring cultural moments with high visual impact.
               </div>
             </div>
 
-            <div className="py-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-              <div className="md:col-span-4 font-sans font-semibold text-lg sm:text-xl text-white">
+            <div className="py-6 sm:py-9 grid grid-cols-1 md:grid-cols-12 gap-2.5 sm:gap-6 items-start">
+              <div className="md:col-span-4 font-sans font-semibold text-base sm:text-xl text-white">
                 Medium Format &amp; Analogue Craft
               </div>
-              <div className="md:col-span-8 font-sans font-normal text-sm sm:text-base text-neutral-300 leading-relaxed">
+              <div className="md:col-span-8 font-sans font-normal text-xs sm:text-base text-neutral-300 leading-relaxed">
                 Working across medium format digital and 120 film, capturing raw texture, grain, and authentic atmosphere that digital sensors alone cannot replicate, ensuring high differentiation in modern editorial imagery.
               </div>
             </div>
 
-            <div className="py-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-              <div className="md:col-span-4 font-sans font-semibold text-lg sm:text-xl text-white">
+            <div className="py-6 sm:py-9 grid grid-cols-1 md:grid-cols-12 gap-2.5 sm:gap-6 items-start">
+              <div className="md:col-span-4 font-sans font-semibold text-base sm:text-xl text-white">
                 Exhibition &amp; Fine Art Printmaking
               </div>
-              <div className="md:col-span-8 font-sans font-normal text-sm sm:text-base text-neutral-300 leading-relaxed">
+              <div className="md:col-span-8 font-sans font-normal text-xs sm:text-base text-neutral-300 leading-relaxed">
                 Curating gallery-grade prints, limited-edition monographs, and visual exhibitions with timeless framing, museum-quality color calibration, and uncompromising physical craft.
               </div>
             </div>

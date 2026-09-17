@@ -462,9 +462,14 @@ export const PhysicsDisciplines = memo(() => {
               {/* Unified Interactive Container: captures hover across expanded spacer, cards, text & Learn More */}
               <div
                 ref={(el) => (wordRefs.current[idx] = el)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setHoveredIdx((prev) => (prev === idx ? null : idx));
+                }}
                 onMouseEnter={() => handleMouseEnter(idx)}
                 onMouseLeave={handleMouseLeave}
                 className="relative inline-flex flex-col items-center justify-center cursor-pointer w-fit mx-auto px-4 py-2"
+                style={{ touchAction: 'manipulation' }}
               >
                 {/* Dynamic Push-Down Spacer Slot (Houses CardDeck right above text) */}
                 <div
@@ -485,7 +490,7 @@ export const PhysicsDisciplines = memo(() => {
                   ref={(el) => (h2Refs.current[idx] = el)}
                   className="font-serif font-bold text-center tracking-normal transition-colors duration-200 select-none pointer-events-none"
                   style={{
-                    fontSize: 'clamp(2.6rem, 7.5vw, 7.8rem)',
+                    fontSize: 'clamp(2.1rem, 6.8vw, 7.8rem)',
                     lineHeight: 0.92,
                     color: isHovered ? '#f7f4ea' : '#ff3823',
                   }}

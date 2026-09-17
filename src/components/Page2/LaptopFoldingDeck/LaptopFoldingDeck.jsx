@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, memo } from 'react';
+import React, { useRef, useEffect, useState, memo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 const LAPTOP_CARDS = [
   {
     id: '01',
-    bg: '#3b2db5',
+    bg: '#3732c5',
     titleLines: [
       'Light engineered with absolute precision.',
       'Shadows crafted for narrative tension.',
@@ -27,18 +27,18 @@ const LAPTOP_CARDS = [
   },
   {
     id: '02',
-    bg: '#ff5d22',
+    bg: '#1a5c3a',
     titleLines: [
-      'Emulsion textures that hold time still.',
-      'Unvarnished grain with cinematic weight.',
-      'Authentic moments etched in 35mm density.',
+      'Natural luminance harnessed at golden hour.',
+      'Organic grains preserved through film baths.',
+      'Visual density untouched by artificial noise.',
     ],
     paragraph:
-      'We fuse classic analogue processing with modern editorial framing to deliver tactile visual archives. By combining latent silver halide depth with bold composition, we bring immediate atmosphere and organic weight to every series. The philosophy is simple: pure chemical truth.',
+      'Emulsion responds to what sensors fail to compute: the gradient of atmospheric twilight. By pairing medium-format cameras with hand-developed negatives, every print retains chemical richness and tactile depth that digital algorithms cannot simulate.',
     quote:
-      'They don’t just shoot subjects; they document energy. The film grain, tonal warmth, and frame control brought an incredible editorial elegance to our lookbook.',
-    author: 'Julian Thorne',
-    role: 'Founder & Curator @ Halide Journal',
+      'Their approach to analogue process created an atmosphere that anchored our brand identity. The physical depth in each capture is something you simply cannot manufacture.',
+    author: 'Marcus Vance',
+    role: 'Head of Brand @ Atelier Meridian',
     images: [
       '/images/section5/eduardo-kenji-amorim-m6FlHxLBlVs-unsplash.webp',
       '/images/section5/hamza-nouasria-25NzjUbPIcc-unsplash.webp',
@@ -47,18 +47,18 @@ const LAPTOP_CARDS = [
   },
   {
     id: '03',
-    bg: '#ff333a',
+    bg: '#a23b18',
     titleLines: [
-      'Form and shadow aligned in symmetry.',
-      'Structural scale captured without distortion.',
-      'Spatial perspectives mapped through pristine glass.',
+      'Editorial composition stripped to the bone.',
+      'Every subject framed with sculptural weight.',
+      'Moments suspended in silver halide crystalloids.',
     ],
     paragraph:
-      'We evaluate architectural volume, control perspective shift, and record how ambient light interacts with raw material. Every focal plane is calibrated to reveal structural rhythm and spatial harmony across print and digital media. The objective is focused: structural stillness.',
+      'A great editorial portrait does not beg for interpretation; it commands presence through unyielding focus and sculptural illumination. Stripping down lighting rigs to raw reflectors yields portraits that command absolute editorial authority.',
     quote:
-      'Capturing structural scale without losing human intimacy is rare. Their ability to read room geometry and natural highlights gave our built projects an iconic presence.',
-    author: 'Kaelen Voss',
-    role: 'Principal Architect @ Monolith Design',
+      'Every portrait captured possessed a striking, monumental stillness. It redefined our publication’s visual grammar and set a benchmark for future creative direction.',
+    author: 'Sora Takahashi',
+    role: 'Editor in Chief @ MONOCHROME Journal',
     images: [
       '/images/section5/oscar-ramirez-IHYP1yLWEek-unsplash.webp',
       '/images/section5/rock-staar-xYcnWXtURrs-unsplash.webp',
@@ -67,18 +67,18 @@ const LAPTOP_CARDS = [
   },
   {
     id: '04',
-    bg: '#6c584c',
+    bg: '#1e242b',
     titleLines: [
-      'Imagery that commands focus & emotion.',
-      'Visuals that redefine perspective & scale.',
-      'Composition that evokes stillness & depth.',
+      'Chiaroscuro balance calibrated for print archives.',
+      'Infinite blacks that absorb ambient illumination.',
+      'Monochrome studies rendered for gallery walls.',
     ],
     paragraph:
-      'We isolate natural light, control optical depth, and construct visual narratives across digital and print mediums. Every frame balances precise aperture mechanics with unvarnished texture, giving your subject absolute clarity. The focus is simple: timeless exposure.',
+      'When pigment meets cotton rag, dynamic range transforms from digital pixels into physical reality. Our darkroom techniques yield deep, velvety blacks and razor highlights that preserve tonal transition from corner to corner across every museum-grade exhibition print.',
     quote:
-      'Working with the studio was an incredible experience. Beyond the technical mastery of light and composition, there’s a genuine eye for capturing unscripted, powerful moments. Every frame delivered carried immense depth and atmosphere.',
-    author: 'Marcus Vance',
-    role: 'Creative Director @ Studio Monochrome',
+      'Seeing the gallery prints in physical space was breathtaking. The subtle transitions in deep shadow demonstrated a level of photographic discipline rarely seen today.',
+    author: 'Julian Thorne',
+    role: 'Curator @ Haus der Fotografie, Zurich',
     images: [
       '/images/section5/vinicius-amnx-amano-3BvtFNc1MYY-unsplash.webp',
       '/images/section5/windah-limbai-x9y7-4VvS38-unsplash.webp',
@@ -91,6 +91,17 @@ export const LaptopFoldingDeck = memo(() => {
   const sectionRef = useRef(null);
   const laptopPinRef = useRef(null);
   const cardRefs = useRef([]);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -103,6 +114,32 @@ export const LaptopFoldingDeck = memo(() => {
           transformOrigin: 'top center',
         });
       });
+
+      // Background inversion at 50% scroll height (top 50%) ONLY on phone
+      if (isMobile) {
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: 'top 50%',
+          onEnter: () => {
+            if (sectionRef.current) {
+              sectionRef.current.style.backgroundColor = '#ffffff';
+              sectionRef.current.style.color = '#000000';
+            }
+          },
+          onLeaveBack: () => {
+            if (sectionRef.current) {
+              sectionRef.current.style.backgroundColor = '#000000';
+              sectionRef.current.style.color = '#ffffff';
+            }
+          },
+          onEnterBack: () => {
+            if (sectionRef.current) {
+              sectionRef.current.style.backgroundColor = '#ffffff';
+              sectionRef.current.style.color = '#000000';
+            }
+          },
+        });
+      }
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -146,7 +183,7 @@ export const LaptopFoldingDeck = memo(() => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   return (
     <section
@@ -154,10 +191,11 @@ export const LaptopFoldingDeck = memo(() => {
       style={{
         position: 'relative',
         width: '100%',
-        backgroundColor: '#000000',
-        color: '#ffffff',
-        paddingTop: '15vh',
-        paddingBottom: '15vh',
+        backgroundColor: isMobile ? '#000000' : '#ffffff',
+        color: isMobile ? '#ffffff' : '#000000',
+        transition: isMobile ? 'background-color 0.5s ease, color 0.5s ease' : 'none',
+        paddingTop: isMobile ? '8vh' : '15vh',
+        paddingBottom: isMobile ? '8vh' : '15vh',
         boxSizing: 'border-box',
         userSelect: 'none',
         overflow: 'visible',
@@ -167,7 +205,7 @@ export const LaptopFoldingDeck = memo(() => {
         style={{
           width: '100%',
           maxWidth: '1100px',
-          margin: '0 auto 60px auto',
+          margin: isMobile ? '0 auto 40px auto' : '0 auto 60px auto',
           padding: '0 24px',
           textAlign: 'center',
           boxSizing: 'border-box',
@@ -177,10 +215,11 @@ export const LaptopFoldingDeck = memo(() => {
           style={{
             fontFamily: "'Inter', sans-serif",
             fontWeight: 800,
-            fontSize: 'clamp(1.8rem, 3.2vw, 3rem)',
+            fontSize: isMobile ? 'clamp(1.35rem, 5.2vw, 1.8rem)' : 'clamp(1.8rem, 3.2vw, 3rem)',
             lineHeight: 1.25,
             letterSpacing: '-0.02em',
-            color: '#ffffff',
+            color: isMobile ? 'inherit' : '#000000',
+            transition: isMobile ? 'color 0.5s ease' : 'none',
             margin: 0,
           }}
         >
@@ -193,7 +232,7 @@ export const LaptopFoldingDeck = memo(() => {
         style={{
           position: 'relative',
           width: '100%',
-          height: '90vh',
+          height: isMobile ? '100vh' : '90vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -204,8 +243,11 @@ export const LaptopFoldingDeck = memo(() => {
         <div
           style={{
             position: 'relative',
-            width: 'min(92vw, 1050px)',
-            height: '100%',
+            width: isMobile ? 'min(90vw, 350px)' : 'min(92vw, 1050px)',
+            maxWidth: isMobile ? '350px' : '1050px',
+            height: isMobile ? 'min(90vw, 350px)' : '100%',
+            maxHeight: isMobile ? '350px' : '640px',
+            aspectRatio: isMobile ? '1 / 1' : 'auto',
             margin: '0 auto',
             transformStyle: 'preserve-3d',
           }}
@@ -219,16 +261,18 @@ export const LaptopFoldingDeck = memo(() => {
                 inset: 0,
                 width: '100%',
                 height: '100%',
-                borderRadius: '10px',
+                borderRadius: isMobile ? '16px' : '10px',
                 backgroundColor: card.bg,
                 zIndex: LAPTOP_CARDS.length - idx,
                 transformOrigin: 'top center',
-                boxShadow: 'none',
+                boxShadow: isMobile ? '0 18px 36px rgba(0,0,0,0.2)' : 'none',
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                padding: 'clamp(20px, 3.5vw, 44px) clamp(18px, 3.8vw, 52px)',
+                padding: isMobile
+                  ? '16px 16px 14px 16px'
+                  : 'clamp(20px, 3.5vw, 44px) clamp(18px, 3.8vw, 52px)',
                 boxSizing: 'border-box',
                 color: '#ffffff',
                 willChange: 'transform',
@@ -239,30 +283,45 @@ export const LaptopFoldingDeck = memo(() => {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'flex-start',
-                  gap: '16px',
+                  gap: '12px',
                 }}
               >
                 <div style={{ maxWidth: '850px' }}>
-                  {card.titleLines.map((line, lIdx) => (
+                  {isMobile ? (
                     <h3
-                      key={lIdx}
                       style={{
                         fontFamily: "'Inter', sans-serif",
                         fontWeight: 700,
-                        fontSize: 'clamp(1.15rem, 2.2vw, 2.4rem)',
+                        fontSize: 'clamp(0.95rem, 3.8vw, 1.15rem)',
                         letterSpacing: '-0.02em',
-                        lineHeight: 1.15,
-                        margin: '0 0 4px 0',
+                        lineHeight: 1.2,
+                        margin: 0,
                       }}
                     >
-                      {line}
+                      {card.titleLines.slice(0, 2).join(' ')}
                     </h3>
-                  ))}
+                  ) : (
+                    card.titleLines.map((line, lIdx) => (
+                      <h3
+                        key={lIdx}
+                        style={{
+                          fontFamily: "'Inter', sans-serif",
+                          fontWeight: 700,
+                          fontSize: 'clamp(1.15rem, 2.2vw, 2.4rem)',
+                          letterSpacing: '-0.02em',
+                          lineHeight: 1.15,
+                          margin: '0 0 4px 0',
+                        }}
+                      >
+                        {line}
+                      </h3>
+                    ))
+                  )}
                 </div>
                 <span
                   style={{
                     fontFamily: 'monospace',
-                    fontSize: 'clamp(14px, 1.4vw, 18px)',
+                    fontSize: isMobile ? '12px' : 'clamp(14px, 1.4vw, 18px)',
                     fontWeight: 600,
                     opacity: 0.85,
                     flexShrink: 0,
@@ -275,30 +334,60 @@ export const LaptopFoldingDeck = memo(() => {
               <p
                 style={{
                   fontFamily: "'Inter', sans-serif",
-                  fontSize: 'clamp(0.82rem, 1.1vw, 1.05rem)',
-                  lineHeight: 1.55,
+                  fontSize: isMobile ? 'clamp(0.72rem, 2.6vw, 0.8rem)' : 'clamp(0.82rem, 1.1vw, 1.05rem)',
+                  lineHeight: isMobile ? 1.35 : 1.55,
                   color: 'rgba(255, 255, 255, 0.92)',
                   maxWidth: '850px',
-                  margin: '12px 0',
+                  margin: isMobile ? '4px 0 8px 0' : '12px 0',
+                  display: isMobile ? '-webkit-box' : 'block',
+                  WebkitLineClamp: isMobile ? 2 : 'none',
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
                 }}
               >
                 {card.paragraph}
               </p>
 
               <div
-                className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-end pt-3 sm:pt-4 border-t border-white/20"
+                style={
+                  isMobile
+                    ? {
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '8px',
+                        paddingTop: '8px',
+                        borderTop: '1px solid rgba(255, 255, 255, 0.2)',
+                      }
+                    : {
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(12, 1fr)',
+                        gap: '32px',
+                        alignItems: 'flex-end',
+                        paddingTop: '20px',
+                        borderTop: '1px solid rgba(255, 255, 255, 0.22)',
+                      }
+                }
               >
                 <div
-                  className="md:col-span-6 flex flex-col justify-between"
+                  style={
+                    isMobile
+                      ? { display: 'none' }
+                      : {
+                          gridColumn: 'span 6',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'space-between',
+                        }
+                  }
                 >
                   <blockquote
                     style={{
                       fontFamily: "'Inter', sans-serif",
                       fontStyle: 'italic',
-                      fontSize: 'clamp(0.75rem, 1vw, 0.95rem)',
+                      fontSize: 'clamp(0.8rem, 1.05vw, 0.95rem)',
                       color: 'rgba(255, 255, 255, 0.92)',
-                      margin: '0 0 8px 0',
-                      lineHeight: 1.45,
+                      margin: '0 0 12px 0',
+                      lineHeight: 1.5,
                     }}
                   >
                     "{card.quote}"
@@ -308,7 +397,7 @@ export const LaptopFoldingDeck = memo(() => {
                       style={{
                         fontFamily: "'Inter', sans-serif",
                         fontWeight: 700,
-                        fontSize: 'clamp(12px, 1.2vw, 14px)',
+                        fontSize: '14px',
                         display: 'block',
                       }}
                     >
@@ -317,7 +406,7 @@ export const LaptopFoldingDeck = memo(() => {
                     <span
                       style={{
                         fontFamily: "'Inter', sans-serif",
-                        fontSize: 'clamp(10.5px, 1vw, 12px)',
+                        fontSize: '12px',
                         color: 'rgba(255, 255, 255, 0.75)',
                         display: 'block',
                       }}
@@ -328,14 +417,29 @@ export const LaptopFoldingDeck = memo(() => {
                 </div>
 
                 <div
-                  className="md:col-span-6 grid grid-cols-3 gap-2 sm:gap-3"
+                  style={
+                    isMobile
+                      ? {
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(3, 1fr)',
+                          gap: '6px',
+                          width: '100%',
+                        }
+                      : {
+                          gridColumn: 'span 6',
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(3, 1fr)',
+                          gap: '12px',
+                          width: '100%',
+                        }
+                  }
                 >
                   {card.images.map((imgSrc, imgIdx) => (
                     <div
                       key={imgIdx}
                       style={{
                         aspectRatio: '4 / 3',
-                        borderRadius: '8px',
+                        borderRadius: isMobile ? '6px' : '8px',
                         overflow: 'hidden',
                         backgroundColor: 'rgba(0,0,0,0.3)',
                         border: '1px solid rgba(255, 255, 255, 0.25)',

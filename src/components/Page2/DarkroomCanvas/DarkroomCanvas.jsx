@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, memo } from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 import './DarkroomCanvas.css';
 
 const INITIAL_BOXES = [
@@ -7,6 +7,12 @@ const INITIAL_BOXES = [
   { id: 3, width: 380, height: 260, bottom: 90, left: 90, zIndex: 10 },
   { id: 4, width: 580, height: 380, bottom: 50, right: 80, zIndex: 10 },
   { id: 5, width: 420, height: 300, top: null, left: null, isCenter: true, zIndex: 11 },
+];
+
+const MOBILE_BOXES = [
+  { id: 1, width: 270, height: 130, top: 65, left: 18, zIndex: 10 },
+  { id: 2, width: 290, height: 160, top: null, left: null, isCenter: true, zIndex: 12 },
+  { id: 3, width: 270, height: 140, bottom: 75, left: 20, zIndex: 10 },
 ];
 
 export const DarkroomCanvasComponent = () => {
@@ -18,48 +24,86 @@ export const DarkroomCanvasComponent = () => {
   const highestZIndexRef = useRef(20);
   const animFrameIdRef = useRef(null);
   const isDraggingRef = useRef(false);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const activeBoxes = isMobile ? MOBILE_BOXES : INITIAL_BOXES;
 
   // Initialize initial CSS positions on mount & handle responsive resize
   useEffect(() => {
     const initBoxes = () => {
-      const isMobile = window.innerWidth < 768;
-      const isTablet = window.innerWidth <= 1024;
-      const scaleFactor = isMobile
-        ? Math.min(0.65, (window.innerWidth - 32) / 580)
-        : isTablet
-        ? 0.78
-        : 1;
+      const mobile = window.innerWidth < 768;
+      const boxes = mobile ? MOBILE_BOXES : INITIAL_BOXES;
 
       boxRefs.current.forEach((el, idx) => {
         if (!el) return;
-        const config = INITIAL_BOXES[idx];
-        const boxWidth = Math.round(config.width * scaleFactor);
-        const boxHeight = Math.round(config.height * scaleFactor);
+        const config = boxes[idx];
+        if (!config) return;
 
-        el.style.width = `${boxWidth}px`;
-        el.style.height = `${boxHeight}px`;
-        el.style.zIndex = config.zIndex;
+        if (mobile) {
+          el.style.width = `${config.width}px`;
+          el.style.height = `${config.height}px`;
+          el.style.zIndex = config.zIndex;
 
-        if (config.isCenter) {
-          const top = Math.round((window.innerHeight - boxHeight) / 2 + 10);
-          const left = Math.round((window.innerWidth - boxWidth) / 2);
-          el.style.top = `${Math.max(10, top)}px`;
-          el.style.left = `${Math.max(10, left)}px`;
+          if (config.isCenter) {
+            const top = Math.round((window.innerHeight - config.height) / 2);
+            const left = Math.round((window.innerWidth - config.width) / 2);
+            el.style.top = `${Math.max(10, top)}px`;
+            el.style.left = `${Math.max(10, left)}px`;
+          } else {
+            let topVal, leftVal;
+            if (config.top !== undefined) topVal = config.top;
+            if (config.left !== undefined) leftVal = config.left;
+            if (config.right !== undefined)
+              leftVal = window.innerWidth - config.width - config.right;
+            if (config.bottom !== undefined)
+              topVal = window.innerHeight - config.height - config.bottom;
+
+            leftVal = Math.max(8, Math.min(window.innerWidth - config.width - 8, leftVal));
+            topVal = Math.max(8, Math.min(window.innerHeight - config.height - 8, topVal));
+
+            el.style.top = `${topVal}px`;
+            el.style.left = `${leftVal}px`;
+          }
         } else {
-          let topVal, leftVal;
-          if (config.top !== undefined) topVal = Math.round(config.top * scaleFactor);
-          if (config.left !== undefined) leftVal = Math.round(config.left * scaleFactor);
-          if (config.right !== undefined)
-            leftVal = window.innerWidth - boxWidth - Math.round(config.right * scaleFactor);
-          if (config.bottom !== undefined)
-            topVal = window.innerHeight - boxHeight - Math.round(config.bottom * scaleFactor);
+          const isTablet = window.innerWidth <= 1024;
+          const scaleFactor = isTablet ? 0.78 : 1;
+          const boxWidth = Math.round(config.width * scaleFactor);
+          const boxHeight = Math.round(config.height * scaleFactor);
 
-          // Bound within viewport with safe padding
-          leftVal = Math.max(8, Math.min(window.innerWidth - boxWidth - 8, leftVal));
-          topVal = Math.max(8, Math.min(window.innerHeight - boxHeight - 8, topVal));
+          el.style.width = `${boxWidth}px`;
+          el.style.height = `${boxHeight}px`;
+          el.style.zIndex = config.zIndex;
 
-          el.style.top = `${topVal}px`;
-          el.style.left = `${leftVal}px`;
+          if (config.isCenter) {
+            const top = Math.round((window.innerHeight - boxHeight) / 2 + 10);
+            const left = Math.round((window.innerWidth - boxWidth) / 2);
+            el.style.top = `${Math.max(10, top)}px`;
+            el.style.left = `${Math.max(10, left)}px`;
+          } else {
+            let topVal, leftVal;
+            if (config.top !== undefined) topVal = Math.round(config.top * scaleFactor);
+            if (config.left !== undefined) leftVal = Math.round(config.left * scaleFactor);
+            if (config.right !== undefined)
+              leftVal = window.innerWidth - boxWidth - Math.round(config.right * scaleFactor);
+            if (config.bottom !== undefined)
+              topVal = window.innerHeight - boxHeight - Math.round(config.bottom * scaleFactor);
+
+            leftVal = Math.max(8, Math.min(window.innerWidth - boxWidth - 8, leftVal));
+            topVal = Math.max(8, Math.min(window.innerHeight - boxHeight - 8, topVal));
+
+            el.style.top = `${topVal}px`;
+            el.style.left = `${leftVal}px`;
+          }
         }
 
         updateBadge(idx);
@@ -69,7 +113,7 @@ export const DarkroomCanvasComponent = () => {
     initBoxes();
     window.addEventListener('resize', initBoxes);
     return () => window.removeEventListener('resize', initBoxes);
-  }, []);
+  }, [isMobile]);
 
   const updateBadge = (idx) => {
     const box = boxRefs.current[idx];
@@ -82,9 +126,9 @@ export const DarkroomCanvasComponent = () => {
     badge.textContent = `X:${x}PX Y:${y}PX`;
   };
 
-  // Drag and drop interaction handlers matching reference, capped at zIndex 500
-  const handleMouseDown = (e, idx) => {
-    e.preventDefault();
+  // Fluid single-finger touch and pointer drag handlers, capped at zIndex 500
+  const handlePointerDown = (e, idx) => {
+    if (e.button !== undefined && e.button !== 0) return;
     const box = boxRefs.current[idx];
     if (!box) return;
 
@@ -97,7 +141,7 @@ export const DarkroomCanvasComponent = () => {
     const offsetX = e.clientX - rect.left;
     const offsetY = e.clientY - rect.top;
 
-    const handleMouseMove = (moveEvent) => {
+    const handlePointerMove = (moveEvent) => {
       if (!isDraggingRef.current) return;
       const newLeft = moveEvent.clientX - offsetX;
       const newTop = moveEvent.clientY - offsetY;
@@ -108,15 +152,17 @@ export const DarkroomCanvasComponent = () => {
       updateBadge(idx);
     };
 
-    const handleMouseUp = () => {
+    const handlePointerUp = () => {
       isDraggingRef.current = false;
       box.classList.remove('is-dragging');
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerUp);
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener('pointercancel', handlePointerUp);
   };
 
   // Real-time Canvas Frame Rendering Loop
@@ -290,13 +336,13 @@ export const DarkroomCanvasComponent = () => {
         </div>
       </div>
 
-      {/* 5 Interactive HUD Mask Boxes with Canvas */}
-      {INITIAL_BOXES.map((item, idx) => (
+      {/* Interactive HUD Mask Boxes with Canvas */}
+      {activeBoxes.map((item, idx) => (
         <div
           key={item.id}
           ref={(el) => (boxRefs.current[idx] = el)}
           className="darkroom-mask-box"
-          onMouseDown={(e) => handleMouseDown(e, idx)}
+          onPointerDown={(e) => handlePointerDown(e, idx)}
         >
           <div
             ref={(el) => (badgeRefs.current[idx] = el)}
