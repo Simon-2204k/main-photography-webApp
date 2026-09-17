@@ -18,6 +18,7 @@
   background-color: #000000;
   outline: none;
   display: block;
+  touch-action: pan-y;
 }
 
 .cylindrical-gallery-canvas:active {
@@ -26,7 +27,7 @@
 
 .cylindrical-gallery-hud {
   position: absolute;
-  bottom: 40px;
+  bottom: clamp(20px, 4vh, 40px);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -35,6 +36,8 @@
   gap: 8px;
   pointer-events: none;
   z-index: 10;
+  width: max-content;
+  max-width: 90vw;
 }
 
 .hud-badge {

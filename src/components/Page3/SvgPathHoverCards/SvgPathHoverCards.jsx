@@ -118,14 +118,35 @@ export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
         });
       };
 
+      const handleTap = () => {
+        if (window.matchMedia('(pointer: coarse)').matches) {
+          if (card.dataset.tapped === 'true') {
+            card.dataset.tapped = 'false';
+            handleLeave();
+          } else {
+            cardsRef.current.forEach((c) => {
+              if (c && c !== card && c.dataset.tapped === 'true') {
+                c.dataset.tapped = 'false';
+                c._handleLeave?.();
+              }
+            });
+            card.dataset.tapped = 'true';
+            handleEnter();
+          }
+        }
+      };
+
+      card._handleLeave = handleLeave;
       card.addEventListener('mouseenter', handleEnter);
       card.addEventListener('mouseleave', handleLeave);
+      card.addEventListener('click', handleTap);
 
       card._cleanup = () => {
         card._tl?.kill();
         gsap.killTweensOf([...paths, hoverCard]);
         card.removeEventListener('mouseenter', handleEnter);
         card.removeEventListener('mouseleave', handleLeave);
+        card.removeEventListener('click', handleTap);
       };
     });
 

@@ -204,7 +204,7 @@ export const LaptopFoldingDeck = memo(() => {
         <div
           style={{
             position: 'relative',
-            width: '75vw',
+            width: 'min(92vw, 1050px)',
             height: '100%',
             margin: '0 auto',
             transformStyle: 'preserve-3d',
@@ -228,7 +228,7 @@ export const LaptopFoldingDeck = memo(() => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                padding: '44px 52px',
+                padding: 'clamp(20px, 3.5vw, 44px) clamp(18px, 3.8vw, 52px)',
                 boxSizing: 'border-box',
                 color: '#ffffff',
                 willChange: 'transform',
@@ -249,7 +249,7 @@ export const LaptopFoldingDeck = memo(() => {
                       style={{
                         fontFamily: "'Inter', sans-serif",
                         fontWeight: 700,
-                        fontSize: 'clamp(1.5rem, 2.5vw, 2.5rem)',
+                        fontSize: 'clamp(1.15rem, 2.2vw, 2.4rem)',
                         letterSpacing: '-0.02em',
                         lineHeight: 1.15,
                         margin: '0 0 4px 0',
@@ -262,7 +262,7 @@ export const LaptopFoldingDeck = memo(() => {
                 <span
                   style={{
                     fontFamily: 'monospace',
-                    fontSize: '18px',
+                    fontSize: 'clamp(14px, 1.4vw, 18px)',
                     fontWeight: 600,
                     opacity: 0.85,
                     flexShrink: 0,
@@ -275,42 +275,30 @@ export const LaptopFoldingDeck = memo(() => {
               <p
                 style={{
                   fontFamily: "'Inter', sans-serif",
-                  fontSize: 'clamp(0.9rem, 1.2vw, 1.05rem)',
-                  lineHeight: 1.6,
+                  fontSize: 'clamp(0.82rem, 1.1vw, 1.05rem)',
+                  lineHeight: 1.55,
                   color: 'rgba(255, 255, 255, 0.92)',
                   maxWidth: '850px',
-                  margin: '16px 0',
+                  margin: '12px 0',
                 }}
               >
                 {card.paragraph}
               </p>
 
               <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(12, 1fr)',
-                  gap: '32px',
-                  alignItems: 'flex-end',
-                  paddingTop: '20px',
-                  borderTop: '1px solid rgba(255, 255, 255, 0.22)',
-                }}
+                className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 items-end pt-3 sm:pt-4 border-t border-white/20"
               >
                 <div
-                  style={{
-                    gridColumn: 'span 6',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                  }}
+                  className="md:col-span-6 flex flex-col justify-between"
                 >
                   <blockquote
                     style={{
                       fontFamily: "'Inter', sans-serif",
                       fontStyle: 'italic',
-                      fontSize: 'clamp(0.8rem, 1.05vw, 0.95rem)',
+                      fontSize: 'clamp(0.75rem, 1vw, 0.95rem)',
                       color: 'rgba(255, 255, 255, 0.92)',
-                      margin: '0 0 12px 0',
-                      lineHeight: 1.5,
+                      margin: '0 0 8px 0',
+                      lineHeight: 1.45,
                     }}
                   >
                     "{card.quote}"
@@ -320,7 +308,7 @@ export const LaptopFoldingDeck = memo(() => {
                       style={{
                         fontFamily: "'Inter', sans-serif",
                         fontWeight: 700,
-                        fontSize: '14px',
+                        fontSize: 'clamp(12px, 1.2vw, 14px)',
                         display: 'block',
                       }}
                     >
@@ -329,7 +317,7 @@ export const LaptopFoldingDeck = memo(() => {
                     <span
                       style={{
                         fontFamily: "'Inter', sans-serif",
-                        fontSize: '12px',
+                        fontSize: 'clamp(10.5px, 1vw, 12px)',
                         color: 'rgba(255, 255, 255, 0.75)',
                         display: 'block',
                       }}
@@ -340,12 +328,7 @@ export const LaptopFoldingDeck = memo(() => {
                 </div>
 
                 <div
-                  style={{
-                    gridColumn: 'span 6',
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
-                    gap: '12px',
-                  }}
+                  className="md:col-span-6 grid grid-cols-3 gap-2 sm:gap-3"
                 >
                   {card.images.map((imgSrc, imgIdx) => (
                     <div

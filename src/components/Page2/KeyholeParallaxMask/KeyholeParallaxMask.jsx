@@ -59,10 +59,33 @@ export const KeyholeParallaxMask = memo(() => {
   const cardRefs = useRef([]);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveImgIdx((prev) => (prev + 1) % SECTION5_IMAGES.length);
-    }, 220);
-    return () => clearInterval(timer);
+    let timer = null;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!timer) {
+            timer = setInterval(() => {
+              setActiveImgIdx((prev) => (prev + 1) % SECTION5_IMAGES.length);
+            }, 220);
+          }
+        } else {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
+        }
+      },
+      { threshold: 0.05 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (timer) clearInterval(timer);
+      observer.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -279,7 +302,7 @@ export const KeyholeParallaxMask = memo(() => {
                   position: 'absolute',
                   left: card.left,
                   top: 0,
-                  width: `${card.width}px`,
+                  width: `clamp(75px, 12vw, ${card.width}px)`,
                   aspectRatio: '3 / 4',
                   filter: 'grayscale(100%) contrast(120%)',
                   opacity: 0.75,

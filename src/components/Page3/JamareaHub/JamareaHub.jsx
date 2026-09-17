@@ -20,17 +20,33 @@ const MARQUEE_TERMS = [
 
 export const JamareaHub = memo(function JamareaHub() {
   const [activeImageIdx, setActiveImageIdx] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
   const trackRef = useRef(null);
 
-  // 1. Continuous image cycling timer across all 20 images
+  // IntersectionObserver to pause cycling and animations when offscreen
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  // 1. Continuous image cycling timer across all 20 images (active only when in viewport)
+  useEffect(() => {
+    if (!isVisible) return;
     const timer = setInterval(() => {
       setActiveImageIdx((prev) => (prev + 1) % PORTAL_IMAGES.length);
     }, 280);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [isVisible]);
 
   // 2. Pin Section 4 for 150vh
   useEffect(() => {
@@ -51,29 +67,42 @@ export const JamareaHub = memo(function JamareaHub() {
     return () => ctx.revert();
   }, []);
 
-  // 3. Mouse-driven horizontal text scrub: extreme left shows left, extreme right shows right
+  // 3. Mouse scrub on desktop / Auto-ticker fallback on touch or mobile
   useEffect(() => {
     const section = sectionRef.current;
     const track = trackRef.current;
     if (!section || !track) return;
 
-    const handleMouseMove = (e) => {
-      const rect = section.getBoundingClientRect();
-      const progress = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
-      const maxScroll = track.scrollWidth - window.innerWidth;
-      if (maxScroll > 0) {
-        gsap.to(track, {
-          x: -progress * maxScroll,
-          duration: 0.65,
-          ease: 'power2.out',
-          overwrite: 'auto'
-        });
-      }
-    };
+    const isTouch = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
 
-    section.addEventListener('mousemove', handleMouseMove);
-    return () => section.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+    if (isTouch) {
+      if (!isVisible) return;
+      const tween = gsap.to(track, {
+        x: '-33.33%',
+        repeat: -1,
+        duration: 16,
+        ease: 'none'
+      });
+      return () => tween.kill();
+    } else {
+      const handleMouseMove = (e) => {
+        const rect = section.getBoundingClientRect();
+        const progress = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+        const maxScroll = track.scrollWidth - window.innerWidth;
+        if (maxScroll > 0) {
+          gsap.to(track, {
+            x: -progress * maxScroll,
+            duration: 0.65,
+            ease: 'power2.out',
+            overwrite: 'auto'
+          });
+        }
+      };
+
+      section.addEventListener('mousemove', handleMouseMove);
+      return () => section.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, [isVisible]);
 
   return (
     <section ref={sectionRef} className="jamarea-hub-section" id="jamarea-hub-section">

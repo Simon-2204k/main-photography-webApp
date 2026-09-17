@@ -38,7 +38,7 @@ export const ThisIsESEComponent = () => {
     <section
       ref={sectionRef}
       id="about"
-      className="relative z-20 text-white w-full min-h-screen h-screen flex flex-col justify-center px-0 overflow-hidden select-none"
+      className="relative z-20 text-white w-full min-h-screen flex flex-col justify-center px-0 overflow-hidden select-none py-16 sm:py-24 lg:py-32"
       style={{
         backgroundColor: '#000000',
         maskImage: 'linear-gradient(to bottom, transparent 0%, black 140px, black 100%)',
@@ -68,18 +68,17 @@ export const ThisIsESEComponent = () => {
 
       {/* 
         ========================================================================
-        100VH VERTICALLY CENTERED: STRICT 50% LEFT / 50% RIGHT WINDOW SPLIT
+        RESPONSIVE CONTENT: COLUMN ON MOBILE/TABLET, 50/50 ON DESKTOP & 1024x1366
         ========================================================================
       */}
       <div
         ref={contentRef}
         className="w-full relative z-20 px-6 sm:px-12 lg:px-20 flex items-center justify-center pt-8"
       >
-        <div className="w-full flex flex-row items-center justify-between">
-          {/* STRICT LEFT 50% OF WINDOW */}
+        <div className="w-full flex flex-col lg:flex-row items-start lg:items-center justify-between gap-12 lg:gap-8">
+          {/* LEFT COLUMN */}
           <div
-            style={{ width: '50%' }}
-            className="pr-4 sm:pr-8 lg:pr-14 flex flex-col justify-start text-left"
+            className="w-full lg:w-1/2 pr-0 lg:pr-10 xl:pr-14 flex flex-col justify-start text-left"
           >
             {/* Monospace Eyebrow Tag */}
             <div className="inline-flex items-center gap-2 mb-4">
@@ -90,10 +89,10 @@ export const ThisIsESEComponent = () => {
             </div>
 
             {/* Stacked Headline */}
-            <h2 className="font-sans font-black text-3xl sm:text-5xl lg:text-[54px] xl:text-[64px] leading-[0.95] tracking-tighter text-white uppercase mb-8">
+            <h2 className="font-sans font-black text-3xl sm:text-5xl lg:text-[52px] xl:text-[64px] leading-[0.95] tracking-tighter text-white uppercase mb-8">
               <span className="block font-black tracking-tight text-white">MASTER OF</span>
               <span className="block font-black tracking-tight text-white">LIGHT &amp;</span>
-              <span className="block font-serif font-normal italic tracking-normal text-white text-4xl sm:text-6xl lg:text-[60px] xl:text-[70px] capitalize mt-1">
+              <span className="block font-serif font-normal italic tracking-normal text-white text-4xl sm:text-6xl lg:text-[58px] xl:text-[70px] capitalize mt-1">
                 Perspective
               </span>
             </h2>
@@ -138,12 +137,11 @@ export const ThisIsESEComponent = () => {
             </div>
           </div>
 
-          {/* STRICT RIGHT 50% OF WINDOW */}
+          {/* RIGHT COLUMN */}
           <div
-            style={{ width: '50%' }}
-            className="pl-4 sm:pl-8 lg:pl-14 flex flex-col justify-between text-left pt-2 sm:pt-4"
+            className="w-full lg:w-1/2 pl-0 lg:pl-10 xl:pl-14 flex flex-col justify-between text-left pt-2 sm:pt-4"
           >
-            <p className="font-sans font-normal text-base sm:text-xl lg:text-[23px] xl:text-[27px] leading-[1.38] tracking-tight text-neutral-200 mb-8">
+            <p className="font-sans font-normal text-base sm:text-xl lg:text-[22px] xl:text-[26px] leading-[1.38] tracking-tight text-neutral-200 mb-8">
               Concept-driven, atmospheric and cinematic. Our visual laboratory creates enduring imagery for visionary brands and authentic people. In the disciplines of editorial campaigns, lookbooks, gallery exhibitions and medium format. Between analogue craft and contemporary vision. Frame it, preserve it, treasure it forever. This is <span className="font-extrabold text-white underline decoration-amber-400/50 decoration-2 underline-offset-4">SIMON Photography</span>.
             </p>
 

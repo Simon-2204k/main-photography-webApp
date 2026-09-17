@@ -53,7 +53,7 @@ export class CylindricalGalleryEngine {
 
     const baseZ = 6.5;
     const baseY = 0;
-    const responsiveZ = aspect < 1 ? baseZ / aspect : baseZ;
+    const responsiveZ = aspect < 1 ? Math.min(7.2, baseZ / Math.max(0.85, aspect)) : baseZ;
     this.defaultCameraPos = new THREE.Vector3(0, baseY, responsiveZ);
     this.camera.position.copy(this.defaultCameraPos);
 
@@ -216,12 +216,24 @@ export class CylindricalGalleryEngine {
     this.camera.updateProjectionMatrix();
 
     const baseZ = 6.5;
-    const responsiveZ = aspect < 1 ? baseZ / aspect : baseZ;
+    const responsiveZ = aspect < 1 ? Math.min(7.2, baseZ / Math.max(0.85, aspect)) : baseZ;
     this.defaultCameraPos.z = responsiveZ;
     this.camera.position.z = responsiveZ;
 
     this.renderer.setSize(width, height);
     this.composer.setSize(width, height);
+  }
+
+  startLoop() {
+    if (this.disposed || this.animationFrameId) return;
+    this.animate();
+  }
+
+  stopLoop() {
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
   }
 
   animate() {
@@ -255,8 +267,8 @@ export class CylindricalGalleryEngine {
       this.controls.dispose();
     }
 
-    if (this.geometry) this.geometry.dispose();
-    if (this.backMaterial) this.backMaterial.dispose();
+    this.geometry?.dispose();
+    this.backMaterial?.dispose();
     this.materials.forEach((m) => m.dispose());
     this.textures.forEach((t) => t.dispose());
 
@@ -276,7 +288,24 @@ export const CylindricalGallery = memo(function CylindricalGallery() {
       engineRef.current = new CylindricalGalleryEngine(canvasRef.current, containerRef.current);
     }
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!engineRef.current) return;
+        if (entry.isIntersecting) {
+          engineRef.current.startLoop();
+        } else {
+          engineRef.current.stopLoop();
+        }
+      },
+      { threshold: 0.05 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
     return () => {
+      observer.disconnect();
       if (engineRef.current) {
         engineRef.current.dispose();
         engineRef.current = null;

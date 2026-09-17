@@ -112,10 +112,10 @@ const CardDeck = memo(({ cards }) => {
     <div
       className="absolute pointer-events-none flex items-center justify-center overflow-hidden"
       style={{
-        bottom: '12px', // Elevated with bottom clearance so rounded corners are never clipped
+        bottom: '12px',
         left: '50%',
         transform: 'translateX(-50%)',
-        width: '350px',
+        width: 'min(350px, 90vw)',
         height: '190px',
         zIndex: 10,
         paddingTop: '10px',
@@ -411,16 +411,18 @@ export const PhysicsDisciplines = memo(() => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full text-white px-6 sm:px-12 lg:px-20 select-none overflow-hidden"
+      className="relative w-full text-white px-4 sm:px-12 lg:px-20 select-none overflow-hidden"
       style={{
         backgroundColor: '#000000',
         isolation: 'isolate',
-        minHeight: '140vh',
-        height: '140vh',
+        minHeight: '100vh',
+        height: 'auto',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        paddingTop: 'clamp(4rem, 8vh, 7rem)',
+        paddingBottom: 'clamp(4rem, 8vh, 7rem)',
       }}
     >
       {/* Physics Overlay Canvas for Pill Badges */}
@@ -432,14 +434,14 @@ export const PhysicsDisciplines = memo(() => {
       {/* Top Header in Warm Cream Serif */}
       <div
         className="w-full max-w-5xl mx-auto text-center z-10"
-        style={{ marginBottom: 'clamp(4rem, 8vh, 7rem)' }}
+        style={{ marginBottom: 'clamp(3rem, 6vh, 5.5rem)' }}
       >
         <h3
           className="font-serif italic font-normal tracking-tight text-white/95"
           style={{
-            fontSize: 'clamp(2.5rem, 5.5vw, 5rem)',
+            fontSize: 'clamp(2rem, 4.5vw, 4.5rem)',
             color: '#f7f4ea',
-            lineHeight: 1.1,
+            lineHeight: 1.15,
           }}
         >
           We know what we&apos;re good at!
@@ -483,8 +485,8 @@ export const PhysicsDisciplines = memo(() => {
                   ref={(el) => (h2Refs.current[idx] = el)}
                   className="font-serif font-bold text-center tracking-normal transition-colors duration-200 select-none pointer-events-none"
                   style={{
-                    fontSize: 'clamp(3.8rem, 8.5vw, 8.2rem)',
-                    lineHeight: 0.9,
+                    fontSize: 'clamp(2.6rem, 7.5vw, 7.8rem)',
+                    lineHeight: 0.92,
                     color: isHovered ? '#f7f4ea' : '#ff3823',
                   }}
                 >

@@ -158,36 +158,89 @@
   -webkit-backdrop-filter: blur(6px);
 }
 
-@media (max-width: 1024px) {
+/* Tablet Responsive Calibration (768px - 1024px & 1024x1366) */
+@media (max-width: 1024px) and (min-width: 769px) {
   .discipline-sticky-card {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    height: auto;
-    min-height: auto;
-    padding: 36px 24px;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 24px;
+    padding: clamp(24px, 4vh, 48px) clamp(24px, 4vw, 48px);
   }
+
+  .card-discipline-title {
+    font-size: clamp(32px, 4.4vw, 54px);
+  }
+
+  .card-discipline-desc {
+    font-size: clamp(13px, 1.4vw, 16px);
+    margin-bottom: 20px;
+  }
+
+  .card-images-triptych {
+    height: clamp(260px, 42vh, 400px);
+    gap: 12px;
+  }
+}
+
+/* Mobile Responsive Reflow (< 768px) - Guaranteed 100vh containment */
+@media (max-width: 768px) {
+  .discipline-sticky-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    padding: clamp(16px, 2.5vh, 28px) clamp(16px, 4vw, 24px);
+    overflow: hidden;
+  }
+
   .card-info-col {
     padding-right: 0;
     max-width: 100%;
   }
-  .card-images-triptych {
-    height: 320px;
-  }
-}
 
-@media (max-width: 640px) {
+  .card-badge {
+    margin-bottom: 8px;
+    font-size: 9.5px;
+    padding: 4px 10px;
+  }
+
+  .card-discipline-title {
+    font-size: clamp(26px, 7vw, 38px);
+    line-height: 1.05;
+    margin-bottom: 6px;
+  }
+
+  .card-discipline-desc {
+    font-size: clamp(11.5px, 3.2vw, 13.5px);
+    line-height: 1.4;
+    margin: 0 0 10px 0;
+  }
+
+  .card-disciplines-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 10px;
+    margin-bottom: 10px;
+  }
+
+  .discipline-item {
+    font-size: 9.5px;
+  }
+
+  .card-showcase-col {
+    width: 100%;
+    margin-top: auto;
+  }
+
   .card-images-triptych {
-    grid-template-columns: 1fr;
-    height: auto;
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    height: clamp(140px, 24vh, 200px);
+    gap: 10px;
   }
-  .triptych-photo-card {
-    height: 220px;
+
+  .triptych-photo-card:nth-child(3) {
+    display: none;
   }
+
   .triptych-photo-card:nth-child(2) {
     transform: none;
-  }
-  .card-disciplines-list {
-    grid-template-columns: 1fr;
   }
 }

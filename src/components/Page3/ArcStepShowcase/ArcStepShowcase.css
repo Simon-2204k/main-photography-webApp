@@ -36,7 +36,7 @@
 .arc-huge-typography {
   position: absolute;
   top: 50%;
-  left: clamp(2.5rem, 6vw, 7rem);
+  left: clamp(1.2rem, 4.5vw, 7rem);
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
@@ -60,7 +60,7 @@
 .step-label-char {
   display: inline-block;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(70px, 11.5vw, 155px);
+  font-size: clamp(48px, 9.5vw, 155px);
   font-weight: 900;
   color: #ffffff;
   line-height: 0.84;
@@ -69,7 +69,7 @@
 
 .step-number-mask-box {
   position: relative;
-  height: clamp(65px, 10.5vw, 140px);
+  height: clamp(44px, 8.8vw, 140px);
   overflow: hidden;
   display: flex;
   align-items: flex-start;
@@ -83,12 +83,12 @@
 
 .step-number-row {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(70px, 11.5vw, 155px);
+  font-size: clamp(48px, 9.5vw, 155px);
   font-weight: 900;
   color: #ffffff;
   line-height: 0.84;
   letter-spacing: -0.04em;
-  height: clamp(65px, 10.5vw, 140px);
+  height: clamp(44px, 8.8vw, 140px);
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -108,10 +108,10 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: clamp(340px, 36vw, 520px);
-  height: clamp(340px, 36vw, 520px);
-  margin-left: calc(-0.5 * clamp(340px, 36vw, 520px));
-  margin-top: calc(-0.5 * clamp(340px, 36vw, 520px));
+  width: clamp(250px, 48vw, 500px);
+  height: clamp(250px, 48vw, 500px);
+  margin-left: calc(-0.5 * clamp(250px, 48vw, 500px));
+  margin-top: calc(-0.5 * clamp(250px, 48vw, 500px));
   border-radius: 0px;
   overflow: hidden;
   will-change: transform;

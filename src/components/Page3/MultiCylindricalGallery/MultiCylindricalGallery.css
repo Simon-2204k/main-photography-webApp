@@ -11,6 +11,7 @@
   -webkit-user-select: none;
   margin: 0;
   padding: 0;
+  touch-action: pan-y;
 }
 
 .multi-cyc-section .scanline {

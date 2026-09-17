@@ -110,8 +110,8 @@ export const StackedCardsDeck = memo(() => {
       <div
         style={{
           position: 'relative',
-          width: 'min(88vw, 860px)',
-          height: 'clamp(380px, 58vh, 520px)',
+          width: 'min(90vw, 860px)',
+          height: 'clamp(340px, 54vh, 640px)',
           transformStyle: 'preserve-3d',
           overflow: 'hidden',
           borderRadius: '0px',
@@ -143,7 +143,7 @@ export const StackedCardsDeck = memo(() => {
                   style={{
                     fontFamily: "'Inter', sans-serif",
                     fontWeight: 900,
-                    fontSize: 'clamp(1.8rem, 4vw, 3.2rem)',
+                    fontSize: 'clamp(1.5rem, 3.8vw, 3.2rem)',
                     letterSpacing: '-0.02em',
                     textTransform: 'uppercase',
                     color: '#ffffff',

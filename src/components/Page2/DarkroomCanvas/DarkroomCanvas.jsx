@@ -19,29 +19,56 @@ export const DarkroomCanvasComponent = () => {
   const animFrameIdRef = useRef(null);
   const isDraggingRef = useRef(false);
 
-  // Initialize initial CSS positions on mount
+  // Initialize initial CSS positions on mount & handle responsive resize
   useEffect(() => {
-    boxRefs.current.forEach((el, idx) => {
-      if (!el) return;
-      const config = INITIAL_BOXES[idx];
-      el.style.width = `${config.width}px`;
-      el.style.height = `${config.height}px`;
-      el.style.zIndex = config.zIndex;
+    const initBoxes = () => {
+      const isMobile = window.innerWidth < 768;
+      const isTablet = window.innerWidth <= 1024;
+      const scaleFactor = isMobile
+        ? Math.min(0.65, (window.innerWidth - 32) / 580)
+        : isTablet
+        ? 0.78
+        : 1;
 
-      if (config.isCenter) {
-        const top = Math.round((window.innerHeight - config.height) / 2 + 10);
-        const left = Math.round((window.innerWidth - config.width) / 2);
-        el.style.top = `${top}px`;
-        el.style.left = `${left}px`;
-      } else {
-        if (config.top !== undefined) el.style.top = `${config.top}px`;
-        if (config.left !== undefined) el.style.left = `${config.left}px`;
-        if (config.right !== undefined) el.style.left = `${window.innerWidth - config.width - config.right}px`;
-        if (config.bottom !== undefined) el.style.top = `${window.innerHeight - config.height - config.bottom}px`;
-      }
+      boxRefs.current.forEach((el, idx) => {
+        if (!el) return;
+        const config = INITIAL_BOXES[idx];
+        const boxWidth = Math.round(config.width * scaleFactor);
+        const boxHeight = Math.round(config.height * scaleFactor);
 
-      updateBadge(idx);
-    });
+        el.style.width = `${boxWidth}px`;
+        el.style.height = `${boxHeight}px`;
+        el.style.zIndex = config.zIndex;
+
+        if (config.isCenter) {
+          const top = Math.round((window.innerHeight - boxHeight) / 2 + 10);
+          const left = Math.round((window.innerWidth - boxWidth) / 2);
+          el.style.top = `${Math.max(10, top)}px`;
+          el.style.left = `${Math.max(10, left)}px`;
+        } else {
+          let topVal, leftVal;
+          if (config.top !== undefined) topVal = Math.round(config.top * scaleFactor);
+          if (config.left !== undefined) leftVal = Math.round(config.left * scaleFactor);
+          if (config.right !== undefined)
+            leftVal = window.innerWidth - boxWidth - Math.round(config.right * scaleFactor);
+          if (config.bottom !== undefined)
+            topVal = window.innerHeight - boxHeight - Math.round(config.bottom * scaleFactor);
+
+          // Bound within viewport with safe padding
+          leftVal = Math.max(8, Math.min(window.innerWidth - boxWidth - 8, leftVal));
+          topVal = Math.max(8, Math.min(window.innerHeight - boxHeight - 8, topVal));
+
+          el.style.top = `${topVal}px`;
+          el.style.left = `${leftVal}px`;
+        }
+
+        updateBadge(idx);
+      });
+    };
+
+    initBoxes();
+    window.addEventListener('resize', initBoxes);
+    return () => window.removeEventListener('resize', initBoxes);
   }, []);
 
   const updateBadge = (idx) => {
@@ -161,19 +188,52 @@ export const DarkroomCanvasComponent = () => {
       animFrameIdRef.current = requestAnimationFrame(renderLoop);
     };
 
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        if (animFrameIdRef.current) cancelAnimationFrame(animFrameIdRef.current);
-      } else {
+    let isVisible = true;
+
+    const startLoop = () => {
+      if (!animFrameIdRef.current && isVisible && !document.hidden) {
         animFrameIdRef.current = requestAnimationFrame(renderLoop);
       }
     };
 
-    animFrameIdRef.current = requestAnimationFrame(renderLoop);
+    const stopLoop = () => {
+      if (animFrameIdRef.current) {
+        cancelAnimationFrame(animFrameIdRef.current);
+        animFrameIdRef.current = null;
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopLoop();
+      } else {
+        startLoop();
+      }
+    };
+
+    // Pause rendering when scrolled out of viewport
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      },
+      { threshold: 0.05 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    startLoop();
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      if (animFrameIdRef.current) cancelAnimationFrame(animFrameIdRef.current);
+      stopLoop();
+      observer.disconnect();
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);

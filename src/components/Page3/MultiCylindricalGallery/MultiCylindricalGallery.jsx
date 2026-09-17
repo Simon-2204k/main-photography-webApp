@@ -27,16 +27,32 @@ export default function MultiCylindricalGallery() {
 
   const isDraggingRef = useRef(false);
   const lastMousePosRef = useRef({ x: 0, y: 0 });
+  const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef(null);
   const manuallyUnlockedRef = useRef(false);
+
+  // IntersectionObserver to pause physics and rendering when section is offscreen
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   // Keep autoRotate synced in physics ref
   useEffect(() => {
     physicsRef.current.autoRotate = autoRotate;
   }, [autoRotate]);
 
-  // High-performance lerp loop: mutates physicsRef directly, avoiding React state updates at 60fps
+  // High-performance lerp loop: runs only when section is visible
   useEffect(() => {
+    if (!isVisible) return;
     let animId;
 
     const updatePhysics = () => {
@@ -61,12 +77,18 @@ export default function MultiCylindricalGallery() {
 
     animId = requestAnimationFrame(updatePhysics);
     return () => cancelAnimationFrame(animId);
-  }, []);
+  }, [isVisible]);
 
-  // Strict Top-Top Scroll-lock on section entry via GSAP ScrollTrigger
+  // Desktop-only Scroll-lock on section entry via GSAP ScrollTrigger
+  // On mobile & tablet touch devices, scroll-locking traps user vertical navigation and is bypassed!
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
+
+    const isMobileOrTablet = window.innerWidth <= 1024 || window.matchMedia('(pointer: coarse)').matches;
+    if (isMobileOrTablet) {
+      return;
+    }
 
     const trigger = ScrollTrigger.create({
       trigger: el,
@@ -230,6 +252,7 @@ export default function MultiCylindricalGallery() {
       {/* 3D Multi-Cylindrical Gallery Canvas (Reads physicsRef inside useFrame, 0 re-renders) */}
       <CylindricalGalleryCanvas
         physicsRef={physicsRef}
+        isVisible={isVisible}
         onSelectCard={setSelectedCard}
       />
 

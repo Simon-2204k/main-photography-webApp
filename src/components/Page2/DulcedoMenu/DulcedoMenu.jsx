@@ -166,8 +166,10 @@ export const DulcedoMenu = memo(() => {
       style={{
         backgroundColor: '#000000',
         isolation: 'isolate',
-        minHeight: '150vh',
-        height: '150vh',
+        minHeight: '100vh',
+        height: 'auto',
+        paddingTop: 'clamp(4rem, 8vh, 7rem)',
+        paddingBottom: 'clamp(3rem, 6vh, 5rem)',
       }}
     >
       {/* 100% Full-Width Solid White Highlight Bar across the hovered row */}
@@ -177,15 +179,15 @@ export const DulcedoMenu = memo(() => {
         style={{ top: 0, height: 0 }}
       />
 
-      {/* Floating Image Preview Card (All 5 images pre-mounted for 0ms lag) */}
+      {/* Floating Image Preview Card (Hidden on mobile/touch to prevent layout obstruction) */}
       <div
         ref={previewRef}
-        className="absolute top-0 pointer-events-none opacity-0 overflow-hidden bg-neutral-900 will-change-transform rounded-sm"
+        className="hidden md:block absolute top-0 pointer-events-none opacity-0 overflow-hidden bg-neutral-900 will-change-transform rounded-sm"
         style={{
           transformOrigin: 'center center',
-          right: '10%',
-          width: '320px',
-          height: '420px',
+          right: '8%',
+          width: 'clamp(240px, 25vw, 320px)',
+          height: 'clamp(320px, 35vw, 420px)',
           zIndex: 40,
         }}
       >
@@ -214,7 +216,7 @@ export const DulcedoMenu = memo(() => {
       <div className="w-full flex-shrink-0" />
 
       {/* Main 5-Option Stacked Typography List */}
-      <div className="relative z-20 w-full max-w-6xl mx-auto flex flex-col items-center justify-center my-auto">
+      <div className="relative z-20 w-full max-w-6xl mx-auto flex flex-col items-center justify-center my-auto py-8">
         {ITEMS.map((item, idx) => {
           const isHovered = activeIndex === idx;
 
@@ -223,11 +225,11 @@ export const DulcedoMenu = memo(() => {
               key={item.id}
               ref={(el) => (rowRefs.current[idx] = el)}
               onMouseEnter={() => handleMouseEnter(idx)}
-              style={{ padding: '4px 0' }}
+              style={{ padding: '6px 0' }}
               className="relative w-full flex items-center justify-center cursor-pointer group"
             >
               <h2
-                style={{ fontSize: '7vw', lineHeight: 1.1 }}
+                style={{ fontSize: 'clamp(2.4rem, 6.5vw, 6.2rem)', lineHeight: 1.15 }}
                 className={`font-sans font-black tracking-[-0.04em] uppercase text-center transition-colors duration-150 ${isHovered ? 'text-black' : 'text-white'
                   }`}
               >

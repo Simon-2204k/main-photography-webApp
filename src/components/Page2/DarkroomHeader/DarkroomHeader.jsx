@@ -23,15 +23,15 @@ export const DarkroomHeaderComponent = ({ onOpenMenu }) => {
       <h1
         style={{
           margin: 0,
-          padding: 0,
-          fontSize: 'clamp(2.5rem, 6.5vw, 7.5rem)',
+          padding: '0 16px',
+          fontSize: 'clamp(1.7rem, 6.2vw, 7.5rem)',
           fontWeight: '900',
-          lineHeight: '0.85',
+          lineHeight: '0.92',
           letterSpacing: '-0.03em',
           color: '#ffffff',
           textTransform: 'uppercase',
           fontFamily: 'Inter, system-ui, sans-serif',
-          whiteSpace: 'nowrap',
+          maxWidth: '96vw',
           pointerEvents: 'none'
         }}
       >

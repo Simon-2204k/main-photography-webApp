@@ -77,57 +77,57 @@ export default function ParallaxPages() {
           </div>
 
           <!-- Camera Viewfinder HUD Overlay (Image 3) -->
-          <div class="slide-hud absolute inset-0 pointer-events-none z-30 p-6 sm:p-10 lg:p-14 flex flex-col justify-between select-none">
+          <div class="slide-hud absolute inset-0 pointer-events-none z-30 p-4 sm:p-8 lg:p-14 flex flex-col justify-between select-none">
             <!-- Top HUD Bar -->
-            <div class="flex justify-between items-center text-xs sm:text-sm font-mono tracking-widest text-white/90">
-              <div class="flex items-center gap-2.5">
-                <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse inline-block"></span>
+            <div class="flex justify-between items-center text-[10px] sm:text-xs md:text-sm font-mono tracking-widest text-white/90">
+              <div class="flex items-center gap-2 sm:gap-2.5">
+                <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-600 animate-pulse inline-block"></span>
                 <span class="font-bold text-red-500 tracking-wider">● REC</span>
-                <span class="text-white/80 font-normal">[4K 60FPS RAW]</span>
+                <span class="text-white/80 font-normal hidden sm:inline">[4K 60FPS RAW]</span>
               </div>
-              <div class="flex items-center gap-4 text-white/75">
+              <div class="flex items-center gap-2 sm:gap-4 text-white/75">
                 <span>ISO 400</span>
                 <span>WB 5600K</span>
-                <span>[BAT 98%]</span>
+                <span class="hidden sm:inline">[BAT 98%]</span>
               </div>
             </div>
 
             <!-- 4 Viewfinder Corner Brackets & Center Focus Reticle -->
-            <div class="absolute inset-6 sm:inset-12 lg:inset-16 pointer-events-none">
-              <div class="absolute top-0 left-0 w-6 sm:w-10 h-6 sm:h-10 border-t-2 border-l-2 border-white/70"></div>
-              <div class="absolute top-0 right-0 w-6 sm:w-10 h-6 sm:h-10 border-t-2 border-r-2 border-white/70"></div>
-              <div class="absolute bottom-0 left-0 w-6 sm:w-10 h-6 sm:h-10 border-b-2 border-l-2 border-white/70"></div>
-              <div class="absolute bottom-0 right-0 w-6 sm:w-10 h-6 sm:h-10 border-b-2 border-r-2 border-white/70"></div>
-              <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 border border-white/20 flex items-center justify-center pointer-events-none">
+            <div class="absolute inset-4 sm:inset-10 lg:inset-16 pointer-events-none">
+              <div class="absolute top-0 left-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-t-2 border-l-2 border-white/70"></div>
+              <div class="absolute top-0 right-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-t-2 border-r-2 border-white/70"></div>
+              <div class="absolute bottom-0 left-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-b-2 border-l-2 border-white/70"></div>
+              <div class="absolute bottom-0 right-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-b-2 border-r-2 border-white/70"></div>
+              <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 sm:w-14 lg:w-16 h-10 sm:h-14 lg:h-16 border border-white/20 flex items-center justify-center pointer-events-none">
                 <span class="text-white/40 text-xs font-mono">+</span>
               </div>
             </div>
 
             <!-- Bottom HUD Bar -->
-            <div class="flex justify-between items-center text-xs sm:text-sm font-mono tracking-widest text-white/90">
-              <div class="flex items-center gap-4 text-white/80">
+            <div class="flex justify-between items-center text-[10px] sm:text-xs md:text-sm font-mono tracking-widest text-white/90">
+              <div class="flex items-center gap-2 sm:gap-4 text-white/80">
                 <span>F/2.8</span>
                 <span>1/250s</span>
-                <span>+0.7 EV</span>
-                <span>50mm [AF-C]</span>
+                <span class="hidden sm:inline">+0.7 EV</span>
+                <span>50mm</span>
               </div>
-              <div class="flex items-center gap-3 text-white/70">
+              <div class="flex items-center gap-2 sm:gap-3 text-white/70">
                 <span>[•] CENTER</span>
-                <span>GRID 3x3</span>
+                <span class="hidden sm:inline">GRID 3x3</span>
               </div>
             </div>
           </div>
 
           <div class="slide-copy absolute inset-0 flex items-center justify-center w-full overflow-hidden z-20 pointer-events-auto">
-            <div class="slide-marquee w-full overflow-hidden py-16 sm:py-24 lg:py-28 flex items-center">
+            <div class="slide-marquee w-full overflow-hidden py-12 sm:py-20 lg:py-28 flex items-center">
               <div class="marquee-track flex whitespace-nowrap will-change-transform" style="width: max-content;">
                 <div class="marquee-group flex items-center shrink-0 pr-8">
-                  <span class="marquee-text font-sans font-black text-5xl sm:text-7xl md:text-8xl lg:text-[105px] xl:text-[120px] leading-[1.4] py-4 text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
+                  <span class="marquee-text font-sans font-black text-4xl sm:text-6xl md:text-8xl lg:text-[105px] xl:text-[120px] leading-[1.3] py-2 text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
                     ${slideData.marquee} • ${slideData.marquee} • &nbsp;
                   </span>
                 </div>
                 <div class="marquee-group flex items-center shrink-0 pr-8">
-                  <span class="marquee-text font-sans font-black text-5xl sm:text-7xl md:text-8xl lg:text-[105px] xl:text-[120px] leading-[1.4] py-4 text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
+                  <span class="marquee-text font-sans font-black text-4xl sm:text-6xl md:text-8xl lg:text-[105px] xl:text-[120px] leading-[1.3] py-2 text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto" onmouseenter="this.style.color='transparent'; this.style.webkitTextStroke='1.5px rgba(255, 255, 255, 0.9)';" onmouseleave="this.style.color='#ffffff'; this.style.webkitTextStroke='0px transparent';">
                     ${slideData.marquee} • ${slideData.marquee} • &nbsp;
                   </span>
                 </div>
@@ -356,53 +356,53 @@ export default function ParallaxPages() {
           </div>
 
           {/* Camera Viewfinder HUD Overlay (Image 3) */}
-          <div className="slide-hud absolute inset-0 pointer-events-none z-30 p-6 sm:p-10 lg:p-14 flex flex-col justify-between select-none">
+          <div className="slide-hud absolute inset-0 pointer-events-none z-30 p-4 sm:p-8 lg:p-14 flex flex-col justify-between select-none">
             {/* Top HUD Bar */}
-            <div className="flex justify-between items-center text-xs sm:text-sm font-mono tracking-widest text-white/90">
-              <div className="flex items-center gap-2.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse inline-block"></span>
+            <div className="flex justify-between items-center text-[10px] sm:text-xs md:text-sm font-mono tracking-widest text-white/90">
+              <div className="flex items-center gap-2 sm:gap-2.5">
+                <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-600 animate-pulse inline-block"></span>
                 <span className="font-bold text-red-500 tracking-wider">● REC</span>
-                <span className="text-white/80 font-normal">[4K 60FPS RAW]</span>
+                <span className="text-white/80 font-normal hidden sm:inline">[4K 60FPS RAW]</span>
               </div>
-              <div className="flex items-center gap-4 text-white/75">
+              <div className="flex items-center gap-2 sm:gap-4 text-white/75">
                 <span>ISO 400</span>
                 <span>WB 5600K</span>
-                <span>[BAT 98%]</span>
+                <span className="hidden sm:inline">[BAT 98%]</span>
               </div>
             </div>
 
             {/* 4 Viewfinder Corner Brackets & Center Crosshair */}
-            <div className="absolute inset-6 sm:inset-12 lg:inset-16 pointer-events-none">
-              <div className="absolute top-0 left-0 w-6 sm:w-10 h-6 sm:h-10 border-t-2 border-l-2 border-white/70"></div>
-              <div className="absolute top-0 right-0 w-6 sm:w-10 h-6 sm:h-10 border-t-2 border-r-2 border-white/70"></div>
-              <div className="absolute bottom-0 left-0 w-6 sm:w-10 h-6 sm:h-10 border-b-2 border-l-2 border-white/70"></div>
-              <div className="absolute bottom-0 right-0 w-6 sm:w-10 h-6 sm:h-10 border-b-2 border-r-2 border-white/70"></div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 border border-white/20 flex items-center justify-center pointer-events-none">
+            <div className="absolute inset-4 sm:inset-10 lg:inset-16 pointer-events-none">
+              <div className="absolute top-0 left-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-t-2 border-l-2 border-white/70"></div>
+              <div className="absolute top-0 right-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-t-2 border-r-2 border-white/70"></div>
+              <div className="absolute bottom-0 left-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-b-2 border-l-2 border-white/70"></div>
+              <div className="absolute bottom-0 right-0 w-5 sm:w-8 lg:w-10 h-5 sm:h-8 lg:h-10 border-b-2 border-r-2 border-white/70"></div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 sm:w-14 lg:w-16 h-10 sm:h-14 lg:h-16 border border-white/20 flex items-center justify-center pointer-events-none">
                 <span className="text-white/40 text-xs font-mono">+</span>
               </div>
             </div>
 
             {/* Bottom HUD Bar */}
-            <div className="flex justify-between items-center text-xs sm:text-sm font-mono tracking-widest text-white/90">
-              <div className="flex items-center gap-4 text-white/80">
+            <div className="flex justify-between items-center text-[10px] sm:text-xs md:text-sm font-mono tracking-widest text-white/90">
+              <div className="flex items-center gap-2 sm:gap-4 text-white/80">
                 <span>F/2.8</span>
                 <span>1/250s</span>
-                <span>+0.7 EV</span>
-                <span>50mm [AF-C]</span>
+                <span className="hidden sm:inline">+0.7 EV</span>
+                <span>50mm</span>
               </div>
-              <div className="flex items-center gap-3 text-white/70">
+              <div className="flex items-center gap-2 sm:gap-3 text-white/70">
                 <span>[•] CENTER</span>
-                <span>GRID 3x3</span>
+                <span className="hidden sm:inline">GRID 3x3</span>
               </div>
             </div>
           </div>
 
           <div className="slide-copy absolute inset-0 flex items-center justify-center w-full overflow-hidden z-20 pointer-events-auto">
-            <div className="slide-marquee w-full overflow-hidden py-16 sm:py-24 lg:py-28 flex items-center">
+            <div className="slide-marquee w-full overflow-hidden py-12 sm:py-20 lg:py-28 flex items-center">
               <div className="marquee-track flex whitespace-nowrap will-change-transform" style={{ width: 'max-content' }}>
                 <div className="marquee-group flex items-center shrink-0 pr-8">
                   <span
-                    className="marquee-text font-sans font-black text-5xl sm:text-7xl md:text-8xl lg:text-[105px] xl:text-[120px] leading-[1.4] py-4 text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto"
+                    className="marquee-text font-sans font-black text-4xl sm:text-6xl md:text-8xl lg:text-[105px] xl:text-[120px] leading-[1.3] py-2 text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto"
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = 'transparent';
                       e.currentTarget.style.WebkitTextStroke = '1.5px rgba(255, 255, 255, 0.9)';
@@ -417,7 +417,7 @@ export default function ParallaxPages() {
                 </div>
                 <div className="marquee-group flex items-center shrink-0 pr-8">
                   <span
-                    className="marquee-text font-sans font-black text-5xl sm:text-7xl md:text-8xl lg:text-[105px] xl:text-[120px] leading-[1.4] py-4 text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto"
+                    className="marquee-text font-sans font-black text-4xl sm:text-6xl md:text-8xl lg:text-[105px] xl:text-[120px] leading-[1.3] py-2 text-white tracking-tight shrink-0 transition-colors duration-300 cursor-pointer pointer-events-auto"
                     onMouseEnter={(e) => {
                       e.currentTarget.style.color = 'transparent';
                       e.currentTarget.style.WebkitTextStroke = '1.5px rgba(255, 255, 255, 0.9)';
@@ -458,20 +458,20 @@ export default function ParallaxPages() {
         CURSOR TRAIL LAYER IS DIRECTLY OVER THE TEXT (Z-INDEX 40)
         ========================================================================
       */}
-      <div className="relative w-full bg-[#0a0a0c] text-white py-32 sm:py-48 px-6 sm:px-12 lg:px-20 z-40 border-none overflow-hidden select-none">
+      <div className="relative w-full bg-[#0a0a0c] text-white py-20 sm:py-32 lg:py-48 px-6 sm:px-12 lg:px-20 z-40 border-none overflow-hidden select-none">
         {/* Photo Cursor Trail Layer: SPAWNS OVER THE TEXT (zIndex 40) */}
         <CursorTrail zIndex={40} />
 
         {/* Text Content: Under cursor trail at relative z-10 */}
         <div className="max-w-6xl mx-auto relative z-10 pointer-events-auto">
           {/* Main High-Fashion Editorial Serif Statement (Image 4 Style) */}
-          <h2 className="font-serif font-normal text-3xl sm:text-5xl lg:text-[54px] leading-[1.22] tracking-tight text-white/95 mb-20 select-none">
+          <h2 className="font-serif font-normal text-2xl sm:text-4xl lg:text-[48px] xl:text-[54px] leading-[1.25] tracking-tight text-white/95 mb-12 sm:mb-20 select-none">
             Our approach combines analogue discipline with a deep understanding of cinematic light, allowing us to create imagery that not only captures attention, but commands an enduring emotional resonance.
           </h2>
 
           {/* 2-Column Capability / Discipline Rows (Image 4 Style) */}
           <div className="border-t border-white/15 divide-y divide-white/15 text-left font-sans">
-            <div className="py-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+            <div className="py-8 sm:py-10 grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-6 items-start">
               <div className="md:col-span-4 font-sans font-semibold text-lg sm:text-xl text-white">
                 Strategic Creative Direction
               </div>

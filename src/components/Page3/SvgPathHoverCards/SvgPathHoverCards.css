@@ -12,21 +12,25 @@
 
 .cardsDiv {
   display: grid;
-  grid-template-columns: repeat(4, 300px);
-  gap: 30px;
+  grid-template-columns: repeat(4, minmax(260px, 300px));
+  gap: 28px;
   justify-content: center;
+  width: 100%;
+  max-width: 1360px;
   padding: 20px;
 }
 
 .card {
   position: relative;
-  width: 300px;
-  height: 400px;
+  width: 100%;
+  max-width: 310px;
+  height: clamp(340px, 45vh, 410px);
   overflow: hidden;
   border-radius: 12px;
   background-color: #000000;
   cursor: pointer;
   contain: paint layout;
+  touch-action: pan-y;
 }
 
 .card > img {
@@ -80,19 +84,33 @@ svg.svgClass {
   font-family: Arial, sans-serif;
 }
 
+/* Tablet Responsive: 3 columns at 1024px & 1024x1366 */
 @media (max-width: 1340px) {
   .cardsDiv {
-    grid-template-columns: repeat(2, 300px);
+    grid-template-columns: repeat(3, minmax(260px, 300px));
+    gap: 22px;
   }
 }
 
-@media (max-width: 680px) {
+/* Compact Tablet & Foldables: 2 columns */
+@media (max-width: 960px) {
+  .cardsDiv {
+    grid-template-columns: repeat(2, minmax(240px, 300px));
+    gap: 18px;
+  }
+}
+
+/* Mobile: 1 column centered */
+@media (max-width: 600px) {
   .cardsDiv {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   .card {
     width: 100%;
-    max-width: 320px;
+    max-width: 330px;
+    height: 380px;
+    margin: 0 auto;
   }
 }
 

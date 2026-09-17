@@ -112,9 +112,9 @@
 /* 4. Top-Left Telemetry Block */
 .darkroom-telemetry-top-left {
   position: absolute;
-  top: 130px;
-  left: 65px;
-  font-size: 11px;
+  top: clamp(80px, 11vh, 130px);
+  left: clamp(16px, 3.5vw, 65px);
+  font-size: clamp(9px, 1.1vw, 11px);
   line-height: 1.65;
   letter-spacing: 1px;
   color: #888894;
@@ -141,15 +141,15 @@
 /* 5. Bottom-Right Telemetry Block */
 .darkroom-telemetry-bottom-right {
   position: absolute;
-  bottom: 45px;
-  right: 65px;
-  font-size: 10px;
+  bottom: clamp(16px, 3.5vh, 45px);
+  right: clamp(16px, 3.5vw, 65px);
+  font-size: clamp(8.5px, 1vw, 10px);
   line-height: 1.6;
   letter-spacing: 0.8px;
   color: #727280;
   text-align: right;
   text-transform: uppercase;
-  max-width: 480px;
+  max-width: clamp(240px, 50vw, 480px);
 }
 
 .darkroom-telemetry-bottom-right .data-val {
@@ -166,3 +166,13 @@
   color: #d0d0d8;
   font-weight: 700;
 }
+
+@media (max-width: 640px) {
+  .darkroom-telemetry-bottom-right .sub-parsing-block {
+    display: none;
+  }
+  .darkroom-tick-scale {
+    display: none;
+  }
+}
+

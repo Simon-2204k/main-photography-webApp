@@ -233,9 +233,9 @@ export const FolderArchive = memo(() => {
                     <div
                       style={{
                         position: 'absolute',
-                        width: '160px',
-                        height: '220px',
-                        transform: 'rotate(-14deg) translateX(-150px)',
+                        width: 'clamp(100px, 16vw, 160px)',
+                        height: 'clamp(140px, 22vw, 220px)',
+                        transform: 'rotate(-14deg) translateX(clamp(-150px, -18vw, -60px))',
                         border: '1px solid rgba(255,255,255,0.7)',
                         overflow: 'hidden',
                         backgroundColor: '#111',
@@ -255,9 +255,9 @@ export const FolderArchive = memo(() => {
                     <div
                       style={{
                         position: 'absolute',
-                        width: '160px',
-                        height: '220px',
-                        transform: 'rotate(-5deg) translateX(-45px)',
+                        width: 'clamp(100px, 16vw, 160px)',
+                        height: 'clamp(140px, 22vw, 220px)',
+                        transform: 'rotate(-5deg) translateX(clamp(-45px, -6vw, -18px))',
                         border: '1px solid rgba(255,255,255,0.7)',
                         overflow: 'hidden',
                         backgroundColor: '#111',
@@ -277,9 +277,9 @@ export const FolderArchive = memo(() => {
                     <div
                       style={{
                         position: 'absolute',
-                        width: '160px',
-                        height: '220px',
-                        transform: 'rotate(5deg) translateX(50px)',
+                        width: 'clamp(100px, 16vw, 160px)',
+                        height: 'clamp(140px, 22vw, 220px)',
+                        transform: 'rotate(5deg) translateX(clamp(18px, 6vw, 50px))',
                         border: '1px solid rgba(255,255,255,0.7)',
                         overflow: 'hidden',
                         backgroundColor: '#111',
@@ -299,9 +299,9 @@ export const FolderArchive = memo(() => {
                     <div
                       style={{
                         position: 'absolute',
-                        width: '160px',
-                        height: '220px',
-                        transform: 'rotate(14deg) translateX(150px)',
+                        width: 'clamp(100px, 16vw, 160px)',
+                        height: 'clamp(140px, 22vw, 220px)',
+                        transform: 'rotate(14deg) translateX(clamp(60px, 18vw, 150px))',
                         border: '1px solid rgba(255,255,255,0.7)',
                         overflow: 'hidden',
                         backgroundColor: '#111',
@@ -320,18 +320,18 @@ export const FolderArchive = memo(() => {
                     </div>
                   </div>
 
-                  {/* Folder Face Plate (Compact 135px Height) */}
+                  {/* Folder Face Plate */}
                   <div
                     style={{
                       position: 'relative',
                       zIndex: 10,
                       width: '100%',
-                      height: '160px',
-                      minHeight: '155px',
+                      height: 'clamp(130px, 18vh, 160px)',
+                      minHeight: '130px',
                       backgroundColor: bg,
                       border: borderStyle,
-                      clipPath: `polygon(0% 0%, ${folder.tabWidth} 0%, calc(${folder.tabWidth} + 40px) 28px, 100% 28px, 100% 100%, 0% 100%)`,
-                      padding: '12px 32px 18px 32px',
+                      clipPath: `polygon(0% 0%, min(${folder.tabWidth}, 38vw) 0%, calc(min(${folder.tabWidth}, 38vw) + 24px) 24px, 100% 24px, 100% 100%, 0% 100%)`,
+                      padding: 'clamp(8px, 1.4vh, 12px) clamp(14px, 2.5vw, 32px) clamp(12px, 2vh, 18px) clamp(14px, 2.5vw, 32px)',
                       boxSizing: 'border-box',
                       display: 'flex',
                       flexDirection: 'column',
@@ -342,7 +342,7 @@ export const FolderArchive = memo(() => {
                     <span
                       style={{
                         fontFamily: 'monospace',
-                        fontSize: '12px',
+                        fontSize: 'clamp(10px, 1.1vw, 12px)',
                         fontWeight: 600,
                         letterSpacing: '0.08em',
                         color: textColor,
@@ -356,12 +356,12 @@ export const FolderArchive = memo(() => {
                     <h3
                       style={{
                         fontFamily: "'Newsreader', serif",
-                        fontSize: 'clamp(2.4rem, 4vw, 3.6rem)',
+                        fontSize: 'clamp(1.5rem, 3.8vw, 3.6rem)',
                         fontWeight: 400,
                         letterSpacing: '-0.02em',
                         lineHeight: 1,
                         color: textColor,
-                        margin: '12px 0 0 0',
+                        margin: '8px 0 0 0',
                         transition: 'color 0.35s ease',
                       }}
                     >

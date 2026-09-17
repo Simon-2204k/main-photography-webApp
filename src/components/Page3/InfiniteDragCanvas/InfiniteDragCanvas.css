@@ -80,20 +80,23 @@
   transform: translateX(-50%);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   font-family: 'Space Mono', monospace;
-  font-size: 10.5px;
-  letter-spacing: 2px;
+  font-size: clamp(9px, 1.2vw, 10.5px);
+  letter-spacing: clamp(1px, 0.2vw, 2px);
   color: rgba(255, 255, 255, 0.7);
   background: rgba(12, 13, 16, 0.75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  padding: 6px 16px;
+  padding: 6px 14px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   text-transform: uppercase;
   pointer-events: none;
   z-index: 30;
-  white-space: nowrap;
+  max-width: 90vw;
+  text-align: center;
+  white-space: normal;
   animation: prompt-float 2.8s ease-in-out infinite alternate;
 }
 

@@ -7,6 +7,7 @@ export const InfiniteCanvas = ({ isExpanded, onToggleExpand }) => {
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
   const [imagesReady, setImagesReady] = useState(false);
+  const [isInView, setIsInView] = useState(false);
 
   const panRef = useRef({ x: 0, y: 0 });
   const targetPanRef = useRef({ x: 0, y: 0 });
@@ -51,6 +52,19 @@ export const InfiniteCanvas = ({ isExpanded, onToggleExpand }) => {
     return () => {
       isSubscribed = false;
     };
+  }, []);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(container);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -219,9 +233,13 @@ export const InfiniteCanvas = ({ isExpanded, onToggleExpand }) => {
       animFrameRef.current = requestAnimationFrame(updatePositions);
     };
 
-    animFrameRef.current = requestAnimationFrame(updatePositions);
-    return () => cancelAnimationFrame(animFrameRef.current);
-  }, [isExpanded, gridItems, gridWidth, gridHeight]);
+    if (isInView) {
+      animFrameRef.current = requestAnimationFrame(updatePositions);
+    }
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, [isInView, isExpanded, gridItems, gridWidth, gridHeight]);
 
   useEffect(() => {
     if (!cardsRef.current.length || !imagesReady) return;
@@ -253,6 +271,7 @@ export const InfiniteCanvas = ({ isExpanded, onToggleExpand }) => {
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
+      style={{ touchAction: isExpanded ? 'none' : 'pan-y' }}
       className="relative w-full h-full overflow-hidden bg-[#0c0d10] flex items-center justify-center select-none cursor-grab active:cursor-grabbing"
     >
       {!imagesReady && (

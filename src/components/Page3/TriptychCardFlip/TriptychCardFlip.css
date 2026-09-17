@@ -58,7 +58,7 @@
   align-items: center;
   justify-content: center;
   gap: 0px;
-  height: clamp(340px, 52vh, 500px);
+  height: clamp(240px, min(42vh, 27vw), 460px);
   max-width: 96vw;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
@@ -130,7 +130,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: clamp(18px, 2.2vw, 28px);
+  padding: clamp(10px, 1.8vw, 24px);
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-sizing: border-box;
   border-radius: 0px !important;
@@ -167,17 +167,17 @@
 
 .card-back-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(17px, 1.6vw, 24px);
+  font-size: clamp(13px, 1.4vw, 22px);
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;
-  margin: 0 0 10px 0;
+  margin: 0 0 6px 0;
 }
 
 .card-back-desc {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(11.5px, 0.92vw, 14px);
-  line-height: 1.5;
+  font-size: clamp(9.5px, 0.88vw, 13px);
+  line-height: 1.4;
   margin: 0;
 }
 
@@ -188,15 +188,17 @@
 
 .card-edition-tag {
   font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
+  font-size: clamp(8px, 0.75vw, 10px);
+  letter-spacing: 1.5px;
   opacity: 0.55;
   text-transform: uppercase;
 }
 
 /* Responsive adjustments */
-@media (max-width: 900px) {
+@media (max-width: 640px) {
   .triptych-cards-container {
-    height: clamp(300px, 46vh, 420px);
+    height: clamp(190px, 32vh, 250px);
+    transform: scale(min(1, calc((100vw - 24px) / 560)));
+    transform-origin: center center;
   }
 }

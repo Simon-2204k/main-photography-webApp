@@ -7,6 +7,7 @@
   overflow: hidden;
   user-select: none;
   font-family: 'Space Mono', monospace;
+  touch-action: pan-y;
 }
 
 /* Hidden offscreen source video */
@@ -104,6 +105,7 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   cursor: grab;
   background: #000000;
+  touch-action: pan-y;
 }
 
 .darkroom-mask-box.is-dragging {
@@ -153,3 +155,49 @@
   pointer-events: none;
   text-transform: uppercase;
 }
+
+/* Responsive Scaling: Tablet (768px - 1024px & 1024x1366) */
+@media (max-width: 1024px) {
+  .darkroom-middle-bar-segmented {
+    transform: translate(-50%, -50%) scale(0.85);
+    transform-origin: center center;
+    gap: 3px;
+  }
+  .darkroom-segment {
+    height: 38px;
+    padding: 0 12px;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+  }
+  .darkroom-segment.segment-grip {
+    width: 38px;
+  }
+}
+
+/* Responsive Scaling: Mobile (< 768px) */
+@media (max-width: 768px) {
+  .darkroom-middle-bar-segmented {
+    transform: translate(-50%, -50%) scale(0.68);
+    transform-origin: center center;
+    gap: 2px;
+  }
+  .darkroom-segment {
+    height: 32px;
+    padding: 0 8px;
+    font-size: 9.5px;
+    letter-spacing: 0.8px;
+  }
+  .darkroom-segment.segment-grip {
+    width: 32px;
+  }
+  .darkroom-pos-badge {
+    font-size: 9.5px;
+    padding: 2px 6px;
+    top: -20px;
+    letter-spacing: 0.8px;
+  }
+  .darkroom-grab-label {
+    display: none;
+  }
+}
+
