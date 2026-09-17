@@ -1,5 +1,5 @@
 .background#svgpath-section {
-  background-color: #121214;
+  background-color: #000000;
   width: 100vw;
   min-height: 100vh;
   display: flex;
@@ -24,8 +24,9 @@
   height: 400px;
   overflow: hidden;
   border-radius: 12px;
-  background-color: #000;
+  background-color: #000000;
   cursor: pointer;
+  contain: paint layout;
 }
 
 .card > img {

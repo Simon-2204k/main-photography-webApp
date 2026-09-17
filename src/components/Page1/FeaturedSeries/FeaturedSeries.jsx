@@ -8,6 +8,7 @@ const FeaturedSeriesComponent = () => {
   const [activeItemId, setActiveItemId] = useState(null);
   const hoverCardRef = useRef(null);
   const sectionRef = useRef(null);
+  const isHoveredRef = useRef(false);
 
   const xTo = useRef(null);
   const yTo = useRef(null);
@@ -15,19 +16,33 @@ const FeaturedSeriesComponent = () => {
   useEffect(() => {
     if (!hoverCardRef.current) return;
 
+    // Center origin offset via GSAP
+    gsap.set(hoverCardRef.current, { xPercent: -50, yPercent: -50 });
+
     // Smooth GSAP quickTo interpolation for floating red card
     xTo.current = gsap.quickTo(hoverCardRef.current, 'x', { duration: 0.35, ease: 'power3.out' });
     yTo.current = gsap.quickTo(hoverCardRef.current, 'y', { duration: 0.35, ease: 'power3.out' });
   }, []);
 
   const handleMouseMove = (e) => {
-    if (xTo.current && yTo.current) {
+    if (!isHoveredRef.current) {
+      if (hoverCardRef.current) {
+        gsap.set(hoverCardRef.current, { x: e.clientX, y: e.clientY });
+      }
+    } else if (xTo.current && yTo.current) {
       xTo.current(e.clientX);
       yTo.current(e.clientY);
     }
   };
 
   const handleCellMouseEnter = (item, e) => {
+    if (!isHoveredRef.current) {
+      if (hoverCardRef.current) {
+        gsap.set(hoverCardRef.current, { x: e.clientX, y: e.clientY });
+      }
+      isHoveredRef.current = true;
+    }
+
     setHoveredTag(item.tag);
     setActiveItemId(item.id);
 
@@ -43,6 +58,7 @@ const FeaturedSeriesComponent = () => {
   };
 
   const handleGridMouseLeave = () => {
+    isHoveredRef.current = false;
     setHoveredTag(null);
     setActiveItemId(null);
   };

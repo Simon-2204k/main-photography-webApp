@@ -176,7 +176,7 @@ const VisualDisciplinesComponent = () => {
       ref={containerRef}
       style={{
         width: '100%',
-        backgroundColor: '#0a0a0c',
+        backgroundColor: '#000000',
         color: '#ffffff',
         position: 'relative',
         zIndex: 10,
@@ -187,8 +187,28 @@ const VisualDisciplinesComponent = () => {
         paddingBottom: '20vh' // 20vh bottom gap
       }}
     >
+      <style>{`
+        .visual-preview-box {
+          position: fixed;
+          top: 50vh;
+          left: calc(50vw - 440px);
+        }
+        .visual-words-list {
+          padding-left: calc(50vw - 110px);
+        }
+        @media (max-width: 900px) {
+          .visual-preview-box {
+            display: none !important;
+          }
+          .visual-words-list {
+            padding-left: 2rem !important;
+            padding-right: 2rem !important;
+          }
+        }
+      `}</style>
       {/* 1:1 Graphic Preview Box - Fixed Dead-Center at Exact 50% Window Height */}
       <div
+        className="visual-preview-box"
         style={{
           position: 'fixed',
           top: '50vh',
@@ -205,7 +225,6 @@ const VisualDisciplinesComponent = () => {
           flexDirection: 'column',
           justifyContent: 'space-between',
           overflow: 'hidden',
-          boxShadow: '0 25px 60px rgba(0, 0, 0, 0.85)',
           opacity: isVisible ? 1 : 0,
           pointerEvents: isVisible ? 'auto' : 'none',
           // Smooth continuous background morph between words, but instant on/off outside list
@@ -329,6 +348,7 @@ const VisualDisciplinesComponent = () => {
 
       {/* Right Side: Words List Scrolling Vertically Through 50% Window Height */}
       <div
+        className="visual-words-list"
         style={{
           maxWidth: '1400px',
           margin: '0 auto',

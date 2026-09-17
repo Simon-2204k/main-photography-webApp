@@ -54,7 +54,6 @@
   height: 6px;
   background: #d4ff00;
   border-radius: 50%;
-  box-shadow: 0 0 8px #d4ff00;
   animation: pulse-dot 2s infinite ease-in-out;
 }
 

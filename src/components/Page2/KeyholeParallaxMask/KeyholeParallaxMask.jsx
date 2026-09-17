@@ -160,7 +160,7 @@ export const KeyholeParallaxMask = memo(() => {
           position: 'relative',
           width: '100%',
           height: '100vh',
-          backgroundColor: '#050505',
+          backgroundColor: '#000000',
           color: '#ffffff',
           userSelect: 'none',
           overflow: 'hidden',
@@ -214,7 +214,6 @@ export const KeyholeParallaxMask = memo(() => {
                 color: '#ff5d22',
                 marginBottom: '14px',
                 fontWeight: 700,
-                textShadow: '0 2px 10px rgba(0,0,0,0.95)',
               }}
             >
               CAPTURING TIME THROUGH UNCOMPROMISED OPTICS
@@ -228,7 +227,6 @@ export const KeyholeParallaxMask = memo(() => {
                 letterSpacing: '-0.02em',
                 textTransform: 'uppercase',
                 color: '#ffffff',
-                textShadow: '0 10px 30px rgba(0,0,0,0.95)',
                 margin: 0,
               }}
             >
@@ -240,7 +238,6 @@ export const KeyholeParallaxMask = memo(() => {
                 fontStyle: 'italic',
                 fontSize: 'clamp(3rem, 6.5vw, 6.5rem)',
                 color: '#ffffff',
-                textShadow: '0 10px 30px rgba(0,0,0,0.95)',
                 marginTop: '8px',
               }}
             >
@@ -384,7 +381,6 @@ export const KeyholeParallaxMask = memo(() => {
                 color: '#ff5d22',
                 marginBottom: '14px',
                 fontWeight: 700,
-                textShadow: '0 2px 10px rgba(0,0,0,0.95)',
               }}
             >
               CAPTURING TIME THROUGH UNCOMPROMISED OPTICS
@@ -398,7 +394,6 @@ export const KeyholeParallaxMask = memo(() => {
                 letterSpacing: '-0.02em',
                 textTransform: 'uppercase',
                 color: '#ffffff',
-                textShadow: '0 10px 30px rgba(0,0,0,0.95)',
                 margin: 0,
               }}
             >
@@ -410,7 +405,6 @@ export const KeyholeParallaxMask = memo(() => {
                 fontStyle: 'italic',
                 fontSize: 'clamp(3rem, 6.5vw, 6.5rem)',
                 color: '#ffffff',
-                textShadow: '0 10px 30px rgba(0,0,0,0.95)',
                 marginTop: '8px',
               }}
             >

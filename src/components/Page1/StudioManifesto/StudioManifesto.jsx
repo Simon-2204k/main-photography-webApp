@@ -7,7 +7,7 @@ const StudioManifestoComponent = () => {
       id="manifesto-section"
       style={{
         width: '100%',
-        backgroundColor: '#0a0a0c',
+        backgroundColor: '#000000',
         color: '#ffffff',
         position: 'relative',
         zIndex: 10,
@@ -18,10 +18,16 @@ const StudioManifestoComponent = () => {
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
         overflow: 'hidden'
       }}
     >
+      <style>{`
+        @media (max-width: 768px) {
+          #manifesto-section {
+            padding: 6rem 1.5rem 6rem !important;
+          }
+        }
+      `}</style>
       {/* Bounded Cursor Trail for Studio Manifesto Section (Appears on top of text) */}
       <CursorTrail zIndex={15} />
 
@@ -64,7 +70,6 @@ const StudioManifestoComponent = () => {
             color: '#ffffff',
             textAlign: 'center',
             maxWidth: '1000px', // Compressed container width
-            textShadow: '0 4px 30px rgba(0, 0, 0, 0.7)'
           }}
         >
           It’s never “just a photograph.” Every <span style={underlineStyle}>frame</span> holds a story. We capture what words cannot express. Your vision. Our <span style={underlineStyle}>perspective</span>. Light, emotion, movement, and atmosphere. We preserve moments that deserve to be remembered. Not just images. <span style={underlineStyle}>Experiences</span> frozen in time. Every detail has a story waiting to be seen. Your world. Our lens. We frame the <span style={underlineStyle}>extraordinary</span>.

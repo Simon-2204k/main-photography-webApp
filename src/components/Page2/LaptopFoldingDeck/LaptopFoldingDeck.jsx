@@ -154,8 +154,8 @@ export const LaptopFoldingDeck = memo(() => {
       style={{
         position: 'relative',
         width: '100%',
-        backgroundColor: '#f7f5f0',
-        color: '#000000',
+        backgroundColor: '#000000',
+        color: '#ffffff',
         paddingTop: '15vh',
         paddingBottom: '15vh',
         boxSizing: 'border-box',
@@ -180,7 +180,7 @@ export const LaptopFoldingDeck = memo(() => {
             fontSize: 'clamp(1.8rem, 3.2vw, 3rem)',
             lineHeight: 1.25,
             letterSpacing: '-0.02em',
-            color: '#111111',
+            color: '#ffffff',
             margin: 0,
           }}
         >

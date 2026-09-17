@@ -101,8 +101,9 @@ export const StackedCardsDeck = memo(() => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-screen bg-[#141416] text-white flex flex-col items-center justify-center overflow-hidden select-none"
+      className="relative w-full h-screen text-white flex flex-col items-center justify-center overflow-hidden select-none"
       style={{
+        backgroundColor: '#000000',
         perspective: '1400px',
       }}
     >
@@ -125,15 +126,16 @@ export const StackedCardsDeck = memo(() => {
               style={{
                 zIndex: 10 + idx,
                 transformOrigin: 'center bottom',
-                boxShadow: '0 25px 50px rgba(0, 0, 0, 0.85)',
                 borderRadius: '0px',
+                contain: 'paint layout',
               }}
             >
               <img
                 src={item.image}
                 alt={item.title}
                 className="w-full h-full object-cover object-center transform scale-100"
-                loading="eager"
+                loading="lazy"
+                decoding="async"
               />
 
               <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none p-6 text-center">
@@ -145,7 +147,6 @@ export const StackedCardsDeck = memo(() => {
                     letterSpacing: '-0.02em',
                     textTransform: 'uppercase',
                     color: '#ffffff',
-                    textShadow: '0 4px 25px rgba(0,0,0,0.95)',
                     margin: 0,
                   }}
                 >

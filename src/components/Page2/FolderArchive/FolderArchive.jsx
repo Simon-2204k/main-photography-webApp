@@ -114,7 +114,7 @@ export const FolderArchive = memo(() => {
         width: '100vw',
         height: '100vh',
         maxHeight: '100vh',
-        backgroundColor: '#141416', // Frequent signature dark black!
+        backgroundColor: '#000000',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-end', // Flush to bottom!
@@ -236,17 +236,19 @@ export const FolderArchive = memo(() => {
                         width: '160px',
                         height: '220px',
                         transform: 'rotate(-14deg) translateX(-150px)',
-                        boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
                         border: '1px solid rgba(255,255,255,0.7)',
                         overflow: 'hidden',
                         backgroundColor: '#111',
                         willChange: 'transform',
                         backfaceVisibility: 'hidden',
+                        contain: 'paint layout',
                       }}
                     >
                       <img
                         src={folder.images[0]}
                         alt=""
+                        loading="lazy"
+                        decoding="async"
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       />
                     </div>
@@ -256,17 +258,19 @@ export const FolderArchive = memo(() => {
                         width: '160px',
                         height: '220px',
                         transform: 'rotate(-5deg) translateX(-45px)',
-                        boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
                         border: '1px solid rgba(255,255,255,0.7)',
                         overflow: 'hidden',
                         backgroundColor: '#111',
                         willChange: 'transform',
                         backfaceVisibility: 'hidden',
+                        contain: 'paint layout',
                       }}
                     >
                       <img
                         src={folder.images[1]}
                         alt=""
+                        loading="lazy"
+                        decoding="async"
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       />
                     </div>
@@ -276,17 +280,19 @@ export const FolderArchive = memo(() => {
                         width: '160px',
                         height: '220px',
                         transform: 'rotate(5deg) translateX(50px)',
-                        boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
                         border: '1px solid rgba(255,255,255,0.7)',
                         overflow: 'hidden',
                         backgroundColor: '#111',
                         willChange: 'transform',
                         backfaceVisibility: 'hidden',
+                        contain: 'paint layout',
                       }}
                     >
                       <img
                         src={folder.images[2]}
                         alt=""
+                        loading="lazy"
+                        decoding="async"
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       />
                     </div>
@@ -296,17 +302,19 @@ export const FolderArchive = memo(() => {
                         width: '160px',
                         height: '220px',
                         transform: 'rotate(14deg) translateX(150px)',
-                        boxShadow: '0 25px 50px rgba(0,0,0,0.5)',
                         border: '1px solid rgba(255,255,255,0.7)',
                         overflow: 'hidden',
                         backgroundColor: '#111',
                         willChange: 'transform',
                         backfaceVisibility: 'hidden',
+                        contain: 'paint layout',
                       }}
                     >
                       <img
                         src={folder.images[3]}
                         alt=""
+                        loading="lazy"
+                        decoding="async"
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       />
                     </div>

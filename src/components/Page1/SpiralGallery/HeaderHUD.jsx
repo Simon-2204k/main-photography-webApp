@@ -14,6 +14,7 @@ export const HeaderHUDComponent = ({ isVisible = true }) => {
 
   return (
     <div
+      className="header-hud-wrapper"
       style={{
         position: 'fixed',
         top: 0,
@@ -34,8 +35,31 @@ export const HeaderHUDComponent = ({ isVisible = true }) => {
         transition: 'opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s'
       }}
     >
+      <style>{`
+        .header-hud-wrapper {
+          padding: 30px 45px;
+        }
+        .header-hud-top-row {
+          margin-top: 260px;
+        }
+        @media (max-width: 768px) {
+          .header-hud-wrapper {
+            padding: 16px 20px !important;
+          }
+          .header-hud-top-row {
+            margin-top: 110px !important;
+          }
+          .header-hud-center-heading {
+            max-width: 90% !important;
+          }
+          .header-hud-telemetry {
+            display: none !important;
+          }
+        }
+      `}</style>
       {/* Top HUD Row */}
       <div
+        className="header-hud-top-row"
         style={{
           position: 'relative',
           display: 'flex',
@@ -63,6 +87,7 @@ export const HeaderHUDComponent = ({ isVisible = true }) => {
 
         {/* Center Heading & Description (Locked Strictly at Screen Center) */}
         <div
+          className="header-hud-center-heading"
           style={{
             position: 'absolute',
             left: '50%',
@@ -117,6 +142,7 @@ export const HeaderHUDComponent = ({ isVisible = true }) => {
 
         {/* Top Right Live Telemetry */}
         <div
+          className="header-hud-telemetry"
           style={{
             minWidth: '130px',
             textAlign: 'right',

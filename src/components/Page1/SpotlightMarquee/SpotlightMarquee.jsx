@@ -57,10 +57,13 @@ const SpotlightMarqueeComponent = () => {
       baseY: 0,
     }));
 
+    let pageSectionTop = 0;
+
     const updateRect = () => {
       const rect = section.getBoundingClientRect();
       rectTop = rect.top;
       rectHeight = rect.height;
+      pageSectionTop = rect.top + window.scrollY;
     };
 
     const measure = () => {
@@ -109,8 +112,11 @@ const SpotlightMarqueeComponent = () => {
       );
     };
 
+    // Zero-query arithmetic calculation on scroll
     const handleScroll = () => {
-      updateRect();
+      if (isVisibleRef.current) {
+        rectTop = pageSectionTop - window.scrollY;
+      }
     };
 
     const handleResize = () => {
@@ -147,14 +153,20 @@ const SpotlightMarqueeComponent = () => {
         Math.max(0, contentTop - cfg.gap)
       );
 
-      // 3. Magnetic Text Displacement & Wake Physics
+      // 3. Magnetic Text Displacement & Wake Physics with Resting Threshold
       lines.forEach((l) => {
         const gap = l.baseY - cY;
         const wake = vY * cfg.wakeS * Math.exp(-(gap * gap) / (2 * cfg.wakeR ** 2));
         const targetLineY = (cY + cfg.lift >= l.baseY ? rise : 0) + wake;
 
-        l.currY += (targetLineY - l.currY) * cfg.settle;
-        l.el.style.transform = `translate3d(0, ${l.currY}px, 0)`;
+        const diff = targetLineY - l.currY;
+        if (Math.abs(diff) > 0.01) {
+          l.currY += diff * cfg.settle;
+          l.el.style.transform = `translate3d(0, ${l.currY}px, 0)`;
+        } else if (l.currY !== targetLineY) {
+          l.currY = targetLineY;
+          l.el.style.transform = `translate3d(0, ${l.currY}px, 0)`;
+        }
       });
     };
 
@@ -214,8 +226,8 @@ const SpotlightMarqueeComponent = () => {
       {/* Interactive Horizontal Image Marquee Strip (Cursor Follower) */}
       <div ref={stripRef} className="spotlight-marquee">
         <div ref={trackRef} className="spotlight-marquee-track">
-          {/* Quadruple array for seamless infinite wrap across ultra-wide viewports */}
-          {[...GALLERY_IMAGES, ...GALLERY_IMAGES, ...GALLERY_IMAGES, ...GALLERY_IMAGES].map((src, idx) => (
+          {/* Dual array for seamless infinite wrap across ultra-wide viewports */}
+          {[...GALLERY_IMAGES, ...GALLERY_IMAGES].map((src, idx) => (
             <div key={idx} className="spotlight-marquee-item">
               <img 
                 src={src} 

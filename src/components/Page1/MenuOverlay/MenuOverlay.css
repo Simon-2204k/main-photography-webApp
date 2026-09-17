@@ -216,7 +216,6 @@
   overflow: hidden;
   margin: 0 clamp(1rem, 2vw, 2.5rem);
   border: 2.5px solid #000000;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
   background-color: #000000;
   flex-shrink: 0;
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -17,7 +17,6 @@ import { SlantedMarquee } from '../../components/Page1/SlantedMarquee/SlantedMar
 import { FeaturedSeries } from '../../components/Page1/FeaturedSeries/FeaturedSeries';
 import { SpotlightMarquee } from '../../components/Page1/SpotlightMarquee/SpotlightMarquee';
 import { Footer } from '../../components/Page1/Footer/Footer';
-import { FilmGrain } from '../../components/Page1/FilmGrain/FilmGrain';
 import { DesktopOnlyNotice } from '../../components/Page1/DesktopOnlyNotice/DesktopOnlyNotice';
 
 import { projectsData } from '../../data/page1/projectsData';
@@ -25,6 +24,8 @@ import './Page1.css';
 
 export const Page1Component = ({ onOpenMenu }) => {
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isSpiralActive, setIsSpiralActive] = useState(true);
+  const heroSpacerRef = useRef(null);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -35,14 +36,49 @@ export const Page1Component = ({ onOpenMenu }) => {
       infinite: false,
     });
 
+    let prevProgress = 0;
+    let prevSpiralActive = true;
+
+    const getSpacerHeight = () => {
+      if (heroSpacerRef.current) {
+        return heroSpacerRef.current.offsetHeight;
+      }
+      return window.innerWidth <= 768 ? window.innerHeight * 1.8 : window.innerHeight * 2.35;
+    };
+
+    let spacerHeight = getSpacerHeight();
+
+    const handleResize = () => {
+      spacerHeight = getSpacerHeight();
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      // Spiral traverses its full upward journey over 1.5 * windowHeight
-      const progress = Math.min(Math.max(scrollY / (window.innerHeight * 1.5), 0), 1);
-      setScrollProgress(progress);
+
+      // 1] Active state: visible until 2nd section top (yellow line) touches browser top
+      // When scrolling back up, awakens with a 60px pre-warm buffer so it appears instantly on screen
+      const active = scrollY <= spacerHeight + 60;
+      if (active !== prevSpiralActive) {
+        prevSpiralActive = active;
+        setIsSpiralActive(active);
+      }
+
+      // 2] 3D spiral scroll progress: only update while spiral is active
+      if (active) {
+        const progressLimit = spacerHeight;
+        const progress = Math.min(Math.max(scrollY / progressLimit, 0), 1);
+        if (Math.abs(progress - prevProgress) > 0.005 || progress === 0 || progress === 1) {
+          prevProgress = progress;
+          setScrollProgress(progress);
+        }
+      }
+      // When scrollY > spacerHeight + 60, ZERO state updates occur, eliminating all scroll re-renders across Sections 2-10
     };
 
     lenis.on('scroll', handleScroll);
+    // Initialize synchronously on mount / reload to prevent rotation freeze
+    handleScroll();
 
     const updateLenis = (time) => {
       lenis.raf(time * 1000);
@@ -51,47 +87,49 @@ export const Page1Component = ({ onOpenMenu }) => {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      window.removeEventListener('resize', handleResize);
       gsap.ticker.remove(updateLenis);
       lenis.destroy();
     };
   }, []);
 
-  // Section 1 visibility state: Menu and Background Typography visible only during 3D Spiral travel
-  const isSection1Active = scrollProgress < 0.85;
+  // Section 1 HUD/Typography visibility: Visible during initial entrance, fades as spiral climbs
+  const isHeaderActive = isSpiralActive && scrollProgress < 0.65;
 
   return (
     <div className="page1-root-wrapper">
       {/* Device Restriction Blocker: Displays exclusively for phones and tablets (< 1024px) */}
       <DesktopOnlyNotice />
 
-      {/* Global Continuous Animated Analog Film Grain Overlay */}
-      <FilmGrain />
-
       {/* Custom + Cursor (Restricted exclusively to Section 1) */}
-      <CustomCursor isSection1Active={isSection1Active} />
+      <CustomCursor isSection1Active={isSpiralActive} />
 
       {/* Section 1 Background Typography & Menu Trigger: Visible exclusively in Section 1 */}
       <BackgroundTypography 
-        isVisible={isSection1Active}
+        isVisible={isHeaderActive}
         onOpenMenu={onOpenMenu} 
       />
 
       {/* Section 1 HUD Overlay: Visible exclusively in Section 1 */}
-      <HeaderHUD isVisible={isSection1Active} />
+      <HeaderHUD isVisible={isHeaderActive} />
 
-      {/* Fixed 3D Spiral Background */}
-      <div className="page1-fixed-spiral-canvas">
+      {/* Fixed 3D Spiral Background: Stays visible until 2nd section top (yellow line) touches browser top */}
+      <div 
+        className="page1-fixed-spiral-canvas"
+        style={{ display: isSpiralActive ? 'block' : 'none' }}
+      >
         <SpiralGalleryCanvas 
           projects={projectsData} 
           scrollProgress={scrollProgress} 
+          isActive={isSpiralActive}
         />
       </div>
 
       {/* Section 1 Space: Spacer for 3D Camera Path */}
-      <div className="page1-hero-spacer" />
+      <div ref={heroSpacerRef} className="page1-hero-spacer" />
 
       {/* Solid Editorial Container wrapping all lower sections to eliminate any canvas bleed-through */}
-      <div className="page1-editorial-container" style={{ background: '#0a0a0c', position: 'relative', zIndex: 10, width: '100%' }}>
+      <div className="page1-editorial-container" style={{ background: '#000000', position: 'relative', zIndex: 10, width: '100%' }}>
         {/* Section 2: Cursor Trail Gallery */}
         <div id="page-2-container">
           <CursorTrail />

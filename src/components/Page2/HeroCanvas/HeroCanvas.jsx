@@ -142,7 +142,7 @@ export const HeroCanvasComponent = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="hero-sequence-section" className="relative w-full h-screen overflow-hidden bg-black">
+    <section ref={containerRef} id="hero-sequence-section" className="relative w-full h-screen overflow-hidden" style={{ backgroundColor: '#000000' }}>
       {/* Option 1 Alpha Gradient Masking on Canvas */}
       <canvas
         ref={canvasRef}

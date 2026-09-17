@@ -54,18 +54,31 @@ const PerspectivesGridComponent = () => {
       style={{
         width: '100%',
         minHeight: '100vh',
-        backgroundColor: '#0a0a0c',
+        backgroundColor: '#000000',
         color: '#ffffff',
         position: 'relative',
         zIndex: 10,
         padding: '5rem 3rem 8rem',
         boxSizing: 'border-box',
-        borderTop: '1px solid rgba(255, 255, 255, 0.12)',
         fontFamily: "'Inter', sans-serif",
         cursor: 'default',
         overflow: 'hidden'
       }}
     >
+      <style>{`
+        .perspectives-editorial-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        @media (max-width: 900px) {
+          .perspectives-editorial-grid {
+            grid-template-columns: 1fr !important;
+          }
+          #perspectives-section {
+            padding: 3.5rem 1.2rem 4rem !important;
+          }
+        }
+      `}</style>
       {/* Bounded Cursor Trail for Perspectives Section */}
       <CursorTrail zIndex={2} />
 
@@ -97,9 +110,8 @@ const PerspectivesGridComponent = () => {
 
       {/* 3-Column Seamless Editorial Grid */}
       <div
+        className="perspectives-editorial-grid"
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
           gap: '0',
           border: '1px solid rgba(255, 255, 255, 0.12)',
           borderBottom: 'none',
@@ -107,7 +119,7 @@ const PerspectivesGridComponent = () => {
           maxWidth: '1650px',
           margin: '0 auto',
           boxSizing: 'border-box',
-          backgroundColor: '#0d0d10'
+          backgroundColor: '#000000'
         }}
       >
         {/* ================= COLUMN 1 (Speed 1) ================= */}
@@ -188,6 +200,8 @@ const PerspectivesGridComponent = () => {
                 <img
                   src="/assets/page1/editorial/editorial_1.jpg"
                   alt="Collaborative Cinematography"
+                  loading="lazy"
+                  decoding="async"
                   style={imageBannerStyle}
                 />
                 <div style={badgeOverlayStyle}>
@@ -217,6 +231,8 @@ const PerspectivesGridComponent = () => {
                 <img
                   src="/assets/page1/editorial/editorial_2.jpg"
                   alt="Framing Character in Crowd"
+                  loading="lazy"
+                  decoding="async"
                   style={imageBannerStyle}
                 />
                 <div style={badgeOverlayStyle}>
@@ -256,6 +272,8 @@ const PerspectivesGridComponent = () => {
                 <img
                   src="/assets/page1/editorial/editorial_3.jpg"
                   alt="Street Scene Realism"
+                  loading="lazy"
+                  decoding="async"
                   style={imageBannerStyle}
                 />
                 <div style={badgeOverlayStyle}>
@@ -287,6 +305,8 @@ const PerspectivesGridComponent = () => {
                 <img
                   src="/assets/page1/editorial/editorial_4.jpg"
                   alt="Five Women with Cameras"
+                  loading="lazy"
+                  decoding="async"
                   style={imageBannerStyle}
                 />
                 <div style={badgeOverlayStyle}>
@@ -318,7 +338,7 @@ const PerspectivesGridComponent = () => {
 
 /* Reusable Inline Styles (0 Gaps, 0 Roundness, 1px Gray Borders, Normal Default Cursor) */
 const cellStyle = {
-  backgroundColor: '#0d0d10',
+  backgroundColor: '#000000',
   borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
   borderRadius: '0px',
   padding: '2.5rem 2.2rem',
@@ -328,7 +348,8 @@ const cellStyle = {
   justifyContent: 'space-between',
   minHeight: '300px',
   position: 'relative',
-  cursor: 'default'
+  cursor: 'default',
+  contain: 'paint layout'
 };
 
 const metaStyle = {

@@ -39,7 +39,7 @@ export function FocusHUD({
               title={`Jump to Layer ${idx + 1}`}
               className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
                 idx === layerIndex
-                  ? 'bg-white scale-125 shadow-[0_0_8px_rgba(255,255,255,0.8)]'
+                  ? 'bg-white scale-125'
                   : 'bg-white/20 hover:bg-white/50'
               }`}
             />

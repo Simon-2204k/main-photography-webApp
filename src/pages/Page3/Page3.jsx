@@ -3,7 +3,6 @@ import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import { FilmGrain } from '../../components/Page1/FilmGrain/FilmGrain';
 import { DesktopOnlyNotice } from '../../components/Page1/DesktopOnlyNotice/DesktopOnlyNotice';
 
 // Section 1: Fullscreen 3D Cylindrical Gallery
@@ -76,9 +75,6 @@ export const Page3Component = ({ onOpenMenu }) => {
     <div className="page3-root-wrapper min-h-screen bg-black text-white font-sans antialiased overflow-x-hidden selection:bg-[#ff2a4b] selection:text-white">
       {/* Device Restriction Notice (< 1024px) */}
       <DesktopOnlyNotice />
-
-      {/* Cinematic Film Grain Overlay */}
-      <FilmGrain />
 
       {/* Section 1: Fullscreen 3D Cylindrical Gallery */}
       <section id="exhibits-section-1" className="page3-section-container">

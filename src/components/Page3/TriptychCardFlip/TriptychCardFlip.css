@@ -76,6 +76,7 @@
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   will-change: transform;
+  contain: paint layout;
 }
 
 .triptych-card-inner {
@@ -103,8 +104,7 @@
 /* Front Face: Full Phone Image */
 .card-face-front {
   border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.85);
-  background-color: #0c0c0e;
+  background-color: #000000;
 }
 
 .card-front-image {
@@ -131,7 +131,6 @@
   flex-direction: column;
   justify-content: space-between;
   padding: clamp(18px, 2.2vw, 28px);
-  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-sizing: border-box;
   border-radius: 0px !important;
@@ -160,7 +159,6 @@
 }
 
 .card-back-icon {
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
 }
 
 .card-back-body {

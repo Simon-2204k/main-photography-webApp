@@ -180,7 +180,7 @@ export const DulcedoMenu = memo(() => {
       {/* Floating Image Preview Card (All 5 images pre-mounted for 0ms lag) */}
       <div
         ref={previewRef}
-        className="absolute top-0 pointer-events-none opacity-0 shadow-2xl overflow-hidden bg-neutral-900 will-change-transform rounded-sm"
+        className="absolute top-0 pointer-events-none opacity-0 overflow-hidden bg-neutral-900 will-change-transform rounded-sm"
         style={{
           transformOrigin: 'center center',
           right: '10%',

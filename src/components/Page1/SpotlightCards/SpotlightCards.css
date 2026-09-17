@@ -3,19 +3,14 @@
   width: 100%;
   min-height: 100svh;
   height: 100vh;
-  background-color: #0a0a0c;
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(28, 28, 38, 0.5) 0%, rgba(10, 10, 12, 0.95) 75%),
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 100% 100%, 48px 48px, 48px 48px;
+  background-color: #000000;
+  background: #000000;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   padding: 4.5rem 2rem 3rem 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
   user-select: none;
   z-index: 25;
   contain: paint layout;
@@ -55,7 +50,6 @@
   text-transform: uppercase;
   line-height: 0.95;
   margin: 0 0 0.4rem 0;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8);
   z-index: 36;
 }
 
@@ -96,7 +90,6 @@
   overflow: hidden;
   background-color: #121216;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8);
   cursor: grab;
   transform-origin: center center;
   will-change: transform;
@@ -105,12 +98,11 @@
   backface-visibility: hidden;
   transform: translate3d(0, 0, 0);
   contain: paint layout;
-  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: border-color 0.25s ease;
 }
 
 .spotlight-card:hover {
   border-color: rgba(255, 255, 255, 0.35);
-  box-shadow: 0 30px 60px -10px rgba(0, 0, 0, 0.95), 0 0 20px rgba(229, 169, 86, 0.15);
 }
 
 .spotlight-card:active {

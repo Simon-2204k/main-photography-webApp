@@ -13,7 +13,9 @@ const ExpandingGalleryComponent = () => {
     const section = sectionRef.current;
     if (!section) return;
 
-    let startWidth, endWidth;
+    let startWidth = 125;
+    let endWidth = 500;
+    let isTickerActive = false;
 
     const setupLayout = () => {
       const isMobile = window.innerWidth < 1000;
@@ -23,7 +25,7 @@ const ExpandingGalleryComponent = () => {
       if (rowsRef.current[0]) {
         rowsRef.current[0].style.width = `${endWidth}%`;
         const singleRowHeight = rowsRef.current[0].offsetHeight;
-        rowsRef.current[0].style.width = "";
+        rowsRef.current[0].style.width = '';
 
         const styles = getComputedStyle(section);
         const gapSize = parseFloat(styles.gap) || 0;
@@ -34,31 +36,75 @@ const ExpandingGalleryComponent = () => {
       }
     };
 
+    // Smooth dynamic expansion synchronized with Lenis ticker (Zero layout thrashing via read/write batching)
     const updateScroll = () => {
       const scrollY = window.scrollY;
       const viewportHeight = window.innerHeight;
+      const rows = rowsRef.current;
 
-      rowsRef.current.forEach((row) => {
-        if (!row) return;
+      // Phase 1: Batch all DOM layout reads together (triggers at most 1 layout pass)
+      const measurements = [];
+      for (let i = 0; i < ROWS_COUNT; i++) {
+        const row = rows[i];
+        if (!row) continue;
         const rect = row.getBoundingClientRect();
-        const rowTop = rect.top + scrollY;
+        measurements.push({
+          row,
+          rowTop: rect.top + scrollY,
+          height: rect.height,
+        });
+      }
+
+      // Phase 2: Batch all DOM style writes together (zero interleaved reflows)
+      const widthDelta = endWidth - startWidth;
+      for (let i = 0; i < measurements.length; i++) {
+        const { row, rowTop, height } = measurements[i];
         const scrollStart = rowTop - viewportHeight;
-        const scrollEnd = rowTop + rect.height;
+        const scrollEnd = rowTop + height;
+        const span = scrollEnd - scrollStart || 1;
 
-        let progress = (scrollY - scrollStart) / (scrollEnd - scrollStart);
-        progress = Math.max(0, Math.min(1, progress));
+        let progress = (scrollY - scrollStart) / span;
+        if (progress < 0) progress = 0;
+        else if (progress > 1) progress = 1;
 
-        row.style.width = `${startWidth + (endWidth - startWidth) * progress}%`;
-      });
+        const targetWidth = `${startWidth + widthDelta * progress}%`;
+        if (row.style.width !== targetWidth) {
+          row.style.width = targetWidth;
+        }
+      }
     };
 
-    window.addEventListener("resize", setupLayout);
+    // IntersectionObserver: Ticker runs strictly when in or approaching viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setupLayout();
+            if (!isTickerActive) {
+              gsap.ticker.add(updateScroll);
+              isTickerActive = true;
+            }
+          } else {
+            if (isTickerActive) {
+              gsap.ticker.remove(updateScroll);
+              isTickerActive = false;
+            }
+          }
+        });
+      },
+      { threshold: 0.01, rootMargin: '250px 0px' }
+    );
+
+    window.addEventListener('resize', setupLayout, { passive: true });
     setupLayout();
-    gsap.ticker.add(updateScroll);
+    observer.observe(section);
 
     return () => {
-      window.removeEventListener("resize", setupLayout);
-      gsap.ticker.remove(updateScroll);
+      observer.disconnect();
+      window.removeEventListener('resize', setupLayout);
+      if (isTickerActive) {
+        gsap.ticker.remove(updateScroll);
+      }
     };
   }, []);
 
@@ -76,7 +122,7 @@ const ExpandingGalleryComponent = () => {
       style={{
         position: 'relative',
         width: '100%',
-        backgroundColor: '#0a0a0c',
+        backgroundColor: '#000000',
         color: '#ffffff',
         padding: '2rem 0',
         display: 'flex',
@@ -84,7 +130,6 @@ const ExpandingGalleryComponent = () => {
         alignItems: 'center',
         gap: '0.8rem',
         overflow: 'hidden',
-        borderTop: '1px solid rgba(255, 255, 255, 0.08)',
         zIndex: 10
       }}
     >
@@ -109,7 +154,9 @@ const ExpandingGalleryComponent = () => {
                 aspectRatio: '7 / 5',
                 display: 'flex',
                 flexDirection: 'column',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                contain: 'paint layout',
+                transform: 'translateZ(0)'
               }}
             >
               {/* Stepped Darkroom Cassette Tab */}

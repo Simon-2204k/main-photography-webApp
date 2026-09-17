@@ -81,7 +81,7 @@ export default function ParallaxPages() {
             <!-- Top HUD Bar -->
             <div class="flex justify-between items-center text-xs sm:text-sm font-mono tracking-widest text-white/90">
               <div class="flex items-center gap-2.5">
-                <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse inline-block shadow-[0_0_8px_#ef4444]"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse inline-block"></span>
                 <span class="font-bold text-red-500 tracking-wider">● REC</span>
                 <span class="text-white/80 font-normal">[4K 60FPS RAW]</span>
               </div>
@@ -338,11 +338,12 @@ export default function ParallaxPages() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative w-full bg-black text-white">
+    <section ref={containerRef} className="relative w-full text-white" style={{ backgroundColor: '#000000' }}>
       {/* Pinned Codegrid Carousel Container */}
       <div
         ref={carouselRef}
-        className="carousel relative w-full h-screen overflow-hidden bg-black flex justify-center items-center"
+        className="carousel relative w-full h-screen overflow-hidden flex justify-center items-center"
+        style={{ backgroundColor: '#000000' }}
       >
         {/* Initial Active Slide DOM Element */}
         <div className="slide absolute inset-0 w-full h-full overflow-hidden flex flex-col justify-center items-center pointer-events-none select-none z-10">
@@ -359,7 +360,7 @@ export default function ParallaxPages() {
             {/* Top HUD Bar */}
             <div className="flex justify-between items-center text-xs sm:text-sm font-mono tracking-widest text-white/90">
               <div className="flex items-center gap-2.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse inline-block shadow-[0_0_8px_#ef4444]"></span>
+                <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse inline-block"></span>
                 <span className="font-bold text-red-500 tracking-wider">● REC</span>
                 <span className="text-white/80 font-normal">[4K 60FPS RAW]</span>
               </div>

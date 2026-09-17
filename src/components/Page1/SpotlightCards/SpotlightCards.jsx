@@ -73,17 +73,22 @@ const SpotlightCardsComponent = () => {
     let py = 0;
     let isTickerActive = false;
 
-    // Cache container coordinates (No layout thrashing during 60-120fps physics loop)
-    const updateContainerCenter = () => {
+    let pageCenterY = 0;
+    let centerX = 0;
+
+    // Cache container page coordinates (Zero layout queries during scroll)
+    const measureContainer = () => {
       if (!container) return;
       const rect = container.getBoundingClientRect();
+      centerX = rect.left + rect.width / 2;
+      pageCenterY = rect.top + window.scrollY + rect.height / 2;
       centerPosRef.current = {
-        cx: rect.left + rect.width / 2,
+        cx: centerX,
         cy: rect.top + rect.height / 2,
       };
     };
 
-    updateContainerCenter();
+    measureContainer();
 
     let physics = cards.map((card, i) => {
       const [bx, by, br] = BASE_LAYOUT[i] || [0, 0, 0];
@@ -144,12 +149,16 @@ const SpotlightCardsComponent = () => {
         c.rr = br;
       });
 
-      updateContainerCenter();
+      measureContainer();
     };
 
+    // Pure arithmetic calculation on scroll (ZERO getBoundingClientRect calls)
     const handleScroll = () => {
       if (isVisibleRef.current) {
-        updateContainerCenter();
+        centerPosRef.current = {
+          cx: centerX,
+          cy: pageCenterY - window.scrollY,
+        };
       }
     };
 
@@ -224,7 +233,7 @@ const SpotlightCardsComponent = () => {
         entries.forEach((entry) => {
           isVisibleRef.current = entry.isIntersecting;
           if (entry.isIntersecting) {
-            updateContainerCenter();
+            measureContainer();
             if (!isTickerActive) {
               gsap.ticker.add(ticker);
               isTickerActive = true;
@@ -246,8 +255,6 @@ const SpotlightCardsComponent = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     spotlight.addEventListener('mousemove', handleMouseMove, { passive: true });
     spotlight.addEventListener('mouseleave', handleMouseLeave, { passive: true });
-    spotlight.addEventListener('pointermove', handleMouseMove, { passive: true });
-    spotlight.addEventListener('pointerleave', handleMouseLeave, { passive: true });
 
     return () => {
       observer.disconnect();
@@ -256,8 +263,6 @@ const SpotlightCardsComponent = () => {
       window.removeEventListener('scroll', handleScroll);
       spotlight.removeEventListener('mousemove', handleMouseMove);
       spotlight.removeEventListener('mouseleave', handleMouseLeave);
-      spotlight.removeEventListener('pointermove', handleMouseMove);
-      spotlight.removeEventListener('pointerleave', handleMouseLeave);
       if (isTickerActive) {
         gsap.ticker.remove(ticker);
       }

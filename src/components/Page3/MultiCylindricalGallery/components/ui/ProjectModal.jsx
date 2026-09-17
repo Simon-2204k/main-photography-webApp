@@ -18,7 +18,7 @@ export function ProjectModal({ card, onClose }) {
       <div className="absolute inset-0" onClick={onClose} />
 
       {/* Modal Dialog Card Container */}
-      <div className="relative z-10 w-full max-w-4xl max-h-[90vh] glass-panel rounded-lg overflow-hidden flex flex-col md:flex-row shadow-2xl border border-white/15 animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative z-10 w-full max-w-4xl max-h-[90vh] glass-panel rounded-lg overflow-hidden flex flex-col md:flex-row border border-white/15 animate-in fade-in zoom-in-95 duration-200">
         {/* Close Button */}
         <button
           onClick={onClose}

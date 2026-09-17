@@ -3,7 +3,6 @@ import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import { FilmGrain } from '../../components/Page1/FilmGrain/FilmGrain';
 import { DesktopOnlyNotice } from '../../components/Page1/DesktopOnlyNotice/DesktopOnlyNotice';
 
 // Section 1: Darkroom HUD Video Canvas & Telemetry
@@ -72,9 +71,6 @@ export const Page2Component = ({ onOpenMenu }) => {
     <div className="page2-root-wrapper min-h-screen bg-black text-white font-sans antialiased overflow-x-hidden selection:bg-[#ff2a4b] selection:text-white">
       {/* Device Restriction Blocker (< 1024px) */}
       <DesktopOnlyNotice />
-
-      {/* Cinematic Film Grain Overlay */}
-      <FilmGrain />
 
       {/* Section 1: Hero Interactive HUD Video Canvas, Grid Grain Telemetry & Natural Scrolling Header */}
       <section id="darkroom-hero-section" className="darkroom-hero-wrapper">

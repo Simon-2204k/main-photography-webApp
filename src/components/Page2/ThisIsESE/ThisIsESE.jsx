@@ -38,8 +38,9 @@ export const ThisIsESEComponent = () => {
     <section
       ref={sectionRef}
       id="about"
-      className="relative z-20 bg-black text-white w-full min-h-screen h-screen flex flex-col justify-center px-0 overflow-hidden select-none"
+      className="relative z-20 text-white w-full min-h-screen h-screen flex flex-col justify-center px-0 overflow-hidden select-none"
       style={{
+        backgroundColor: '#000000',
         maskImage: 'linear-gradient(to bottom, transparent 0%, black 140px, black 100%)',
         WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 140px, black 100%)',
       }}
@@ -82,7 +83,7 @@ export const ThisIsESEComponent = () => {
           >
             {/* Monospace Eyebrow Tag */}
             <div className="inline-flex items-center gap-2 mb-4">
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse inline-block shadow-[0_0_8px_#fbbf24]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse inline-block" />
               <span className="text-xs sm:text-sm font-mono uppercase tracking-[0.25em] text-neutral-300 font-semibold">
                 ✦ SIMON PHOTOGRAPHY ARCHIVE
               </span>
@@ -92,7 +93,7 @@ export const ThisIsESEComponent = () => {
             <h2 className="font-sans font-black text-3xl sm:text-5xl lg:text-[54px] xl:text-[64px] leading-[0.95] tracking-tighter text-white uppercase mb-8">
               <span className="block font-black tracking-tight text-white">MASTER OF</span>
               <span className="block font-black tracking-tight text-white">LIGHT &amp;</span>
-              <span className="block font-serif font-normal italic tracking-normal text-white text-4xl sm:text-6xl lg:text-[60px] xl:text-[70px] capitalize mt-1 drop-shadow-md">
+              <span className="block font-serif font-normal italic tracking-normal text-white text-4xl sm:text-6xl lg:text-[60px] xl:text-[70px] capitalize mt-1">
                 Perspective
               </span>
             </h2>

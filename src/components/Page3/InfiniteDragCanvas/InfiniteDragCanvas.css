@@ -2,7 +2,7 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: #0c0d10;
+  background-color: #000000;
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
@@ -60,7 +60,6 @@
     repeat-y,
     repeat-y;
 
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.45));
   will-change: transform;
   transform-origin: center center;
 }

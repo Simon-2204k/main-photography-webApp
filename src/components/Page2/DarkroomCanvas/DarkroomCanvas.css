@@ -2,7 +2,7 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  background-color: #030303;
+  background-color: #000000;
   color: #d0d0d0;
   overflow: hidden;
   user-select: none;
@@ -48,7 +48,6 @@
   color: #ffffff;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
   text-transform: uppercase;
 }
 

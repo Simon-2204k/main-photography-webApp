@@ -74,7 +74,6 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
       imgEl.style.width = `${IMAGE_SIZE}px`;
       imgEl.style.height = `${IMAGE_SIZE}px`;
       imgEl.style.willChange = 'transform, opacity';
-      imgEl.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.55)';
 
       // Auto-fallback in case any individual image network fails
       imgEl.onerror = () => {

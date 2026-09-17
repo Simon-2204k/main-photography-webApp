@@ -5,7 +5,7 @@
   height: 100vh;
   max-width: 100vw;
   max-height: 100vh;
-  background-color: #212121;
+  background-color: #000000;
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
@@ -50,7 +50,6 @@
   background: rgba(255, 255, 255, 0.95);
   color: #0a0a0c;
   border-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 /* Minimal Black & White Scroll-Lock Button */

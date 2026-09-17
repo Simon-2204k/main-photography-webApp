@@ -26,9 +26,9 @@ export const CylindricalGalleryCanvas = React.memo(function CylindricalGalleryCa
         }}
         dpr={[1, 1.5]}
       >
-        {/* Environment Background Color #212121 & Atmospheric Fog */}
-        <color attach="background" args={['#212121']} />
-        <fog attach="fog" args={['#212121', 10, 30]} />
+        {/* Environment Background Color #000000 & Atmospheric Fog */}
+        <color attach="background" args={['#000000']} />
+        <fog attach="fog" args={['#000000', 10, 30]} />
 
         {/* Studio Lighting */}
         <ambientLight intensity={1.6} />

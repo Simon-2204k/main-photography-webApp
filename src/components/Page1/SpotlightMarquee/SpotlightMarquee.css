@@ -4,11 +4,11 @@
   height: 100svh;
   min-height: 700px;
   overflow: hidden;
-  background-color: #0c0c0e;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #000000;
   user-select: none;
   z-index: 20;
   contain: paint layout;
+  isolation: isolate;
   cursor: default;
 }
 
@@ -91,7 +91,6 @@
   display: block;
   border-radius: 8px;
   background-color: #1a1a20;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
   image-rendering: -webkit-optimize-contrast;
   backface-visibility: hidden;
   transform: translateZ(0);

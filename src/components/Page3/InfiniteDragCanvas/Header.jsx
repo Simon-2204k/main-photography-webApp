@@ -22,7 +22,7 @@ export const Header = ({ isExpanded, onToggleExpand }) => {
         <button
           type="button"
           onClick={onToggleExpand}
-          className="flex items-center justify-center w-12 h-12 rounded-none bg-black/50 text-white shadow-2xl backdrop-blur-md border border-white/20 cursor-pointer transition-colors hover:bg-black/80"
+          className="flex items-center justify-center w-12 h-12 rounded-none bg-black/50 text-white backdrop-blur-md border border-white/20 cursor-pointer transition-colors hover:bg-black/80"
           title={isExpanded ? "Close Gallery" : "Spread Gallery"}
         >
           <div ref={iconRef} className="flex items-center justify-center will-change-transform">

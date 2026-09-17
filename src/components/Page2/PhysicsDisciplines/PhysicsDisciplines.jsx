@@ -413,7 +413,7 @@ export const PhysicsDisciplines = memo(() => {
       ref={sectionRef}
       className="relative w-full text-white px-6 sm:px-12 lg:px-20 select-none overflow-hidden"
       style={{
-        backgroundColor: '#121214',
+        backgroundColor: '#000000',
         isolation: 'isolate',
         minHeight: '140vh',
         height: '140vh',

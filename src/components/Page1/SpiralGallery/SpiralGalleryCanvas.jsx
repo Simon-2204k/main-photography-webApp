@@ -35,11 +35,6 @@ const SpiralScene = ({ projects, scrollProgress }) => {
   const mousePosRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    const handleWheel = (e) => {
-      const delta = e.deltaY * 0.0025;
-      targetScrollRef.current += delta;
-    };
-
     const handlePointerDown = (e) => {
       isDraggingRef.current = true;
       previousMouseYRef.current = e.clientY;
@@ -64,14 +59,12 @@ const SpiralScene = ({ projects, scrollProgress }) => {
       mousePosRef.current = { x: 0, y: 0 };
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: true });
     window.addEventListener('pointerdown', handlePointerDown);
     window.addEventListener('pointermove', handlePointerMove);
     window.addEventListener('pointerup', handlePointerUp);
     document.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('pointerdown', handlePointerDown);
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);
@@ -130,7 +123,7 @@ const SpiralScene = ({ projects, scrollProgress }) => {
 
   return (
     <>
-      <color attach="background" args={['#161618']} />
+      <color attach="background" args={['#000000']} />
 
       <ambientLight intensity={1.6} />
       <directionalLight position={[0, 14, 16]} intensity={2.5} />
@@ -171,10 +164,11 @@ const SpiralScene = ({ projects, scrollProgress }) => {
   );
 };
 
-export const SpiralGalleryCanvas = React.memo(({ projects, scrollProgress }) => {
+export const SpiralGalleryCanvas = React.memo(({ projects, scrollProgress, isActive = true }) => {
   return (
     <div className="canvas-wrapper">
       <Canvas
+        frameloop={isActive ? "always" : "never"}
         gl={{
           antialias: true,
           powerPreference: "high-performance",

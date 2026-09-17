@@ -26,8 +26,9 @@ export const BackgroundTypographyComponent = ({ onOpenMenu, isVisible = true }) 
       <h1
         style={{
           margin: 0,
-          padding: 0,
-          fontSize: 'clamp(2.5rem, 6.5vw, 7.5rem)',
+          padding: '0 1rem',
+          maxWidth: '96vw',
+          fontSize: 'clamp(1.4rem, 6.2vw, 7.5rem)',
           fontWeight: '900',
           lineHeight: '0.85',
           letterSpacing: '-0.03em',
