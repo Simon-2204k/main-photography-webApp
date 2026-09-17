@@ -21,6 +21,11 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
   const trailQueueRef = useRef([]);
 
   useEffect(() => {
+    // Disable completely on touch devices / coarse pointers
+    if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+      return;
+    }
+
     // Eagerly pre-warm all 57 trail images into GPU memory
     globalImageCache.preloadAll();
 
@@ -221,6 +226,10 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
       trailQueueRef.current = [];
     };
   }, []);
+
+  if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+    return null;
+  }
 
   return (
     <div

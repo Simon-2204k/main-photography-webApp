@@ -79,12 +79,21 @@ const SpiralScene = ({ projects, scrollProgress }) => {
   useEffect(() => {
     const handlePointerDown = (e) => {
       // Allow touch swipe to cleanly scroll the page without locking pointer capture
-      if (e.pointerType === 'touch') return;
+      if (e.pointerType === 'touch') {
+        mousePosRef.current = { x: 0, y: 0 };
+        return;
+      }
       isDraggingRef.current = true;
       previousMouseYRef.current = e.clientY;
     };
 
     const handlePointerMove = (e) => {
+      // Ignore touch moves so swiping/scrolling doesn't tilt or shift the spiral
+      if (e.pointerType === 'touch') {
+        mousePosRef.current = { x: 0, y: 0 };
+        return;
+      }
+
       const normX = (e.clientX / window.innerWidth) * 2 - 1;
       const normY = -(e.clientY / window.innerHeight) * 2 + 1;
       mousePosRef.current = { x: normX, y: normY };
@@ -95,7 +104,10 @@ const SpiralScene = ({ projects, scrollProgress }) => {
       targetScrollRef.current -= deltaY * 0.005;
     };
 
-    const handlePointerUp = () => {
+    const handlePointerUp = (e) => {
+      if (e && e.pointerType === 'touch') {
+        mousePosRef.current = { x: 0, y: 0 };
+      }
       isDraggingRef.current = false;
     };
 
@@ -119,8 +131,10 @@ const SpiralScene = ({ projects, scrollProgress }) => {
   useFrame(() => {
     if (!spiralGroupRef.current || !mainGroupRef.current) return;
 
-    const mouseX = mousePosRef.current.x;
-    const mouseY = mousePosRef.current.y;
+    // Zero out mouse tilt & pan parallax on touch devices (phones & tablets)
+    const isTouchOrCoarse = isMobile || (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches);
+    const mouseX = isTouchOrCoarse ? 0 : mousePosRef.current.x;
+    const mouseY = isTouchOrCoarse ? 0 : mousePosRef.current.y;
 
     // Scroll entrance interpolation
     const entranceStartY = isMobile ? -3.4 : -4.2;

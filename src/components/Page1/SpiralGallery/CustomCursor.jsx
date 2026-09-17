@@ -6,8 +6,16 @@ export const CustomCursorComponent = ({ isSection1Active = true }) => {
   const vLineRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
+  const isTouchDevice = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
   useEffect(() => {
+    if (isTouchDevice) return;
+
     const handleMouseMove = (e) => {
+      // Ignore touch events / synthetic touch moves
+      if (e.sourceCapabilities?.firesTouchEvents || (e.pointerType && e.pointerType === 'touch')) {
+        return;
+      }
       // If Section 1 is no longer active (scrolled past hero) or hovering lower interactive sections
       if (!isSection1Active || window.scrollY > window.innerHeight * 0.8) {
         setIsVisible(false);
@@ -54,7 +62,9 @@ export const CustomCursorComponent = ({ isSection1Active = true }) => {
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, [isSection1Active]);
+  }, [isSection1Active, isTouchDevice]);
+
+  if (isTouchDevice) return null;
 
   const shouldRenderVisible = isVisible && isSection1Active;
 

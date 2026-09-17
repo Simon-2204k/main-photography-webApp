@@ -19,8 +19,8 @@ const ExpandingGalleryComponent = () => {
 
     const setupLayout = () => {
       const isMobile = window.innerWidth < 1000;
-      startWidth = isMobile ? 250 : 125;
-      endWidth = isMobile ? 750 : 500;
+      startWidth = isMobile ? 320 : 125;
+      endWidth = isMobile ? 850 : 500;
 
       if (rowsRef.current[0]) {
         rowsRef.current[0].style.width = `${endWidth}%`;
@@ -151,10 +151,9 @@ const ExpandingGalleryComponent = () => {
               className="project"
               style={{
                 flex: 1,
-                aspectRatio: '7 / 5',
+                minWidth: 'clamp(140px, 32vw, 220px)',
                 display: 'flex',
                 flexDirection: 'column',
-                overflow: 'hidden',
                 transform: 'translateZ(0)'
               }}
             >
@@ -188,8 +187,9 @@ const ExpandingGalleryComponent = () => {
               <div
                 className="project-img"
                 style={{
-                  flex: 1,
-                  minHeight: 0,
+                  width: '100%',
+                  aspectRatio: '16 / 10',
+                  minHeight: 'clamp(95px, 20vw, 160px)',
                   backgroundColor: '#121216',
                   border: '1px solid rgba(255, 255, 255, 0.12)',
                   borderTopRightRadius: '6px',

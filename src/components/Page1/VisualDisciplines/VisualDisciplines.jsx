@@ -196,13 +196,24 @@ const VisualDisciplinesComponent = () => {
         .visual-words-list {
           padding-left: calc(50vw - 110px);
         }
-        @media (max-width: 900px) and (min-width: 769px) {
+        @media (max-width: 1024px) {
           .visual-preview-box {
             display: none !important;
           }
           .visual-words-list {
-            padding-left: 2rem !important;
-            padding-right: 2rem !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            align-items: center !important;
+            text-align: center !important;
+          }
+          .visual-word-row {
+            justify-content: center !important;
+            text-align: center !important;
+            width: 100% !important;
+          }
+          .visual-word-row h2 {
+            text-align: center !important;
+            width: 100% !important;
           }
         }
         @media (max-width: 768px) {
@@ -242,10 +253,18 @@ const VisualDisciplinesComponent = () => {
             padding-left: 1rem !important;
             padding-right: 1rem !important;
             padding-bottom: 120px !important;
+            align-items: center !important;
+            text-align: center !important;
           }
           .visual-word-row {
             position: relative !important;
             padding-top: 1.35rem !important;
+            width: 100% !important;
+            justify-content: center !important;
+            text-align: center !important;
+          }
+          .visual-word-row h2 {
+            text-align: center !important;
             width: 100% !important;
           }
           .visual-word-subtag {
