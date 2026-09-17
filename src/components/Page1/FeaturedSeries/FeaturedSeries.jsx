@@ -23,9 +23,9 @@ const FeaturedSeriesComponent = () => {
     xTo.current = gsap.quickTo(hoverCardRef.current, 'x', { duration: 0.35, ease: 'power3.out' });
     yTo.current = gsap.quickTo(hoverCardRef.current, 'y', { duration: 0.35, ease: 'power3.out' });
 
-    // On mobile screens, activate whichever row crosses the center of the screen purely on scroll!
+    // On mobile and tablet screens, activate whichever row crosses the center of the screen purely on scroll!
     const handleScroll = () => {
-      if (window.innerWidth >= 768) return;
+      if (window.innerWidth > 1024) return;
       const section = sectionRef.current;
       if (!section) return;
 

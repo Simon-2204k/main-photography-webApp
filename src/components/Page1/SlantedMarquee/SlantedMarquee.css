@@ -132,6 +132,31 @@
 }
 
 /* Responsive adjustments */
+@media (max-width: 1024px) {
+  .slanted-marquee-section {
+    padding: clamp(5rem, 8vw, 7.5rem) 0 clamp(5.5rem, 8vw, 8rem) 0 !important;
+  }
+  .marquee-ribbon-top {
+    height: clamp(170px, 18vw, 230px) !important;
+    margin-bottom: -2.4rem !important;
+  }
+  .marquee-ribbon-bottom {
+    height: clamp(180px, 20vw, 245px) !important;
+  }
+  .marquee-text-main {
+    font-size: clamp(5.8rem, 11.5vw, 8.8rem) !important;
+  }
+  .marquee-badge-box {
+    border-width: 4px !important;
+  }
+  .marquee-badge-line {
+    font-size: clamp(2.4rem, 5.2vw, 4.2rem) !important;
+  }
+  .marquee-sub-lockup {
+    font-size: clamp(0.95rem, 1.8vw, 1.4rem) !important;
+  }
+}
+
 @media (max-width: 900px) {
   .marquee-ribbon-wrapper {
     width: 145%;

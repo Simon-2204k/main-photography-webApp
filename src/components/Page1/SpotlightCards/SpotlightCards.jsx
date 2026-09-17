@@ -44,6 +44,13 @@ const BASE_LAYOUT = [
   [280, -15, -8],
 ];
 
+const TABLET_LAYOUT = [
+  [-170, -150, -5],
+  [170, -95, 4],
+  [-135, 140, -3],
+  [160, 175, 5],
+];
+
 const MOBILE_LAYOUT = [
   [-10, -195, -2],
   [12, -65, 2],
@@ -72,12 +79,19 @@ const SpotlightCardsComponent = () => {
 
     if (!spotlight || !container || cards.length === 0) return;
 
-    const isMobile = window.innerWidth < 768;
-    const getLayout = () => (window.innerWidth < 768 ? MOBILE_LAYOUT : BASE_LAYOUT);
+    const getLayout = () => {
+      if (window.innerWidth < 768) return MOBILE_LAYOUT;
+      if (window.innerWidth <= 1024) return TABLET_LAYOUT;
+      return BASE_LAYOUT;
+    };
 
-    let scale = isMobile
-      ? Math.min(0.85, Math.max(0.65, window.innerWidth / 420))
-      : Math.min(1, Math.max(0.55, window.innerWidth / 1200));
+    const isMob = window.innerWidth < 768;
+    const isTab = window.innerWidth >= 768 && window.innerWidth <= 1024;
+    let scale = isMob
+      ? Math.min(1.0, Math.max(0.65, window.innerWidth / 480))
+      : isTab
+        ? 1.0
+        : Math.min(1, Math.max(0.55, window.innerWidth / 1200));
     let proximity = PROXIMITY_BASE * scale;
 
     const mouse = { x: 0, y: 0, vx: 0, vy: 0 };
@@ -152,10 +166,14 @@ const SpotlightCardsComponent = () => {
     });
 
     const handleResize = () => {
-      const isMob = window.innerWidth < 768;
+      const w = window.innerWidth;
+      const isMob = w < 768;
+      const isTab = w >= 768 && w <= 1024;
       scale = isMob
-        ? Math.min(0.85, Math.max(0.65, window.innerWidth / 420))
-        : Math.min(1, Math.max(0.55, window.innerWidth / 1200));
+        ? Math.min(1.0, Math.max(0.65, w / 480))
+        : isTab
+          ? 1.0
+          : Math.min(1, Math.max(0.55, w / 1200));
       proximity = PROXIMITY_BASE * scale;
 
       const currentLayout = getLayout();

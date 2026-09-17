@@ -47,7 +47,7 @@
   z-index: 999;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .page1-hero-spacer {
     height: 180vh;
   }

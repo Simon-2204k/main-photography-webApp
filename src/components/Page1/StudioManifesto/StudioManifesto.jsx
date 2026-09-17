@@ -22,9 +22,23 @@ const StudioManifestoComponent = () => {
       }}
     >
       <style>{`
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
           #manifesto-section {
-            padding: 6rem 1.5rem 6rem !important;
+            min-height: 75vh !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: clamp(6rem, 10vh, 10rem) 2rem !important;
+          }
+          .manifesto-tagline {
+            font-size: clamp(0.85rem, 1.6vw, 1.15rem) !important;
+            letter-spacing: 0.22em !important;
+            margin-bottom: 1.5rem !important;
+          }
+          .manifesto-paragraph {
+            font-size: clamp(2.6rem, 5.2vw, 4.2rem) !important;
+            line-height: 1.35 !important;
+            max-width: 95% !important;
           }
         }
       `}</style>
@@ -32,6 +46,7 @@ const StudioManifestoComponent = () => {
       <CursorTrail zIndex={15} />
 
       <div
+        className="manifesto-content"
         style={{
           maxWidth: '1050px', // Compressed width for tighter centered composition
           margin: '0 auto',
@@ -45,6 +60,7 @@ const StudioManifestoComponent = () => {
       >
         {/* Top Tagline */}
         <div
+          className="manifesto-tagline"
           style={{
             fontFamily: "'Space Grotesk', monospace",
             fontSize: '0.82rem',
@@ -60,6 +76,7 @@ const StudioManifestoComponent = () => {
 
         {/* Single Centered Flowing Typography Paragraph with Increased Line Height & Compressed Bounds */}
         <p
+          className="manifesto-paragraph"
           style={{
             margin: 0,
             fontFamily: "'Anton', 'Oswald', 'Bebas Neue', sans-serif",

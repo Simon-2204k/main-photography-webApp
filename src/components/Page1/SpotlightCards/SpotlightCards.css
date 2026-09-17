@@ -206,18 +206,56 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   .spotlight-section {
-    min-height: 110vh !important;
+    min-height: 100vh !important;
     height: auto !important;
-    padding: 3rem 1rem 4rem 1rem !important;
+    padding: 4rem 2rem 4rem 2rem !important;
   }
   .spotlight-stage {
-    min-height: 580px !important;
+    min-height: 720px !important;
   }
   .spotlight-card {
-    width: 210px !important;
-    height: 260px !important;
+    width: clamp(280px, 35vw, 340px) !important;
+    height: clamp(380px, 48vw, 470px) !important;
+    border-radius: 18px !important;
+  }
+  .spotlight-card-tab {
+    padding: 0.6rem 1rem !important;
+    font-size: 0.72rem !important;
+  }
+  .spotlight-card-info {
+    padding: 1rem 1.1rem !important;
+  }
+  .spotlight-card-title {
+    font-size: 0.95rem !important;
+  }
+  .spotlight-card-sub {
+    font-size: 0.75rem !important;
+  }
+  .spotlight-title {
+    font-size: clamp(3.2rem, 5.5vw, 4.4rem) !important;
+  }
+  .spotlight-subtitle {
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem) !important;
+  }
+  .spotlight-tag {
+    font-size: 0.85rem !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .spotlight-section {
+    min-height: 105vh !important;
+    height: auto !important;
+    padding: 3rem 1rem 3rem 1rem !important;
+  }
+  .spotlight-stage {
+    min-height: 560px !important;
+  }
+  .spotlight-card {
+    width: 220px !important;
+    height: 280px !important;
   }
   .spotlight-title {
     font-size: clamp(2rem, 8vw, 2.6rem) !important;

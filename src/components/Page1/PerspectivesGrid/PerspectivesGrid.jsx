@@ -70,20 +70,47 @@ const PerspectivesGridComponent = () => {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
         }
-        @media (max-width: 900px) {
+        @media (min-width: 768px) and (max-width: 1024px) {
+          .perspectives-editorial-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+          }
+          #perspectives-section {
+            padding: 4rem 2.5rem 5rem !important;
+          }
+          .perspectives-col-1 {
+            display: flex !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
+          }
+          .perspectives-col-2 {
+            display: flex !important;
+            border-right: none !important;
+          }
+          .perspectives-col-3 {
+            display: none !important;
+          }
+          .perspective-cell {
+            padding: 2.5rem 2rem !important;
+          }
+        }
+        @media (max-width: 767px) {
           .perspectives-editorial-grid {
             grid-template-columns: 1fr !important;
+            max-width: 520px !important;
+            margin: 0 auto !important;
           }
           #perspectives-section {
             padding: 3.5rem 1.2rem 4rem !important;
           }
-        }
-        @media (max-width: 768px) {
           .perspectives-col-1 {
             display: none !important;
           }
           .perspectives-col-2 {
             border-right: none !important;
+          }
+          .perspectives-col-3 {
+            display: none !important;
           }
         }
       `}</style>

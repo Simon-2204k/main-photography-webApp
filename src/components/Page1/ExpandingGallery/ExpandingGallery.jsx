@@ -18,9 +18,17 @@ const ExpandingGalleryComponent = () => {
     let isTickerActive = false;
 
     const setupLayout = () => {
-      const isMobile = window.innerWidth < 1000;
-      startWidth = isMobile ? 320 : 125;
-      endWidth = isMobile ? 850 : 500;
+      const width = window.innerWidth;
+      if (width < 768) {
+        startWidth = 280;
+        endWidth = 750;
+      } else if (width <= 1024) {
+        startWidth = Math.round(125 * (1200 / Math.max(width, 500)));
+        endWidth = Math.round(startWidth * 3.8);
+      } else {
+        startWidth = 125;
+        endWidth = 500;
+      }
 
       if (rowsRef.current[0]) {
         rowsRef.current[0].style.width = `${endWidth}%`;
@@ -41,6 +49,7 @@ const ExpandingGalleryComponent = () => {
       const scrollY = window.scrollY;
       const viewportHeight = window.innerHeight;
       const rows = rowsRef.current;
+      const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
 
       // Phase 1: Batch all DOM layout reads together (triggers at most 1 layout pass)
       const measurements = [];
@@ -151,7 +160,7 @@ const ExpandingGalleryComponent = () => {
               className="project"
               style={{
                 flex: 1,
-                minWidth: 'clamp(140px, 32vw, 220px)',
+                minWidth: 0,
                 display: 'flex',
                 flexDirection: 'column',
                 transform: 'translateZ(0)'
@@ -189,7 +198,6 @@ const ExpandingGalleryComponent = () => {
                 style={{
                   width: '100%',
                   aspectRatio: '16 / 10',
-                  minHeight: 'clamp(95px, 20vw, 160px)',
                   backgroundColor: '#121216',
                   border: '1px solid rgba(255, 255, 255, 0.12)',
                   borderTopRightRadius: '6px',

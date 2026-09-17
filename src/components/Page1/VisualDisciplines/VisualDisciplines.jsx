@@ -198,52 +198,41 @@ const VisualDisciplinesComponent = () => {
         }
         @media (max-width: 1024px) {
           .visual-preview-box {
-            display: none !important;
-          }
-          .visual-words-list {
-            padding-left: 1rem !important;
-            padding-right: 1rem !important;
-            align-items: center !important;
-            text-align: center !important;
-          }
-          .visual-word-row {
-            justify-content: center !important;
-            text-align: center !important;
-            width: 100% !important;
-          }
-          .visual-word-row h2 {
-            text-align: center !important;
-            width: 100% !important;
-          }
-        }
-        @media (max-width: 768px) {
-          .visual-preview-box {
             display: none;
           }
           .visual-preview-box.is-visible {
             display: flex !important;
             position: fixed !important;
             top: auto !important;
-            bottom: 10px !important;
-            left: 10px !important;
-            right: 10px !important;
-            width: calc(100% - 20px) !important;
-            max-width: calc(100vw - 20px) !important;
-            height: 85px !important;
+            bottom: 16px !important;
+            left: 16px !important;
+            right: 16px !important;
+            width: calc(100% - 32px) !important;
+            max-width: calc(100vw - 32px) !important;
+            height: clamp(220px, 24vh, 280px) !important;
             aspect-ratio: auto !important;
             transform: none !important;
-            padding: 0.6rem 1rem !important;
-            border-radius: 8px !important;
+            padding: 1.6rem 2.2rem !important;
+            border-radius: 16px !important;
             z-index: 100 !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8) !important;
           }
           .visual-preview-center {
             margin: 0 !important;
             flex-direction: row !important;
-            gap: 0.6rem !important;
+            gap: 0.8rem !important;
+            justify-content: center !important;
           }
           .visual-preview-sublabel {
-            font-size: 1.25rem !important;
+            font-size: clamp(3.2rem, 5.8vw, 4.5rem) !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.04em !important;
+          }
+          .visual-preview-top-row span {
+            font-size: clamp(0.95rem, 1.5vw, 1.15rem) !important;
+          }
+          .visual-preview-bottom-row span {
+            font-size: clamp(0.95rem, 1.4vw, 1.15rem) !important;
           }
           .visual-preview-line,
           .visual-preview-frame-tag {
@@ -252,13 +241,14 @@ const VisualDisciplinesComponent = () => {
           .visual-words-list {
             padding-left: 1rem !important;
             padding-right: 1rem !important;
-            padding-bottom: 120px !important;
+            padding-bottom: clamp(260px, 28vh, 340px) !important;
             align-items: center !important;
             text-align: center !important;
           }
           .visual-word-row {
             position: relative !important;
-            padding-top: 1.35rem !important;
+            padding-top: clamp(2rem, 3.5vh, 3.2rem) !important;
+            padding-bottom: 0.6rem !important;
             width: 100% !important;
             justify-content: center !important;
             text-align: center !important;
@@ -266,6 +256,8 @@ const VisualDisciplinesComponent = () => {
           .visual-word-row h2 {
             text-align: center !important;
             width: 100% !important;
+            font-size: clamp(3.8rem, 8vw, 6.5rem) !important;
+            line-height: 1.05 !important;
           }
           .visual-word-subtag {
             position: absolute !important;
@@ -274,8 +266,8 @@ const VisualDisciplinesComponent = () => {
             transform: translateX(-50%) !important;
             margin-left: 0 !important;
             z-index: 15 !important;
-            font-size: 0.72rem !important;
-            letter-spacing: 0.16em !important;
+            font-size: clamp(0.85rem, 1.5vw, 1.15rem) !important;
+            letter-spacing: 0.22em !important;
             text-align: center !important;
           }
         }
@@ -308,6 +300,7 @@ const VisualDisciplinesComponent = () => {
       >
         {/* Top Row Minimal ID */}
         <div
+          className="visual-preview-top-row"
           style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -394,6 +387,7 @@ const VisualDisciplinesComponent = () => {
 
         {/* Bottom Row Tag */}
         <div
+          className="visual-preview-bottom-row"
           style={{
             display: 'flex',
             justifyContent: 'space-between',

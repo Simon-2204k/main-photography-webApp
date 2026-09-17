@@ -42,56 +42,51 @@ export const HeaderHUDComponent = ({ isVisible = true }) => {
         .header-hud-top-row {
           margin-top: 260px;
         }
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
           .header-hud-wrapper {
-            padding: 16px 20px !important;
+            padding: 20px 24px !important;
           }
-          /* LINE 48: Top margin spacing anchored to 20.24% of viewport height (exactly 135px at 667px height) */
           .header-hud-top-row {
-            margin-top: clamp(120px, 20.24vh, 195px) !important;
+            margin-top: clamp(140px, 18vh, 220px) !important;
             display: flex !important;
             flex-direction: column !important;
             align-items: center !important;
             justify-content: center !important;
             text-align: center !important;
-            gap: clamp(24px, 4.5vh, 44px) !important; /* LINE 56: EQUAL DISTANCE anchored to 4.5% of viewport height (exactly 30px at 667px) */
+            gap: clamp(20px, 3.2vh, 36px) !important;
           }
           /* Promotes child text elements into direct flex items of .header-hud-top-row */
           .header-hud-center-heading {
             display: contents !important;
           }
-          /* LINE 62: Order and style for ⊕ icon */
           .header-hud-icon {
             order: 1 !important;
             margin: 0 !important;
-            font-size: 13px !important;
+            font-size: 16px !important;
           }
-          /* LINE 68: Order and style for WHERE LIGHT MEETS STORY */
           .header-hud-subheading {
             order: 2 !important;
             margin: 0 !important;
-            font-size: 12px !important;
+            font-size: clamp(13px, 1.6vw, 16px) !important;
             font-weight: 800 !important;
-            letter-spacing: 1.5px !important;
-            text-align: center !important;
-          }
-          /* LINE 77: Order and style for SIMON'S FRAMEWORK (change order to 1 if you want it at the top) */
-          .header-hud-logo {
-            order: 3 !important;
-            margin: 0 !important;
-            font-size: 14px !important;
-            font-weight: 900 !important;
             letter-spacing: 2px !important;
             text-align: center !important;
           }
-          /* LINE 86: Order and style for description paragraph (proportional width & side margins) */
+          .header-hud-logo {
+            order: 3 !important;
+            margin: 0 !important;
+            font-size: clamp(24px, 3.2vw, 36px) !important;
+            font-weight: 900 !important;
+            letter-spacing: 3px !important;
+            text-align: center !important;
+          }
           .header-hud-desc {
             order: 4 !important;
             margin: 0 !important;
-            max-width: clamp(290px, 86.6vw, 420px) !important;
-            padding: 0 4vw !important;
-            font-size: 11px !important;
-            line-height: 1.55 !important;
+            max-width: clamp(440px, 68vw, 680px) !important;
+            padding: 0 2vw !important;
+            font-size: clamp(13px, 1.5vw, 16px) !important;
+            line-height: 1.6 !important;
             text-align: center !important;
           }
           .header-hud-telemetry {

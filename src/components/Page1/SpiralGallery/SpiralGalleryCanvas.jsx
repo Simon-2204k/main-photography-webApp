@@ -48,27 +48,33 @@ const SpiralScene = ({ projects, scrollProgress }) => {
   const { camera, size } = useThree();
 
   const isMobile = size.width < 768;
+  const isTablet = size.width >= 768 && size.width <= 1024;
+  const isMobileOrTablet = size.width <= 1024;
   const aspect = size.width / Math.max(size.height, 1);
   const heightRatio = Math.max(size.height, 1) / 667;
 
-  // 1] Dynamically scales spiral width to preserve the exact ~88% width and side margins of the 375x667 reference:
-  const responsiveScale = isMobile
-    ? Math.min(Math.max(MOBILE_SPIRAL_SCALE * (aspect / 0.5622), 0.36), 0.68)
+  // 1] Dynamically scales spiral width to preserve balanced side margins:
+  const responsiveScale = isMobileOrTablet
+    ? Math.min(Math.max(MOBILE_SPIRAL_SCALE * (aspect / 0.5622), 0.38), 0.72)
     : 1.0;
 
-  // 2] Dynamically positions spiral Y on taller phones (iPhone 12/15/Pixel) so it stays right under the text:
-  const responsiveY = isMobile
-    ? (MOBILE_SPIRAL_Y + (heightRatio - 1) * 0.28)
-    : 0;
+  // 2] Dynamically positions spiral Y so it stays cleanly below Header HUD with ZERO overlap:
+  const responsiveY = isTablet
+    ? (MOBILE_SPIRAL_Y - 0.55 - (heightRatio - 1) * 0.15)
+    : isMobileOrTablet
+      ? (MOBILE_SPIRAL_Y + (heightRatio - 1) * 0.28)
+      : 0;
 
   // 3] Spiral total height and card height scale proportionally:
   const minRadius = 2.9;
   const maxRadius = 4;
   const totalTurns = 2.9;
-  const totalHeight = isMobile
-    ? (MOBILE_SPIRAL_TOTAL_HEIGHT * (1 + (heightRatio - 1) * 0.22))
-    : 5.5;
-  const cardHeight = isMobile ? MOBILE_SPIRAL_CARD_HEIGHT : 1.6;
+  const totalHeight = isTablet
+    ? 6.5
+    : isMobileOrTablet
+      ? (MOBILE_SPIRAL_TOTAL_HEIGHT * (1 + (heightRatio - 1) * 0.22))
+      : 5.5;
+  const cardHeight = isTablet ? 1.65 : isMobileOrTablet ? MOBILE_SPIRAL_CARD_HEIGHT : 1.6;
 
   const scrollPosRef = useRef(0);
   const targetScrollRef = useRef(0);
@@ -132,13 +138,13 @@ const SpiralScene = ({ projects, scrollProgress }) => {
     if (!spiralGroupRef.current || !mainGroupRef.current) return;
 
     // Zero out mouse tilt & pan parallax on touch devices (phones & tablets)
-    const isTouchOrCoarse = isMobile || (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches);
+    const isTouchOrCoarse = isMobileOrTablet || (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches);
     const mouseX = isTouchOrCoarse ? 0 : mousePosRef.current.x;
     const mouseY = isTouchOrCoarse ? 0 : mousePosRef.current.y;
 
     // Scroll entrance interpolation
-    const entranceStartY = isMobile ? -3.4 : -4.2;
-    const scrollClimb = isMobile ? MOBILE_SCROLL_CLIMB : DESKTOP_SCROLL_CLIMB;
+    const entranceStartY = isMobileOrTablet ? -3.4 : -4.2;
+    const scrollClimb = isMobileOrTablet ? MOBILE_SCROLL_CLIMB : DESKTOP_SCROLL_CLIMB;
     const entranceEndY = responsiveY + scrollClimb;
     const entranceY = THREE.MathUtils.lerp(entranceStartY, entranceEndY, scrollProgress);
     mainGroupRef.current.position.y = THREE.MathUtils.lerp(
