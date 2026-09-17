@@ -112,10 +112,31 @@ const SpotlightMarqueeComponent = () => {
       );
     };
 
+    let lastScrollY = window.scrollY;
+    let scrollVel = 0;
+
     // Zero-query arithmetic calculation on scroll
     const handleScroll = () => {
       if (isVisibleRef.current) {
         rectTop = pageSectionTop - window.scrollY;
+
+        const currentY = window.scrollY;
+        const delta = currentY - lastScrollY;
+        lastScrollY = currentY;
+
+        scrollVel = scrollVel * 0.75 + delta * 0.25;
+        const yOffset = stripBase + stripH / 2;
+        const scrollDip = Math.min(Math.max(-scrollVel * 1.6, -60), 60);
+
+        if (window.innerWidth < 1024) {
+          // On mobile & tablet, drive vertical marquee strip & wave physics purely from scroll!
+          const mobileCenterY = rectHeight * 0.36 + scrollDip;
+          targetY = gsap.utils.clamp(
+            cfg.inset - yOffset,
+            rectHeight - cfg.inset - yOffset,
+            mobileCenterY - yOffset
+          );
+        }
       }
     };
 

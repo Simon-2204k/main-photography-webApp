@@ -78,6 +78,14 @@ const PerspectivesGridComponent = () => {
             padding: 3.5rem 1.2rem 4rem !important;
           }
         }
+        @media (max-width: 768px) {
+          .perspectives-col-1 {
+            display: none !important;
+          }
+          .perspectives-col-2 {
+            border-right: none !important;
+          }
+        }
       `}</style>
       {/* Bounded Cursor Trail for Perspectives Section */}
       <CursorTrail zIndex={2} />
@@ -124,6 +132,7 @@ const PerspectivesGridComponent = () => {
       >
         {/* ================= COLUMN 1 (Speed 1) ================= */}
         <div
+          className="perspectives-col-1"
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -185,6 +194,7 @@ const PerspectivesGridComponent = () => {
 
         {/* ================= COLUMN 2 (Speed 2) ================= */}
         <div
+          className="perspectives-col-2"
           style={{
             display: 'flex',
             flexDirection: 'column',

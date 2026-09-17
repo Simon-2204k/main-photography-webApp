@@ -32,7 +32,10 @@ export const Page1Component = ({ onOpenMenu }) => {
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.8,
+      syncTouch: true, // Ultra-smooth synced physics scrolling on touch devices (phones & tablets)
+      syncTouchLerp: 0.075, // Butter-smooth interpolation on touch
+      touchMultiplier: 1.5, // Responsive touch sensitivity
+      touchInertiaExponent: 1.6,
       infinite: false,
     });
 
@@ -57,8 +60,8 @@ export const Page1Component = ({ onOpenMenu }) => {
       const scrollY = window.scrollY;
 
       // 1] Active state: visible until 2nd section top (yellow line) touches browser top
-      // When scrolling back up, awakens with a 60px pre-warm buffer so it appears instantly on screen
-      const active = scrollY <= spacerHeight + 60;
+      // When scrolling back up, awakens with a 250px pre-warm buffer so it appears instantly on screen
+      const active = scrollY <= spacerHeight + 250;
       if (active !== prevSpiralActive) {
         prevSpiralActive = active;
         setIsSpiralActive(active);
@@ -68,15 +71,17 @@ export const Page1Component = ({ onOpenMenu }) => {
       if (active) {
         const progressLimit = spacerHeight;
         const progress = Math.min(Math.max(scrollY / progressLimit, 0), 1);
-        if (Math.abs(progress - prevProgress) > 0.005 || progress === 0 || progress === 1) {
+        if (Math.abs(progress - prevProgress) > 0.001 || progress === 0 || progress === 1) {
           prevProgress = progress;
           setScrollProgress(progress);
         }
       }
-      // When scrollY > spacerHeight + 60, ZERO state updates occur, eliminating all scroll re-renders across Sections 2-10
+      // When scrollY > spacerHeight + 250, ZERO state updates occur, eliminating all scroll re-renders across Sections 2-10
     };
 
     lenis.on('scroll', handleScroll);
+    // Native window scroll listener for mobile/tablet touch swipe scrolling
+    window.addEventListener('scroll', handleScroll, { passive: true });
     // Initialize synchronously on mount / reload to prevent rotation freeze
     handleScroll();
 
@@ -88,6 +93,7 @@ export const Page1Component = ({ onOpenMenu }) => {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
       gsap.ticker.remove(updateLenis);
       lenis.destroy();
     };
@@ -116,7 +122,12 @@ export const Page1Component = ({ onOpenMenu }) => {
       {/* Fixed 3D Spiral Background: Stays visible until 2nd section top (yellow line) touches browser top */}
       <div 
         className="page1-fixed-spiral-canvas"
-        style={{ display: isSpiralActive ? 'block' : 'none' }}
+        style={{ 
+          visibility: isSpiralActive ? 'visible' : 'hidden',
+          opacity: isSpiralActive ? 1 : 0,
+          pointerEvents: isSpiralActive ? 'auto' : 'none',
+          transition: 'opacity 0.25s ease'
+        }}
       >
         <SpiralGalleryCanvas 
           projects={projectsData} 

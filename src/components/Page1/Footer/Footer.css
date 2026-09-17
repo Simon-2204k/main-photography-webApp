@@ -7,6 +7,38 @@
   box-sizing: border-box;
   z-index: 20;
   cursor: default;
+  transition: background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Inversion when crossing 50% viewport height: Pure white background & pure black text (Vice Versa) */
+.simon-footer-section.inverted {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.simon-footer-section.inverted .simon-wordmark,
+.simon-footer-section.inverted .simon-brand-emblem,
+.simon-footer-section.inverted .simon-footer-statement p,
+.simon-footer-section.inverted .simon-footer-link,
+.simon-footer-section.inverted .simon-copyright,
+.simon-footer-section.inverted .simon-camera-badge {
+  color: #000000 !important;
+  border-color: #000000 !important;
+  stroke: #000000 !important;
+  transition: color 0.4s ease, border-color 0.4s ease;
+}
+
+.simon-footer-section.inverted .simon-footer-link:hover {
+  color: #555555 !important;
+}
+
+.simon-footer-section.inverted .simon-camera-badge:hover {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.simon-footer-section.inverted .simon-camera-badge:hover svg {
+  stroke: #ffffff !important;
 }
 
 .simon-footer-container {

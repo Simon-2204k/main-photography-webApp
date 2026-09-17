@@ -155,7 +155,6 @@ const ExpandingGalleryComponent = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 overflow: 'hidden',
-                contain: 'paint layout',
                 transform: 'translateZ(0)'
               }}
             >
@@ -203,7 +202,7 @@ const ExpandingGalleryComponent = () => {
                 <img
                   src={item.image}
                   alt={item.title}
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
                   style={{
                     width: '100%',

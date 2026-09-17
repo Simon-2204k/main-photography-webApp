@@ -22,6 +22,48 @@ const FeaturedSeriesComponent = () => {
     // Smooth GSAP quickTo interpolation for floating red card
     xTo.current = gsap.quickTo(hoverCardRef.current, 'x', { duration: 0.35, ease: 'power3.out' });
     yTo.current = gsap.quickTo(hoverCardRef.current, 'y', { duration: 0.35, ease: 'power3.out' });
+
+    // On mobile screens, activate whichever row crosses the center of the screen purely on scroll!
+    const handleScroll = () => {
+      if (window.innerWidth >= 768) return;
+      const section = sectionRef.current;
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+      const centerY = window.innerHeight * 0.5;
+
+      if (rect.top <= centerY && rect.bottom >= centerY) {
+        const cells = section.querySelectorAll('.featured-grid-cell:not(.featured-hide-mobile)');
+        let closestCell = null;
+        let minDistance = Infinity;
+
+        cells.forEach((cell) => {
+          const cRect = cell.getBoundingClientRect();
+          const dist = Math.abs(cRect.top + cRect.height / 2 - centerY);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestCell = cell;
+          }
+        });
+
+        if (closestCell && minDistance < 50) {
+          const id = closestCell.getAttribute('data-id');
+          const tag = closestCell.getAttribute('data-tag');
+          if (id) setActiveItemId(id);
+          if (tag) setHoveredTag(tag);
+          if (xTo.current && yTo.current) {
+            xTo.current(window.innerWidth * 0.72);
+            yTo.current(centerY);
+          }
+        }
+      } else if (rect.top > centerY || rect.bottom < centerY) {
+        setActiveItemId(null);
+        setHoveredTag(null);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleMouseMove = (e) => {
@@ -98,17 +140,25 @@ const FeaturedSeriesComponent = () => {
           onMouseLeave={handleGridMouseLeave}
         >
           {FEATURED_SERIES_DATA.map((columnItems, colIdx) => (
-            <div key={`col-${colIdx}`} className="featured-grid-col">
-              {columnItems.map((item) => (
-                <div
-                  key={item.id}
-                  className={`featured-grid-cell ${activeItemId === item.id ? 'active-hover' : ''}`}
-                  onMouseEnter={(e) => handleCellMouseEnter(item, e)}
-                  onMouseLeave={handleCellMouseLeave}
-                >
-                  {item.name}
-                </div>
-              ))}
+            <div 
+              key={`col-${colIdx}`} 
+              className={`featured-grid-col ${colIdx === 2 ? 'featured-col-3-hide-mobile' : ''}`}
+            >
+              {columnItems.map((item, itemIdx) => {
+                const isHiddenOnMobile = (colIdx === 1 && itemIdx >= 7) || colIdx === 2;
+                return (
+                  <div
+                    key={item.id}
+                    data-id={item.id}
+                    data-tag={item.tag}
+                    className={`featured-grid-cell ${activeItemId === item.id ? 'active-hover' : ''} ${isHiddenOnMobile ? 'featured-hide-mobile' : ''}`}
+                    onMouseEnter={(e) => handleCellMouseEnter(item, e)}
+                    onMouseLeave={handleCellMouseLeave}
+                  >
+                    {item.name}
+                  </div>
+                );
+              })}
             </div>
           ))}
         </div>

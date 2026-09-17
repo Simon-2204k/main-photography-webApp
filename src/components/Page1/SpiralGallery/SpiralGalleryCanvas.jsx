@@ -17,16 +17,58 @@ if (typeof window !== 'undefined') {
   });
 }
 
+// ============================================================================
+// MOBILE TUNING VALUES (Change these values if you want to adjust phone appearance)
+// ============================================================================
+// LINE 25: Scale of the 3D spiral on phone screens (< 768px):
+export const MOBILE_SPIRAL_SCALE = 0.45;
+
+// LINE 28: Base vertical Y offset on phone screens:
+export const MOBILE_SPIRAL_Y = -0.1;
+
+// LINE 32: UNIFORM VERTICAL GAP FOR MOBILE (Total spiral height on phone)
+// Default desktop is 5.5. Increasing this for phone (e.g. 7.2) increases the vertical gap between spiral tiers!
+export const MOBILE_SPIRAL_TOTAL_HEIGHT = 10;
+
+// LINE 36: CARD HEIGHT FOR MOBILE (Default desktop is 1.6, set to 1.45 for balanced proportions)
+export const MOBILE_SPIRAL_CARD_HEIGHT = 2.3;
+
+// LINE 39: VERTICAL UPWARD CLIMB WHILE SCROLLING ON PHONE (< 768px)
+// Default is 1.2 (~16.5% climb). Increase to 1.5 - 2.0 to climb higher/faster while scrolling, or lower if needed
+export const MOBILE_SCROLL_CLIMB = 1.2;
+
+// LINE 43: VERTICAL UPWARD CLIMB WHILE SCROLLING ON TABLET & LAPTOP (>= 768px)
+// Default is 1.2. Increase to 1.5 - 2.0 to climb higher/faster while scrolling, or lower if needed
+export const DESKTOP_SCROLL_CLIMB = 1.2;
+// ============================================================================
+
 const SpiralScene = ({ projects, scrollProgress }) => {
   const mainGroupRef = useRef();
   const spiralGroupRef = useRef();
-  const { camera } = useThree();
+  const { camera, size } = useThree();
 
+  const isMobile = size.width < 768;
+  const aspect = size.width / Math.max(size.height, 1);
+  const heightRatio = Math.max(size.height, 1) / 667;
+
+  // 1] Dynamically scales spiral width to preserve the exact ~88% width and side margins of the 375x667 reference:
+  const responsiveScale = isMobile
+    ? Math.min(Math.max(MOBILE_SPIRAL_SCALE * (aspect / 0.5622), 0.36), 0.68)
+    : 1.0;
+
+  // 2] Dynamically positions spiral Y on taller phones (iPhone 12/15/Pixel) so it stays right under the text:
+  const responsiveY = isMobile
+    ? (MOBILE_SPIRAL_Y + (heightRatio - 1) * 0.28)
+    : 0;
+
+  // 3] Spiral total height and card height scale proportionally:
   const minRadius = 2.9;
   const maxRadius = 4;
   const totalTurns = 2.9;
-  const totalHeight = 5.5;
-  const cardHeight = 1.6;
+  const totalHeight = isMobile
+    ? (MOBILE_SPIRAL_TOTAL_HEIGHT * (1 + (heightRatio - 1) * 0.22))
+    : 5.5;
+  const cardHeight = isMobile ? MOBILE_SPIRAL_CARD_HEIGHT : 1.6;
 
   const scrollPosRef = useRef(0);
   const targetScrollRef = useRef(0);
@@ -36,6 +78,8 @@ const SpiralScene = ({ projects, scrollProgress }) => {
 
   useEffect(() => {
     const handlePointerDown = (e) => {
+      // Allow touch swipe to cleanly scroll the page without locking pointer capture
+      if (e.pointerType === 'touch') return;
       isDraggingRef.current = true;
       previousMouseYRef.current = e.clientY;
     };
@@ -79,7 +123,10 @@ const SpiralScene = ({ projects, scrollProgress }) => {
     const mouseY = mousePosRef.current.y;
 
     // Scroll entrance interpolation
-    const entranceY = THREE.MathUtils.lerp(-4.2, 0, scrollProgress);
+    const entranceStartY = isMobile ? -3.4 : -4.2;
+    const scrollClimb = isMobile ? MOBILE_SCROLL_CLIMB : DESKTOP_SCROLL_CLIMB;
+    const entranceEndY = responsiveY + scrollClimb;
+    const entranceY = THREE.MathUtils.lerp(entranceStartY, entranceEndY, scrollProgress);
     mainGroupRef.current.position.y = THREE.MathUtils.lerp(
       mainGroupRef.current.position.y,
       entranceY,
@@ -130,7 +177,11 @@ const SpiralScene = ({ projects, scrollProgress }) => {
       <directionalLight position={[0, -14, -16]} intensity={1.4} />
       <pointLight position={[0, 0, 0]} intensity={2.0} color="#ffffff" distance={15} />
 
-      <group ref={mainGroupRef} position={[0, -4.2, 0]}>
+      <group
+        ref={mainGroupRef}
+        position={[0, -4.2, 0]}
+        scale={[responsiveScale, responsiveScale, responsiveScale]}
+      >
         <group ref={spiralGroupRef}>
           <SpiralRibbonMesh
             projects={projects}

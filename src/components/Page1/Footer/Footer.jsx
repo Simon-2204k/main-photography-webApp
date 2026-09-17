@@ -1,9 +1,30 @@
-import React, { memo } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import './Footer.css';
 
 const FooterComponent = () => {
+  const [isInverted, setIsInverted] = useState(false);
+  const footerRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!footerRef.current) return;
+      const rect = footerRef.current.getBoundingClientRect();
+      const threshold = window.innerHeight * 0.5;
+      // Crosses 50% height of screen: invert colors; vice versa when scrolling back up
+      setIsInverted(rect.top <= threshold);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <footer id="footer-section" className="simon-footer-section">
+    <footer 
+      id="footer-section" 
+      ref={footerRef} 
+      className={`simon-footer-section ${isInverted ? 'inverted' : ''}`}
+    >
       <div className="simon-footer-container">
         {/* Top Header Row */}
         <div className="simon-footer-top">

@@ -196,7 +196,7 @@ const VisualDisciplinesComponent = () => {
         .visual-words-list {
           padding-left: calc(50vw - 110px);
         }
-        @media (max-width: 900px) {
+        @media (max-width: 900px) and (min-width: 769px) {
           .visual-preview-box {
             display: none !important;
           }
@@ -205,10 +205,65 @@ const VisualDisciplinesComponent = () => {
             padding-right: 2rem !important;
           }
         }
+        @media (max-width: 768px) {
+          .visual-preview-box {
+            display: none;
+          }
+          .visual-preview-box.is-visible {
+            display: flex !important;
+            position: fixed !important;
+            top: auto !important;
+            bottom: 10px !important;
+            left: 10px !important;
+            right: 10px !important;
+            width: calc(100% - 20px) !important;
+            max-width: calc(100vw - 20px) !important;
+            height: 85px !important;
+            aspect-ratio: auto !important;
+            transform: none !important;
+            padding: 0.6rem 1rem !important;
+            border-radius: 8px !important;
+            z-index: 100 !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+          }
+          .visual-preview-center {
+            margin: 0 !important;
+            flex-direction: row !important;
+            gap: 0.6rem !important;
+          }
+          .visual-preview-sublabel {
+            font-size: 1.25rem !important;
+          }
+          .visual-preview-line,
+          .visual-preview-frame-tag {
+            display: none !important;
+          }
+          .visual-words-list {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+            padding-bottom: 120px !important;
+          }
+          .visual-word-row {
+            position: relative !important;
+            padding-top: 1.35rem !important;
+            width: 100% !important;
+          }
+          .visual-word-subtag {
+            position: absolute !important;
+            top: 0 !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            margin-left: 0 !important;
+            z-index: 15 !important;
+            font-size: 0.72rem !important;
+            letter-spacing: 0.16em !important;
+            text-align: center !important;
+          }
+        }
       `}</style>
       {/* 1:1 Graphic Preview Box - Fixed Dead-Center at Exact 50% Window Height */}
       <div
-        className="visual-preview-box"
+        className={`visual-preview-box ${isVisible ? 'is-visible' : 'is-hidden'}`}
         style={{
           position: 'fixed',
           top: '50vh',
@@ -269,6 +324,7 @@ const VisualDisciplinesComponent = () => {
 
         {/* Center Visual Art Graphic */}
         <div
+          className="visual-preview-center"
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -279,6 +335,7 @@ const VisualDisciplinesComponent = () => {
           }}
         >
           <div
+            className="visual-preview-sublabel"
             style={{
               fontFamily: "'Anton', 'Oswald', sans-serif",
               fontSize: '2.4rem',
@@ -292,6 +349,7 @@ const VisualDisciplinesComponent = () => {
             {activeItem.subLabel}
           </div>
           <div
+            className="visual-preview-line"
             style={{
               width: '30px',
               height: '2px',
@@ -302,6 +360,7 @@ const VisualDisciplinesComponent = () => {
             }}
           />
           <span
+            className="visual-preview-frame-tag"
             style={{
               fontFamily: "'Space Grotesk', monospace",
               fontSize: '0.62rem',
@@ -367,6 +426,7 @@ const VisualDisciplinesComponent = () => {
             <div
               key={item.id}
               ref={(el) => (itemsRef.current[idx] = el)}
+              className="visual-word-row"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -393,6 +453,7 @@ const VisualDisciplinesComponent = () => {
 
               {/* Right Side Subtitle */}
               <span
+                className="visual-word-subtag"
                 style={{
                   fontFamily: "'Space Grotesk', monospace",
                   fontSize: '0.78rem',

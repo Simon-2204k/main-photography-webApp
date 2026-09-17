@@ -44,6 +44,13 @@ const BASE_LAYOUT = [
   [280, -15, -8],
 ];
 
+const MOBILE_LAYOUT = [
+  [-10, -195, -2],
+  [12, -65, 2],
+  [-8, 65, -1.8],
+  [10, 195, 2],
+];
+
 const PROXIMITY_BASE = 320;
 const PUSH = 14;
 const SPRING = 0.08;
@@ -65,7 +72,12 @@ const SpotlightCardsComponent = () => {
 
     if (!spotlight || !container || cards.length === 0) return;
 
-    let scale = Math.min(1, Math.max(0.55, window.innerWidth / 1200));
+    const isMobile = window.innerWidth < 768;
+    const getLayout = () => (window.innerWidth < 768 ? MOBILE_LAYOUT : BASE_LAYOUT);
+
+    let scale = isMobile
+      ? Math.min(0.85, Math.max(0.65, window.innerWidth / 420))
+      : Math.min(1, Math.max(0.55, window.innerWidth / 1200));
     let proximity = PROXIMITY_BASE * scale;
 
     const mouse = { x: 0, y: 0, vx: 0, vy: 0 };
@@ -91,7 +103,8 @@ const SpotlightCardsComponent = () => {
     measureContainer();
 
     let physics = cards.map((card, i) => {
-      const [bx, by, br] = BASE_LAYOUT[i] || [0, 0, 0];
+      const currentLayout = getLayout();
+      const [bx, by, br] = currentLayout[i] || [0, 0, 0];
       const rx = bx * scale;
       const ry = by * scale;
       const rr = br;
@@ -139,11 +152,15 @@ const SpotlightCardsComponent = () => {
     });
 
     const handleResize = () => {
-      scale = Math.min(1, Math.max(0.55, window.innerWidth / 1200));
+      const isMob = window.innerWidth < 768;
+      scale = isMob
+        ? Math.min(0.85, Math.max(0.65, window.innerWidth / 420))
+        : Math.min(1, Math.max(0.55, window.innerWidth / 1200));
       proximity = PROXIMITY_BASE * scale;
 
+      const currentLayout = getLayout();
       physics.forEach((c, i) => {
-        const [bx, by, br] = BASE_LAYOUT[i] || [0, 0, 0];
+        const [bx, by, br] = currentLayout[i] || [0, 0, 0];
         c.rx = bx * scale;
         c.ry = by * scale;
         c.rr = br;
@@ -152,6 +169,9 @@ const SpotlightCardsComponent = () => {
       measureContainer();
     };
 
+    let lastScrollY = window.scrollY;
+    let scrollVelocity = 0;
+
     // Pure arithmetic calculation on scroll (ZERO getBoundingClientRect calls)
     const handleScroll = () => {
       if (isVisibleRef.current) {
@@ -159,6 +179,23 @@ const SpotlightCardsComponent = () => {
           cx: centerX,
           cy: pageCenterY - window.scrollY,
         };
+
+        const currentY = window.scrollY;
+        const delta = currentY - lastScrollY;
+        lastScrollY = currentY;
+
+        // Dynamic scroll inertia: cards gently sway & bounce during scrolling
+        scrollVelocity = scrollVelocity * 0.75 + delta * 0.25;
+        const clampedVel = Math.min(Math.max(scrollVelocity * 0.35, -20), 20);
+
+        if (Math.abs(clampedVel) > 0.5) {
+          physics.forEach((c, idx) => {
+            c.isResting = false;
+            const dir = idx % 2 === 0 ? 1 : -1;
+            c.vy -= clampedVel * 0.25;
+            c.vr += clampedVel * 0.06 * dir;
+          });
+        }
       }
     };
 

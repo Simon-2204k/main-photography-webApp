@@ -206,12 +206,20 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .spotlight-section {
+    min-height: 110vh !important;
+    height: auto !important;
+    padding: 3rem 1rem 4rem 1rem !important;
+  }
+  .spotlight-stage {
+    min-height: 580px !important;
+  }
   .spotlight-card {
-    width: 190px;
-    height: 250px;
+    width: 210px !important;
+    height: 260px !important;
   }
   .spotlight-title {
-    font-size: 2.2rem;
+    font-size: clamp(2rem, 8vw, 2.6rem) !important;
   }
 }

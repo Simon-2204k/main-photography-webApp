@@ -66,6 +66,7 @@ html, body {
   min-height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior-y: none;
   background-color: #000000;
   color: var(--text-main);
   font-family: var(--font-body);
