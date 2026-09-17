@@ -115,31 +115,29 @@ export const LaptopFoldingDeck = memo(() => {
         });
       });
 
-      // Background inversion at 50% scroll height (top 50%) ONLY on phone
-      if (isMobile) {
-        ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: 'top 50%',
-          onEnter: () => {
-            if (sectionRef.current) {
-              sectionRef.current.style.backgroundColor = '#ffffff';
-              sectionRef.current.style.color = '#000000';
-            }
-          },
-          onLeaveBack: () => {
-            if (sectionRef.current) {
-              sectionRef.current.style.backgroundColor = '#000000';
-              sectionRef.current.style.color = '#ffffff';
-            }
-          },
-          onEnterBack: () => {
-            if (sectionRef.current) {
-              sectionRef.current.style.backgroundColor = '#ffffff';
-              sectionRef.current.style.color = '#000000';
-            }
-          },
-        });
-      }
+      // Background inversion at 50% scroll height (top 50%) across all devices (Desktop, Tablet, Mobile)
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top 50%',
+        onEnter: () => {
+          if (sectionRef.current) {
+            sectionRef.current.style.backgroundColor = '#ffffff';
+            sectionRef.current.style.color = '#000000';
+          }
+        },
+        onLeaveBack: () => {
+          if (sectionRef.current) {
+            sectionRef.current.style.backgroundColor = '#000000';
+            sectionRef.current.style.color = '#ffffff';
+          }
+        },
+        onEnterBack: () => {
+          if (sectionRef.current) {
+            sectionRef.current.style.backgroundColor = '#ffffff';
+            sectionRef.current.style.color = '#000000';
+          }
+        },
+      });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -191,9 +189,9 @@ export const LaptopFoldingDeck = memo(() => {
       style={{
         position: 'relative',
         width: '100%',
-        backgroundColor: isMobile ? '#000000' : '#ffffff',
-        color: isMobile ? '#ffffff' : '#000000',
-        transition: isMobile ? 'background-color 0.5s ease, color 0.5s ease' : 'none',
+        backgroundColor: '#000000',
+        color: '#ffffff',
+        transition: 'background-color 0.6s ease, color 0.6s ease',
         paddingTop: isMobile ? '8vh' : '15vh',
         paddingBottom: isMobile ? '8vh' : '15vh',
         boxSizing: 'border-box',
@@ -218,8 +216,8 @@ export const LaptopFoldingDeck = memo(() => {
             fontSize: isMobile ? 'clamp(1.35rem, 5.2vw, 1.8rem)' : 'clamp(1.8rem, 3.2vw, 3rem)',
             lineHeight: 1.25,
             letterSpacing: '-0.02em',
-            color: isMobile ? 'inherit' : '#000000',
-            transition: isMobile ? 'color 0.5s ease' : 'none',
+            color: 'inherit',
+            transition: 'color 0.6s ease',
             margin: 0,
           }}
         >
