@@ -31,7 +31,7 @@ export const MOBILE_SPIRAL_Y = -0.1;
 export const MOBILE_SPIRAL_TOTAL_HEIGHT = 10;
 
 // LINE 36: CARD HEIGHT FOR MOBILE (Default desktop is 1.6, set to 1.45 for balanced proportions)
-export const MOBILE_SPIRAL_CARD_HEIGHT = 2.3;
+export const MOBILE_SPIRAL_CARD_HEIGHT = 2.5;
 
 // LINE 39: VERTICAL UPWARD CLIMB WHILE SCROLLING ON PHONE (< 768px)
 // Default is 1.2 (~16.5% climb). Increase to 1.5 - 2.0 to climb higher/faster while scrolling, or lower if needed
