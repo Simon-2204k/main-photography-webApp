@@ -41,20 +41,40 @@ export class CylindricalGalleryEngine {
     this.animate();
   }
 
+  getResponsiveConfig(width, height) {
+    const aspect = width / height;
+    let scale = 1.0;
+    let cameraZ = 6.5;
+
+    if (width <= 640 || aspect < 0.65) {
+      // Mobile phones (iPhone SE, iPhone 15/16 Pro Max, Pixel, Android)
+      scale = 0.52;
+      cameraZ = 8.6;
+    } else if (width <= 1024 || aspect < 1.0) {
+      // Tablets (iPad Mini, iPad 768x1024, iPad Pro 1024x1366)
+      scale = 0.72;
+      cameraZ = 7.8;
+    } else {
+      // Desktop / Laptop
+      scale = 1.0;
+      cameraZ = 6.5;
+    }
+
+    return { scale, cameraZ, aspect };
+  }
+
   initScene() {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color('#000000');
 
     const width = this.container.clientWidth || window.innerWidth;
     const height = this.container.clientHeight || window.innerHeight;
-    const aspect = width / height;
+    const { scale, cameraZ, aspect } = this.getResponsiveConfig(width, height);
 
     this.camera = new THREE.PerspectiveCamera(40, aspect, 0.1, 100);
 
-    const baseZ = 6.5;
     const baseY = 0;
-    const responsiveZ = aspect < 1 ? Math.min(7.2, baseZ / Math.max(0.85, aspect)) : baseZ;
-    this.defaultCameraPos = new THREE.Vector3(0, baseY, responsiveZ);
+    this.defaultCameraPos = new THREE.Vector3(0, baseY, cameraZ);
     this.camera.position.copy(this.defaultCameraPos);
 
     this.cameraTarget = new THREE.Vector3(0, 0, 0);
@@ -98,6 +118,7 @@ export class CylindricalGalleryEngine {
     this.scene.add(dirLight);
 
     this.carouselGroup = new THREE.Group();
+    this.carouselGroup.scale.set(scale, scale, scale);
     this.scene.add(this.carouselGroup);
   }
 
@@ -204,21 +225,101 @@ export class CylindricalGalleryEngine {
       this.controls.addEventListener('start', this.onStart);
       this.controls.addEventListener('end', this.onEnd);
     }
+
+    // Capture pointerdown: disable OrbitControls if touch, enable if mouse
+    // This strictly prevents OrbitControls from calling setPointerCapture() on touch screens,
+    // which previously blocked the browser from scrolling down the webpage.
+    this.handlePointerDown = (e) => {
+      if (e.pointerType === 'touch') {
+        if (this.controls) this.controls.enabled = false;
+      } else {
+        if (this.controls) this.controls.enabled = true;
+      }
+    };
+    this.canvas.addEventListener('pointerdown', this.handlePointerDown, { capture: true, passive: true });
+
+    // Directional touch handling for mobile / touch devices
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let lastTouchX = 0;
+    let gestureDirection = null; // null | 'horizontal' | 'vertical'
+
+    this.handleTouchStart = (e) => {
+      if (!e.touches || e.touches.length === 0) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      lastTouchX = touchStartX;
+      gestureDirection = null;
+      this.isUserInteracting = true;
+    };
+
+    this.handleTouchMove = (e) => {
+      if (!e.touches || e.touches.length === 0) return;
+      const currentX = e.touches[0].clientX;
+      const currentY = e.touches[0].clientY;
+
+      if (!gestureDirection) {
+        const dx = Math.abs(currentX - touchStartX);
+        const dy = Math.abs(currentY - touchStartY);
+
+        // Discrimination threshold: 8px movement
+        if (dx > 8 || dy > 8) {
+          if (dx > dy * 1.2) {
+            gestureDirection = 'horizontal';
+          } else {
+            gestureDirection = 'vertical';
+          }
+        }
+      }
+
+      if (gestureDirection === 'horizontal') {
+        // Prevent default only during intentional horizontal 3D rotation
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+        const deltaX = currentX - lastTouchX;
+        if (this.carouselGroup) {
+          this.carouselGroup.rotation.y += deltaX * 0.005;
+        }
+        lastTouchX = currentX;
+      }
+      // If gestureDirection === 'vertical', do NOT preventDefault!
+      // Native touch scrolling flows cleanly to the browser window and Lenis.
+    };
+
+    this.handleTouchEnd = () => {
+      this.isUserInteracting = false;
+      gestureDirection = null;
+      if (this.controls) {
+        this.controls.enabled = true;
+      }
+    };
+
+    this.canvas.addEventListener('touchstart', this.handleTouchStart, { passive: true });
+    this.canvas.addEventListener('touchmove', this.handleTouchMove, { passive: false });
+    this.canvas.addEventListener('touchend', this.handleTouchEnd, { passive: true });
+    this.canvas.addEventListener('touchcancel', this.handleTouchEnd, { passive: true });
   }
 
   onResize() {
     if (this.disposed || !this.container) return;
     const width = this.container.clientWidth || window.innerWidth;
     const height = this.container.clientHeight || window.innerHeight;
-    const aspect = width / height;
+    const { scale, cameraZ, aspect } = this.getResponsiveConfig(width, height);
 
     this.camera.aspect = aspect;
     this.camera.updateProjectionMatrix();
 
-    const baseZ = 6.5;
-    const responsiveZ = aspect < 1 ? Math.min(7.2, baseZ / Math.max(0.85, aspect)) : baseZ;
-    this.defaultCameraPos.z = responsiveZ;
-    this.camera.position.z = responsiveZ;
+    this.defaultCameraPos.z = cameraZ;
+    this.camera.position.z = cameraZ;
+
+    if (this.carouselGroup) {
+      this.carouselGroup.scale.set(scale, scale, scale);
+    }
+
+    if (this.controls) {
+      this.controls.update();
+    }
 
     this.renderer.setSize(width, height);
     this.composer.setSize(width, height);
@@ -240,11 +341,11 @@ export class CylindricalGalleryEngine {
     if (this.disposed) return;
     this.animationFrameId = requestAnimationFrame(() => this.animate());
 
-    if (this.autoRotate && this.carouselGroup) {
+    if (this.autoRotate && this.carouselGroup && !this.isUserInteracting) {
       this.carouselGroup.rotation.y += this.autoRotateSpeed;
     }
 
-    if (this.controls) {
+    if (this.controls && this.controls.enabled) {
       this.controls.update();
     }
 
@@ -265,6 +366,14 @@ export class CylindricalGalleryEngine {
       this.controls.removeEventListener('start', this.onStart);
       this.controls.removeEventListener('end', this.onEnd);
       this.controls.dispose();
+    }
+
+    if (this.canvas) {
+      this.canvas.removeEventListener('pointerdown', this.handlePointerDown, { capture: true });
+      this.canvas.removeEventListener('touchstart', this.handleTouchStart);
+      this.canvas.removeEventListener('touchmove', this.handleTouchMove);
+      this.canvas.removeEventListener('touchend', this.handleTouchEnd);
+      this.canvas.removeEventListener('touchcancel', this.handleTouchEnd);
     }
 
     this.geometry?.dispose();
