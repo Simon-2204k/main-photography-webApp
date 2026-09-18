@@ -3,11 +3,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './ImageStripHover.css';
 
-// Optimized Section 3 Images
-import img1 from '../../../../images/section3/anton-shuvalov-19IgrOxgKas-unsplash.jpg';
-import img2 from '../../../../images/section3/emiliano-vittoriosi-COzCGrIaa9w-unsplash.jpg';
-import img3 from '../../../../images/section3/hector-o-connor-e0OfutoNyqQ-unsplash.jpg';
-import img4 from '../../../../images/section3/mohammad-esmaeili-WlFbY8Ynqco-unsplash.jpg';
+// Optimized Section 3 Public Assets
+const img1 = '/images/section3/anton-shuvalov-19IgrOxgKas-unsplash.jpg';
+const img2 = '/images/section3/emiliano-vittoriosi-COzCGrIaa9w-unsplash.jpg';
+const img3 = '/images/section3/hector-o-connor-e0OfutoNyqQ-unsplash.jpg';
+const img4 = '/images/section3/mohammad-esmaeili-WlFbY8Ynqco-unsplash.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 

@@ -44,6 +44,11 @@ export const DarkroomHeaderComponent = ({ onOpenMenu }) => {
           const rect = e.currentTarget.getBoundingClientRect();
           if (onOpenMenu) onOpenMenu(rect);
         }}
+        onTouchEnd={(e) => {
+          e.preventDefault();
+          const rect = e.currentTarget.getBoundingClientRect();
+          if (onOpenMenu) onOpenMenu(rect);
+        }}
         aria-label="Open Navigation Menu"
         style={{
           marginTop: '16px',

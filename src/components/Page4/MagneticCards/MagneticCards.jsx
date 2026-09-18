@@ -4,22 +4,22 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './MagneticCards.css';
 
 // Section 4 Visual Assets (High-Res Photography)
-import s4_1 from '../../../../images/section4/abdrahim-oulfakir-2VHQFwgz-mg-unsplash.jpg';
-import s4_2 from '../../../../images/section4/arafat-uddin-showrab-3MlkU5P5EnE-unsplash.jpg';
-import s4_3 from '../../../../images/section4/bobby-VRCZpYwuRZM-unsplash.jpg';
-import s4_4 from '../../../../images/section4/camila-seves-espasandin-32l8h4kCOh8-unsplash.jpg';
-import s4_5 from '../../../../images/section4/cemrecan-yurtman-zXCufQXc30w-unsplash.jpg';
-import s4_6 from '../../../../images/section4/christian-gafenesch-UTLiotHKD1U-unsplash.jpg';
-import s4_7 from '../../../../images/section4/gift-habeshaw-4WWMOtGUqqk-unsplash.jpg';
-import s4_8 from '../../../../images/section4/hermes-rivera-PsFqeLhkwd4-unsplash.jpg';
-import s4_9 from '../../../../images/section4/italo-guimas-HZHv6jYBVFI-unsplash.jpg';
-import s4_10 from '../../../../images/section4/jean-carcallas-C1DVJuGA2Ko-unsplash.jpg';
-import s4_11 from '../../../../images/section4/john-t-uf914SzMn9k-unsplash.jpg';
-import s4_12 from '../../../../images/section4/md-mahdi-drfzruzOzd0-unsplash.jpg';
-import s4_13 from '../../../../images/section4/milo-weiler-hbb7itN7fVQ-unsplash.jpg';
-import s4_14 from '../../../../images/section4/mustafi-numann-NOIoSb5vZ0A-unsplash.jpg';
-import s4_15 from '../../../../images/section4/pear-GcovftkNWi8-unsplash.jpg';
-import s4_16 from '../../../../images/section4/takehiro-tomiyama-_Wxoh0mgHtU-unsplash.jpg';
+const s4_1 = '/images/section4/abdrahim-oulfakir-2VHQFwgz-mg-unsplash.jpg';
+const s4_2 = '/images/section4/arafat-uddin-showrab-3MlkU5P5EnE-unsplash.jpg';
+const s4_3 = '/images/section4/bobby-VRCZpYwuRZM-unsplash.jpg';
+const s4_4 = '/images/section4/camila-seves-espasandin-32l8h4kCOh8-unsplash.jpg';
+const s4_5 = '/images/section4/cemrecan-yurtman-zXCufQXc30w-unsplash.jpg';
+const s4_6 = '/images/section4/christian-gafenesch-UTLiotHKD1U-unsplash.jpg';
+const s4_7 = '/images/section4/gift-habeshaw-4WWMOtGUqqk-unsplash.jpg';
+const s4_8 = '/images/section4/hermes-rivera-PsFqeLhkwd4-unsplash.jpg';
+const s4_9 = '/images/section4/italo-guimas-HZHv6jYBVFI-unsplash.jpg';
+const s4_10 = '/images/section4/jean-carcallas-C1DVJuGA2Ko-unsplash.jpg';
+const s4_11 = '/images/section4/john-t-uf914SzMn9k-unsplash.jpg';
+const s4_12 = '/images/section4/md-mahdi-drfzruzOzd0-unsplash.jpg';
+const s4_13 = '/images/section4/milo-weiler-hbb7itN7fVQ-unsplash.jpg';
+const s4_14 = '/images/section4/mustafi-numann-NOIoSb5vZ0A-unsplash.jpg';
+const s4_15 = '/images/section4/pear-GcovftkNWi8-unsplash.jpg';
+const s4_16 = '/images/section4/takehiro-tomiyama-_Wxoh0mgHtU-unsplash.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 

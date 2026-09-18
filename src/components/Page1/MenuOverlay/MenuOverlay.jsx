@@ -112,37 +112,39 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
     }, '-=0.08');
   }, [triggerRect]);
 
-  // Handle Option Click: smoothly close back into MENU spot, then switch page
+  // Handle Option Click: smoothly animate scale close FIRST, then switch page cleanly in onComplete
   const handleItemClick = (pageId) => {
-    // 1. Immediately switch page behind the black overlay so the old page never flashes
-    if (onSelectPage) onSelectPage(pageId);
+    if (isAnimatingCloseRef.current) return;
 
-    // 2. Determine destination MENU button coordinates
+    // Determine destination MENU button coordinates on the target page
     let destRect;
-    if (pageId === 'page3') {
+    if (pageId === 'page3' || pageId === 'page4') {
       destRect = {
         top: 24,
-        left: window.innerWidth - 32 - 90,
+        left: Math.max(20, window.innerWidth - 32 - 90),
         width: 90,
         height: 36,
       };
     } else {
       destRect = {
         top: 20,
-        left: window.innerWidth / 2 - 40,
-        width: 80,
-        height: 32,
+        left: Math.max(20, window.innerWidth / 2 - 45),
+        width: 90,
+        height: 34,
       };
     }
 
-    // 3. Smoothly reverse morph shrink to the destination MENU button
+    // 1. Play the smooth reverse scaling animation to the destination button
+    // 2. ONLY AFTER the animation finishes cleanly on the main thread, switch page and close
     animateClose(() => {
+      if (onSelectPage) onSelectPage(pageId);
       if (onClose) onClose();
     }, destRect);
   };
 
   // Handle Close Button Click
   const handleCloseClick = () => {
+    if (isAnimatingCloseRef.current) return;
     animateClose(() => {
       if (onClose) onClose();
     });
@@ -160,9 +162,9 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
 
       const rect = triggerRect || {
         top: 20,
-        left: window.innerWidth / 2 - 40,
-        width: 80,
-        height: 32,
+        left: Math.max(20, window.innerWidth / 2 - 45),
+        width: 90,
+        height: 34,
       };
 
       // 1. Initial State matching exact trigger button coordinates
@@ -195,28 +197,28 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
         width: '100vw',
         height: '100vh',
         borderRadius: '0px',
-        duration: 0.65,
+        duration: 0.58,
         ease: 'power4.inOut',
       })
       // 3. Reveal Inner Menu & Content
       .to(inner, {
         opacity: 1,
-        duration: 0.25,
+        duration: 0.22,
         ease: 'power2.out',
-      }, '-=0.35')
+      }, '-=0.28')
       .to([topBarRef.current, bottomBarRef.current], {
         opacity: 1,
         y: 0,
-        duration: 0.4,
+        duration: 0.35,
         ease: 'power3.out',
-      }, '-=0.25')
+      }, '-=0.2')
       .to(rowsRef.current, {
         opacity: 1,
         y: 0,
-        duration: 0.5,
-        stagger: 0.06,
+        duration: 0.45,
+        stagger: 0.05,
         ease: 'power3.out',
-      }, '-=0.3');
+      }, '-=0.25');
 
     } else if (!isAnimatingCloseRef.current) {
       document.body.style.overflow = '';
@@ -236,7 +238,7 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, handleCloseClick]);
+  }, [isOpen]);
 
   return (
     <div
@@ -258,6 +260,10 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
           <button 
             className="k72-close-btn" 
             onClick={handleCloseClick}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              handleCloseClick();
+            }}
             aria-label="Close navigation menu"
           >
             <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -280,6 +286,10 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
                 onMouseEnter={() => setHoveredIndex(idx)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 onClick={() => handleItemClick(item.id)}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  handleItemClick(item.id);
+                }}
               >
                 {isHovered ? (
                   /* Dynamic Electric-Lime Marquee Ribbon on Hover with 2 Alternating GIFs */
