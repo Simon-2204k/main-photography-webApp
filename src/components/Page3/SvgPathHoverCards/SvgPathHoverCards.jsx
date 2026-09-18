@@ -40,7 +40,10 @@ export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
     cardsRef.current.forEach((card) => {
       if (!card) return;
 
+      const svgs = card.querySelectorAll('.svgClass');
       const paths = card.querySelectorAll('.svgClass path');
+      gsap.set(svgs, { opacity: 0 });
+
       paths.forEach((path) => {
         const length = path.getTotalLength();
         path.dataset.length = length;
@@ -55,25 +58,39 @@ export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
     cardsRef.current.forEach((card, index) => {
       if (!card) return;
 
+      const svgs = card.querySelectorAll('.svgClass');
       const paths = card.querySelectorAll('.svgClass path');
       const hoverCard = card.querySelector('.hovercard');
       const isActive = activeCardIndex === index;
 
       card._tl?.kill();
-      gsap.killTweensOf([...paths, hoverCard]);
+      gsap.killTweensOf([...paths, ...svgs, hoverCard]);
 
       if (isActive) {
         // ONE TAP / HOVER: SHOW SVG AND DETAILS
         const tl = gsap.timeline();
         card._tl = tl;
 
-        tl.to(paths, {
-          strokeDashoffset: 0,
-          strokeWidth: 60,
-          duration: 0.85,
-          ease: 'power2.out',
-          stagger: 0.08
-        }).to(
+        // Reveal SVG layer so drawing starts visibly without prior corner dot
+        tl.to(
+          svgs,
+          {
+            opacity: 1,
+            duration: 0.15,
+            ease: 'power1.out'
+          },
+          0
+        ).to(
+          paths,
+          {
+            strokeDashoffset: 0,
+            strokeWidth: 60,
+            duration: 0.85,
+            ease: 'power2.out',
+            stagger: 0.08
+          },
+          0
+        ).to(
           hoverCard,
           {
             opacity: 1,
@@ -87,11 +104,15 @@ export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
         const tl = gsap.timeline();
         card._tl = tl;
 
-        tl.to(hoverCard, {
-          opacity: 0,
-          duration: 0.2,
-          ease: 'power2.out'
-        });
+        tl.to(
+          hoverCard,
+          {
+            opacity: 0,
+            duration: 0.2,
+            ease: 'power2.out'
+          },
+          0
+        );
 
         paths.forEach((p) => {
           const len = Number(p.dataset.length) || p.getTotalLength();
@@ -99,12 +120,23 @@ export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
             p,
             {
               strokeDashoffset: -len,
-              duration: 0.4,
+              duration: 0.35,
               ease: 'power2.inOut'
             },
             0
           );
         });
+
+        // Hide SVG layer cleanly when path finishes drawing backwards so no round cap dot is ever visible!
+        tl.to(
+          svgs,
+          {
+            opacity: 0,
+            duration: 0.15,
+            ease: 'power1.in'
+          },
+          0.25
+        );
       }
     });
   }, [activeCardIndex]);

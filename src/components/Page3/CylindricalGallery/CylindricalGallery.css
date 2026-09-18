@@ -109,17 +109,51 @@
 
 .marquee-item {
   font-family: 'Space Grotesk', 'Inter', sans-serif;
-  font-size: clamp(13px, 1.4vw, 20px);
+  font-size: clamp(16px, 2vw, 24px);
   font-weight: 700;
-  letter-spacing: 0.24em;
-  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.82);
   text-transform: uppercase;
 }
 
 .marquee-separator {
   color: #38bdf8;
-  font-size: clamp(10px, 0.9vw, 13px);
+  font-size: clamp(12px, 1.1vw, 15px);
   opacity: 0.85;
+}
+
+/* Tablet & iPad Pro 1024x1366: Increased marquee text size */
+@media (max-width: 1024px) {
+  .cylindrical-marquee-container {
+    padding: 22px 0;
+  }
+
+  .marquee-item {
+    font-size: clamp(18px, 2.8vw, 24px);
+    letter-spacing: 0.18em;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .marquee-separator {
+    font-size: 14px;
+  }
+}
+
+/* Phone: Bold legible marquee text size */
+@media (max-width: 640px) {
+  .cylindrical-marquee-container {
+    padding: 20px 0;
+  }
+
+  .marquee-item {
+    font-size: 17px;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .marquee-separator {
+    font-size: 13px;
+  }
 }
 
 @keyframes cylindrical-marquee-scroll {

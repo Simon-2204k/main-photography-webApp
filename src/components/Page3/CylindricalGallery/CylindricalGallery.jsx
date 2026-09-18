@@ -129,6 +129,10 @@ export class CylindricalGalleryEngine {
     this.carouselGroup = new THREE.Group();
     this.carouselGroup.scale.set(scale, scale, scale);
     this.carouselGroup.position.y = groupY;
+    // On phone and tablet (<= 1024px including 1024x1366), rotate left by small degrees
+    if (width <= 1024 || aspect < 1.0) {
+      this.carouselGroup.rotation.y = -0.32; // ~ -18 deg left facing
+    }
     this.scene.add(this.carouselGroup);
   }
 
@@ -219,17 +223,68 @@ export class CylindricalGalleryEngine {
     this.composer.addPass(outputPass);
   }
 
+  scheduleTiltReset() {
+    if (this.tiltResetTimer) {
+      clearTimeout(this.tiltResetTimer);
+    }
+
+    this.tiltResetTimer = setTimeout(() => {
+      // 1. Reset touch tilt if tilted
+      if (this.carouselGroup && Math.abs(this.carouselGroup.rotation.x) > 0.001) {
+        gsap.to(this.carouselGroup.rotation, {
+          x: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          onUpdate: () => {
+            if (this.carouselGroup) {
+              this.touchTiltX = this.carouselGroup.rotation.x;
+            }
+          }
+        });
+      }
+
+      // 2. Reset desktop OrbitControls camera polar angle back to Math.PI / 2
+      if (this.controls && this.camera) {
+        const currentPolar = this.controls.getPolarAngle();
+        const targetPolar = Math.PI / 2;
+        if (Math.abs(currentPolar - targetPolar) > 0.005) {
+          const tweenState = { polar: currentPolar };
+          gsap.to(tweenState, {
+            polar: targetPolar,
+            duration: 0.85,
+            ease: 'power2.out',
+            onUpdate: () => {
+              if (!this.camera || !this.controls) return;
+              const radius = this.camera.position.distanceTo(this.controls.target);
+              const azimuth = Math.atan2(
+                this.camera.position.x - this.controls.target.x,
+                this.camera.position.z - this.controls.target.z
+              );
+              this.camera.position.x = this.controls.target.x + radius * Math.sin(tweenState.polar) * Math.sin(azimuth);
+              this.camera.position.y = this.controls.target.y + radius * Math.cos(tweenState.polar);
+              this.camera.position.z = this.controls.target.z + radius * Math.sin(tweenState.polar) * Math.cos(azimuth);
+              this.camera.lookAt(this.controls.target);
+              this.controls.update();
+            }
+          });
+        }
+      }
+    }, 1500); // exactly 1.5 seconds in all devices
+  }
+
   bindEvents() {
     this.handleResize = () => this.onResize();
     window.addEventListener('resize', this.handleResize);
 
     this.onStart = () => {
+      if (this.tiltResetTimer) clearTimeout(this.tiltResetTimer);
       this.isUserInteracting = true;
       this.rotationVelocity = 0;
     };
 
     this.onEnd = () => {
       this.isUserInteracting = false;
+      this.scheduleTiltReset();
     };
 
     if (this.controls) {
@@ -253,15 +308,18 @@ export class CylindricalGalleryEngine {
     let touchStartX = 0;
     let touchStartY = 0;
     let lastTouchX = 0;
+    let lastTouchY = 0;
     let isDetermined = false;
     let isScrolling = false;
     let isRotating = false;
 
     this.handleTouchStart = (e) => {
+      if (this.tiltResetTimer) clearTimeout(this.tiltResetTimer);
       if (!e.touches || e.touches.length === 0) return;
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
       lastTouchX = touchStartX;
+      lastTouchY = touchStartY;
       isDetermined = false;
       isScrolling = false;
       isRotating = false;
@@ -315,16 +373,24 @@ export class CylindricalGalleryEngine {
           e.preventDefault();
         }
         const deltaX = currentX - lastTouchX;
+        const deltaY = currentY - lastTouchY;
         const viewportWidth = this.container.clientWidth || window.innerWidth || 375;
+        const viewportHeight = this.container.clientHeight || window.innerHeight || 800;
         const deltaAngle = (deltaX / viewportWidth) * Math.PI * 1.6;
 
         if (this.carouselGroup) {
           this.carouselGroup.rotation.y += deltaAngle;
+
+          // Touch vertical tilt effect (matching desktop mouse tilt behavior on phone/tablet)
+          const tiltDelta = (deltaY / viewportHeight) * 0.45;
+          this.touchTiltX = Math.max(-0.20, Math.min(0.20, (this.touchTiltX || 0) + tiltDelta));
+          this.carouselGroup.rotation.x = this.touchTiltX;
         }
 
         // Instantaneous momentum velocity tracking (weighted average for smoothness)
         this.rotationVelocity = this.rotationVelocity * 0.25 + deltaAngle * 0.75;
         lastTouchX = currentX;
+        lastTouchY = currentY;
       }
     };
 
@@ -336,6 +402,9 @@ export class CylindricalGalleryEngine {
       if (this.controls) {
         this.controls.enabled = true;
       }
+
+      // Schedule tilt reset back to initial horizontal state after 1.5 seconds in all devices
+      this.scheduleTiltReset();
     };
 
     this.canvas.addEventListener('touchstart', this.handleTouchStart, { passive: true });
@@ -418,6 +487,10 @@ export class CylindricalGalleryEngine {
 
   dispose() {
     this.disposed = true;
+    if (this.tiltResetTimer) {
+      clearTimeout(this.tiltResetTimer);
+    }
+
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
     }

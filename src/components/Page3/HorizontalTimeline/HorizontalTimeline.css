@@ -256,6 +256,33 @@
   pointer-events: none;
 }
 
+/* Tablet & iPad Pro 1024x1366 Responsive Calibration */
+@media (max-width: 1024px) {
+  .timeline-horizontal-track {
+    gap: clamp(45px, 6vw, 85px);
+    padding-left: clamp(40px, 6vw, 90px);
+    padding-right: clamp(40px, 6vw, 90px);
+  }
+
+  .timeline-card-item {
+    min-width: clamp(280px, 38vw, 440px);
+    gap: clamp(14px, 2vw, 24px);
+  }
+
+  .timeline-photo-box {
+    width: clamp(160px, 19vw, 220px);
+    height: clamp(230px, 27vw, 310px);
+  }
+
+  .item-title {
+    font-size: clamp(18px, 2.2vw, 24px);
+  }
+
+  .item-desc {
+    font-size: clamp(11.5px, 1.3vw, 13px);
+  }
+}
+
 /* Mobile Responsive Calibration (< 640px) */
 @media (max-width: 640px) {
   .timeline-horizontal-track {

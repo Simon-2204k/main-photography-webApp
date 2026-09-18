@@ -201,14 +201,20 @@ export default function MultiCylindricalGallery() {
     const dx = e.clientX - lastMousePosRef.current.x;
     const dy = e.clientY - lastMousePosRef.current.y;
 
-    const rotDelta = dx * 0.004;
+    // Calibrated touch / tablet sensitivity (up to 1024x1366) for swift, normal rotation
+    const isTouch = e.pointerType === 'touch' || (typeof window !== 'undefined' && window.innerWidth <= 1024);
+    const rotSens = isTouch ? 0.012 : 0.004;
+    const scrollSens = isTouch ? 0.015 : 0.006;
+    const rotFromScrollSens = isTouch ? 0.008 : 0.003;
+
+    const rotDelta = dx * rotSens;
     const p = physicsRef.current;
     p.rotationYTarget += rotDelta;
     p.rotationVelocity = rotDelta * 0.5;
 
     // Dragging down -> scroll down -> spin left to right
-    p.scrollYTarget -= dy * 0.006;
-    p.rotationYTarget -= dy * 0.003;
+    p.scrollYTarget -= dy * scrollSens;
+    p.rotationYTarget -= dy * rotFromScrollSens;
 
     lastMousePosRef.current = { x: e.clientX, y: e.clientY };
   };

@@ -64,12 +64,20 @@ export const CylindricalLayerStack = React.memo(function CylindricalLayerStack({
         ringGroup.position.y = currentY;
         ringGroup.rotation.y = layerRotationsRef.current[idx];
 
-        // Dynamic expansion & scale
-        const focusExpandDelta = 0.5 * (Math.max(0, 1 - absY / 3.8));
-        const scrollContractDelta = Math.min(1.0, absVelocity * 6.0);
-        const effectiveRadius = Math.max(3.5, Math.min(5.5, layer.baseRadius + focusExpandDelta - scrollContractDelta));
-        const scaleRadius = effectiveRadius / layer.baseRadius;
-        ringGroup.scale.set(scaleRadius, 1, scaleRadius);
+        // Dynamic focus factor: 1.0 at center (absY = 0), dropping smoothly as it scrolls away
+        const focusFactor = Math.max(0, 1 - absY / 5.2);
+        const smoothFocus = focusFactor * focusFactor * (3 - 2 * focusFactor);
+
+        // Perspective scaling: center active ring is 1.05, distant rings scale down to 0.62
+        const verticalScale = 0.62 + smoothFocus * 0.43;
+
+        // Dynamic radius expansion and velocity contraction
+        const focusExpandDelta = 0.6 * smoothFocus;
+        const scrollContractDelta = Math.min(0.8, absVelocity * 4.0);
+        const effectiveRadius = Math.max(3.2, Math.min(5.5, layer.baseRadius + focusExpandDelta - scrollContractDelta));
+        const scaleRadius = (effectiveRadius / layer.baseRadius) * verticalScale;
+
+        ringGroup.scale.set(scaleRadius, verticalScale, scaleRadius);
       }
     });
 

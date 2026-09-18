@@ -163,3 +163,13 @@
   justify-content: center;
   will-change: transform;
 }
+
+/* Desktop-Only Center-Center Optical Calibration */
+@media (min-width: 1025px) {
+  .stamp-card-centering-wrap {
+    transform: translate(-50%, calc(-50% + 72px));
+  }
+  .stamp-helper-prompt {
+    top: calc(50% + 245px);
+  }
+}

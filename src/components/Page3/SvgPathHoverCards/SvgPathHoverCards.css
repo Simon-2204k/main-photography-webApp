@@ -52,6 +52,7 @@ svg.svgClass {
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 5;
+  opacity: 0;
 }
 
 .hovercard {
@@ -83,19 +84,16 @@ svg.svgClass {
   font-family: Arial, sans-serif;
 }
 
-/* Tablet Responsive: 3 columns at 1024px & 1024x1366 */
-@media (max-width: 1340px) {
+/* Tablet Responsive: 2x2 grid at 1024px & 1024x1366 */
+@media (max-width: 1024px) {
   .cardsDiv {
-    grid-template-columns: repeat(3, minmax(260px, 300px));
-    gap: 22px;
+    grid-template-columns: repeat(2, minmax(260px, 340px));
+    gap: 24px;
+    padding: 16px;
   }
-}
-
-/* Compact Tablet & Foldables: 2 columns */
-@media (max-width: 960px) {
-  .cardsDiv {
-    grid-template-columns: repeat(2, minmax(240px, 300px));
-    gap: 18px;
+  .card {
+    max-width: 340px;
+    height: clamp(340px, 38vh, 420px);
   }
 }
 
@@ -103,11 +101,12 @@ svg.svgClass {
 @media (max-width: 600px) {
   .cardsDiv {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 18px;
+    padding: 12px;
   }
   .card {
     width: 100%;
-    max-width: 330px;
+    max-width: 320px;
     height: 380px;
     margin: 0 auto;
   }

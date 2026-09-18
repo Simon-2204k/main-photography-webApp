@@ -5,6 +5,18 @@ import * as THREE from 'three';
 import { CylindricalLayerStack } from './CylindricalLayerStack';
 import { CentralWireframeS } from './CentralWireframeS';
 
+// Silence non-fatal Three.js r185 Clock deprecation notice from R3F internal render loop
+if (typeof window !== 'undefined' && !window.__THREE_CLOCK_WARNED__) {
+  window.__THREE_CLOCK_WARNED__ = true;
+  const originalWarn = console.warn;
+  console.warn = function (...args) {
+    if (typeof args[0] === 'string' && args[0].includes('THREE.Clock: This module has been deprecated')) {
+      return;
+    }
+    originalWarn.apply(console, args);
+  };
+}
+
 function AdaptiveCamera() {
   const { camera, size } = useThree();
   useEffect(() => {
