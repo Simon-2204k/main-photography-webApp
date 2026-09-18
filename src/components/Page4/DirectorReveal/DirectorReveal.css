@@ -1,0 +1,256 @@
+/* Scoped Styling for Section 7 Director Reveal - Pure White Theme */
+
+.section7-root {
+  background-color: #ffffff;
+  color: #000000;
+  overflow: hidden;
+  font-family: "Anton", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  cursor: none;
+}
+
+.section7-root * {
+  cursor: none;
+}
+
+/* Custom Cursor Styles (Vibrant Red with Arrow) */
+.section7-root .custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 78px;
+  height: 78px;
+  background-color: #c90000;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  box-shadow: 0 10px 30px rgba(201, 0, 0, 0.4);
+  will-change: transform, opacity;
+}
+
+.section7-root .parent {
+  position: relative;
+  width: 100vw;
+  height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 12px;
+  padding-bottom: 20px;
+}
+
+.section7-root .box {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background-color: #f0f0f2;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.section7-root .box:hover {
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+}
+
+.section7-root .textArea {
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 20px;
+}
+
+.section7-root .maskingWord {
+  position: relative;
+  width: 100%;
+  height: 35vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+}
+
+.section7-root .maskingWord h1 {
+  position: absolute;
+  margin: 0;
+  font-size: 18vw;
+  line-height: 0.9;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Pure Black Text for Default Title */
+.section7-root .default-text {
+  color: #000000;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Red Director Hover Reveal Text */
+.section7-root .dynamic-text {
+  color: #c90000 !important;
+}
+
+.section7-root .word-mask {
+  overflow: hidden;
+  display: inline-flex;
+  vertical-align: top;
+  padding-bottom: 10px;
+}
+
+/* Resting anchor spot beside the letter 'S' */
+.section7-root .arrow-resting-spot {
+  display: inline-block;
+  width: 78px;
+  height: 78px;
+  margin-left: 14px;
+  margin-bottom: 20px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Touch device policy: Completely disable and hide custom cursor on phones & tablets */
+@media (hover: none) and (pointer: coarse) {
+  .section7-root,
+  .section7-root * {
+    cursor: auto !important;
+  }
+  .section7-root .custom-cursor {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+}
+
+/* Tablet & iPad Pro (<= 1024px, 1024x1366) */
+@media (max-width: 1024px) {
+  .section7-root .parent {
+    padding: 0 32px;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .section7-root .box {
+    width: 80px;
+    height: 80px;
+  }
+
+  .section7-root .maskingWord {
+    padding: 0 32px;
+    box-sizing: border-box;
+  }
+
+  .section7-root .maskingWord h1 {
+    font-size: clamp(3rem, 11vw, 5.5rem);
+    letter-spacing: 0.02em;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    text-align: center;
+    max-width: 90vw;
+  }
+}
+
+/* Mobile Devices (≤ 640px) */
+@media (max-width: 640px) {
+  /* Center entire section content vertically and horizontally */
+  .section7-root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  /* Show only 4 boxes on phone per user request */
+  .section7-root .box:nth-child(n+5) {
+    display: none !important;
+  }
+
+  .section7-root .parent {
+    gap: 12px;
+    height: auto;
+    width: 100%;
+    padding: 0 16px 14px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .section7-root .box {
+    width: 68px;
+    height: 94px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    border: 1.5px solid rgba(0, 0, 0, 0.12);
+  }
+
+  .section7-root .box.mobile-active {
+    border-color: #c90000;
+    box-shadow: 0 8px 24px rgba(201, 0, 0, 0.35);
+  }
+
+  .section7-root .textArea {
+    height: auto;
+    padding-top: 16px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .section7-root .maskingWord {
+    position: relative;
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Eliminate the phantom desktop cursor resting spot which pushed DIRECTORS to the left */
+  .section7-root .arrow-resting-spot {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Keep h1 absolute for the text mask overlay animation to work */
+  .section7-root .maskingWord h1 {
+    position: absolute;
+    font-size: clamp(2.2rem, 11vw, 2.9rem);
+    letter-spacing: -0.02em;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .section7-root .default-text,
+  .section7-root .dynamic-text {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .section7-root .word-mask {
+    padding-bottom: 0;
+  }
+}
+
+

@@ -38,7 +38,7 @@ export const DarkroomHeaderComponent = ({ onOpenMenu }) => {
         CHRONICLES IN LIGHT
       </h1>
 
-      {/* Clean Box-Shape Menu Trigger with interactive pointerEvents */}
+      {/* Bold Condensed Uppercase Menu Trigger (No Border, Transparent) */}
       <button
         onClick={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
@@ -51,31 +51,28 @@ export const DarkroomHeaderComponent = ({ onOpenMenu }) => {
           cursor: 'pointer',
           border: 'none',
           outline: 'none',
-          background: 'rgba(255, 255, 255, 0.12)',
-          backdropFilter: 'blur(10px)',
-          borderRadius: '4px',
-          padding: '8px 24px',
+          background: 'transparent',
           color: '#ffffff',
-          fontFamily: 'Space Grotesk, Inter, sans-serif',
-          fontSize: '11px',
-          fontWeight: '700',
-          letterSpacing: '2.5px',
+          fontFamily: "'Anton', 'Oswald', sans-serif",
+          fontSize: 'clamp(18px, 2.2vw, 24px)',
+          fontWeight: 900,
+          letterSpacing: '0.06em',
+          lineHeight: 1,
           textTransform: 'uppercase',
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',
           zIndex: 1001,
-          transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+          padding: '4px 8px',
+          transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.background = '#ffffff';
-          e.currentTarget.style.color = '#000000';
-          e.currentTarget.style.transform = 'scale(1.05)';
+          e.currentTarget.style.transform = 'scale(1.08)';
+          e.currentTarget.style.opacity = '0.85';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
-          e.currentTarget.style.color = '#ffffff';
           e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.opacity = '1';
         }}
       >
         MENU

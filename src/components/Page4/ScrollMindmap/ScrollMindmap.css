@@ -1,0 +1,299 @@
+/* Modern, High-End Scoped Styling for Section 6 Scroll Mindmap - Darkroom Aesthetic */
+
+.section6-root {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #000000;
+  color: #ffffff;
+  overflow: hidden;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  box-shadow: none !important;
+}
+
+.section6-root.screen-animation {
+  background-color: #000000;
+}
+
+.section6-root .mindmap-wrapper {
+  position: relative;
+  width: 85vw;
+  height: 85vh;
+  max-width: 1200px;
+  max-height: 750px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section6-root #svgCanvas {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+}
+
+.section6-root #wrinklePath {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+.section6-root #theBall {
+  fill: #ffffff;
+  transform-origin: center;
+  z-index: 15;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+.section6-root .center-branding {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.section6-root .mindmap-subheading {
+  display: inline-block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: clamp(10px, 1.1vw, 12px);
+  letter-spacing: 0.35em;
+  font-weight: 600;
+  color: #71717a;
+  margin-bottom: 12px;
+}
+
+.section6-root .mindmap-title {
+  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
+  font-weight: 900;
+  line-height: 0.92;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* 10 Mindmap Nodes - Sleek Darkroom Monolith Badges (Single-line, Zero wrap, Monochromatic) */
+.section6-root .mindmap-node {
+  position: absolute;
+  background: #0d0d11;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  padding: 8px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  white-space: nowrap !important;
+  width: max-content !important;
+  flex-shrink: 0;
+  z-index: 5;
+  box-shadow: none !important;
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: center center;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+  will-change: transform;
+}
+
+.section6-root .node-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
+
+.section6-root .node-index {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #71717a;
+  letter-spacing: 0.1em;
+  white-space: nowrap !important;
+  flex-shrink: 0;
+  transition: color 0.25s ease;
+}
+
+.section6-root .node-sep {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25);
+  white-space: nowrap !important;
+  flex-shrink: 0;
+  transition: color 0.25s ease;
+}
+
+.section6-root .node-label {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f4f4f5;
+  white-space: nowrap !important;
+  flex-shrink: 0;
+  transition: color 0.25s ease;
+}
+
+/* Inverted Contact State (When Touched by Traveling Ball) */
+.section6-root .mindmap-node.expanded {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+  transform: translate(-50%, -50%) scale(1.35) !important;
+  box-shadow: 0px 12px 30px rgba(255, 255, 255, 0.18) !important;
+  z-index: 25 !important;
+}
+
+.section6-root .mindmap-node.expanded .node-index {
+  color: #52525b !important;
+}
+
+.section6-root .mindmap-node.expanded .node-sep {
+  color: #a1a1aa !important;
+}
+
+.section6-root .mindmap-node.expanded .node-label {
+  color: #000000 !important;
+}
+
+/* Node Layout Coordinates aligned precisely with reference copy folder */
+.section6-root .node-1 { top: 12%; left: 50%; }
+.section6-root .node-2 { top: 18%; left: 72%; }
+.section6-root .node-3 { top: 32%; left: 88%; }
+.section6-root .node-4 { top: 55%; left: 86%; }
+.section6-root .node-5 { top: 82%; left: 75%; }
+.section6-root .node-6 { top: 88%; left: 52%; }
+.section6-root .node-7 { top: 82%; left: 28%; }
+.section6-root .node-8 { top: 60%; left: 14%; }
+.section6-root .node-9 { top: 35%; left: 16%; }
+.section6-root .node-10 { top: 18%; left: 30%; }
+
+/* ==========================================================================
+   Page 4 Responsive Calibration & Touch Policy (Section 6)
+   ========================================================================== */
+
+/* 1] Tablet & iPad Pro (till 1024 x 1366) */
+@media (max-width: 1024px) {
+  .section6-root {
+    touch-action: pan-y;
+  }
+
+  .section6-root .mindmap-wrapper {
+    width: 90vw;
+    height: 80vh;
+  }
+
+  .section6-root .mindmap-node {
+    padding: 6px 12px;
+    gap: 6px;
+    white-space: nowrap !important;
+    width: max-content !important;
+  }
+
+  .section6-root .node-label {
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    white-space: nowrap !important;
+  }
+
+  .section6-root .node-thumb {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* 2] Mobile Phones (<= 768px) */
+@media (max-width: 768px) {
+  .section6-root .mindmap-wrapper {
+    width: 96vw;
+    height: 82vh;
+  }
+
+  .section6-root .center-branding {
+    width: 80%;
+  }
+
+  .section6-root .mindmap-subheading {
+    font-size: 8.5px;
+    letter-spacing: 0.2em;
+    margin-bottom: 6px;
+  }
+
+  .section6-root .mindmap-title {
+    font-size: clamp(1.35rem, 6.5vw, 1.85rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .section6-root .mindmap-node {
+    padding: 3px 6px;
+    gap: 3px;
+  }
+
+  .section6-root .node-index,
+  .section6-root .node-sep {
+    display: none;
+  }
+
+  .section6-root .node-label {
+    font-size: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .section6-root .node-thumb {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Show only 5 pills on phone per user request, hide remaining 5 */
+  .section6-root .node-6,
+  .section6-root .node-7,
+  .section6-root .node-8,
+  .section6-root .node-9,
+  .section6-root .node-10 {
+    display: none !important;
+  }
+
+  /* Distributed 5-pill pentagon orbit around center branding for phone */
+  .section6-root .node-1  { top: 12%; left: 50%; }
+  .section6-root .node-2  { top: 28%; left: 82%; }
+  .section6-root .node-3  { top: 74%; left: 80%; }
+  .section6-root .node-4  { top: 76%; left: 20%; }
+  .section6-root .node-5  { top: 28%; left: 18%; }
+}
+
+/* 3] Touch Devices: Universal pan-y pass-through & instant feedback */
+@media (hover: none) and (pointer: coarse) {
+  .section6-root {
+    touch-action: pan-y;
+  }
+
+  .section6-root .mindmap-wrapper,
+  .section6-root #svgCanvas {
+    pointer-events: none;
+  }
+
+  .section6-root .mindmap-node {
+    cursor: default;
+  }
+}
+
+

@@ -109,7 +109,7 @@ export const Page2Component = ({ onOpenMenu }) => {
       <LaptopFoldingDeck />
 
       {/* Section 6: Keyhole Parallax Mask Destination Page (Image + Embedded Footer) */}
-      <KeyholeParallaxMask />
+      <KeyholeParallaxMask onOpenMenu={onOpenMenu} />
     </div>
   );
 };

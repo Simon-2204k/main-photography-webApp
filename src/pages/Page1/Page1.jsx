@@ -171,7 +171,7 @@ export const Page1Component = ({ onOpenMenu }) => {
         <SpotlightMarquee />
 
         {/* Footer Section */}
-        <Footer />
+        <Footer onOpenMenu={onOpenMenu} />
       </div>
     </div>
   );

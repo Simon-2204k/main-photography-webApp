@@ -34,28 +34,24 @@
 .page3-nav-menu-btn {
   pointer-events: auto;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: none;
   outline: none;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 4px;
-  padding: 0.5rem 1.5rem;
+  background: transparent;
+  padding: 4px 8px;
   color: #ffffff;
-  font-family: 'Space Mono', monospace, sans-serif;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
+  font-family: 'Anton', 'Oswald', sans-serif;
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 1;
   text-transform: uppercase;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
 }
 
 @media (hover: hover) {
   .page3-nav-menu-btn:hover {
-    background: #ffffff;
-    color: #000000;
-    border-color: #ffffff;
-    transform: scale(1.04);
+    transform: scale(1.08);
+    opacity: 0.85;
   }
 }
 

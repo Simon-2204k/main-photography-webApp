@@ -7,7 +7,7 @@ import './MultiCylindricalGallery.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function MultiCylindricalGallery() {
+export default function MultiCylindricalGallery({ onOpenMenu }) {
   const [autoRotate, setAutoRotate] = useState(true);
   const [isLocked, setIsLocked] = useState(false);
 
@@ -269,6 +269,51 @@ export default function MultiCylindricalGallery() {
         physicsRef={physicsRef}
         isVisible={isVisible}
       />
+
+      {/* Bottom-Right Universal MENU button */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          const rect = e.currentTarget.getBoundingClientRect();
+          if (onOpenMenu) onOpenMenu(rect);
+        }}
+        onTouchEnd={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const rect = e.currentTarget.getBoundingClientRect();
+          if (onOpenMenu) onOpenMenu(rect);
+        }}
+        aria-label="Open Navigation Menu"
+        style={{
+          position: 'absolute',
+          bottom: 'clamp(16px, 2.8vh, 28px)',
+          right: 'clamp(16px, 2.8vw, 36px)',
+          zIndex: 35,
+          background: 'transparent',
+          border: 'none',
+          outline: 'none',
+          cursor: 'pointer',
+          color: '#ffffff',
+          fontFamily: "'Anton', 'Oswald', sans-serif",
+          fontSize: 'clamp(22px, 2.8vw, 32px)',
+          fontWeight: 900,
+          letterSpacing: '0.06em',
+          lineHeight: 1,
+          padding: '4px',
+          transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.08)';
+          e.currentTarget.style.opacity = '0.85';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.opacity = '1';
+        }}
+      >
+        MENU
+      </button>
     </section>
   );
 }

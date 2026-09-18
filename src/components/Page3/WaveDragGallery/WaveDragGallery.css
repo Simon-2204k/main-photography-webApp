@@ -1,0 +1,378 @@
+/* WaveDragGallery.css — Page 3 Section 10: WebGL Wave Drag Gallery */
+
+.wave-drag-gallery-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #f5f5f7;
+  color: #111114;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 1] Perspective Vanishing Lines Grid (Matching Reference Screenshots) */
+.wave-perspective-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.22;
+  overflow: hidden;
+}
+
+.wave-grid-line {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.35);
+  transform-origin: center center;
+}
+
+/* Cardinal and Diagonal radiating perspective rays */
+.wave-grid-line.diag-1 {
+  top: 50%;
+  left: -20%;
+  width: 140%;
+  height: 1px;
+  transform: rotate(-22deg);
+}
+
+.wave-grid-line.diag-2 {
+  top: 50%;
+  left: -20%;
+  width: 140%;
+  height: 1px;
+  transform: rotate(22deg);
+}
+
+.wave-grid-line.vert-axis {
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* 2] Top Telemetry HUD Bar */
+.wave-top-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 38px;
+  background: #121214;
+  color: #e6e6ea;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(12px, 2.5vw, 36px);
+  font-family: 'Space Grotesk', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: clamp(9px, 0.85vw, 11px);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 40;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.wave-top-hud-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wave-top-hud-center {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0.88;
+}
+
+.wave-top-hud-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Secondary Action Floating Badges (Upper-Right) */
+.wave-floating-actions {
+  position: absolute;
+  top: 48px;
+  right: clamp(12px, 2.5vw, 36px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 40;
+}
+
+.wave-action-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #18181b;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
+}
+
+.wave-action-pill:hover {
+  background: #27272a;
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.wave-pill-icon {
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wave-pill-avatar {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* 3] Interactive 3D WebGL Canvas Layer */
+.wave-canvas-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.wave-canvas-wrapper.is-dragging {
+  cursor: grabbing;
+}
+
+.wave-canvas-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* 4] Bottom Partner / Creative Powerhouse Bar */
+.wave-bottom-partner-bar {
+  position: absolute;
+  bottom: clamp(18px, 3.2vh, 36px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 10px clamp(14px, 2.5vw, 28px);
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 28px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
+  max-width: min(92vw, 860px);
+  pointer-events: auto;
+}
+
+.wave-partner-logos {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.6vw, 20px);
+}
+
+.wave-logo-item {
+  font-family: 'Anton', 'Oswald', sans-serif;
+  font-size: clamp(15px, 1.8vw, 22px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #1a1a1c;
+  line-height: 1;
+}
+
+.wave-logo-item.serif {
+  font-family: 'Newsreader', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(13px, 1.5vw, 19px);
+}
+
+.wave-logo-item.symbol {
+  font-size: clamp(16px, 2vw, 24px);
+}
+
+.wave-partner-divider {
+  width: 1px;
+  height: 26px;
+  background: rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+.wave-partner-statement {
+  font-family: 'Anton', 'Oswald', sans-serif;
+  font-size: clamp(10px, 1.05vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+  color: #1a1a1c;
+  text-transform: uppercase;
+}
+
+/* 5] Bottom Corner Brand Stamps */
+.wave-corner-stamp-left {
+  position: absolute;
+  bottom: clamp(16px, 2.8vh, 28px);
+  left: clamp(16px, 2.8vw, 36px);
+  z-index: 30;
+  pointer-events: none;
+}
+
+.wave-brand-stamp-svg {
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+}
+
+.wave-corner-menu-right {
+  position: absolute;
+  bottom: clamp(16px, 2.8vh, 28px);
+  right: clamp(16px, 2.8vw, 36px);
+  z-index: 35;
+  background: transparent;
+  border: none;
+  color: #0c0c0e;
+  font-family: 'Anton', 'Oswald', sans-serif;
+  font-size: clamp(22px, 2.8vw, 32px);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.wave-corner-menu-right:hover {
+  transform: scale(1.06);
+  opacity: 0.8;
+}
+
+.wave-corner-menu-right:active {
+  transform: scale(0.96);
+}
+
+
+
+/* ==========================================================================
+   TABLET RESPONSIVE CALIBRATION (UP TO 1024 × 1366 IPAD PRO)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .wave-top-hud {
+    height: 36px;
+    padding: 0 16px;
+    font-size: 9.5px;
+  }
+
+  .wave-top-hud-center {
+    display: none; /* Hide middle telemetry to preserve clean margins on tablets */
+  }
+
+  .wave-floating-actions {
+    top: 44px;
+    right: 16px;
+    gap: 6px;
+  }
+
+  .wave-action-pill {
+    padding: 5px 9px;
+    font-size: 9px;
+  }
+
+  .wave-bottom-partner-bar {
+    bottom: 22px;
+    max-width: 90vw;
+    padding: 8px 16px;
+    gap: 14px;
+  }
+
+  .wave-partner-statement {
+    font-size: 10.5px;
+    line-height: 1.2;
+  }
+
+  .wave-corner-stamp-left {
+    bottom: 20px;
+    left: 18px;
+    transform: scale(0.85);
+    transform-origin: bottom left;
+  }
+
+  .wave-corner-menu-right {
+    bottom: 20px;
+    right: 18px;
+    font-size: 24px;
+  }
+}
+
+/* ==========================================================================
+   MOBILE PHONES RESPONSIVE CALIBRATION (<= 640px)
+   ========================================================================== */
+@media (max-width: 640px) {
+  .wave-top-hud {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 8.5px;
+  }
+
+  .wave-floating-actions {
+    display: none; /* Streamline mobile view to keep focus purely on the WebGL wave */
+  }
+
+
+
+  .wave-bottom-partner-bar {
+    bottom: 16px;
+    width: 92vw;
+    padding: 8px 12px;
+    gap: 10px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .wave-partner-divider {
+    display: none;
+  }
+
+  .wave-partner-statement {
+    font-size: 9px;
+  }
+
+  .wave-corner-stamp-left {
+    display: none; /* Prevent cluttering behind the bottom bar on small phone screens */
+  }
+
+  .wave-corner-menu-right {
+    bottom: auto;
+    top: 40px;
+    right: 14px;
+    font-size: 20px;
+    font-family: 'Anton', 'Oswald', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    background: transparent;
+    border: none;
+    padding: 4px 8px;
+    color: #0c0c0e;
+  }
+}

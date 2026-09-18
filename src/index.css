@@ -1,4 +1,6 @@
-@layer base;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* Lenis Smooth Scroll Setup */
 html.lenis, html.lenis body {
@@ -380,4 +382,140 @@ section, footer {
 .perspective-cell {
   background-color: #0d0d10;
   cursor: default !important;
+}
+
+/* Wood Desk Texture Layer */
+.wood-bg {
+  background-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%), url('/assets/wood_desk.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.wood-bg-local {
+  background-image: radial-gradient(circle at 50% 40%, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.3) 100%), url('/assets/wood_desk.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* 35mm Film Strip Perforations & Border */
+.film-frame {
+  position: relative;
+  background: #101010;
+  border-top: 14px solid #0a0a0a;
+  border-bottom: 14px solid #0a0a0a;
+  box-shadow: 0 20px 35px -10px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+.film-frame::before,
+.film-frame::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    #ffffff 0px,
+    #ffffff 6px,
+    transparent 6px,
+    transparent 16px
+  );
+  opacity: 0.85;
+  z-index: 20;
+}
+
+.film-frame::before {
+  top: -11px;
+}
+
+.film-frame::after {
+  bottom: -11px;
+}
+
+/* Continuous 35mm Film Reel */
+.film-reel-track {
+  background: #09090b;
+  border-top: 18px solid #050507;
+  border-bottom: 18px solid #050507;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
+}
+
+.film-reel-track::before,
+.film-reel-track::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    #f3f3f3 0px,
+    #f3f3f3 8px,
+    transparent 8px,
+    transparent 20px
+  );
+  opacity: 0.9;
+  z-index: 30;
+}
+
+.film-reel-track::before {
+  top: -14px;
+}
+
+.film-reel-track::after {
+  bottom: -14px;
+}
+
+/* Paper / Document Stack Effects */
+.paper-shadow {
+  box-shadow: 
+    0 1px 3px rgba(0,0,0,0.12),
+    0 8px 24px rgba(0,0,0,0.22),
+    0 16px 40px rgba(0,0,0,0.18);
+}
+
+.polaroid-card {
+  background: #fdfdfd;
+  padding: 10px 10px 32px 10px;
+  box-shadow: 0 15px 35px -5px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,0,0,0.05);
+}
+
+/* Glassmorphic Effects */
+.glass-panel {
+  background: rgba(24, 24, 27, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-search {
+  background: rgba(45, 38, 34, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 40px -10px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.2);
+}
+
+.glass-dock {
+  background: rgba(30, 26, 23, 0.78);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes wave-bounce {
+  0%, 100% {
+    transform: scaleY(0.2);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-wave {
+  animation: wave-bounce 1.2s ease-in-out infinite alternate;
 }

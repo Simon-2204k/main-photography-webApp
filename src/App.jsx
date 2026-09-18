@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Page1 } from './pages/Page1/Page1';
 import { Page2 } from './pages/Page2/Page2';
 import { Page3 } from './pages/Page3/Page3';
+import { Page4 } from './pages/Page4/Page4';
 import { MenuOverlay } from './components/Page1/MenuOverlay/MenuOverlay';
 
 export function App() {
@@ -13,6 +14,9 @@ export function App() {
       }
       if (hash === '#exhibits' || hash === '#page3') {
         return 'page3';
+      }
+      if (hash === '#specsheet' || hash === '#spec-sheet' || hash === '#page4') {
+        return 'page4';
       }
     }
     return 'page1';
@@ -28,6 +32,8 @@ export function App() {
         setCurrentPage('page2');
       } else if (hash === '#exhibits' || hash === '#page3') {
         setCurrentPage('page3');
+      } else if (hash === '#specsheet' || hash === '#spec-sheet' || hash === '#page4') {
+        setCurrentPage('page4');
       } else {
         setCurrentPage('page1');
       }
@@ -47,7 +53,11 @@ export function App() {
   }, []);
 
   const handleSelectPage = useCallback((pageId) => {
-    if (pageId === 'page3') {
+    if (pageId === 'page4') {
+      setCurrentPage('page4');
+      window.location.hash = 'specsheet';
+      window.scrollTo(0, 0);
+    } else if (pageId === 'page3') {
       setCurrentPage('page3');
       window.location.hash = 'exhibits';
       window.scrollTo(0, 0);
@@ -66,7 +76,9 @@ export function App() {
 
   return (
     <>
-      {currentPage === 'page3' ? (
+      {currentPage === 'page4' ? (
+        <Page4 onOpenMenu={handleOpenMenu} />
+      ) : currentPage === 'page3' ? (
         <Page3 onOpenMenu={handleOpenMenu} />
       ) : currentPage === 'page2' ? (
         <Page2 onOpenMenu={handleOpenMenu} />

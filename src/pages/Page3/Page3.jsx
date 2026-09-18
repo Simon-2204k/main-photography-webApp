@@ -139,7 +139,7 @@ export const Page3Component = ({ onOpenMenu }) => {
 
       {/* Section 9: Multi-Tier 3D Cylindrical Gallery */}
       <section id="exhibits-section-9" className="page3-section-container">
-        <MultiCylindricalGallery />
+        <MultiCylindricalGallery onOpenMenu={onOpenMenu} />
       </section>
     </div>
   );

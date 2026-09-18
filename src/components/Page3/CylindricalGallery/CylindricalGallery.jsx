@@ -548,17 +548,17 @@ export const CylindricalGallery = memo(function CylindricalGallery() {
       {/* Elegant Bottom Marquee Ticker */}
       <div className="cylindrical-marquee-container" aria-hidden="true">
         <div className="cylindrical-marquee-track">
-          <span className="marquee-item">SIMON'S PHOTOGRAPHY</span>
+          <span className="marquee-item">Simon's Photography</span>
           <span className="marquee-separator">✦</span>
-          <span className="marquee-item">SIMON'S PHOTOGRAPHY</span>
+          <span className="marquee-item">Simon's Photography</span>
           <span className="marquee-separator">✦</span>
-          <span className="marquee-item">SIMON'S PHOTOGRAPHY</span>
+          <span className="marquee-item">Simon's Photography</span>
           <span className="marquee-separator">✦</span>
-          <span className="marquee-item">SIMON'S PHOTOGRAPHY</span>
+          <span className="marquee-item">Simon's Photography</span>
           <span className="marquee-separator">✦</span>
-          <span className="marquee-item">SIMON'S PHOTOGRAPHY</span>
+          <span className="marquee-item">Simon's Photography</span>
           <span className="marquee-separator">✦</span>
-          <span className="marquee-item">SIMON'S PHOTOGRAPHY</span>
+          <span className="marquee-item">Simon's Photography</span>
           <span className="marquee-separator">✦</span>
         </div>
       </div>

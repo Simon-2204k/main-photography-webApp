@@ -1,0 +1,182 @@
+/* Section 3: Image Strip Hover Cursor — High-Performance GPU Composited */
+
+.section3-root {
+  margin: 0;
+  min-height: 100vh;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  /* Transitions handled purely by GSAP for zero frame-drops */
+}
+
+.section3-root .parentElem {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.section3-root .container {
+  width: 85%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+}
+
+.section3-root .box {
+  width: 100%;
+  height: 110px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  color: #000000;
+  padding: 24px 40px;
+  cursor: pointer;
+  transform-origin: left center;
+  will-change: transform, background-color, color;
+  user-select: none;
+}
+
+.section3-root .box:first-child {
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.section3-root .box-title {
+  font-family: 'Bebas Neue', 'Anton', Impact, sans-serif;
+  font-size: clamp(32px, 3.5vw, 48px);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.section3-root .box-tag {
+  font-family: 'DM Mono', 'Space Mono', monospace, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+.section3-root .box-text-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.section3-root .mobile-thumb {
+  display: none;
+  width: 68px;
+  height: 68px;
+  border-radius: 6px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.section3-root .hoverDiv {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 320px;
+  height: 220px;
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 999;
+  overflow: hidden;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  contain: layout paint;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+.section3-root .image-strip {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.section3-root .img {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+}
+
+/* ==========================================================================
+   TOUCH POLICY: REMOVE FLOATING CURSOR IMAGE ON TOUCH DEVICES
+   ========================================================================== */
+@media (hover: none) and (pointer: coarse) {
+  .section3-root .hoverDiv {
+    display: none !important;
+  }
+
+  .section3-root .mobile-thumb {
+    display: block;
+  }
+}
+
+/* ==========================================================================
+   TABLET RESPONSIVE (768px - 1024px, 1024x1366 IPAD PRO)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .section3-root .container {
+    width: 90%;
+  }
+
+  .section3-root .box {
+    height: 140px;
+    min-height: 140px;
+    padding: 28px 36px;
+  }
+
+  .section3-root .box-title {
+    font-size: clamp(30px, 3.8vw, 44px);
+  }
+
+  .section3-root .box-tag {
+    font-size: 10px;
+  }
+}
+
+/* ==========================================================================
+   PHONE RESPONSIVE (<= 640px)
+   ========================================================================== */
+@media (max-width: 640px) {
+  .section3-root .container {
+    width: 92%;
+  }
+
+  .section3-root .box {
+    height: auto;
+    min-height: 80px;
+    padding: 14px 18px;
+    gap: 14px;
+  }
+
+  .section3-root .box-title {
+    font-size: clamp(20px, 5.2vw, 26px);
+  }
+
+  .section3-root .box-tag {
+    font-size: 9px;
+  }
+
+  .section3-root .mobile-thumb {
+    display: block;
+    width: 54px;
+    height: 54px;
+  }
+}
+

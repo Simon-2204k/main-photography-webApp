@@ -1,0 +1,512 @@
+/* BetterOffLookback.css — Page 4 Section 1: Better Off Lookback Drag-Tilt Gallery */
+
+.lookback-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #fbfbfc;
+  color: #0c0c0e;
+  user-select: none;
+  -webkit-user-select: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 1] Top Navigation Bar */
+.lookback-top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 3vw, 40px);
+  z-index: 30;
+  pointer-events: auto;
+}
+
+.lookback-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  font-size: clamp(12px, 1.05vw, 14px);
+  letter-spacing: -0.01em;
+}
+
+.lookback-nav-item.active {
+  color: #09090b;
+  font-weight: 700;
+}
+
+.lookback-nav-item {
+  color: #71717a;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.lookback-nav-item:hover {
+  color: #18181b;
+}
+
+/* Top-Right Music Player Pill */
+.lookback-player-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #18181b;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lookback-player-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.lookback-player-art {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #18181b, #3f3f46);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* Bold Condensed Uppercase Menu Trigger */
+.lookback-nav-menu-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #18181b;
+  font-family: 'Anton', 'Oswald', sans-serif;
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.lookback-nav-menu-btn:hover {
+  transform: scale(1.08);
+  opacity: 0.85;
+}
+
+/* 2] Massive Center Display Headline Typography Overlaid with mix-blend-mode: difference */
+.lookback-hero-title-container {
+  position: absolute;
+  top: clamp(24px, 4.5vh, 48px);
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 20;
+  mix-blend-mode: difference;
+  color: #ffffff;
+  width: 90vw;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 0.92;
+  user-select: none;
+}
+
+.lookback-title-brand {
+  font-family: -apple-system, BlinkMacSystemFont, 'Impact', 'Inter', sans-serif;
+  font-size: clamp(34px, 5.2vw, 76px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: #ffffff !important;
+}
+
+.lookback-title-main {
+  font-family: -apple-system, BlinkMacSystemFont, 'Impact', 'Inter', sans-serif;
+  font-size: clamp(48px, 8.4vw, 120px);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+}
+
+.lookback-title-sub {
+  font-family: -apple-system, BlinkMacSystemFont, 'Impact', 'Inter', sans-serif;
+  font-size: clamp(34px, 5.2vw, 76px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: #ffffff !important;
+}
+
+/* 3] Interactive Drag-Tilt Cards Stage */
+.lookback-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  cursor: grab;
+  touch-action: pan-y;
+  perspective: 1200px;
+  perspective-origin: center center;
+}
+
+.lookback-stage.is-dragging {
+  cursor: grabbing;
+}
+
+.lookback-cards-track {
+  display: flex;
+  align-items: center;
+  will-change: transform;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+/* Individual Card Container with 3D Hinge Flap & Viewport Containment */
+.lookback-card-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  will-change: transform;
+  transform-style: preserve-3d;
+  flex-shrink: 0;
+  content-visibility: auto;
+  contain-intrinsic-size: 340px 480px;
+}
+
+/* Photography Card Box — Pure Clean Borderless Image without Shadow or Background Color */
+.lookback-card-box {
+  position: relative;
+  border-radius: 4px;
+  box-shadow: none !important;
+  overflow: hidden;
+  background: transparent !important;
+  user-select: none;
+}
+
+.lookback-card-box:hover {
+  box-shadow: none !important;
+}
+
+.lookback-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  border-radius: 4px;
+}
+
+/* Varied Editorial Aspect Ratios Matching Screenshots */
+.lookback-card-box.aspect-tall {
+  width: clamp(230px, 19vw, 290px);
+  height: clamp(340px, 44vh, 460px);
+}
+
+.lookback-card-box.aspect-square {
+  width: clamp(260px, 21vw, 320px);
+  height: clamp(260px, 21vw, 320px);
+}
+
+.lookback-card-box.aspect-wide {
+  width: clamp(290px, 24vw, 340px);
+  height: clamp(200px, 24vh, 260px);
+}
+
+/* Subtle Caption Below Card */
+.lookback-card-caption {
+  margin-top: 12px;
+  font-family: monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #18181b;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* 4] Synchronized Looping Jan to Dec Ruler Timeline */
+.lookback-ruler-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: clamp(65px, 9vh, 85px);
+  background: transparent;
+  pointer-events: none;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: clamp(10px, 1.8vh, 18px);
+}
+
+/* Fixed Center Indicator Needle */
+.lookback-ruler-center-needle {
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.5px;
+  height: 26px;
+  background: #09090b;
+  z-index: 35;
+  border-radius: 1px;
+}
+
+/* Scrolling Ruler Track */
+.lookback-ruler-track {
+  position: relative;
+  width: 100%;
+  height: 52px;
+  will-change: transform;
+}
+
+.lookback-ruler-inner {
+  display: flex;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.lookback-ruler-month-block {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Row of delicate millimeter tick marks */
+.lookback-ruler-ticks {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  height: 20px;
+  padding: 0 4px;
+}
+
+.lookback-tick {
+  width: 1px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.16);
+  flex-shrink: 0;
+}
+
+.lookback-tick.center-tick {
+  height: 18px;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/* Month Name Label Centered Under Center Tick */
+.lookback-ruler-month-label {
+  margin-top: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  font-size: clamp(10px, 0.85vw, 11px);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #18181b;
+  text-transform: uppercase;
+}
+
+/* Mobile-only label: hidden by default, shown in ≤640px media query */
+.lookback-mobile-bottom-label {
+  display: none;
+}
+
+/* ==========================================================================
+   TABLET RESPONSIVE CALIBRATION (UP TO 1024 × 1366 IPAD PRO)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .lookback-top-bar {
+    height: 48px;
+    padding: 0 20px;
+  }
+
+  .lookback-hero-title-container {
+    top: 76px;
+    width: 94vw;
+  }
+
+  .lookback-title-brand {
+    font-size: clamp(24px, 4.2vw, 42px);
+  }
+
+  .lookback-title-main {
+    font-size: clamp(30px, 6.2vw, 62px);
+  }
+
+  .lookback-title-sub {
+    font-size: clamp(15px, 3vw, 26px);
+  }
+
+  .lookback-card-box.aspect-tall {
+    width: 210px;
+    height: 340px;
+  }
+
+  .lookback-card-box.aspect-square {
+    width: 250px;
+    height: 250px;
+  }
+
+  .lookback-card-box.aspect-wide {
+    width: 290px;
+    height: 210px;
+  }
+
+  .lookback-ruler-container {
+    height: 64px;
+  }
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVE CALIBRATION (<= 640px)
+   ========================================================================== */
+@media (max-width: 640px) {
+  .lookback-top-bar {
+    padding: 0 14px;
+    height: 44px;
+  }
+
+  /* Hide non-active nav items AND the full nav-links bar on mobile —
+     Timeline label is repositioned below cards via .lookback-mobile-bottom-label */
+  .lookback-nav-links {
+    display: none;
+  }
+
+  /* Completely hide Mechanical Shutter audio pill on phone */
+  .lookback-player-pill {
+    display: none !important;
+  }
+
+  /* Larger heading sizes for phone */
+  .lookback-hero-title-container {
+    top: 46px;
+    width: 94vw;
+  }
+
+  .lookback-title-brand {
+    font-size: clamp(28px, 9vw, 42px);
+    letter-spacing: -0.02em;
+  }
+
+  .lookback-title-main {
+    font-size: clamp(32px, 10.5vw, 48px);
+    letter-spacing: -0.03em;
+  }
+
+  .lookback-title-sub {
+    font-size: clamp(16px, 5vw, 22px);
+    letter-spacing: -0.01em;
+  }
+
+  /* Center the cards stage vertically and horizontally */
+  .lookback-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .lookback-card-box.aspect-tall {
+    width: 200px;
+    height: 300px;
+  }
+
+  .lookback-card-box.aspect-square {
+    width: 210px;
+    height: 210px;
+  }
+
+  .lookback-card-box.aspect-wide {
+    width: 230px;
+    height: 175px;
+  }
+
+  .lookback-card-caption {
+    font-size: 8.5px;
+  }
+
+  .lookback-ruler-container {
+    height: 54px;
+    padding-bottom: 8px;
+  }
+
+  .lookback-ruler-month-label {
+    font-size: 8.5px;
+  }
+
+  /* Mobile-only: Timeline label positioned below the cards area */
+  .lookback-mobile-bottom-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: absolute;
+    bottom: 64px;
+    left: 0;
+    right: 0;
+    z-index: 30;
+    pointer-events: none;
+  }
+
+  .lookback-mobile-bottom-label .label-text {
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #09090b;
+    letter-spacing: -0.01em;
+  }
+
+  .lookback-mobile-bottom-label .swipe-hint {
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    color: #a1a1aa;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+}
+
+/* Touch Device Optimization */
+@media (hover: none) and (pointer: coarse) {
+  .lookback-stage {
+    cursor: default;
+    touch-action: pan-y;
+  }
+  .lookback-stage.is-dragging {
+    cursor: default;
+  }
+}
+

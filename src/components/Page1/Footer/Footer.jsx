@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import './Footer.css';
 
-const FooterComponent = () => {
+const FooterComponent = ({ onOpenMenu }) => {
   const [isInverted, setIsInverted] = useState(false);
   const footerRef = useRef(null);
 
@@ -66,26 +66,67 @@ const FooterComponent = () => {
             Copyright 2026 Simon Design Inc. All Rights Reserved
           </p>
 
-          {/* Real Camera Icon Badge */}
-          <div className="simon-camera-badge" title="Simon Camera Atelier" aria-label="Camera Icon">
-            <svg 
-              className="simon-camera-icon" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
+          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+            {/* Real Camera Icon Badge */}
+            <div className="simon-camera-badge" title="Simon Camera Atelier" aria-label="Camera Icon">
+              <svg 
+                className="simon-camera-icon" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                {/* Camera Body */}
+                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                {/* Lens Outer Ring */}
+                <circle cx="12" cy="13" r="3.5" />
+                {/* Inner Lens Pupil Reflection */}
+                <circle cx="12" cy="13" r="1.2" fill="currentColor" />
+                {/* Viewfinder / Flash Sensor Indicator */}
+                <path d="M18.5 10h.01" strokeWidth="2.5" />
+              </svg>
+            </div>
+
+            {/* Bottom-Right Universal MENU button */}
+            <button
+              type="button"
+              onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                if (onOpenMenu) onOpenMenu(rect);
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                const rect = e.currentTarget.getBoundingClientRect();
+                if (onOpenMenu) onOpenMenu(rect);
+              }}
+              aria-label="Open Navigation Menu"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                outline: 'none',
+                cursor: 'pointer',
+                color: 'inherit',
+                fontFamily: "'Anton', 'Oswald', sans-serif",
+                fontSize: 'clamp(20px, 2.4vw, 28px)',
+                fontWeight: 900,
+                letterSpacing: '0.06em',
+                lineHeight: 1,
+                padding: '4px 8px',
+                transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.08)';
+                e.currentTarget.style.opacity = '0.8';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.opacity = '1';
+              }}
             >
-              {/* Camera Body */}
-              <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
-              {/* Lens Outer Ring */}
-              <circle cx="12" cy="13" r="3.5" />
-              {/* Inner Lens Pupil Reflection */}
-              <circle cx="12" cy="13" r="1.2" fill="currentColor" />
-              {/* Viewfinder / Flash Sensor Indicator */}
-              <path d="M18.5 10h.01" strokeWidth="2.5" />
-            </svg>
+              MENU
+            </button>
           </div>
         </div>
       </div>

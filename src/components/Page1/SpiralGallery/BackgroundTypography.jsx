@@ -26,22 +26,23 @@ export const BackgroundTypographyComponent = ({ onOpenMenu, isVisible = true }) 
       <h1
         style={{
           margin: 0,
-          padding: '0 1rem',
-          maxWidth: '96vw',
-          fontSize: 'clamp(1.8rem, 6.2vw, 7.5rem)',
+          padding: '0 0.5rem',
+          maxWidth: '98vw',
+          fontSize: 'clamp(1.15rem, 5.2vw, 7.5rem)',
           fontWeight: '900',
           lineHeight: '0.85',
           letterSpacing: '-0.03em',
           color: '#ffffff',
           textTransform: 'uppercase',
           fontFamily: 'Inter, system-ui, sans-serif',
-          whiteSpace: 'nowrap'
+          whiteSpace: 'nowrap',
+          boxSizing: 'border-box'
         }}
       >
         THE WORLD THROUGH LENSES
       </h1>
 
-      {/* Clean Box-Shape Menu Trigger (No Border, No Icon) */}
+      {/* Bold Condensed Uppercase Menu Trigger (No Border, Transparent) */}
       <button
         onClick={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
@@ -54,30 +55,27 @@ export const BackgroundTypographyComponent = ({ onOpenMenu, isVisible = true }) 
           cursor: 'pointer',
           border: 'none',
           outline: 'none',
-          background: 'rgba(255, 255, 255, 0.12)',
-          backdropFilter: 'blur(10px)',
-          borderRadius: '4px',
-          padding: '9px 26px',
+          background: 'transparent',
           color: '#ffffff',
-          fontFamily: 'Space Grotesk, Inter, sans-serif',
-          fontSize: '11.5px',
-          fontWeight: '700',
-          letterSpacing: '2.5px',
+          fontFamily: "'Anton', 'Oswald', sans-serif",
+          fontSize: 'clamp(18px, 2.2vw, 24px)',
+          fontWeight: '900',
+          letterSpacing: '0.06em',
+          lineHeight: '1',
           textTransform: 'uppercase',
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',
-          transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+          padding: '4px 8px',
+          transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.background = '#ffffff';
-          e.currentTarget.style.color = '#000000';
-          e.currentTarget.style.transform = 'scale(1.05)';
+          e.currentTarget.style.transform = 'scale(1.08)';
+          e.currentTarget.style.opacity = '0.85';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
-          e.currentTarget.style.color = '#ffffff';
           e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.opacity = '1';
         }}
       >
         MENU

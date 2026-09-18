@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const Footer = memo(() => {
+export const Footer = memo(({ onOpenMenu }) => {
   const footerRef = useRef(null);
   const trackRef = useRef(null);
   const [isInverted, setIsInverted] = useState(false);
@@ -67,15 +67,53 @@ export const Footer = memo(() => {
         </div>
       </div>
 
-      {/* Bottom Row Bar: Centered Copyright Only */}
+      {/* Bottom Row Bar: Centered Copyright & Right MENU Trigger */}
       <div
-        className={`w-full max-w-7xl mx-auto flex items-center justify-center pt-6 border-t text-xs sm:text-sm font-mono px-6 transition-colors duration-500 ${
+        className={`w-full max-w-7xl mx-auto flex items-center justify-between pt-6 border-t text-xs sm:text-sm font-mono px-6 sm:px-10 transition-colors duration-500 ${
           isInverted
             ? 'border-black/10 text-neutral-600'
             : 'border-white/10 text-neutral-400'
         }`}
       >
-        <div>© {new Date().getFullYear()} SIMON Photography. All Rights Reserved.</div>
+        <div className="hidden sm:block sm:w-20" aria-hidden="true" />
+        <div className="text-center">© {new Date().getFullYear()} SIMON Photography. All Rights Reserved.</div>
+        <button
+          type="button"
+          onClick={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            if (onOpenMenu) onOpenMenu(rect);
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            const rect = e.currentTarget.getBoundingClientRect();
+            if (onOpenMenu) onOpenMenu(rect);
+          }}
+          aria-label="Open Navigation Menu"
+          style={{
+            background: 'transparent',
+            border: 'none',
+            outline: 'none',
+            cursor: 'pointer',
+            color: 'inherit',
+            fontFamily: "'Anton', 'Oswald', sans-serif",
+            fontSize: 'clamp(18px, 2.2vw, 26px)',
+            fontWeight: 900,
+            letterSpacing: '0.06em',
+            lineHeight: 1,
+            padding: '4px 8px',
+            transition: 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.08)';
+            e.currentTarget.style.opacity = '0.8';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.opacity = '1';
+          }}
+        >
+          MENU
+        </button>
       </div>
     </footer>
   );

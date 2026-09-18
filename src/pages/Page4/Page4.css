@@ -1,0 +1,67 @@
+/* Page4.css — Master Stylesheet for Page 4 (Spec Sheet) */
+
+.page4-root-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #000000;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* Base section container styling */
+.page4-section-container {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#specsheet-section-2 {
+  overflow: visible;
+  background: #000000;
+  border: none;
+  box-shadow: none;
+}
+
+#specsheet-section-6 {
+  overflow: visible;
+}
+
+#specsheet-section-7 {
+  overflow: visible;
+  background: #ffffff;
+}
+
+#specsheet-section-8 {
+  overflow: visible;
+  min-height: 100vh;
+  background: #000000;
+}
+
+/* Touch device global optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Prevent horizontal accidental panning on touch devices while allowing fluid vertical scroll */
+  .page4-root-wrapper {
+    touch-action: pan-y;
+  }
+}
+
+/* Tablet & iPad Pro (<= 1024px, including 1024x1366) */
+@media (max-width: 1024px) {
+  .page4-section-container {
+    min-height: auto;
+  }
+  #specsheet-section-8 {
+    min-height: auto;
+  }
+}
+
+/* Mobile Devices (<= 640px) */
+@media (max-width: 640px) {
+  .page4-section-container {
+    width: 100%;
+    overflow-x: hidden;
+  }
+}
+

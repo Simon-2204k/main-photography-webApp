@@ -5,13 +5,11 @@
 
 
 
-@layer base {
-  body {
-    background-color: #000000;
-    color: #f3f4f6;
-    font-family: 'Space Grotesk', sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
+body {
+  background-color: #000000;
+  color: #f3f4f6;
+  font-family: 'Space Grotesk', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Custom Utilities */

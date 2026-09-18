@@ -52,7 +52,7 @@ const PARALLAX_CARDS = [
   { id: 20, src: '/images/section6/float-20.webp', right: '5%', width: 155, startY: '635vh', targetY: '-150vh' },
 ];
 
-export const KeyholeParallaxMask = memo(() => {
+export const KeyholeParallaxMask = memo(({ onOpenMenu }) => {
   const [activeImgIdx, setActiveImgIdx] = useState(0);
 
   const sectionRef = useRef(null);
@@ -443,7 +443,7 @@ export const KeyholeParallaxMask = memo(() => {
         </div>
       </section>
 
-      <Footer />
+      <Footer onOpenMenu={onOpenMenu} />
     </div>
   );
 });
