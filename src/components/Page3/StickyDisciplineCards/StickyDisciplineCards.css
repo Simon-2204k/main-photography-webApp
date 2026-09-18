@@ -161,23 +161,36 @@
 /* Tablet Responsive Calibration (768px - 1024px & 1024x1366) */
 @media (max-width: 1024px) and (min-width: 769px) {
   .discipline-sticky-card {
-    grid-template-columns: 1fr 1.05fr;
-    gap: 24px;
-    padding: clamp(24px, 4vh, 48px) clamp(24px, 4vw, 48px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: clamp(16px, 2.5vh, 28px);
+    padding: clamp(24px, 4vh, 44px) clamp(24px, 4vw, 44px);
   }
 
   .card-discipline-title {
-    font-size: clamp(32px, 4.4vw, 54px);
+    font-size: clamp(30px, 4.2vw, 48px);
+    margin-bottom: 8px;
   }
 
   .card-discipline-desc {
     font-size: clamp(13px, 1.4vw, 16px);
-    margin-bottom: 20px;
+    margin-bottom: 14px;
+    max-width: 100%;
+  }
+
+  .card-disciplines-list {
+    margin-bottom: 14px;
+  }
+
+  .card-showcase-col {
+    margin-top: 0;
+    width: 100%;
   }
 
   .card-images-triptych {
-    height: clamp(260px, 42vh, 400px);
-    gap: 12px;
+    height: clamp(220px, 34vh, 320px);
+    gap: 14px;
   }
 }
 
@@ -186,7 +199,8 @@
   .discipline-sticky-card {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: clamp(10px, 1.5vh, 18px);
     height: 100vh;
     padding: clamp(16px, 2.5vh, 28px) clamp(16px, 4vw, 24px);
     overflow: hidden;
@@ -195,44 +209,45 @@
   .card-info-col {
     padding-right: 0;
     max-width: 100%;
+    flex-shrink: 0;
   }
 
   .card-badge {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     font-size: 9.5px;
-    padding: 4px 10px;
+    padding: 3px 8px;
   }
 
   .card-discipline-title {
-    font-size: clamp(26px, 7vw, 38px);
+    font-size: clamp(24px, 6.5vw, 34px);
     line-height: 1.05;
     margin-bottom: 6px;
   }
 
   .card-discipline-desc {
-    font-size: clamp(11.5px, 3.2vw, 13.5px);
-    line-height: 1.4;
-    margin: 0 0 10px 0;
+    font-size: clamp(11.5px, 3.2vw, 13px);
+    line-height: 1.35;
+    margin: 0 0 8px 0;
   }
 
   .card-disciplines-list {
     grid-template-columns: repeat(2, 1fr);
-    gap: 4px 10px;
-    margin-bottom: 10px;
+    gap: 3px 8px;
+    margin-bottom: 8px;
   }
 
   .discipline-item {
-    font-size: 9.5px;
+    font-size: 9px;
   }
 
   .card-showcase-col {
     width: 100%;
-    margin-top: auto;
+    margin-top: 4px;
   }
 
   .card-images-triptych {
     grid-template-columns: repeat(2, 1fr);
-    height: clamp(140px, 24vh, 200px);
+    height: clamp(150px, 25vh, 210px);
     gap: 10px;
   }
 

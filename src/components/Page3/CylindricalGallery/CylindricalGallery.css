@@ -6,6 +6,7 @@
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
+  touch-action: pan-y !important;
 }
 
 .cylindrical-gallery-canvas {
@@ -18,7 +19,7 @@
   background-color: #000000;
   outline: none;
   display: block;
-  touch-action: pan-y;
+  touch-action: pan-y !important;
 }
 
 .cylindrical-gallery-canvas:active {

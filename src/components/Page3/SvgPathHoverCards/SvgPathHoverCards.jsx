@@ -22,26 +22,6 @@ const CARDS_DATA = [
     name: 'Liam',
     desc: 'Motion designer focused on playful animations.',
     image: '/assets/page3/section7/plate_04.webp'
-  },
-  {
-    name: 'Sophia',
-    desc: 'Illustrator inspired by nature and typography.',
-    image: '/assets/page3/section7/plate_05.webp'
-  },
-  {
-    name: 'James',
-    desc: 'Creative coder building immersive experiences.',
-    image: '/assets/page3/section7/plate_06.webp'
-  },
-  {
-    name: 'Ava',
-    desc: 'Visual storyteller crafting memorable brands.',
-    image: '/assets/page3/section7/plate_07.webp'
-  },
-  {
-    name: 'Lucas',
-    desc: 'UI engineer obsessed with delightful details.',
-    image: '/assets/page3/section7/plate_08.webp'
   }
 ];
 
@@ -49,11 +29,7 @@ const colors = [
   '#ff5a5f',
   '#ff8c42',
   '#ffd166',
-  '#06d6a0',
-  '#118ab2',
-  '#8338ec',
-  '#ef476f',
-  '#3a86ff'
+  '#06d6a0'
 ];
 
 export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
@@ -118,12 +94,31 @@ export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
         });
       };
 
-      const handleTap = () => {
-        if (window.matchMedia('(pointer: coarse)').matches) {
+      const isTouchDevice = () => {
+        return (
+          window.matchMedia('(pointer: coarse)').matches ||
+          window.innerWidth <= 1024 ||
+          'ontouchstart' in window
+        );
+      };
+
+      const handleMouseEnter = () => {
+        if (isTouchDevice()) return; // Suppress synthetic mouseenter on touch
+        handleEnter();
+      };
+
+      const handleMouseLeave = () => {
+        if (isTouchDevice()) return; // Suppress synthetic mouseleave on touch
+        handleLeave();
+      };
+
+      const handleTap = (e) => {
+        if (isTouchDevice()) {
           if (card.dataset.tapped === 'true') {
             card.dataset.tapped = 'false';
             handleLeave();
           } else {
+            // Dismiss previously open cards cleanly
             cardsRef.current.forEach((c) => {
               if (c && c !== card && c.dataset.tapped === 'true') {
                 c.dataset.tapped = 'false';
@@ -137,15 +132,15 @@ export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
       };
 
       card._handleLeave = handleLeave;
-      card.addEventListener('mouseenter', handleEnter);
-      card.addEventListener('mouseleave', handleLeave);
+      card.addEventListener('mouseenter', handleMouseEnter);
+      card.addEventListener('mouseleave', handleMouseLeave);
       card.addEventListener('click', handleTap);
 
       card._cleanup = () => {
         card._tl?.kill();
         gsap.killTweensOf([...paths, hoverCard]);
-        card.removeEventListener('mouseenter', handleEnter);
-        card.removeEventListener('mouseleave', handleLeave);
+        card.removeEventListener('mouseenter', handleMouseEnter);
+        card.removeEventListener('mouseleave', handleMouseLeave);
         card.removeEventListener('click', handleTap);
       };
     });

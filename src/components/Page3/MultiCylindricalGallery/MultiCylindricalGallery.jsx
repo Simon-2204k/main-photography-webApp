@@ -79,16 +79,10 @@ export default function MultiCylindricalGallery() {
     return () => cancelAnimationFrame(animId);
   }, [isVisible]);
 
-  // Desktop-only Scroll-lock on section entry via GSAP ScrollTrigger
-  // On mobile & tablet touch devices, scroll-locking traps user vertical navigation and is bypassed!
+  // Scroll-lock on section entry via GSAP ScrollTrigger across all devices (Desktop, Tablets & Mobile)
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-
-    const isMobileOrTablet = window.innerWidth <= 1024 || window.matchMedia('(pointer: coarse)').matches;
-    if (isMobileOrTablet) {
-      return;
-    }
 
     const trigger = ScrollTrigger.create({
       trigger: el,
@@ -113,6 +107,27 @@ export default function MultiCylindricalGallery() {
       window.lenis?.start();
     };
   }, []);
+
+  // When locked on mobile & tablet, prevent touch gestures from scrolling the underlying page
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const preventTouchScrollWhenLocked = (e) => {
+      if (isLocked) {
+        // Never prevent clicks or touches on the unlock toggle button
+        if (e.target && e.target.closest('.multi-cyc-bw-lock-btn')) return;
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+      }
+    };
+
+    el.addEventListener('touchmove', preventTouchScrollWhenLocked, { passive: false });
+    return () => {
+      el.removeEventListener('touchmove', preventTouchScrollWhenLocked);
+    };
+  }, [isLocked]);
 
   // Toggle Scroll Lock handler: User can unlock freely (no auto-scroll to top)
   const handleToggleLock = useCallback(() => {

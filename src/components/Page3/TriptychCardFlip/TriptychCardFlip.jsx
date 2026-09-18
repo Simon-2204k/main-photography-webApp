@@ -74,6 +74,21 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
   const containerRef = useRef(null);
   const cardInnerRefs = useRef([]);
   const cardOuterRefs = useRef([]);
+  const [isCompact, setIsCompact] = React.useState(
+    () => typeof window !== 'undefined' && window.innerWidth <= 1024
+  );
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsCompact(window.innerWidth <= 1024);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const activeCards = React.useMemo(() => {
+    return isCompact ? CARD_DATA.slice(0, 3) : CARD_DATA;
+  }, [isCompact]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -95,7 +110,7 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
       // Set initial position: cards container rests offscreen below
       gsap.set(container, { yPercent: 120 });
 
-      // Phase 1 (0.00 to 0.30): Main 5-card container smoothly glides up from bottom into center
+      // Phase 1 (0.00 to 0.30): Main cards container smoothly glides up from bottom into center
       tl.to(
         container,
         {
@@ -106,18 +121,18 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
         0
       );
 
-      // Phase 2 (0.30 to 0.55): 5 phone-aspect cards split apart with smooth gap expansion
+      // Phase 2 (0.30 to 0.55): Cards split apart with smooth gap expansion
       tl.to(
         container,
         {
-          gap: 'clamp(10px, 1.4vw, 22px)',
+          gap: isCompact ? 'clamp(8px, 1.8vw, 16px)' : 'clamp(10px, 1.4vw, 22px)',
           duration: 0.25,
           ease: 'power2.inOut'
         },
         0.30
       );
 
-      // Phase 3 (0.55 to 0.85): 3D Y-Axis Flip (0deg -> 180deg) staggered across the 5 cards
+      // Phase 3 (0.55 to 0.85): 3D Y-Axis Flip (0deg -> 180deg) staggered across the cards
       cardInnerRefs.current.forEach((cardInner, idx) => {
         if (!cardInner) return;
         tl.to(
@@ -131,14 +146,20 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
         );
       });
 
-      // Phase 4 (0.85 to 1.00): Gentle perspective fan across the 5 cards
-      const fanConfigs = [
-        { rotateY: 10, rotateZ: -2, xPercent: -2 },
-        { rotateY: 5, rotateZ: -1, xPercent: -1 },
-        { rotateY: 0, rotateZ: 0, scale: 1.02 },
-        { rotateY: -5, rotateZ: 1, xPercent: 1 },
-        { rotateY: -10, rotateZ: 2, xPercent: 2 }
-      ];
+      // Phase 4 (0.85 to 1.00): Gentle perspective fan
+      const fanConfigs = isCompact
+        ? [
+            { rotateY: 8, rotateZ: -1.5, xPercent: -2 },
+            { rotateY: 0, rotateZ: 0, scale: 1.02 },
+            { rotateY: -8, rotateZ: 1.5, xPercent: 2 }
+          ]
+        : [
+            { rotateY: 10, rotateZ: -2, xPercent: -2 },
+            { rotateY: 5, rotateZ: -1, xPercent: -1 },
+            { rotateY: 0, rotateZ: 0, scale: 1.02 },
+            { rotateY: -5, rotateZ: 1, xPercent: 1 },
+            { rotateY: -10, rotateZ: 2, xPercent: 2 }
+          ];
 
       fanConfigs.forEach((config, idx) => {
         const outer = cardOuterRefs.current[idx];
@@ -156,7 +177,7 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [isCompact]);
 
   return (
     <section ref={sectionRef} className="triptych-flip-section" id="triptych-flip-section">
@@ -167,10 +188,10 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
         </h2>
       </div>
 
-      {/* 5-Panel 3D Card Stage (Phone Aspect Ratio) */}
+      {/* 3D Card Stage (Phone Aspect Ratio) */}
       <div className="triptych-stage">
         <div ref={containerRef} className="triptych-cards-container">
-          {CARD_DATA.map((card, idx) => {
+          {activeCards.map((card, idx) => {
             const IconComponent = card.icon;
             return (
               <div

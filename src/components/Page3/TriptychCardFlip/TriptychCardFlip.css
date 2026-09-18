@@ -194,11 +194,10 @@
   text-transform: uppercase;
 }
 
-/* Responsive adjustments */
-@media (max-width: 640px) {
+/* Responsive adjustments for 3 cards up to 1024px */
+@media (max-width: 1024px) {
   .triptych-cards-container {
-    height: clamp(190px, 32vh, 250px);
-    transform: scale(min(1, calc((100vw - 24px) / 560)));
-    transform-origin: center center;
+    height: clamp(220px, min(42vh, 52vw), 440px);
+    max-width: 94vw;
   }
 }

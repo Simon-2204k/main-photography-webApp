@@ -31,6 +31,7 @@ export class CylindricalGalleryEngine {
 
     this.cards = [];
     this.isUserInteracting = false;
+    this.rotationVelocity = 0;
     this.animationFrameId = null;
     this.disposed = false;
 
@@ -105,6 +106,9 @@ export class CylindricalGalleryEngine {
     // Lock polar angle strictly to horizontal plane (Math.PI / 2) to eliminate vertical drag scaling glitch
     this.controls.minPolarAngle = Math.PI / 2;
     this.controls.maxPolarAngle = Math.PI / 2;
+
+    // Immediately enforce touch-action: pan-y on canvas so OrbitControls does not block mobile touch scroll
+    this.canvas.style.touchAction = 'pan-y';
 
     // =========================================================================
     // BRIGHTNESS / EXPOSURE CONTROL LINE 2: Studio Lights Intensity
@@ -215,6 +219,7 @@ export class CylindricalGalleryEngine {
 
     this.onStart = () => {
       this.isUserInteracting = true;
+      this.rotationVelocity = 0;
     };
 
     this.onEnd = () => {
@@ -242,14 +247,19 @@ export class CylindricalGalleryEngine {
     let touchStartX = 0;
     let touchStartY = 0;
     let lastTouchX = 0;
-    let gestureDirection = null; // null | 'horizontal' | 'vertical'
+    let isDetermined = false;
+    let isScrolling = false;
+    let isRotating = false;
 
     this.handleTouchStart = (e) => {
       if (!e.touches || e.touches.length === 0) return;
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
       lastTouchX = touchStartX;
-      gestureDirection = null;
+      isDetermined = false;
+      isScrolling = false;
+      isRotating = false;
+      this.rotationVelocity = 0;
       this.isUserInteracting = true;
     };
 
@@ -258,38 +268,65 @@ export class CylindricalGalleryEngine {
       const currentX = e.touches[0].clientX;
       const currentY = e.touches[0].clientY;
 
-      if (!gestureDirection) {
+      // If already identified as vertical page scroll, DO NOTHING!
+      // The 3D cylinder will NEVER move, and native/Lenis scroll runs freely.
+      if (isScrolling) {
+        return;
+      }
+
+      if (!isDetermined) {
         const dx = Math.abs(currentX - touchStartX);
         const dy = Math.abs(currentY - touchStartY);
 
-        // Discrimination threshold: 8px movement
-        if (dx > 8 || dy > 8) {
-          if (dx > dy * 1.2) {
-            gestureDirection = 'horizontal';
-          } else {
-            gestureDirection = 'vertical';
-          }
+        // Wait until small movement threshold (6px) before determining gesture
+        if (dx < 6 && dy < 6) {
+          return;
+        }
+
+        // If vertical movement is greater than or equal to horizontal -> USER IS SCROLLING THE PAGE!
+        if (dy >= dx) {
+          isScrolling = true;
+          isDetermined = true;
+          this.isUserInteracting = false;
+          return;
+        } else if (dx > dy * 1.5 && dx >= 10) {
+          // Explicit, unambiguous horizontal swipe -> USER IS ROTATING THE 3D CYLINDER!
+          isRotating = true;
+          isDetermined = true;
+          this.isUserInteracting = true;
+        } else {
+          // Ambiguous diagonal gesture -> default to scrolling so user is never trapped
+          isScrolling = true;
+          isDetermined = true;
+          this.isUserInteracting = false;
+          return;
         }
       }
 
-      if (gestureDirection === 'horizontal') {
+      if (isRotating) {
         // Prevent default only during intentional horizontal 3D rotation
         if (e.cancelable) {
           e.preventDefault();
         }
         const deltaX = currentX - lastTouchX;
+        const viewportWidth = this.container.clientWidth || window.innerWidth || 375;
+        const deltaAngle = (deltaX / viewportWidth) * Math.PI * 1.6;
+
         if (this.carouselGroup) {
-          this.carouselGroup.rotation.y += deltaX * 0.005;
+          this.carouselGroup.rotation.y += deltaAngle;
         }
+
+        // Instantaneous momentum velocity tracking (weighted average for smoothness)
+        this.rotationVelocity = this.rotationVelocity * 0.25 + deltaAngle * 0.75;
         lastTouchX = currentX;
       }
-      // If gestureDirection === 'vertical', do NOT preventDefault!
-      // Native touch scrolling flows cleanly to the browser window and Lenis.
     };
 
     this.handleTouchEnd = () => {
       this.isUserInteracting = false;
-      gestureDirection = null;
+      isDetermined = false;
+      isScrolling = false;
+      isRotating = false;
       if (this.controls) {
         this.controls.enabled = true;
       }
@@ -321,6 +358,10 @@ export class CylindricalGalleryEngine {
       this.controls.update();
     }
 
+    if (this.canvas) {
+      this.canvas.style.touchAction = 'pan-y';
+    }
+
     this.renderer.setSize(width, height);
     this.composer.setSize(width, height);
   }
@@ -341,8 +382,17 @@ export class CylindricalGalleryEngine {
     if (this.disposed) return;
     this.animationFrameId = requestAnimationFrame(() => this.animate());
 
-    if (this.autoRotate && this.carouselGroup && !this.isUserInteracting) {
-      this.carouselGroup.rotation.y += this.autoRotateSpeed;
+    // Inertia momentum damping & auto-cruise
+    if (!this.isUserInteracting) {
+      if (Math.abs(this.rotationVelocity) > 0.0001) {
+        if (this.carouselGroup) {
+          this.carouselGroup.rotation.y += this.rotationVelocity;
+        }
+        // Exponential damping decay (0.94 decay per frame matches OrbitControls dampingFactor = 0.05)
+        this.rotationVelocity *= 0.94;
+      } else if (this.autoRotate && this.carouselGroup) {
+        this.carouselGroup.rotation.y += this.autoRotateSpeed;
+      }
     }
 
     if (this.controls && this.controls.enabled) {

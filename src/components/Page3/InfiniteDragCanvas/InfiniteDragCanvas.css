@@ -134,3 +134,23 @@
   background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.4);
 }
+
+/* Responsive Stamp Card Dimensions */
+.stamp-card-frame {
+  width: 230px;
+  height: 290px;
+}
+
+@media (max-width: 1024px) {
+  .stamp-card-frame {
+    width: 175px;
+    height: 225px;
+  }
+}
+
+@media (max-width: 640px) {
+  .stamp-card-frame {
+    width: 135px;
+    height: 175px;
+  }
+}

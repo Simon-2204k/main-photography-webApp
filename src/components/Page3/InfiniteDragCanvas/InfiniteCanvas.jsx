@@ -23,10 +23,30 @@ export const InfiniteCanvas = ({ isExpanded, onToggleExpand }) => {
   const spreadProgressRef = useRef({ value: 0 });
   const smoothProgressRef = useRef(0);
 
+  const [gridDimensions, setGridDimensions] = useState(() => {
+    if (typeof window === 'undefined') return { cellWidth: 340, cellHeight: 400 };
+    if (window.innerWidth <= 640) return { cellWidth: 195, cellHeight: 245 };
+    if (window.innerWidth <= 1024) return { cellWidth: 255, cellHeight: 315 };
+    return { cellWidth: 340, cellHeight: 400 };
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 640) {
+        setGridDimensions({ cellWidth: 195, cellHeight: 245 });
+      } else if (window.innerWidth <= 1024) {
+        setGridDimensions({ cellWidth: 255, cellHeight: 315 });
+      } else {
+        setGridDimensions({ cellWidth: 340, cellHeight: 400 });
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const cols = 6;
   const rows = 6;
-  const cellWidth = 340;
-  const cellHeight = 400;
+  const { cellWidth, cellHeight } = gridDimensions;
   const gridWidth = cols * cellWidth;
   const gridHeight = rows * cellHeight;
 
