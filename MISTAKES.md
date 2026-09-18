@@ -21,13 +21,20 @@ ALSO NO AUTO PROCEED UNTIL I SAY DONT TOUCH ANY SINGLE CODE , EDIT CODE , CHANGE
 8. **PAGE 3 UNIVERSAL IMAGE OPTIMIZATION (MANDATORY)**: On Page 3 (Exhibits), EVERY section's images MUST be fully React and performance optimized (convert to lightweight WebP, pre-decode, zero layout shifts, VRAM culling, and strict WebGL lifecycle cleanup on unmount). Never use unoptimized raw multi-megabyte files.
 
 
----
-
 ## 📌 Active Issues
 
 *(No active issues)*
 
 ## 📌 Resolved Issues
+
+### ✅ Issue 23: Cloudflare Pages CI Linux Build Failure (Missing @rolldown/binding-linux-x64-gnu Native Binding) & Dist Output Directory Setting
+- **Target Files**:
+  - `package.json` & `package-lock.json`
+- **Resolution**:
+  1. Added `@rolldown/binding-linux-x64-gnu` (`1.2.3`) and `@rolldown/binding-linux-x64-musl` (`1.2.3`) to `optionalDependencies` in `package.json`.
+  2. Executed `npm install` locally to update `package-lock.json`, successfully locking in both Linux native binaries alongside Windows with verified integrity hashes and URLs.
+  3. Confirmed local production build compiles cleanly: `npm run build` completed in 12.05s with **0 errors**.
+  4. Documented Cloudflare Pages build settings: **Build output directory** must be set to `dist` (instead of `/`).
 
 ### ✅ Issue 22: Page 4 Section 1 (Better Off Lookback) & Section 10 (WaveDragGallery) Phone Swipe Speed & Tilt Inactivity
 - **Target Files**:
