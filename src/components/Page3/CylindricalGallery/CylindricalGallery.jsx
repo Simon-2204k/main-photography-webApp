@@ -309,9 +309,6 @@ export class CylindricalGalleryEngine {
     let touchStartY = 0;
     let lastTouchX = 0;
     let lastTouchY = 0;
-    let isDetermined = false;
-    let isScrolling = false;
-    let isRotating = false;
 
     this.handleTouchStart = (e) => {
       if (this.tiltResetTimer) clearTimeout(this.tiltResetTimer);
@@ -320,9 +317,6 @@ export class CylindricalGalleryEngine {
       touchStartY = e.touches[0].clientY;
       lastTouchX = touchStartX;
       lastTouchY = touchStartY;
-      isDetermined = false;
-      isScrolling = false;
-      isRotating = false;
       this.rotationVelocity = 0;
       this.isUserInteracting = true;
     };
@@ -332,73 +326,38 @@ export class CylindricalGalleryEngine {
       const currentX = e.touches[0].clientX;
       const currentY = e.touches[0].clientY;
 
-      // If already identified as vertical page scroll, DO NOTHING!
-      // The 3D cylinder will NEVER move, and native/Lenis scroll runs freely.
-      if (isScrolling) {
-        return;
+      const deltaX = currentX - lastTouchX;
+      const deltaY = currentY - lastTouchY;
+      const viewportWidth = this.container.clientWidth || window.innerWidth || 375;
+      const viewportHeight = this.container.clientHeight || window.innerHeight || 800;
+
+      const deltaAngle = (deltaX / viewportWidth) * Math.PI * 1.6;
+
+      if (this.carouselGroup) {
+        // Horizontal cylinder rotation
+        this.carouselGroup.rotation.y += deltaAngle;
+
+        // Vertical tilt up and down (SAME TO SAME LIKE DESKTOP LIMIT: ±0.25 radians = ±14.3 degrees)
+        const tiltSensitivity = 0.95;
+        const tiltDelta = (deltaY / viewportHeight) * tiltSensitivity;
+        this.touchTiltX = Math.max(-0.25, Math.min(0.25, (this.touchTiltX || 0) + tiltDelta));
+        this.carouselGroup.rotation.x = this.touchTiltX;
       }
 
-      if (!isDetermined) {
-        const dx = Math.abs(currentX - touchStartX);
-        const dy = Math.abs(currentY - touchStartY);
-
-        // Wait until small movement threshold (6px) before determining gesture
-        if (dx < 6 && dy < 6) {
-          return;
-        }
-
-        // If vertical movement is greater than or equal to horizontal -> USER IS SCROLLING THE PAGE!
-        if (dy >= dx) {
-          isScrolling = true;
-          isDetermined = true;
-          this.isUserInteracting = false;
-          return;
-        } else if (dx > dy * 1.5 && dx >= 10) {
-          // Explicit, unambiguous horizontal swipe -> USER IS ROTATING THE 3D CYLINDER!
-          isRotating = true;
-          isDetermined = true;
-          this.isUserInteracting = true;
-        } else {
-          // Ambiguous diagonal gesture -> default to scrolling so user is never trapped
-          isScrolling = true;
-          isDetermined = true;
-          this.isUserInteracting = false;
-          return;
-        }
-      }
-
-      if (isRotating) {
-        // Prevent default only during intentional horizontal 3D rotation
+      // Prevent default while interacting within bounds so user can tilt up/down and rotate without page jumping
+      if (Math.abs(deltaX) > 2 || Math.abs(this.touchTiltX) < 0.24) {
         if (e.cancelable) {
           e.preventDefault();
         }
-        const deltaX = currentX - lastTouchX;
-        const deltaY = currentY - lastTouchY;
-        const viewportWidth = this.container.clientWidth || window.innerWidth || 375;
-        const viewportHeight = this.container.clientHeight || window.innerHeight || 800;
-        const deltaAngle = (deltaX / viewportWidth) * Math.PI * 1.6;
-
-        if (this.carouselGroup) {
-          this.carouselGroup.rotation.y += deltaAngle;
-
-          // Touch vertical tilt effect (matching desktop mouse tilt behavior on phone/tablet)
-          const tiltDelta = (deltaY / viewportHeight) * 0.45;
-          this.touchTiltX = Math.max(-0.20, Math.min(0.20, (this.touchTiltX || 0) + tiltDelta));
-          this.carouselGroup.rotation.x = this.touchTiltX;
-        }
-
-        // Instantaneous momentum velocity tracking (weighted average for smoothness)
-        this.rotationVelocity = this.rotationVelocity * 0.25 + deltaAngle * 0.75;
-        lastTouchX = currentX;
-        lastTouchY = currentY;
       }
+
+      this.rotationVelocity = this.rotationVelocity * 0.25 + deltaAngle * 0.75;
+      lastTouchX = currentX;
+      lastTouchY = currentY;
     };
 
     this.handleTouchEnd = () => {
       this.isUserInteracting = false;
-      isDetermined = false;
-      isScrolling = false;
-      isRotating = false;
       if (this.controls) {
         this.controls.enabled = true;
       }
