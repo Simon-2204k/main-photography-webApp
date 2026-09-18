@@ -34,6 +34,9 @@ export class CylindricalGalleryEngine {
     this.rotationVelocity = 0;
     this.animationFrameId = null;
     this.disposed = false;
+    this.raycaster = new THREE.Raycaster();
+    this.touchVector = new THREE.Vector2();
+    this.isTouchOnCylinder = false;
 
     this.initScene();
     this.createCylindricalCards();
@@ -318,11 +321,34 @@ export class CylindricalGalleryEngine {
       lastTouchX = touchStartX;
       lastTouchY = touchStartY;
       this.rotationVelocity = 0;
-      this.isUserInteracting = true;
+
+      // Raycast to check if touch landed ON the 3D cylinder or in the blank area
+      const rect = this.canvas.getBoundingClientRect();
+      const clientX = e.touches[0].clientX - rect.left;
+      const clientY = e.touches[0].clientY - rect.top;
+      this.touchVector.x = (clientX / rect.width) * 2 - 1;
+      this.touchVector.y = -(clientY / rect.height) * 2 + 1;
+
+      if (this.camera && this.carouselGroup) {
+        this.raycaster.setFromCamera(this.touchVector, this.camera);
+        const intersects = this.raycaster.intersectObjects(this.carouselGroup.children, true);
+        this.isTouchOnCylinder = intersects.length > 0;
+      } else {
+        this.isTouchOnCylinder = false;
+      }
+
+      this.isUserInteracting = this.isTouchOnCylinder;
     };
 
     this.handleTouchMove = (e) => {
       if (!e.touches || e.touches.length === 0) return;
+
+      // If user touched the blank area (above or below the cylinder),
+      // DO NOT intercept! Allow normal native / Lenis vertical page scroll!
+      if (!this.isTouchOnCylinder) {
+        return;
+      }
+
       const currentX = e.touches[0].clientX;
       const currentY = e.touches[0].clientY;
 
@@ -344,11 +370,9 @@ export class CylindricalGalleryEngine {
         this.carouselGroup.rotation.x = this.touchTiltX;
       }
 
-      // Prevent default while interacting within bounds so user can tilt up/down and rotate without page jumping
-      if (Math.abs(deltaX) > 2 || Math.abs(this.touchTiltX) < 0.24) {
-        if (e.cancelable) {
-          e.preventDefault();
-        }
+      // Intercept only when interacting directly on the cylinder
+      if (e.cancelable) {
+        e.preventDefault();
       }
 
       this.rotationVelocity = this.rotationVelocity * 0.25 + deltaAngle * 0.75;
@@ -357,13 +381,14 @@ export class CylindricalGalleryEngine {
     };
 
     this.handleTouchEnd = () => {
+      if (this.isTouchOnCylinder) {
+        this.scheduleTiltReset();
+      }
+      this.isTouchOnCylinder = false;
       this.isUserInteracting = false;
       if (this.controls) {
         this.controls.enabled = true;
       }
-
-      // Schedule tilt reset back to initial horizontal state after 1.5 seconds in all devices
-      this.scheduleTiltReset();
     };
 
     this.canvas.addEventListener('touchstart', this.handleTouchStart, { passive: true });
