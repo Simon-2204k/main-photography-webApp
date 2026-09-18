@@ -27,6 +27,16 @@ ALSO NO AUTO PROCEED UNTIL I SAY DONT TOUCH ANY SINGLE CODE , EDIT CODE , CHANGE
 
 ## 📌 Resolved Issues
 
+### ✅ Issue 25: Cloudflare Pages Asset Size Limit Exceeded (Unused 26.33 MiB video file)
+- **Target Files**:
+  - `public/video/These are the only shots you will ever need..mp4`
+- **Resolution**:
+  1. Identified that Cloudflare Pages has a strict 25 MiB maximum file size limit for static assets.
+  2. Scanned entire `public/` directory: only `public/video/These are the only shots you will ever need..mp4` (26.33 MiB) exceeded this limit.
+  3. Confirmed this video is completely unreferenced and unused across the entire codebase (`src/`).
+  4. Deleted the unused file from git repository. All remaining assets are well under the Cloudflare limit.
+  5. Tested production build: `npm run build` compiled in 11.17s with **0 errors**.
+
 ### ✅ Issue 24: Cloudflare Pages CI Linux Build Failure (Missing lightningcss-linux-x64-gnu Native Binding)
 - **Target Files**:
   - `package.json` & `package-lock.json`
