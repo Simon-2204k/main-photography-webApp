@@ -81,7 +81,15 @@ export const Page3Component = ({ onOpenMenu }) => {
         {/* Floating Top Navigation Bar - Scoped to Section 1 Only */}
         <header className="page3-floating-nav">
           <button
+            type="button"
             onClick={(e) => {
+              e.stopPropagation();
+              const rect = e.currentTarget.getBoundingClientRect();
+              if (onOpenMenu) onOpenMenu(rect);
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
               const rect = e.currentTarget.getBoundingClientRect();
               if (onOpenMenu) onOpenMenu(rect);
             }}

@@ -34,121 +34,96 @@ const colors = [
 
 export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
   const cardsRef = useRef([]);
+  const [activeCardIndex, setActiveCardIndex] = useState(null);
 
   useEffect(() => {
     cardsRef.current.forEach((card) => {
       if (!card) return;
 
       const paths = card.querySelectorAll('.svgClass path');
-      const hoverCard = card.querySelector('.hovercard');
-
       paths.forEach((path) => {
         const length = path.getTotalLength();
         path.dataset.length = length;
         path.style.strokeDasharray = length;
         path.style.strokeDashoffset = -length;
       });
+    });
+  }, []);
 
-      const handleEnter = () => {
-        card._tl?.kill();
-        gsap.killTweensOf([...paths, hoverCard]);
+  // Synchronize activeCardIndex changes with forward/reverse GSAP animations
+  useEffect(() => {
+    cardsRef.current.forEach((card, index) => {
+      if (!card) return;
+
+      const paths = card.querySelectorAll('.svgClass path');
+      const hoverCard = card.querySelector('.hovercard');
+      const isActive = activeCardIndex === index;
+
+      card._tl?.kill();
+      gsap.killTweensOf([...paths, hoverCard]);
+
+      if (isActive) {
+        // ONE TAP / HOVER: SHOW SVG AND DETAILS
         const tl = gsap.timeline();
         card._tl = tl;
 
         tl.to(paths, {
           strokeDashoffset: 0,
           strokeWidth: 60,
-          duration: 1,
+          duration: 0.85,
           ease: 'power2.out',
-          stagger: 0.1
+          stagger: 0.08
         }).to(
           hoverCard,
           {
             opacity: 1,
-            duration: 0.35,
+            duration: 0.3,
             ease: 'power2.out'
           },
-          '0.5'
+          '0.4'
         );
-      };
+      } else {
+        // ANOTHER TAP / LEAVE: CLOSE DETAILS AND SVG BACKWARDS
+        const tl = gsap.timeline();
+        card._tl = tl;
 
-      const handleLeave = () => {
-        card._tl?.kill();
-        gsap.killTweensOf([...paths, hoverCard]);
-
-        gsap.to(hoverCard, {
+        tl.to(hoverCard, {
           opacity: 0,
           duration: 0.2,
-          ease: 'power2.out',
-          overwrite: 'auto'
+          ease: 'power2.out'
         });
 
         paths.forEach((p) => {
           const len = Number(p.dataset.length) || p.getTotalLength();
-          gsap.to(p, {
-            strokeDashoffset: -len,
-            duration: 0.3,
-            ease: 'power2.out',
-            overwrite: 'auto'
-          });
+          tl.to(
+            p,
+            {
+              strokeDashoffset: -len,
+              duration: 0.4,
+              ease: 'power2.inOut'
+            },
+            0
+          );
         });
-      };
-
-      const isTouchDevice = () => {
-        return (
-          window.matchMedia('(pointer: coarse)').matches ||
-          window.innerWidth <= 1024 ||
-          'ontouchstart' in window
-        );
-      };
-
-      const handleMouseEnter = () => {
-        if (isTouchDevice()) return; // Suppress synthetic mouseenter on touch
-        handleEnter();
-      };
-
-      const handleMouseLeave = () => {
-        if (isTouchDevice()) return; // Suppress synthetic mouseleave on touch
-        handleLeave();
-      };
-
-      const handleTap = (e) => {
-        if (isTouchDevice()) {
-          if (card.dataset.tapped === 'true') {
-            card.dataset.tapped = 'false';
-            handleLeave();
-          } else {
-            // Dismiss previously open cards cleanly
-            cardsRef.current.forEach((c) => {
-              if (c && c !== card && c.dataset.tapped === 'true') {
-                c.dataset.tapped = 'false';
-                c._handleLeave?.();
-              }
-            });
-            card.dataset.tapped = 'true';
-            handleEnter();
-          }
-        }
-      };
-
-      card._handleLeave = handleLeave;
-      card.addEventListener('mouseenter', handleMouseEnter);
-      card.addEventListener('mouseleave', handleMouseLeave);
-      card.addEventListener('click', handleTap);
-
-      card._cleanup = () => {
-        card._tl?.kill();
-        gsap.killTweensOf([...paths, hoverCard]);
-        card.removeEventListener('mouseenter', handleMouseEnter);
-        card.removeEventListener('mouseleave', handleMouseLeave);
-        card.removeEventListener('click', handleTap);
-      };
+      }
     });
+  }, [activeCardIndex]);
 
-    return () => {
-      cardsRef.current.forEach((card) => card && card._cleanup && card._cleanup());
-    };
-  }, []);
+  const handleCardClick = (index) => {
+    setActiveCardIndex((prev) => (prev === index ? null : index));
+  };
+
+  const handleMouseEnter = (index) => {
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      setActiveCardIndex(index);
+    }
+  };
+
+  const handleMouseLeave = (index) => {
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      setActiveCardIndex((prev) => (prev === index ? null : prev));
+    }
+  };
 
   return (
     <section className="background" id="svgpath-section">
@@ -158,6 +133,12 @@ export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
             key={index}
             ref={(el) => (cardsRef.current[index] = el)}
             className="card"
+            role="button"
+            tabIndex={0}
+            onClick={() => handleCardClick(index)}
+            onMouseEnter={() => handleMouseEnter(index)}
+            onMouseLeave={() => handleMouseLeave(index)}
+            aria-expanded={activeCardIndex === index}
           >
             <img
               src={item.image}

@@ -2,14 +2,12 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CylindricalGalleryCanvas } from './components/3d/CylindricalGalleryCanvas';
-import { ProjectModal } from './components/ui/ProjectModal';
 import { LAYERS_DATA } from './data/galleryData';
 import './MultiCylindricalGallery.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function MultiCylindricalGallery() {
-  const [selectedCard, setSelectedCard] = useState(null);
   const [autoRotate, setAutoRotate] = useState(true);
   const [isLocked, setIsLocked] = useState(false);
 
@@ -150,8 +148,6 @@ export default function MultiCylindricalGallery() {
     if (!container) return;
 
     const handleWheel = (e) => {
-      if (selectedCard) return;
-
       if (isLocked) {
         // Prevent default native page scrolling while locked
         e.preventDefault();
@@ -168,12 +164,11 @@ export default function MultiCylindricalGallery() {
 
     container.addEventListener('wheel', handleWheel, { passive: false });
     return () => container.removeEventListener('wheel', handleWheel);
-  }, [selectedCard, isLocked]);
+  }, [isLocked]);
 
   // Handle Keyboard Arrow Navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (selectedCard) return;
       const p = physicsRef.current;
       if (e.key === 'ArrowDown') {
         p.scrollYTarget += 1.8;
@@ -190,11 +185,10 @@ export default function MultiCylindricalGallery() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedCard]);
+  }, []);
 
   // Handle Drag Pointer Events with Momentum Throw
   const handlePointerDown = (e) => {
-    if (selectedCard) return;
     isDraggingRef.current = true;
     physicsRef.current.isDragging = true;
     physicsRef.current.rotationVelocity = 0;
@@ -202,7 +196,7 @@ export default function MultiCylindricalGallery() {
   };
 
   const handlePointerMove = (e) => {
-    if (!isDraggingRef.current || selectedCard) return;
+    if (!isDraggingRef.current) return;
 
     const dx = e.clientX - lastMousePosRef.current.x;
     const dy = e.clientY - lastMousePosRef.current.y;
@@ -268,16 +262,7 @@ export default function MultiCylindricalGallery() {
       <CylindricalGalleryCanvas
         physicsRef={physicsRef}
         isVisible={isVisible}
-        onSelectCard={setSelectedCard}
       />
-
-      {/* Detail Modal Overlay when Card Clicked */}
-      {selectedCard && (
-        <ProjectModal
-          card={selectedCard}
-          onClose={() => setSelectedCard(null)}
-        />
-      )}
     </section>
   );
 }

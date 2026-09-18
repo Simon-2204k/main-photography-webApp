@@ -45,13 +45,12 @@
 
 svg.svgClass {
   position: absolute;
-  inset: 0;
-  width: 500px;
-  height: 500px;
-  pointer-events: none;
   top: 50%;
   left: 50%;
+  width: 140%;
+  height: 140%;
   transform: translate(-50%, -50%);
+  pointer-events: none;
   z-index: 5;
 }
 

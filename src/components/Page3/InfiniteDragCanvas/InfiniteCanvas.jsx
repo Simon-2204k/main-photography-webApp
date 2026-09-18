@@ -309,7 +309,7 @@ export const InfiniteCanvas = ({ isExpanded, onToggleExpand }) => {
               className="absolute left-0 top-0 touch-none will-change-transform"
               style={{ transformOrigin: 'center center' }}
             >
-              <div style={{ marginLeft: '-115px', marginTop: '-145px' }}>
+              <div className="stamp-card-centering-wrap">
                 <StampCard
                   stamp={item.stamp}
                   onClick={(e) => {

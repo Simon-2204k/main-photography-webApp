@@ -44,24 +44,28 @@ export class CylindricalGalleryEngine {
 
   getResponsiveConfig(width, height) {
     const aspect = width / height;
-    let scale = 1.0;
-    let cameraZ = 6.5;
+    let scale = 0.84;
+    let cameraZ = 6.8;
+    let groupY = 0.38;
 
     if (width <= 640 || aspect < 0.65) {
       // Mobile phones (iPhone SE, iPhone 15/16 Pro Max, Pixel, Android)
-      scale = 0.52;
+      scale = 0.50;
       cameraZ = 8.6;
+      groupY = 0.25;
     } else if (width <= 1024 || aspect < 1.0) {
       // Tablets (iPad Mini, iPad 768x1024, iPad Pro 1024x1366)
-      scale = 0.72;
+      scale = 0.68;
       cameraZ = 7.8;
+      groupY = 0.32;
     } else {
-      // Desktop / Laptop
-      scale = 1.0;
-      cameraZ = 6.5;
+      // Desktop / Laptop: scaled down slightly and shifted upward per user request
+      scale = 0.84;
+      cameraZ = 6.8;
+      groupY = 0.38;
     }
 
-    return { scale, cameraZ, aspect };
+    return { scale, cameraZ, aspect, groupY };
   }
 
   initScene() {
@@ -70,7 +74,7 @@ export class CylindricalGalleryEngine {
 
     const width = this.container.clientWidth || window.innerWidth;
     const height = this.container.clientHeight || window.innerHeight;
-    const { scale, cameraZ, aspect } = this.getResponsiveConfig(width, height);
+    const { scale, cameraZ, aspect, groupY } = this.getResponsiveConfig(width, height);
 
     this.camera = new THREE.PerspectiveCamera(40, aspect, 0.1, 100);
 
@@ -78,7 +82,7 @@ export class CylindricalGalleryEngine {
     this.defaultCameraPos = new THREE.Vector3(0, baseY, cameraZ);
     this.camera.position.copy(this.defaultCameraPos);
 
-    this.cameraTarget = new THREE.Vector3(0, 0, 0);
+    this.cameraTarget = new THREE.Vector3(0, groupY * 0.4, 0);
     this.camera.lookAt(this.cameraTarget);
 
     this.renderer = new THREE.WebGLRenderer({
@@ -103,9 +107,10 @@ export class CylindricalGalleryEngine {
     this.controls.enableZoom = false;
     this.controls.enablePan = false;
 
-    // Lock polar angle strictly to horizontal plane (Math.PI / 2) to eliminate vertical drag scaling glitch
-    this.controls.minPolarAngle = Math.PI / 2;
-    this.controls.maxPolarAngle = Math.PI / 2;
+    // Subtle vertical tilt range (~12 degrees)
+    const polarRange = 0.22;
+    this.controls.minPolarAngle = Math.PI / 2 - polarRange;
+    this.controls.maxPolarAngle = Math.PI / 2 + polarRange;
 
     // Immediately enforce touch-action: pan-y on canvas so OrbitControls does not block mobile touch scroll
     this.canvas.style.touchAction = 'pan-y';
@@ -123,6 +128,7 @@ export class CylindricalGalleryEngine {
 
     this.carouselGroup = new THREE.Group();
     this.carouselGroup.scale.set(scale, scale, scale);
+    this.carouselGroup.position.y = groupY;
     this.scene.add(this.carouselGroup);
   }
 
@@ -342,7 +348,7 @@ export class CylindricalGalleryEngine {
     if (this.disposed || !this.container) return;
     const width = this.container.clientWidth || window.innerWidth;
     const height = this.container.clientHeight || window.innerHeight;
-    const { scale, cameraZ, aspect } = this.getResponsiveConfig(width, height);
+    const { scale, cameraZ, aspect, groupY } = this.getResponsiveConfig(width, height);
 
     this.camera.aspect = aspect;
     this.camera.updateProjectionMatrix();
@@ -352,9 +358,15 @@ export class CylindricalGalleryEngine {
 
     if (this.carouselGroup) {
       this.carouselGroup.scale.set(scale, scale, scale);
+      this.carouselGroup.position.y = groupY;
+    }
+
+    if (this.cameraTarget) {
+      this.cameraTarget.y = groupY * 0.4;
     }
 
     if (this.controls) {
+      this.controls.target.copy(this.cameraTarget);
       this.controls.update();
     }
 
@@ -475,6 +487,24 @@ export const CylindricalGallery = memo(function CylindricalGallery() {
   return (
     <div ref={containerRef} className="cylindrical-gallery-section" id="cylindrical-gallery-section">
       <canvas ref={canvasRef} className="cylindrical-gallery-canvas" />
+
+      {/* Elegant Bottom Marquee Ticker */}
+      <div className="cylindrical-marquee-container" aria-hidden="true">
+        <div className="cylindrical-marquee-track">
+          <span className="marquee-item">SIMON'S PHOTOGRAPHY</span>
+          <span className="marquee-separator">✦</span>
+          <span className="marquee-item">SIMON'S PHOTOGRAPHY</span>
+          <span className="marquee-separator">✦</span>
+          <span className="marquee-item">SIMON'S PHOTOGRAPHY</span>
+          <span className="marquee-separator">✦</span>
+          <span className="marquee-item">SIMON'S PHOTOGRAPHY</span>
+          <span className="marquee-separator">✦</span>
+          <span className="marquee-item">SIMON'S PHOTOGRAPHY</span>
+          <span className="marquee-separator">✦</span>
+          <span className="marquee-item">SIMON'S PHOTOGRAPHY</span>
+          <span className="marquee-separator">✦</span>
+        </div>
+      </div>
     </div>
   );
 });
