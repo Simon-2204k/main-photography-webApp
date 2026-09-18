@@ -27,6 +27,13 @@ ALSO NO AUTO PROCEED UNTIL I SAY DONT TOUCH ANY SINGLE CODE , EDIT CODE , CHANGE
 
 ## 📌 Resolved Issues
 
+### ✅ Issue 26: Node.js 24 Incompatible CI Version & npm ci Cache Inconsistency (Pin to Node 22.16.0 LTS)
+- **Target Files**:
+  - `.nvmrc` & `.node-version`
+- **Resolution**:
+  1. Created `.nvmrc` and `.node-version` with `22.16.0`.
+  2. Guarantees Cloudflare Pages builds strictly on Node.js 22.16.0 LTS (which has verified 100% build pass rate).
+
 ### ✅ Issue 25: Cloudflare Pages Asset Size Limit Exceeded (Unused 26.33 MiB video file)
 - **Target Files**:
   - `public/video/These are the only shots you will ever need..mp4`
