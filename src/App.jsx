@@ -53,27 +53,25 @@ export function App() {
   }, []);
 
   const handleSelectPage = useCallback((pageId) => {
-    React.startTransition(() => {
-      if (pageId === 'page4') {
-        setCurrentPage('page4');
-        window.location.hash = 'specsheet';
-        window.scrollTo(0, 0);
-      } else if (pageId === 'page3') {
-        setCurrentPage('page3');
-        window.location.hash = 'exhibits';
-        window.scrollTo(0, 0);
-      } else if (pageId === 'page2') {
-        setCurrentPage('page2');
-        window.location.hash = 'darkroom';
-        window.scrollTo(0, 0);
-      } else if (pageId === 'page1') {
-        setCurrentPage('page1');
-        if (window.location.hash) {
-          history.pushState(null, '', window.location.pathname);
-        }
-        window.scrollTo(0, 0);
+    if (pageId === 'page4') {
+      setCurrentPage('page4');
+      window.location.hash = 'specsheet';
+      window.scrollTo(0, 0);
+    } else if (pageId === 'page3') {
+      setCurrentPage('page3');
+      window.location.hash = 'exhibits';
+      window.scrollTo(0, 0);
+    } else if (pageId === 'page2') {
+      setCurrentPage('page2');
+      window.location.hash = 'darkroom';
+      window.scrollTo(0, 0);
+    } else if (pageId === 'page1') {
+      setCurrentPage('page1');
+      if (window.location.hash) {
+        history.pushState(null, '', window.location.pathname);
       }
-    });
+      window.scrollTo(0, 0);
+    }
   }, []);
 
   return (
@@ -94,6 +92,7 @@ export function App() {
         onClose={handleCloseMenu}
         onSelectPage={handleSelectPage}
         triggerRect={menuTriggerRect}
+        currentPage={currentPage}
       />
     </>
   );

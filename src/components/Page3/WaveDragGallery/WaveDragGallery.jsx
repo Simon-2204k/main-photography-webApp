@@ -232,6 +232,9 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
     let isCardDrag = false;
     let isVisible = true;
     let animationFrameId = null;
+    let lastPointerTime = performance.now();
+    let dragVelocity = 0;
+    let flingVelocity = 0;
 
     const getUnitsPerPixel = () => {
       const vFov = (camera.fov * Math.PI) / 180;
@@ -243,13 +246,16 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
 
     // 5] Pointer / Touch Interaction Handlers
     const handlePointerDown = (e) => {
-      const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : null);
-      if (clientX === null) return;
+      const clientX = e.clientX;
+      if (clientX === undefined || clientX === null) return;
 
       isPointerDown = true;
       isCardDrag = true;
       startPointerX = clientX;
       lastPointerX = clientX;
+      lastPointerTime = performance.now();
+      dragVelocity = 0;
+      flingVelocity = 0; // Cancel prior inertia on new touch
 
       canvasWrapper.classList.add('is-dragging');
       if (canvasWrapper.setPointerCapture && e.pointerId) {
@@ -262,15 +268,24 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
     const handlePointerMove = (e) => {
       if (!isPointerDown || !isCardDrag) return;
 
-      const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : null);
-      if (clientX === null || isNaN(clientX)) return;
+      const clientX = e.clientX;
+      if (clientX === undefined || clientX === null || isNaN(clientX)) return;
 
+      const now = performance.now();
+      const dt = Math.max(now - lastPointerTime, 1);
       const deltaX = clientX - lastPointerX;
       lastPointerX = clientX;
+      lastPointerTime = now;
 
-      const worldDelta = deltaX * unitsPerPixel * 1.5;
+      // Calibrate mobile touch swipe distance for swift, natural gestures
+      const isTouch = e.pointerType === 'touch' || window.innerWidth <= 1024;
+      const moveMultiplier = isTouch ? 2.7 : 1.5;
+      const worldDelta = deltaX * unitsPerPixel * moveMultiplier;
+
       if (!isNaN(worldDelta) && isFinite(worldDelta)) {
         targetScrollX += worldDelta;
+        // Calculate instantaneous velocity in world units per standard frame
+        dragVelocity = (worldDelta / dt) * 16.6;
       }
 
       if (e.cancelable && Math.abs(clientX - startPointerX) > 6) {
@@ -283,11 +298,16 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
         isPointerDown = false;
         isCardDrag = false;
         canvasWrapper.classList.remove('is-dragging');
-        if (canvasWrapper.releasePointerCapture && e.pointerId) {
+        if (canvasWrapper.releasePointerCapture && e && e.pointerId) {
           try {
             canvasWrapper.releasePointerCapture(e.pointerId);
           } catch (_) {}
         }
+
+        // Fling kinetic momentum: carry user's finger swipe through on release
+        const isTouch = (e && e.pointerType === 'touch') || window.innerWidth <= 1024;
+        const flingMultiplier = isTouch ? 1.45 : 1.0;
+        flingVelocity = Math.max(-0.65, Math.min(0.65, dragVelocity * flingMultiplier));
       }
     };
 
@@ -305,9 +325,7 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
     canvasWrapper.addEventListener('pointerdown', handlePointerDown, { passive: false });
     window.addEventListener('pointermove', handlePointerMove, { passive: false });
     window.addEventListener('pointerup', handlePointerUp, { passive: true });
-    canvasWrapper.addEventListener('touchstart', handlePointerDown, { passive: true });
-    window.addEventListener('touchmove', handlePointerMove, { passive: false });
-    window.addEventListener('touchend', handlePointerUp, { passive: true });
+    window.addEventListener('pointercancel', handlePointerUp, { passive: true });
     canvasWrapper.addEventListener('wheel', handleWheel, { passive: true });
 
     // 6] Resize Handler
@@ -352,11 +370,17 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
       if (!isVisible) return;
 
       const dt = Math.min(Math.max((now - lastTime) / 1000, 0.001), 0.1);
-      lastTime = now;
+      // Apply and decay fling momentum on release
+      if (!isPointerDown && Math.abs(flingVelocity) > 0.0001) {
+        targetScrollX += flingVelocity;
+        flingVelocity *= 0.935;
+      } else if (!isPointerDown) {
+        flingVelocity = 0;
+      }
 
       // Smooth horizontal scroll position interpolation
       const scrollDiff = targetScrollX - scrollX;
-      scrollX += scrollDiff * 0.12;
+      scrollX += scrollDiff * 0.14;
 
       // Strict NaN Safety Check
       if (isNaN(scrollX) || !isFinite(scrollX)) scrollX = 0;
@@ -428,9 +452,7 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
       canvasWrapper.removeEventListener('pointerdown', handlePointerDown);
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);
-      canvasWrapper.removeEventListener('touchstart', handlePointerDown);
-      window.removeEventListener('touchmove', handlePointerMove);
-      window.removeEventListener('touchend', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerUp);
       canvasWrapper.removeEventListener('wheel', handleWheel);
 
       planeGeometry.dispose();

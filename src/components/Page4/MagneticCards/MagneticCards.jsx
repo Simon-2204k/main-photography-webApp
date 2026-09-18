@@ -4,22 +4,22 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './MagneticCards.css';
 
 // Section 4 Visual Assets (High-Res Photography)
-const s4_1 = '/images/section4/abdrahim-oulfakir-2VHQFwgz-mg-unsplash.jpg';
-const s4_2 = '/images/section4/arafat-uddin-showrab-3MlkU5P5EnE-unsplash.jpg';
-const s4_3 = '/images/section4/bobby-VRCZpYwuRZM-unsplash.jpg';
-const s4_4 = '/images/section4/camila-seves-espasandin-32l8h4kCOh8-unsplash.jpg';
-const s4_5 = '/images/section4/cemrecan-yurtman-zXCufQXc30w-unsplash.jpg';
-const s4_6 = '/images/section4/christian-gafenesch-UTLiotHKD1U-unsplash.jpg';
-const s4_7 = '/images/section4/gift-habeshaw-4WWMOtGUqqk-unsplash.jpg';
-const s4_8 = '/images/section4/hermes-rivera-PsFqeLhkwd4-unsplash.jpg';
-const s4_9 = '/images/section4/italo-guimas-HZHv6jYBVFI-unsplash.jpg';
-const s4_10 = '/images/section4/jean-carcallas-C1DVJuGA2Ko-unsplash.jpg';
-const s4_11 = '/images/section4/john-t-uf914SzMn9k-unsplash.jpg';
-const s4_12 = '/images/section4/md-mahdi-drfzruzOzd0-unsplash.jpg';
-const s4_13 = '/images/section4/milo-weiler-hbb7itN7fVQ-unsplash.jpg';
-const s4_14 = '/images/section4/mustafi-numann-NOIoSb5vZ0A-unsplash.jpg';
-const s4_15 = '/images/section4/pear-GcovftkNWi8-unsplash.jpg';
-const s4_16 = '/images/section4/takehiro-tomiyama-_Wxoh0mgHtU-unsplash.jpg';
+const s4_1 = '/images/section4/pexels-304109370-14232091.webp';
+const s4_2 = '/images/section4/pexels-abdelilah-hibat-allah-1652683667-33393728.webp';
+const s4_3 = '/images/section4/pexels-aloevera-17612352.webp';
+const s4_4 = '/images/section4/pexels-aloevera-20240486.webp';
+const s4_5 = '/images/section4/pexels-andrew-schwark-540305-22468990.webp';
+const s4_6 = '/images/section4/pexels-andrew-schwark-540305-9200496.webp';
+const s4_7 = '/images/section4/pexels-fakhri98-16104931.webp';
+const s4_8 = '/images/section4/pexels-fromsalih-36456611.webp';
+const s4_9 = '/images/section4/pexels-gin-311039220-34175280.webp';
+const s4_10 = '/images/section4/pexels-hazily-light-672092024-18022480.webp';
+const s4_11 = '/images/section4/pexels-krista-glizdeniece-2150567376-31603972.webp';
+const s4_12 = '/images/section4/pexels-kyle-miller-169884138-13411957.webp';
+const s4_13 = '/images/section4/pexels-luiz-antico-1846061-4847526.webp';
+const s4_14 = '/images/section4/pexels-marianamontrazi-6757343.webp';
+const s4_15 = '/images/section4/pexels-minimoy-18532184.webp';
+const s4_16 = '/images/section4/pexels-myatezhny39-3994122.webp';
 
 gsap.registerPlugin(ScrollTrigger);
 

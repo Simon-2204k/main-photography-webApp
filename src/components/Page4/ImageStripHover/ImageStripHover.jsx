@@ -4,10 +4,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './ImageStripHover.css';
 
 // Optimized Section 3 Public Assets
-const img1 = '/images/section3/anton-shuvalov-19IgrOxgKas-unsplash.jpg';
-const img2 = '/images/section3/emiliano-vittoriosi-COzCGrIaa9w-unsplash.jpg';
-const img3 = '/images/section3/hector-o-connor-e0OfutoNyqQ-unsplash.jpg';
-const img4 = '/images/section3/mohammad-esmaeili-WlFbY8Ynqco-unsplash.jpg';
+const img1 = '/images/section3/baptiste-merel--bYa_kDl_tk-unsplash.webp';
+const img2 = '/images/section3/brian-lundquist-xJWUhJP-qPc-unsplash.webp';
+const img3 = '/images/section3/erik-mclean-7jRqtUvNFgA-unsplash.webp';
+const img4 = '/images/section3/jr-korpa-07mULu__htY-unsplash.webp';
 
 gsap.registerPlugin(ScrollTrigger);
 

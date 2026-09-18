@@ -17,7 +17,6 @@ import { SlantedMarquee } from '../../components/Page1/SlantedMarquee/SlantedMar
 import { FeaturedSeries } from '../../components/Page1/FeaturedSeries/FeaturedSeries';
 import { SpotlightMarquee } from '../../components/Page1/SpotlightMarquee/SpotlightMarquee';
 import { Footer } from '../../components/Page1/Footer/Footer';
-import { DesktopOnlyNotice } from '../../components/Page1/DesktopOnlyNotice/DesktopOnlyNotice';
 
 import { projectsData } from '../../data/page1/projectsData';
 import './Page1.css';
@@ -104,9 +103,6 @@ export const Page1Component = ({ onOpenMenu }) => {
 
   return (
     <div className="page1-root-wrapper">
-      {/* Device Restriction Blocker: Displays exclusively for phones and tablets (< 1024px) */}
-      <DesktopOnlyNotice />
-
       {/* Custom + Cursor (Restricted exclusively to Section 1) */}
       <CustomCursor isSection1Active={isSpiralActive} />
 

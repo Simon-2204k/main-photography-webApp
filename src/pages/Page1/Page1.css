@@ -53,23 +53,3 @@
   }
 }
 
-/* ========================================================
-   RESPONSIVE DEVICE RESTRICTION: LAPTOP & ABOVE ONLY (>= 1024px)
-   Hides main WebGL & layout on phones/tablets (< 1024px)
-   ======================================================== */
-/*
-@media (max-width: 1023px) {
-  .page1-root-wrapper {
-    height: 100vh;
-    height: 100svh;
-    overflow: hidden;
-  }
-
-  .page1-fixed-spiral-canvas,
-  .page1-hero-spacer,
-  .page1-editorial-container {
-    display: none !important;
-  }
-}
-*/
-

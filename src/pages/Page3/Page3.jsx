@@ -3,8 +3,6 @@ import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import { DesktopOnlyNotice } from '../../components/Page1/DesktopOnlyNotice/DesktopOnlyNotice';
-
 // Section 1: Fullscreen 3D Cylindrical Gallery
 import CylindricalGallery from '../../components/Page3/CylindricalGallery/CylindricalGallery';
 
@@ -73,9 +71,6 @@ export const Page3Component = ({ onOpenMenu }) => {
 
   return (
     <div className="page3-root-wrapper min-h-screen bg-black text-white font-sans antialiased overflow-x-hidden selection:bg-[#ff2a4b] selection:text-white">
-      {/* Device Restriction Notice (< 1024px) */}
-      <DesktopOnlyNotice />
-
       {/* Section 1: Fullscreen 3D Cylindrical Gallery */}
       <section id="exhibits-section-1" className="page3-section-container">
         {/* Floating Top Navigation Bar - Scoped to Section 1 Only */}

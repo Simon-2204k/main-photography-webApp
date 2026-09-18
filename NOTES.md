@@ -370,3 +370,37 @@ All the following components, data structures, and assets comprise **Page 4 (Spe
     - Tablets (`<= 1024px` including iPad Pro 1024 x 1366): `--menu-option-row-height: clamp(100px, 14.5vh, 160px);`
     - Mobile Phones (`<= 600px`): `--menu-option-row-height: clamp(92px, 14.5vh, 138px);`
     - Fills the central vertical space cleanly between top and bottom bars, eliminating excessive empty black voids.
+
+---
+
+## 🎭 6. Page 4 Asset Rectification & Text Animation Reset
+
+- **Task 226 (Completed)**:
+  - **Page 4 Section 3 & 4 Missing Image Rectification**:
+    - `src/components/Page4/ImageStripHover/ImageStripHover.jsx`: Replaced broken image references with verified assets in `public/images/section3/` (`baptiste-merel`, `brian-lundquist`, `erik-mclean`, `jr-korpa`).
+    - `src/components/Page4/MagneticCards/MagneticCards.jsx`: Replaced all 16 `s4_1`..`s4_16` paths with verified high-res assets in `public/images/section4/` (`pexels-...`).
+  - **Text Animations Reset**:
+    - Reverted all text animations from Pages 1, 2, 3, and 4 and removed animation utility files per user request. Awaiting user's explicit instructions on exact locations to place text animations.
+
+---
+
+## 📷 7. Main Tab Icon, Codebase Hygiene & Mobile Swipe/Tilt Physics
+
+- **Task 227 (Photography Main Tab Icon & Codebase Cleanup)**:
+  - **Tab Favicon (`public/favicon.svg` & `index.html`)**:
+    - Created clean vector SVG camera lens aperture icon with darkroom camera housing, optical grip ring, 6-blade mechanical iris, and signature analog crimson pupil (`#ff2a4b`).
+    - Standardized `<link rel="icon" type="image/svg+xml" href="/favicon.svg" />` and `<link rel="alternate icon" href="/favicon.svg" />`.
+  - **Neat Structure & File Cleanup**:
+    - Purged misspelled `Cr7Parallax/assests/` folder containing messy filenames with emojis, parentheses, and spaces.
+    - Purged 25 unimported, dead code files across `DeskScatterShowcase`, `Cr7Parallax`, `SpiralGallery`, `ESENews`, `InfiniteDragCanvas`, `MultiCylindricalGallery`, and deprecated device notice placeholders. Zero unreferenced files remain in `src/`.
+    - Cleaned commented-out code blocks across styles and components.
+
+- **Task 228 (Page 4 Sections 1 & 10 Mobile Swipe Speed & 3D Tilt Calibration)**:
+  - **Resolved Double-Listener Collision**:
+    - Eliminated redundant `touchstart`/`touchmove`/`touchend` listeners across `BetterOffLookback.jsx` and `WaveDragGallery.jsx` that were causing alternating zero-delta computations, killing swipe velocity and flattening 3D tilt on mobile devices.
+  - **Section 1 (`BetterOffLookback.jsx`)**:
+    - Restored true 3D door-hinge tilt on mobile: uncorrupted swipe velocity directly drives `targetRotateY` (up to ±24°) with smooth spring return.
+    - Added mobile touch distance multiplier (`1.75×`) and calibrated release momentum (`velocity *= 0.94`) for effortless, long gliding.
+  - **Section 10 (`WaveDragGallery.jsx`)**:
+    - Added release kinetic fling momentum (`flingVelocity *= 0.935`) carrying cards across the screen after a finger flick while dynamically animating the liquid wave shader distortion.
+    - Calibrated mobile touch world delta (`2.7×` multiplier) for natural, fluid scrolling on phone screens.

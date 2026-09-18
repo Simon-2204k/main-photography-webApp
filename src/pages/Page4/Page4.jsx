@@ -3,8 +3,6 @@ import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import { DesktopOnlyNotice } from '../../components/Page1/DesktopOnlyNotice/DesktopOnlyNotice';
-
 // Section 1: Better Off Lookback Drag-Tilt Loop & Jan–Dec Ruler Timeline
 import BetterOffLookback from '../../components/Page4/BetterOffLookback/BetterOffLookback';
 
@@ -76,9 +74,6 @@ export const Page4Component = ({ onOpenMenu }) => {
 
   return (
     <div className="page4-root-wrapper min-h-screen bg-[#000000] text-[#ffffff] font-sans antialiased overflow-x-hidden selection:bg-[#ff2a4b] selection:text-white">
-      {/* Device Restriction Notice (< 1024px) */}
-      <DesktopOnlyNotice />
-
       {/* Section 1: Better Off Lookback Drag-Tilt Gallery */}
       <section id="specsheet-section-1" className="page4-section-container">
         <BetterOffLookback onOpenMenu={onOpenMenu} />

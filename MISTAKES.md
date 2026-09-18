@@ -25,13 +25,82 @@ ALSO NO AUTO PROCEED UNTIL I SAY DONT TOUCH ANY SINGLE CODE , EDIT CODE , CHANGE
 
 ## 📌 Active Issues
 
-*(No active issues currently. Awaiting user review.)*
-
----
+*(No active issues)*
 
 ## 📌 Resolved Issues
 
-### ✅ Issue 17: Section 4 MagneticCards Restored Phone Card Dimensions & Cursor Follow, and Section 6 ScrollMindmap Desktop Path Restoration
+### ✅ Issue 22: Page 4 Section 1 (Better Off Lookback) & Section 10 (WaveDragGallery) Phone Swipe Speed & Tilt Inactivity
+- **Target Files**:
+  - `src/components/Page4/BetterOffLookback/BetterOffLookback.jsx`
+  - `src/components/Page3/WaveDragGallery/WaveDragGallery.jsx`
+- **Resolution**:
+  1. **Fixed Double-Listener Collision**:
+     - Removed redundant `touchstart`, `touchmove`, and `touchend` listeners from both `BetterOffLookback.jsx` and `WaveDragGallery.jsx`.
+     - Standardized on clean Pointer Events (`pointerdown`, `pointermove`, `pointerup`, `pointercancel`) with proper `setPointerCapture` and `releasePointerCapture`.
+     - Completely eliminated the duplicate event race condition where the second event in the same frame computed `deltaX = 0`, which was killing swipe velocity and flattening 3D tilt.
+  2. **Page 4 Section 1 (`BetterOffLookback.jsx`)**:
+     - Added mobile touch scaling (`1.75×` distance multiplier on touch) so a natural finger stroke easily traverses cards.
+     - Restored full 3D door-hinge tilt on mobile: uncorrupted swipe velocity now directly drives `targetRotateY` (up to ±24°) with smooth spring return, dynamically hinging cards left or right during swiping.
+     - Added touch release momentum boost with calibrated friction decay (`velocity *= 0.94`) for effortless, long gliding.
+  3. **Page 4 Section 10 (`WaveDragGallery.jsx`)**:
+     - Calibrated mobile touch swipe distance (`moveMultiplier = 2.7×`).
+     - Added true kinetic fling momentum on release: instantaneous swipe velocity feeds into `flingVelocity` which decays smoothly (`flingVelocity *= 0.935`), carrying cards across the screen after a finger flick while dynamically animating the liquid wave shader distortion.
+  4. Verified with production build: `npm run build` compiled in 10.94s with **0 errors**. Dev server responds 200 OK.
+
+### ✅ Issue 21: Photography Main Tab Icon (<link> Style), Structure Hygiene (Neat File Names), and Code Cleanup (Unwanted Files & Commented-out Codes)
+- **Target Files & Directories**:
+  - `public/favicon.svg` & `index.html` (Photography Tab Icon + Link Style)
+  - `src/components/Page4/DeskScatterShowcase/` (Deleted 9 dead unimported files)
+  - `src/components/Page4/Cr7Parallax/` (Deleted 3 dead files & deleted misspelled `assests/` folder)
+  - `src/components/Page1/SpiralGallery/` (Deleted unused `CurvedCardMesh.jsx`, `MenuDrawer.jsx`)
+  - `src/components/Page2/ESENews/` (Deleted dead component folder)
+  - `src/components/Page3/InfiniteDragCanvas/` (Deleted unused `Header.jsx`)
+  - `src/components/Page3/MultiCylindricalGallery/` (Deleted 6 unused components)
+  - `src/components/Page1/DesktopOnlyNotice/` & `src/components/Page1/FilmGrain/` (Removed from Pages 1-4 and deleted folders)
+  - `src/pages/Page1/Page1.css`, `src/pages/Page2/Page2.css` (Stripped commented-out code blocks)
+- **Resolution**:
+  1. **Main Tab Icon & Link Style**:
+     - Built ultra-crisp vector SVG photography icon in `public/favicon.svg` with darkroom camera housing, grip ring, optical elements, 6-blade mechanical iris, and signature analog crimson pupil.
+     - Updated `index.html` with standard `<link rel="icon" type="image/svg+xml" href="/favicon.svg" />` and `<link rel="alternate icon" href="/favicon.svg" />`.
+  2. **Structure & Neat File Names**:
+     - Removed the entire misspelled `Cr7Parallax/assests/` directory containing messy filenames with emojis, parentheses, and spaces.
+  3. **Unwanted Dead Code Removal**:
+     - Traced complete dependency graph and purged all 25 unused orphan files and directories across `DeskScatterShowcase`, `Cr7Parallax`, `SpiralGallery`, `ESENews`, `InfiniteDragCanvas`, `MultiCylindricalGallery`, and deprecated device notice placeholders. Zero unused files remain in `src/`.
+  4. **Commented-Out Code Cleanup**:
+     - Stripped leftover commented-out media queries and dead code blocks in `Page1.css` and `Page2.css`.
+  5. Verified with `npm run build`: Production build succeeded in 16.67s with **0 errors**. Dev server responds 200 OK.
+
+### ✅ Issue 20: Menu Close Morph Revealing Old Page Before New Page Mounts (Visual Lingering)
+- **Target Files**:
+  - `src/components/Page1/MenuOverlay/MenuOverlay.jsx`
+  - `src/App.jsx`
+- **Resolution**:
+  1. Standardized `MenuOverlay.jsx` closing sequence: when an option is clicked, the full-screen solid black overlay holds the screen 100% black for 0.22s while inner text items fade out.
+  2. Switched page state immediately (`onSelectPage(pageId)`) behind the solid black shutter curtain, so the old page unmounts and the new page mounts completely hidden.
+  3. Morph animation executes smoothly over 0.48s into the destination `MENU` button, revealing the already-mounted new page with zero lag, stutter, or lingering on the old page.
+- Production build passed with 0 errors (`vite build` exit code 0).
+
+### ✅ Issue 19: Menu Option Click Delay & Old Page Lingering Before Switching
+- **Target Files**:
+  - `src/App.jsx`
+  - `src/components/Page1/MenuOverlay/MenuOverlay.jsx`
+- **Resolution**:
+  1. Removed `React.startTransition` from `handleSelectPage` in `App.jsx`, ensuring page switching state commits immediately without background deferral.
+  2. In `MenuOverlay.jsx`, moved `onSelectPage(pageId)` to execute immediately upon option click under the solid black menu overlay, so the new page renders and mounts behind the overlay before and during the closing morph.
+  3. As `animateClose` runs and the menu container morphs down into the destination `MENU` button, the new page is already active underneath, completely eliminating any waiting delay or lingering on the previous page.
+- Production build passed with 0 errors (`vite build` exit code 0).
+
+### ✅ Issue 18: Page 4 Sections 3 & 4 Missing Image Rectification (Text Animations Reverted)
+- **Target Files**:
+  - `src/components/Page4/ImageStripHover/ImageStripHover.jsx`
+  - `src/components/Page4/MagneticCards/MagneticCards.jsx`
+- **Resolution**:
+  1. **Page 4 Sections 3 & 4 Image Rectification**:
+     - Connected Section 3 `ImageStripHover` to verified high-res assets in `public/images/section3/` (`baptiste-merel`, `brian-lundquist`, `erik-mclean`, `jr-korpa`), fixing the broken 404 images.
+     - Connected Section 4 `MagneticCards` to all 16 verified photography assets in `public/images/section4/` (`pexels-...`), restoring the 3D floating card grid.
+  2. **Text Animations Reversion**:
+     - Reverted all text animation hooks, wrappers, and files from Pages 1, 2, 3, 4 per user request. Completely clean baseline restored; awaiting explicit instructions on exact locations.
+  - Production build passed with 0 errors (`vite build` exit code 0).
 - **Target Files**:
   - `src/components/Page4/MagneticCards/MagneticCards.jsx`
   - `src/components/Page4/MagneticCards/MagneticCards.css`

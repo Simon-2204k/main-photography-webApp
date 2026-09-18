@@ -30,7 +30,7 @@ const MENU_ITEMS = [
   },
 ];
 
-export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRect }) => {
+export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRect, currentPage }) => {
   const overlayRef = useRef(null);
   const innerRef = useRef(null);
   const topBarRef = useRef(null);
@@ -59,12 +59,12 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
     };
 
     updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
+    const timer = setInterval(updateTime, 1000);
+    return () => clearInterval(timer);
   }, []);
 
-  // Symmetrical Reverse Morph Close Animation
-  const animateClose = useCallback((callback, customRect) => {
+  // GSAP Morph Scaling Closing Physics
+  const animateClose = useCallback((callback, customRect, options = {}) => {
     if (isAnimatingCloseRef.current) return;
     isAnimatingCloseRef.current = true;
 
@@ -94,25 +94,28 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
       },
     });
 
+    const hold = options.holdDuration || 0;
+
     // 1. Instantly fade inner content out
     tl.to(inner, {
       opacity: 0,
-      duration: 0.18,
+      duration: 0.16,
       ease: 'power2.in',
-    })
-    // 2. Morph box smoothly back into the exact spot and size of the destination MENU button
-    .to(el, {
+    });
+
+    // 2. Morph box smoothly back into destination MENU button (held at 100vw x 100vh if switching pages to cover mount)
+    tl.to(el, {
       top: rect.top,
       left: rect.left,
       width: rect.width,
       height: rect.height,
       borderRadius: '4px',
-      duration: 0.52,
+      duration: 0.48,
       ease: 'power4.inOut',
-    }, '-=0.08');
+    }, hold > 0 ? `+=${hold}` : '-=0.06');
   }, [triggerRect]);
 
-  // Handle Option Click: smoothly animate scale close FIRST, then switch page cleanly in onComplete
+  // Handle Option Click: shutter curtain page transition (swap behind solid black, morph to unveil new page)
   const handleItemClick = (pageId) => {
     if (isAnimatingCloseRef.current) return;
 
@@ -134,12 +137,23 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
       };
     }
 
-    // 1. Play the smooth reverse scaling animation to the destination button
-    // 2. ONLY AFTER the animation finishes cleanly on the main thread, switch page and close
-    animateClose(() => {
-      if (onSelectPage) onSelectPage(pageId);
-      if (onClose) onClose();
-    }, destRect);
+    const isPageSwitch = onSelectPage && (!currentPage || currentPage !== pageId);
+
+    if (isPageSwitch) {
+      // 1. Switch page behind the solid black overlay on the next micro-tick
+      setTimeout(() => {
+        if (onSelectPage) onSelectPage(pageId);
+      }, 30);
+
+      // 2. Hold full-screen black for 0.22s to let new page mount, then morph into destRect revealing new page
+      animateClose(() => {
+        if (onClose) onClose();
+      }, destRect, { holdDuration: 0.22 });
+    } else {
+      animateClose(() => {
+        if (onClose) onClose();
+      }, destRect);
+    }
   };
 
   // Handle Close Button Click

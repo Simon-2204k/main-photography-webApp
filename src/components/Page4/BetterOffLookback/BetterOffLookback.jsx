@@ -107,32 +107,40 @@ export const BetterOffLookbackComponent = ({ onOpenMenu }) => {
 
     const handlePointerDown = (e) => {
       isPointerDown = true;
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientX = e.clientX;
       startPointerX = clientX;
       lastPointerX = clientX;
       lastTime = performance.now();
       velocity = 0;
+      if (stage.setPointerCapture && e.pointerId) {
+        try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+      }
       stage.style.cursor = 'grabbing';
       startLoop();
     };
 
     const handlePointerMove = (e) => {
       if (!isPointerDown) return;
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientX = e.clientX;
       const now = performance.now();
-      const deltaX = clientX - lastPointerX;
+      const rawDeltaX = clientX - lastPointerX;
       const dt = Math.max(now - lastTime, 1);
+
+      // Calibrate mobile/touch swipe distance for natural effortless glide
+      const isTouch = e.pointerType === 'touch' || window.innerWidth <= 1024;
+      const speedMult = isTouch ? 1.75 : 1.0;
+      const deltaX = rawDeltaX * speedMult;
 
       scrollX += deltaX;
       velocity = (deltaX / dt) * 16.6;
 
-      // 3D Hinge Physics based on drag direction
-      if (deltaX > 0.5) {
+      // 3D Hinge Physics: dynamically hinge left or right based on swipe direction
+      if (deltaX > 0.3) {
         currentOrigin = 'right center';
-        targetRotateY = Math.min(Math.abs(velocity) * 0.55, 22);
-      } else if (deltaX < -0.5) {
+        targetRotateY = Math.min(Math.abs(velocity) * 0.7, 24);
+      } else if (deltaX < -0.3) {
         currentOrigin = 'left center';
-        targetRotateY = -Math.min(Math.abs(velocity) * 0.55, 22);
+        targetRotateY = -Math.min(Math.abs(velocity) * 0.7, 24);
       }
 
       lastPointerX = clientX;
@@ -140,18 +148,23 @@ export const BetterOffLookbackComponent = ({ onOpenMenu }) => {
       startLoop();
     };
 
-    const handlePointerUp = () => {
+    const handlePointerUp = (e) => {
       if (!isPointerDown) return;
       isPointerDown = false;
       stage.style.cursor = 'grab';
+      if (stage.releasePointerCapture && e && e.pointerId) {
+        try { stage.releasePointerCapture(e.pointerId); } catch (_) {}
+      }
+      // On mobile/tablet touch release, preserve throw momentum
+      if (e && (e.pointerType === 'touch' || window.innerWidth <= 1024)) {
+        velocity = Math.max(-55, Math.min(55, velocity * 1.3));
+      }
     };
 
     stage.addEventListener('pointerdown', handlePointerDown);
     window.addEventListener('pointermove', handlePointerMove);
     window.addEventListener('pointerup', handlePointerUp);
-    stage.addEventListener('touchstart', handlePointerDown, { passive: true });
-    window.addEventListener('touchmove', handlePointerMove, { passive: true });
-    window.addEventListener('touchend', handlePointerUp);
+    window.addEventListener('pointercancel', handlePointerUp);
 
     // 60FPS Physics loop directly updating DOM transforms (0 React re-renders during dragging)
     const animate = () => {
@@ -262,9 +275,7 @@ export const BetterOffLookbackComponent = ({ onOpenMenu }) => {
       stage.removeEventListener('pointerdown', handlePointerDown);
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);
-      stage.removeEventListener('touchstart', handlePointerDown);
-      window.removeEventListener('touchmove', handlePointerMove);
-      window.removeEventListener('touchend', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerUp);
     };
   }, []);
 

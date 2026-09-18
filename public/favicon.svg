@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Outer Darkroom Camera Lens Housing -->
+  <circle cx="32" cy="32" r="30" fill="#0c0c0e" stroke="#ffffff" stroke-width="2.5" />
+  
+  <!-- Optical Barrel Grip Ring (Subtle Mechanical Teeth) -->
+  <circle cx="32" cy="32" r="26" stroke="#ffffff" stroke-opacity="0.25" stroke-width="1.2" stroke-dasharray="3 2" />
+  
+  <!-- Internal Lens Element Bevel -->
+  <circle cx="32" cy="32" r="21" fill="#141418" stroke="#ffffff" stroke-opacity="0.45" stroke-width="1.5" />
+  
+  <!-- 6-Blade Camera Shutter Aperture Diaphragm -->
+  <path d="M32 11 L41 27 L25 27 Z" fill="#1a1a20" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" />
+  <path d="M49 22 L42 38 L32 29 Z" fill="#18181e" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" />
+  <path d="M50 42 L34 44 L38 30 Z" fill="#1a1a20" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" />
+  <path d="M32 53 L23 37 L39 37 Z" fill="#18181e" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" />
+  <path d="M15 42 L22 26 L32 35 Z" fill="#1a1a20" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" />
+  <path d="M14 22 L30 20 L26 34 Z" fill="#18181e" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" />
+
+  <!-- Center Aperture Opening: Signature Analog Crimson Core -->
+  <circle cx="32" cy="32" r="8" fill="#ff2a4b" stroke="#ffffff" stroke-width="1.2" />
+  
+  <!-- Optical Coated Glass Reflection Glare -->
+  <circle cx="29.5" cy="29.5" r="2.2" fill="#ffffff" opacity="0.9" />
+</svg>
