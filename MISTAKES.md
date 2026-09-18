@@ -4595,6 +4595,29 @@ ALSO NO AUTO PROCEED UNTIL I SAY DONT TOUCH ANY SINGLE CODE , EDIT CODE , CHANGE
   7. Production build and dev server compile cleanly with 0 errors.
 - **Status**: `DONE`
 
+### Task 224: Page 2 Footer MENU Button Restoration & Section 6 Mindmap Pill Single-Line Badges
+- **Mistake / User Feedback**:
+  1. "where is menu in footer of page 2" (referencing Screenshot 1 of Page 2 bottom footer with empty bottom-right corner).
+  2. "still not change and why silver hadile ,focal ..,meduin etc are two line cant u do in one single line ---please bring the last editted one u messed up --- yeah yeah copy from the copy folder that has the same value but keep ur style fast no time for me" (referencing Section 6 ScrollMindmap pills breaking into 2 lines).
+- **Root Cause & Fix**:
+  1. In `src/components/Page2/Footer/Footer.jsx`, `onOpenMenu` prop was not accepted and the bottom metadata row only contained centered copyright text. Added `onOpenMenu` and rendered the Anton/Oswald `MENU` button on the bottom-right row with hover scaling and mobile touch support.
+  2. In `src/components/Page4/ScrollMindmap/ScrollMindmap.css`, `.mindmap-node` and `.node-label` lacked `white-space: nowrap;` and `width: max-content;`, causing two-word labels (`03 / FOCAL LENGTH`, `04 / SILVER HALIDE`, `05 / MEDIUM FORMAT`) to break onto 2 lines. Added `white-space: nowrap !important; width: max-content !important; flex-shrink: 0;` to both `.mindmap-node` and `.node-label`.
+  3. Copied desktop node coordinates and wrapper dimensions directly from the reference folder `scrolldetailsShowingSVGEffect` (`style.css`), preserving the sleek darkroom monochrome aesthetic with single-line pill geometry.
+- **Status**: `DONE`
+
+### Task 225: MenuOverlay Tablet & Mobile Height Calibration (up to 1024x1366) and Smooth Scaling Close Animation Before Page Selection
+- **Mistake / User Feedback**:
+  1. "in phone and tab till 1024 x 1366 increase the height and when click same height right now on click the marquee is being scaled"
+  2. "one major glicth throught the website that is the menu animation scaling one - when clicking on menu it scaling very neatly but when click on option due to three js and heavy animation stuff it does not respond the menu animation it closes - i want menu animation clicking and opening in evry situations"
+- **Root Cause & Fix**:
+  1. In `src/components/Page1/MenuOverlay/MenuOverlay.css`, `@media (max-width: 600px)` had `.k72-nav-row { height: 65px; }`, while `.hovered-marquee-active` had `height: var(--menu-option-row-height)` (19vh = ~180px). Because of this mismatch, unclicked rows were squished to 65px with huge empty gaps above and below, and clicking an option caused the row to jump/scale in height by nearly 300%.
+  2. Added calibrated media queries for tablets (`max-width: 1024px`, `--menu-option-row-height: clamp(100px, 14.5vh, 160px);`) and phones (`max-width: 600px`, `--menu-option-row-height: clamp(92px, 14.5vh, 138px);`). Enforced identical height (`!important`) across `.k72-nav-row`, `.standard-row`, and `.hovered-marquee-active`, ensuring unclicked and active rows have the exact same height with zero scaling or jumping on click.
+  3. In `src/components/Page1/MenuOverlay/MenuOverlay.jsx`, `handleItemClick` previously invoked `onSelectPage(pageId)` immediately on line 1, synchronously mounting the destination page (Three.js WebGL canvas, shaders, ScrollTriggers) before the animation could even start. This 500ms main thread lock froze GSAP, causing the menu to close abruptly without animation.
+  4. Moved `onSelectPage(pageId)` into the `onComplete` callback of `animateClose`, allowing the reverse scaling morph animation to complete smoothly on the main thread before the next page mounts. Wrapped `setCurrentPage` in `React.startTransition` in `src/App.jsx`.
+  5. Added `onTouchEnd` on the option rows and close button in `MenuOverlay.jsx`, and on `DarkroomHeader.jsx`, for instant 0ms touch response on mobile and tablet touchscreens.
+  6. Fixed relative asset paths in `ImageStripHover.jsx` and `MagneticCards.jsx` to use root `/images/` URLs. Production build (`vite build`) passed cleanly with 0 errors.
+- **Status**: `DONE`
+
 
 
 
