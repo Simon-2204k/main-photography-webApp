@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Page1 } from './pages/Page1/Page1';
-import { Page2 } from './pages/Page2/Page2';
-import { Page3 } from './pages/Page3/Page3';
-import { Page4 } from './pages/Page4/Page4';
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { MenuOverlay } from './components/Page1/MenuOverlay/MenuOverlay';
 import { IntroEffect } from './components/IntroEffect/IntroEffect';
+
+const Page1 = lazy(() => import('./pages/Page1/Page1'));
+const Page2 = lazy(() => import('./pages/Page2/Page2'));
+const Page3 = lazy(() => import('./pages/Page3/Page3'));
+const Page4 = lazy(() => import('./pages/Page4/Page4'));
 
 export function App() {
   const [currentPage, setCurrentPage] = useState(() => {
@@ -87,18 +88,22 @@ export function App() {
 
   return (
     <>
-      {currentPage === 'page4' ? (
-        <Page4 onOpenMenu={handleOpenMenu} />
-      ) : currentPage === 'page3' ? (
-        <Page3 onOpenMenu={handleOpenMenu} />
-      ) : currentPage === 'page2' ? (
-        <Page2 onOpenMenu={handleOpenMenu} />
-      ) : (
-        <Page1 onOpenMenu={handleOpenMenu} />
-      )}
-
       {showIntro && currentPage === 'page1' && (
         <IntroEffect onComplete={() => setShowIntro(false)} />
+      )}
+
+      {!(showIntro && currentPage === 'page1') && (
+        <Suspense fallback={null}>
+          {currentPage === 'page4' ? (
+            <Page4 onOpenMenu={handleOpenMenu} />
+          ) : currentPage === 'page3' ? (
+            <Page3 onOpenMenu={handleOpenMenu} />
+          ) : currentPage === 'page2' ? (
+            <Page2 onOpenMenu={handleOpenMenu} />
+          ) : (
+            <Page1 onOpenMenu={handleOpenMenu} />
+          )}
+        </Suspense>
       )}
 
       <MenuOverlay

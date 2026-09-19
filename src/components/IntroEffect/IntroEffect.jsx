@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, memo } from 'react';
+import React, { useEffect, useRef, memo, useState } from 'react';
 import gsap from 'gsap';
 import './IntroEffect.css';
 
@@ -22,6 +22,7 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
   const sliderRef = useRef(null);
   const upperDivRef = useRef(null);
   const isFinishedRef = useRef(false);
+  const [imagesReady, setImagesReady] = useState(false);
 
   const finishIntro = () => {
     if (isFinishedRef.current) return;
@@ -50,99 +51,97 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
   };
 
   useEffect(() => {
+    let cancelled = false;
+    Promise.all(
+      INTRO_IMAGES.map((src) => {
+        const img = new Image();
+        img.src = src;
+        return img.decode ? img.decode().catch(() => {}) : Promise.resolve();
+      })
+    ).then(() => {
+      if (!cancelled) setImagesReady(true);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    if (!imagesReady) return;
     const container = containerRef.current;
     const slider = sliderRef.current;
     const upperDiv = upperDivRef.current;
     if (!container || !slider || !upperDiv) return;
 
-    let isMounted = true;
+    const ctx = gsap.context(() => {
+      const getSlideDistance = () => {
+        const gap = parseFloat(getComputedStyle(slider).columnGap) || 50;
+        return container.clientWidth + gap;
+      };
 
-    const preloadPromise = Promise.all(
-      INTRO_IMAGES.map((src) => {
-        const img = new Image();
-        img.src = src;
-        if (img.decode) {
-          return img.decode().catch(() => {});
-        }
-        return Promise.resolve();
+      const cards = container.querySelectorAll('.intro-card-slot');
+
+      gsap.set(cards, { scale: 0 });
+
+      const tl = gsap.timeline({
+        onComplete: () => {
+          gsap.to(container, {
+            yPercent: -100,
+            duration: 0.85,
+            ease: 'power4.inOut',
+            onComplete: () => {
+              container.style.display = 'none';
+              finishIntro();
+            },
+          });
+        },
+      });
+
+      tl.to(cards, {
+        scale: 1,
+        stagger: 0.185,
+        duration: 0.45,
+        ease: 'back.out(1.2)',
       })
-    );
-
-    let ctx;
-
-    preloadPromise.then(() => {
-      if (!isMounted) return;
-
-      ctx = gsap.context(() => {
-        const getSlideDistance = () => {
-          const gap = parseFloat(getComputedStyle(slider).columnGap) || 50;
-          return container.clientWidth + gap;
-        };
-
-        const tl = gsap.timeline({
-          onComplete: () => {
-            gsap.to(container, {
-              yPercent: -100,
-              duration: 0.85,
-              ease: 'power4.inOut',
-              onComplete: () => {
-                container.style.display = 'none';
-                finishIntro();
-              },
-            });
-          },
-        });
-
-        tl.from('.intro-card-inner', {
-          scale: 0,
-          stagger: 0.185,
-          duration: 0.45,
-          ease: 'back.out(1.2)',
+      .to(
+        upperDiv,
+        {
+          scale: 0.75,
           transformOrigin: 'center center',
-        })
-        .to(
-          upperDiv,
-          {
-            scale: 0.75,
-            transformOrigin: 'center center',
-            ease: 'power4.out',
-            duration: 0.75,
-          },
-          '+=0.15'
-        )
-        .to(slider, {
-          x: () => -getSlideDistance(),
-          duration: 1.0,
-          ease: 'power4.inOut',
-        })
-        .to(
-          upperDiv,
-          {
-            scale: 1,
-            ease: 'power4.out',
-            duration: 0.75,
-          },
-          '+=0.1'
-        );
+          ease: 'power4.out',
+          duration: 0.75,
+        },
+        '+=0.15'
+      )
+      .to(slider, {
+        x: () => -getSlideDistance(),
+        duration: 1.0,
+        ease: 'power4.inOut',
+      })
+      .to(
+        upperDiv,
+        {
+          scale: 1,
+          ease: 'power4.out',
+          duration: 0.75,
+        },
+        '+=0.1'
+      );
 
-        const handleResize = () => {
-          if (slider && tl.progress() > 0.5) {
-            gsap.set(slider, { x: -getSlideDistance() });
-          }
-        };
-        window.addEventListener('resize', handleResize, { passive: true });
+      const handleResize = () => {
+        if (slider && tl.progress() > 0.5) {
+          gsap.set(slider, { x: -getSlideDistance() });
+        }
+      };
+      window.addEventListener('resize', handleResize, { passive: true });
 
-        return () => {
-          window.removeEventListener('resize', handleResize);
-        };
-      }, container);
-    });
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, container);
 
     return () => {
-      isMounted = false;
-      if (ctx) ctx.revert();
+      ctx.revert();
     };
-  }, []);
+  }, [imagesReady]);
 
   return (
     <div ref={containerRef} className="parentElementLandingDiv" aria-label="Intro Website Animation">
@@ -187,21 +186,19 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
                   key={idx}
                   className="intro-card-slot"
                   style={{
-                    transform: `translate(-50%, -50%) rotate(${CARD_ROTATIONS[idx]}deg)`,
+                    '--card-rotation': `${CARD_ROTATIONS[idx]}deg`,
                   }}
                 >
-                  <div className="intro-card-inner">
-                    <img
-                      src={imgSrc}
-                      alt={`Archive Photographic Exhibit ${idx + 1}`}
-                      className="intro-card-img"
-                      loading="eager"
-                      fetchPriority="high"
-                      decoding="async"
-                      width="200"
-                      height="300"
-                    />
-                  </div>
+                  <img
+                    src={imgSrc}
+                    alt={`Archive Photographic Exhibit ${idx + 1}`}
+                    className="intro-card-img"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                    width="200"
+                    height="300"
+                  />
                 </div>
               ))}
             </div>
