@@ -38,7 +38,6 @@ export const DarkroomCanvasComponent = () => {
 
   const activeBoxes = isMobile ? MOBILE_BOXES : INITIAL_BOXES;
 
-  // Initialize initial CSS positions on mount & handle responsive resize
   useEffect(() => {
     const initBoxes = () => {
       const mobile = window.innerWidth < 768;
@@ -126,7 +125,6 @@ export const DarkroomCanvasComponent = () => {
     badge.textContent = `X:${x}PX Y:${y}PX`;
   };
 
-  // Fluid single-finger touch and pointer drag handlers, capped at zIndex 500
   const handlePointerDown = (e, idx) => {
     if (e.button !== undefined && e.button !== 0) return;
     const box = boxRefs.current[idx];
@@ -165,7 +163,6 @@ export const DarkroomCanvasComponent = () => {
     window.addEventListener('pointercancel', handlePointerUp);
   };
 
-  // Real-time Canvas Frame Rendering Loop
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -257,7 +254,6 @@ export const DarkroomCanvasComponent = () => {
       }
     };
 
-    // Pause rendering when scrolled out of viewport
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
@@ -286,7 +282,7 @@ export const DarkroomCanvasComponent = () => {
 
   return (
     <div ref={containerRef} className="darkroom-canvas-container">
-      {/* Hidden Offscreen Video Element */}
+
       <video
         ref={videoRef}
         className="darkroom-source-video"
@@ -298,9 +294,8 @@ export const DarkroomCanvasComponent = () => {
         preload="auto"
       />
 
-      {/* Middle Bar — 6 Modular Segmented Capsule Blocks matching Image 3 Exactly */}
       <div className="darkroom-middle-bar-segmented">
-        {/* Tile 1: Dot Matrix Grip */}
+
         <div className="darkroom-segment segment-grip">
           <div className="grip-matrix">
             <span /><span />
@@ -309,34 +304,28 @@ export const DarkroomCanvasComponent = () => {
           </div>
         </div>
 
-        {/* Tile 2: Path & Bold White + */}
         <div className="darkroom-segment segment-path">
           <span>C: \DARKROOM \HOME</span>
           <span className="segment-plus">+</span>
         </div>
 
-        {/* Tile 3: Title */}
         <div className="darkroom-segment segment-title">
           CHRONICLES_IN_LIGHT
         </div>
 
-        {/* Tile 4: Category */}
         <div className="darkroom-segment segment-category">
           ANALOG, SILVER HALIDE
         </div>
 
-        {/* Tile 5: Status */}
         <div className="darkroom-segment segment-status">
           LIVE
         </div>
 
-        {/* Tile 6: Count */}
         <div className="darkroom-segment segment-count">
           001/001
         </div>
       </div>
 
-      {/* Interactive HUD Mask Boxes with Canvas */}
       {activeBoxes.map((item, idx) => (
         <div
           key={item.id}

@@ -50,7 +50,6 @@ export default function Section6ScrollMindmap() {
 
     const nodes = section.querySelectorAll('.mindmap-node');
 
-    // Helper: smooth closed Catmull-Rom to Cubic Bezier curve through all points
     const buildClosedSpline = (pts) => {
       const n = pts.length;
       if (n < 2) return '';
@@ -72,7 +71,6 @@ export default function Section6ScrollMindmap() {
       return d + ' Z';
     };
 
-    // On mobile: dynamically compute SVG path from actual DOM positions of the 5 visible pills
     if (isMobile && nodes.length >= 5) {
       const wrapper = section.querySelector('.mindmap-wrapper');
       const svg = section.querySelector('#svgCanvas');
@@ -81,7 +79,6 @@ export default function Section6ScrollMindmap() {
         svg.setAttribute('viewBox', `0 0 ${wrapperRect.width} ${wrapperRect.height}`);
         svg.setAttribute('preserveAspectRatio', 'none');
 
-        // Target the 5 visible mobile pills in clockwise order (node-1, node-2, node-3, node-4, node-5)
         const fiveNodes = [nodes[0], nodes[1], nodes[2], nodes[3], nodes[4]];
         const pts = fiveNodes.map((el) => {
           const r = el.getBoundingClientRect();
@@ -97,7 +94,7 @@ export default function Section6ScrollMindmap() {
         }
       }
     } else {
-      // Desktop: restore original viewBox and original wrinkle path
+
       const svg = section.querySelector('#svgCanvas');
       if (svg) {
         svg.setAttribute('viewBox', '0 0 1929 1197');
@@ -144,7 +141,6 @@ export default function Section6ScrollMindmap() {
         },
       });
 
-      // Animate stroke drawing and traveling reticle along the path
       tl.to(
         path,
         {
@@ -172,7 +168,7 @@ export default function Section6ScrollMindmap() {
       className="section6-root screen-animation"
     >
       <div className="mindmap-wrapper">
-        {/* Center Typography Branding */}
+
         <div className="center-branding">
           <span className="mindmap-subheading">
             PHOTOGRAPHY LAB • 2026
@@ -182,7 +178,6 @@ export default function Section6ScrollMindmap() {
           </h2>
         </div>
 
-        {/* SVG Drawing Canvas */}
         <svg id="svgCanvas" viewBox="0 0 1929 1197" preserveAspectRatio="xMidYMid meet">
           <path
             ref={pathRef}
@@ -192,7 +187,6 @@ export default function Section6ScrollMindmap() {
           <circle ref={ballRef} id="theBall" r="5" />
         </svg>
 
-        {/* 10 Interactive Mindmap Nodes */}
         {NODES_DATA.map((node) => (
           <div key={node.id} className={`mindmap-node ${node.className}`}>
             <img src={node.img} alt={node.label} className="node-thumb" loading="lazy" />

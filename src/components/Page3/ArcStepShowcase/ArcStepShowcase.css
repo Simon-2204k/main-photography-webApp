@@ -10,8 +10,6 @@
   user-select: none;
   -webkit-user-select: none;
 }
-
-/* Background Soft Atmosphere */
 .arc-vignette-layer {
   position: absolute;
   inset: 0;
@@ -31,8 +29,6 @@
   pointer-events: none;
   z-index: 1;
 }
-
-/* Giant Kinetic Typography - Left Stacked (z-index 2 behind cards) */
 .arc-huge-typography {
   position: absolute;
   top: 50%;
@@ -93,8 +89,6 @@
   align-items: center;
   justify-content: flex-start;
 }
-
-/* Convex Arc Track Viewport (z-index 10 above typography) */
 .arc-track-viewport {
   position: absolute;
   inset: 0;
@@ -102,8 +96,6 @@
   z-index: 10;
   overflow: hidden;
 }
-
-/* True Dead-Center Positioned Square Cards - No Border Roundness */
 .arc-square-card {
   position: absolute;
   left: 50%;
@@ -146,8 +138,6 @@
   border: 1px solid rgba(255, 255, 255, 0.22);
   pointer-events: none;
 }
-
-/* Outro Photography Statement */
 .arc-outro-statement-container {
   position: absolute;
   inset: 0;
@@ -212,8 +202,6 @@
   color: rgba(255, 255, 255, 0.35);
   text-transform: uppercase;
 }
-
-/* Tablet & iPad Pro 1024x1366 Responsive Calibration */
 @media (max-width: 1024px) {
   .arc-huge-typography {
     left: clamp(1.2rem, 3.5vw, 3.2rem);

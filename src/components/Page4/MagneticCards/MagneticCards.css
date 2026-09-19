@@ -1,10 +1,8 @@
-/* Studio Namma — "WE CAPTURE LIGHT AND MOMENTS" Section 4 Showcase */
-
 .studio-namma-section {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: #0c0c0d; /* Matte Dark Section Background */
+  background-color: #0c0c0d;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -14,8 +12,6 @@
   user-select: none;
   font-family: 'DM Mono', 'Space Mono', monospace, sans-serif;
 }
-
-/* Top Navigation Bar */
 .namma-header {
   position: relative;
   z-index: 20;
@@ -46,8 +42,6 @@
 .namma-talk-btn:hover {
   opacity: 0.65;
 }
-
-/* Massive Center Hero Typography */
 .namma-hero-text-wrap {
   position: absolute;
   top: 50%;
@@ -74,8 +68,6 @@
   margin: 0;
   padding: 0;
 }
-
-/* 3D Floating & Following Card Wrapper */
 .namma-3d-card-wrapper {
   position: absolute;
   top: 50%;
@@ -83,33 +75,28 @@
   transform: translate(-50%, -50%);
   z-index: 15;
   transform-style: preserve-3d;
-  pointer-events: none; /* Allows transparent mouse tracking everywhere */
+  pointer-events: none;
 }
-
-/* The 3D Floating Window Card — Sleeker Proportional Size with Pure White BG & Glossy Metallic Rim */
 .namma-3d-card {
   width: 270px;
   height: 380px;
   border-radius: 18px;
-  background-color: #ffffff; /* PURE WHITE BACKGROUND FOR THE CURSOR FOLLOW DIV */
-  /* Glossy Metallic Chrome Bezel */
+  background-color: #ffffff;
   border: 2px solid transparent;
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
   background-image:
     linear-gradient(#ffffff, #ffffff),
     linear-gradient(135deg, #ffffff 0%, #cbd5e1 25%, #64748b 50%, #ffffff 75%, #475569 100%);
-  box-shadow: none; /* Zero heavy drop shadows */
+  box-shadow: none;
   overflow: hidden;
   position: relative;
-  cursor: default; /* No grab cursor */
+  cursor: default;
   will-change: transform;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
-  pointer-events: none; /* No user interaction/dragging on the floating card */
+  pointer-events: none;
 }
-
-/* Diagonal Specular Gloss Sheen Across the Card Face */
 .namma-3d-card::before {
   content: '';
   position: absolute;
@@ -129,8 +116,6 @@
   z-index: 10;
   border-radius: inherit;
 }
-
-/* Inner Grid Matrix Container (6 columns x 6 rows) */
 .namma-matrix-container {
   position: absolute;
   top: 0;
@@ -142,10 +127,8 @@
   will-change: transform;
   transform: translate3d(0, 0, 0);
   contain: layout paint;
-  background-color: #ffffff; /* Pure White Grid Background */
+  background-color: #ffffff;
 }
-
-/* Matrix Cells */
 .namma-matrix-cell {
   width: 230px;
   height: 160px;
@@ -170,8 +153,6 @@
   user-select: none;
   -webkit-user-drag: none;
 }
-
-/* Special Photography Graphic Tiles */
 .namma-cell-homework {
   background: #09090b;
   color: #ffffff;
@@ -234,8 +215,6 @@
   margin-top: 3px;
   text-transform: uppercase;
 }
-
-/* Bottom Footer Bar */
 .namma-footer {
   position: relative;
   z-index: 20;
@@ -261,10 +240,6 @@
   font-weight: 600;
   color: #ffffff;
 }
-
-/* ==========================================================================
-   Mobile Phone Responsive Calibration (<= 640px)
-   ========================================================================== */
 @media (max-width: 640px) {
   .namma-header {
     padding: 18px 20px;
@@ -281,8 +256,6 @@
     font-size: 11px;
     letter-spacing: 0.1em;
   }
-
-  /* Scale headline so 'WE CAPTURE LIGHT AND MOMENTS' is visible and legible */
   .namma-hero-text-wrap {
     width: 94vw;
   }
@@ -292,8 +265,6 @@
     line-height: 0.94;
     letter-spacing: -0.01em;
   }
-
-  /* Restored 3D Card on phone matching original design */
   .namma-3d-card {
     width: 205px;
     height: 290px;
@@ -311,8 +282,6 @@
     height: 140px;
     border-radius: 8px;
   }
-
-  /* Stack footer to prevent overlap between caption and IST clock */
   .namma-footer {
     flex-direction: column;
     align-items: center;
@@ -334,4 +303,3 @@
     font-size: 9px;
   }
 }
-

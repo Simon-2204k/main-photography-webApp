@@ -18,7 +18,6 @@ export const InfiniteDragCanvas = memo(function InfiniteDragCanvas() {
     start: 'top 80%',
   });
 
-  // Pin Section 5 with ScrollTrigger
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -37,7 +36,6 @@ export const InfiniteDragCanvas = memo(function InfiniteDragCanvas() {
     return () => ctx.revert();
   }, []);
 
-  // GSAP animation for top-right X close button
   useEffect(() => {
     if (isExpanded && closeBtnRef.current) {
       gsap.fromTo(
@@ -66,7 +64,7 @@ export const InfiniteDragCanvas = memo(function InfiniteDragCanvas() {
 
   return (
     <section ref={sectionRef} className="infinite-drag-section" id="infinite-drag-section">
-      {/* Top-Right Animated X Close Button when Expanded */}
+
       {isExpanded && (
         <button
           ref={closeBtnRef}
@@ -78,13 +76,11 @@ export const InfiniteDragCanvas = memo(function InfiniteDragCanvas() {
         </button>
       )}
 
-      {/* Infinite Drag Canvas Viewport */}
       <InfiniteCanvas
         isExpanded={isExpanded}
         onToggleExpand={() => setIsExpanded((prev) => !prev)}
       />
 
-      {/* Helper Text directly below the floating draggable image stack */}
       {!isExpanded && (
         <div className="stamp-helper-prompt">
           <span className="prompt-dot">✦</span>

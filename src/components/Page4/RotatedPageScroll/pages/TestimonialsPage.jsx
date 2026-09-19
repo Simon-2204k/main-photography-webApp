@@ -77,12 +77,11 @@ export const TestimonialsPage = memo(function TestimonialsPage() {
 
   return (
     <div ref={containerRef} className="rotated-page-content page-testimonials">
-      {/* Giant Background Title */}
+
       <h2 className="testimonials-giant-bg-title">
         TESTIMONIALS
       </h2>
 
-      {/* Hand-Drawn Speech Bubble Doodle on Left */}
       <svg
         className="testimonials-speech-bubble-doodle"
         viewBox="0 0 120 80"
@@ -96,14 +95,12 @@ export const TestimonialsPage = memo(function TestimonialsPage() {
         <path d="M22 52 L10 70 L34 58" />
       </svg>
 
-      {/* Center Carousel Stack */}
       <div className="testimonials-stage">
         <div ref={stackRef} className="testimonials-cards-stack">
-          {/* Fanned Cards in Background for 3D physical depth */}
+
           <div className="testimonial-card-fanned-2" />
           <div className="testimonial-card-fanned-1" />
 
-          {/* Active Primary Card */}
           <div className="testimonial-card-main">
             <p className="testimonial-quote-text">
               &ldquo;{current.quote}&rdquo;
@@ -132,7 +129,6 @@ export const TestimonialsPage = memo(function TestimonialsPage() {
         </div>
       </div>
 
-      {/* Bottom Controls Bar */}
       <div className="testimonials-bottom-bar">
         <span className="testimonials-label">Our Members Say</span>
 
@@ -147,7 +143,6 @@ export const TestimonialsPage = memo(function TestimonialsPage() {
         </div>
       </div>
 
-      {/* Signature Bottom-Right Join Button */}
       <button className="follow-join-btn" aria-label="Join Platform">
         <div className="follow-join-icon-row">
           <span className="follow-join-icon">↗</span>

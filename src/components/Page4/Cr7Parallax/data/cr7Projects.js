@@ -45,4 +45,3 @@ export const cr7Projects = [
     thumbImage: "/assets/section9/jahanzeb-ahsan-hUWKXOQvqZQ-unsplash.jpg",
   }
 ];
-

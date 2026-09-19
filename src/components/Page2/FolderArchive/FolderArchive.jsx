@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef, memo } from 'react';
 import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 
 const FOLDER_ROWS = [
-  // Row 1: 50% / 50%
+
   {
     rowId: 'row-1',
     zIndex: 1,
@@ -10,7 +10,7 @@ const FOLDER_ROWS = [
       {
         id: '01',
         title: 'motion',
-        color: '#fed730', // Vibrant Yellow
+        color: '#fed730',
         width: '50%',
         tabWidth: '170px',
         images: [
@@ -23,7 +23,7 @@ const FOLDER_ROWS = [
       {
         id: '02',
         title: 'branding',
-        color: '#e2e4e6', // Light Grey
+        color: '#e2e4e6',
         width: '50%',
         tabWidth: '170px',
         images: [
@@ -35,16 +35,16 @@ const FOLDER_ROWS = [
       },
     ],
   },
-  // Row 2: 40% / 60% Asymmetric Split
+
   {
     rowId: 'row-2',
     zIndex: 2,
-    marginTop: '-45px', // Upward overlap into Row 1
+    marginTop: '-45px',
     folders: [
       {
         id: '03',
         title: 'editorial',
-        color: '#e2e4e6', // Light Grey
+        color: '#e2e4e6',
         width: '40%',
         tabWidth: '170px',
         images: [
@@ -57,7 +57,7 @@ const FOLDER_ROWS = [
       {
         id: '04',
         title: 'photoworks',
-        color: '#a6a8ab', // Medium Grey
+        color: '#a6a8ab',
         width: '60%',
         tabWidth: '170px',
         images: [
@@ -69,16 +69,16 @@ const FOLDER_ROWS = [
       },
     ],
   },
-  // Row 3: 50% / 50%
+
   {
     rowId: 'row-3',
     zIndex: 3,
-    marginTop: '-45px', // Upward overlap into Row 2
+    marginTop: '-45px',
     folders: [
       {
         id: '05',
         title: 'illustration',
-        color: '#fed730', // Vibrant Yellow
+        color: '#fed730',
         width: '50%',
         tabWidth: '170px',
         images: [
@@ -91,7 +91,7 @@ const FOLDER_ROWS = [
       {
         id: '06',
         title: '3D tech',
-        color: '#e2e4e6', // Light Grey
+        color: '#e2e4e6',
         width: '50%',
         tabWidth: '170px',
         images: [
@@ -138,7 +138,7 @@ export const FolderArchive = memo(() => {
     <section
       ref={sectionRef}
       onClick={() => {
-        // Tapping blank backdrop resets any open folder
+
         if (hoveredId !== null) setHoveredId(null);
       }}
       style={{
@@ -159,7 +159,7 @@ export const FolderArchive = memo(() => {
         userSelect: 'none',
       }}
     >
-      {/* Editorial Top Header */}
+
       <div
         style={{
           display: 'flex',
@@ -203,7 +203,6 @@ export const FolderArchive = memo(() => {
         </span>
       </div>
 
-      {/* 100vw Full-Bleed Edge-to-Edge File Folder Stack */}
       <div
         style={{
           position: 'relative',
@@ -215,7 +214,7 @@ export const FolderArchive = memo(() => {
         }}
       >
         {isMobileOrTablet ? (
-          /* Mobile & Tablet Single-Column Stack (<= 1024px, including iPhone SE & 1024x1366) */
+
           allFolders.map((folder, idx) => {
             const isHovered = hoveredId === folder.id;
             const isAnyHovered = hoveredId !== null;
@@ -224,7 +223,6 @@ export const FolderArchive = memo(() => {
             const textColor = isAnyHovered && !isHovered ? 'rgba(255, 255, 255, 0.35)' : '#111111';
             const borderStyle = isAnyHovered && !isHovered ? '1px solid rgba(255, 255, 255, 0.1)' : 'none';
 
-            // Tab cut geometry tailored for phone & tablet
             const tabWidthVal = isNarrowPhone ? 'min(160px, 45vw)' : 'clamp(170px, 26vw, 260px)';
             const tabSlopeVal = isNarrowPhone ? '18px' : '24px';
             const tabHeightVal = isNarrowPhone ? '20px' : '26px';
@@ -245,7 +243,7 @@ export const FolderArchive = memo(() => {
                   touchAction: 'manipulation',
                 }}
               >
-                {/* Fanned Preview Cards */}
+
                 <div
                   style={{
                     position: 'absolute',
@@ -359,7 +357,6 @@ export const FolderArchive = memo(() => {
                   </div>
                 </div>
 
-                {/* Folder Face Plate (100% Width) */}
                 <div
                   style={{
                     position: 'relative',
@@ -412,7 +409,7 @@ export const FolderArchive = memo(() => {
             );
           })
         ) : (
-          /* Desktop 2-Column Multi-Row Layout (> 1024px) */
+
           FOLDER_ROWS.map((row) => (
             <div
               key={row.rowId}
@@ -448,7 +445,7 @@ export const FolderArchive = memo(() => {
                       zIndex: isHovered ? 50 : row.zIndex,
                     }}
                   >
-                    {/* Fanned Preview Cards */}
+
                     <div
                       style={{
                         position: 'absolute',
@@ -558,7 +555,6 @@ export const FolderArchive = memo(() => {
                       </div>
                     </div>
 
-                    {/* Folder Face Plate */}
                     <div
                       style={{
                         position: 'relative',

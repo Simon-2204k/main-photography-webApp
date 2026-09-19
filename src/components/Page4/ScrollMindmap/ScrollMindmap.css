@@ -1,5 +1,3 @@
-/* Modern, High-End Scoped Styling for Section 6 Scroll Mindmap - Darkroom Aesthetic */
-
 .section6-root {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: #000000;
@@ -87,8 +85,6 @@
   max-width: 12ch;
   margin: 0 auto;
 }
-
-/* 10 Mindmap Nodes - Sleek Darkroom Monolith Badges (Single-line, Zero wrap, Monochromatic) */
 .section6-root .mindmap-node {
   position: absolute;
   background: #0d0d11;
@@ -153,8 +149,6 @@
   flex-shrink: 0;
   transition: color 0.25s ease;
 }
-
-/* Inverted Contact State (When Touched by Traveling Ball) */
 .section6-root .mindmap-node.expanded {
   background: #ffffff !important;
   border-color: #ffffff !important;
@@ -174,8 +168,6 @@
 .section6-root .mindmap-node.expanded .node-label {
   color: #000000 !important;
 }
-
-/* Node Layout Coordinates aligned precisely with reference copy folder */
 .section6-root .node-1 { top: 12%; left: 50%; }
 .section6-root .node-2 { top: 18%; left: 72%; }
 .section6-root .node-3 { top: 32%; left: 88%; }
@@ -186,12 +178,6 @@
 .section6-root .node-8 { top: 60%; left: 14%; }
 .section6-root .node-9 { top: 35%; left: 16%; }
 .section6-root .node-10 { top: 18%; left: 30%; }
-
-/* ==========================================================================
-   Page 4 Responsive Calibration & Touch Policy (Section 6)
-   ========================================================================== */
-
-/* 1] Tablet & iPad Pro (till 1024 x 1366) */
 @media (max-width: 1024px) {
   .section6-root {
     touch-action: pan-y;
@@ -220,8 +206,6 @@
     height: 16px;
   }
 }
-
-/* 2] Mobile Phones (<= 768px) */
 @media (max-width: 768px) {
   .section6-root .mindmap-wrapper {
     width: 96vw;
@@ -263,8 +247,6 @@
     width: 12px;
     height: 12px;
   }
-
-  /* Show only 5 pills on phone per user request, hide remaining 5 */
   .section6-root .node-6,
   .section6-root .node-7,
   .section6-root .node-8,
@@ -272,16 +254,12 @@
   .section6-root .node-10 {
     display: none !important;
   }
-
-  /* Distributed 5-pill pentagon orbit around center branding for phone */
   .section6-root .node-1  { top: 12%; left: 50%; }
   .section6-root .node-2  { top: 28%; left: 82%; }
   .section6-root .node-3  { top: 74%; left: 80%; }
   .section6-root .node-4  { top: 76%; left: 20%; }
   .section6-root .node-5  { top: 28%; left: 18%; }
 }
-
-/* 3] Touch Devices: Universal pan-y pass-through & instant feedback */
 @media (hover: none) and (pointer: coarse) {
   .section6-root {
     touch-action: pan-y;
@@ -296,5 +274,3 @@
     cursor: default;
   }
 }
-
-

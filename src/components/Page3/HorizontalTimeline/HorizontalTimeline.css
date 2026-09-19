@@ -9,8 +9,6 @@
   user-select: none;
   -webkit-user-select: none;
 }
-
-/* Stiff Background Layer with Subtle Monogram Motifs */
 .timeline-stiff-bg {
   position: absolute;
   top: -10%;
@@ -38,8 +36,6 @@
   inset: 0;
   background: radial-gradient(circle at center, transparent 40%, rgba(10, 14, 22, 0.55) 100%);
 }
-
-/* Central Horizontal Axis Guide */
 .timeline-axis-line {
   position: absolute;
   top: 50%;
@@ -74,8 +70,6 @@
   border-radius: 50%;
   background: #ffffff;
 }
-
-/* Horizontal Track */
 .timeline-horizontal-track {
   position: relative;
   display: flex;
@@ -87,8 +81,6 @@
   z-index: 10;
   will-change: transform;
 }
-
-/* Timeline Cards */
 .timeline-card-item {
   display: flex;
   align-items: center;
@@ -205,8 +197,6 @@
   letter-spacing: 1.2px;
   color: rgba(255, 255, 255, 0.55);
 }
-
-/* 50 Ambient Popping Micro-Thumbnails Layer */
 .timeline-ambient-layer {
   position: absolute;
   inset: 0;
@@ -255,8 +245,6 @@
   border-radius: 2px;
   pointer-events: none;
 }
-
-/* Tablet & iPad Pro 1024x1366 Responsive Calibration */
 @media (max-width: 1024px) {
   .timeline-horizontal-track {
     gap: clamp(45px, 6vw, 85px);
@@ -282,8 +270,6 @@
     font-size: clamp(11.5px, 1.3vw, 13px);
   }
 }
-
-/* Mobile Responsive Calibration (< 640px) */
 @media (max-width: 640px) {
   .timeline-horizontal-track {
     gap: 32px;
@@ -325,4 +311,3 @@
     pointer-events: none;
   }
 }
-

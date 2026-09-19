@@ -21,7 +21,6 @@ export class CylindricalGalleryEngine {
     this.autoRotate = true;
     this.autoRotateSpeed = 0.0035;
 
-    // Reordered image sequence: 1 -> 3 -> 2 -> 4
     this.imagePaths = [
       '/assets/page3/section1/card1.webp',
       '/assets/page3/section1/card3.webp',
@@ -52,17 +51,17 @@ export class CylindricalGalleryEngine {
     let groupY = 0.38;
 
     if (width <= 640 || aspect < 0.65) {
-      // Mobile phones (iPhone SE, iPhone 15/16 Pro Max, Pixel, Android)
+
       scale = 0.50;
       cameraZ = 8.6;
       groupY = 0.25;
     } else if (width <= 1024 || aspect < 1.0) {
-      // Tablets (iPad Mini, iPad 768x1024, iPad Pro 1024x1366)
+
       scale = 0.68;
       cameraZ = 7.8;
       groupY = 0.32;
     } else {
-      // Desktop / Laptop: scaled down slightly and shifted upward per user request
+
       scale = 0.84;
       cameraZ = 6.8;
       groupY = 0.38;
@@ -97,10 +96,6 @@ export class CylindricalGalleryEngine {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
 
-    // =========================================================================
-    // BRIGHTNESS / EXPOSURE CONTROL LINE 1: Tone Mapping Exposure
-    // Lower value = darker/richer contrast, higher value = brighter (Default: 1.0)
-    // =========================================================================
     this.renderer.toneMappingExposure = 4.3;
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -110,18 +105,12 @@ export class CylindricalGalleryEngine {
     this.controls.enableZoom = false;
     this.controls.enablePan = false;
 
-    // Subtle vertical tilt range (~12 degrees)
     const polarRange = 0.22;
     this.controls.minPolarAngle = Math.PI / 2 - polarRange;
     this.controls.maxPolarAngle = Math.PI / 2 + polarRange;
 
-    // Immediately enforce touch-action: pan-y on canvas so OrbitControls does not block mobile touch scroll
     this.canvas.style.touchAction = 'pan-y';
 
-    // =========================================================================
-    // BRIGHTNESS / EXPOSURE CONTROL LINE 2: Studio Lights Intensity
-    // Tune ambientLight (0.5 to 0.8) and dirLight (0.4 to 0.7) for clarity
-    // =========================================================================
     const ambientLight = new THREE.AmbientLight(0xffffff, 1);
     this.scene.add(ambientLight);
 
@@ -132,9 +121,9 @@ export class CylindricalGalleryEngine {
     this.carouselGroup = new THREE.Group();
     this.carouselGroup.scale.set(scale, scale, scale);
     this.carouselGroup.position.y = groupY;
-    // On phone and tablet (<= 1024px including 1024x1366), rotate left by small degrees
+
     if (width <= 1024 || aspect < 1.0) {
-      this.carouselGroup.rotation.y = -0.32; // ~ -18 deg left facing
+      this.carouselGroup.rotation.y = -0.32;
     }
     this.scene.add(this.carouselGroup);
   }
@@ -172,10 +161,6 @@ export class CylindricalGalleryEngine {
       texture.magFilter = THREE.LinearFilter;
       this.textures.push(texture);
 
-      // =========================================================================
-      // BRIGHTNESS / EXPOSURE CONTROL LINE 3: Card Emissive Glow
-      // Set to 0.0 for pure raw photographic texture, or 0.05 for subtle cinematic glow (Default: 0.05)
-      // =========================================================================
       const frontMaterial = new THREE.MeshStandardMaterial({
         map: texture,
         side: THREE.DoubleSide,
@@ -210,15 +195,11 @@ export class CylindricalGalleryEngine {
     const renderPass = new RenderPass(this.scene, this.camera);
     this.composer.addPass(renderPass);
 
-    // =========================================================================
-    // BRIGHTNESS / EXPOSURE CONTROL LINE 4: UnrealBloomPass Highlights
-    // strength (0.10 - 0.25), radius (0.25 - 0.45), threshold (0.50 - 0.70)
-    // =========================================================================
     this.bloomPass = new UnrealBloomPass(
       new THREE.Vector2(width, height),
-      0.2,  // bloom strength
-      0.2,  // bloom radius
-      0.60   // bloom luminance threshold (only extreme highlights glow)
+      0.2,
+      0.2,
+      0.60
     );
     this.composer.addPass(this.bloomPass);
 
@@ -232,7 +213,7 @@ export class CylindricalGalleryEngine {
     }
 
     this.tiltResetTimer = setTimeout(() => {
-      // 1. Reset touch tilt if tilted
+
       if (this.carouselGroup && Math.abs(this.carouselGroup.rotation.x) > 0.001) {
         gsap.to(this.carouselGroup.rotation, {
           x: 0,
@@ -246,7 +227,6 @@ export class CylindricalGalleryEngine {
         });
       }
 
-      // 2. Reset desktop OrbitControls camera polar angle back to Math.PI / 2
       if (this.controls && this.camera) {
         const currentPolar = this.controls.getPolarAngle();
         const targetPolar = Math.PI / 2;
@@ -272,7 +252,7 @@ export class CylindricalGalleryEngine {
           });
         }
       }
-    }, 1500); // exactly 1.5 seconds in all devices
+    }, 1500);
   }
 
   bindEvents() {
@@ -295,9 +275,6 @@ export class CylindricalGalleryEngine {
       this.controls.addEventListener('end', this.onEnd);
     }
 
-    // Capture pointerdown: disable OrbitControls if touch, enable if mouse
-    // This strictly prevents OrbitControls from calling setPointerCapture() on touch screens,
-    // which previously blocked the browser from scrolling down the webpage.
     this.handlePointerDown = (e) => {
       if (e.pointerType === 'touch') {
         if (this.controls) this.controls.enabled = false;
@@ -307,7 +284,6 @@ export class CylindricalGalleryEngine {
     };
     this.canvas.addEventListener('pointerdown', this.handlePointerDown, { capture: true, passive: true });
 
-    // Directional touch handling for mobile / touch devices
     let touchStartX = 0;
     let touchStartY = 0;
     let lastTouchX = 0;
@@ -322,7 +298,6 @@ export class CylindricalGalleryEngine {
       lastTouchY = touchStartY;
       this.rotationVelocity = 0;
 
-      // Raycast to check if touch landed ON the 3D cylinder or in the blank area
       const rect = this.canvas.getBoundingClientRect();
       const clientX = e.touches[0].clientX - rect.left;
       const clientY = e.touches[0].clientY - rect.top;
@@ -343,8 +318,6 @@ export class CylindricalGalleryEngine {
     this.handleTouchMove = (e) => {
       if (!e.touches || e.touches.length === 0) return;
 
-      // If user touched the blank area (above or below the cylinder),
-      // DO NOT intercept! Allow normal native / Lenis vertical page scroll!
       if (!this.isTouchOnCylinder) {
         return;
       }
@@ -360,17 +333,15 @@ export class CylindricalGalleryEngine {
       const deltaAngle = (deltaX / viewportWidth) * Math.PI * 1.6;
 
       if (this.carouselGroup) {
-        // Horizontal cylinder rotation
+
         this.carouselGroup.rotation.y += deltaAngle;
 
-        // Vertical tilt up and down (SAME TO SAME LIKE DESKTOP LIMIT: ±0.25 radians = ±14.3 degrees)
         const tiltSensitivity = 0.95;
         const tiltDelta = (deltaY / viewportHeight) * tiltSensitivity;
         this.touchTiltX = Math.max(-0.25, Math.min(0.25, (this.touchTiltX || 0) + tiltDelta));
         this.carouselGroup.rotation.x = this.touchTiltX;
       }
 
-      // Intercept only when interacting directly on the cylinder
       if (e.cancelable) {
         e.preventDefault();
       }
@@ -447,13 +418,12 @@ export class CylindricalGalleryEngine {
     if (this.disposed) return;
     this.animationFrameId = requestAnimationFrame(() => this.animate());
 
-    // Inertia momentum damping & auto-cruise
     if (!this.isUserInteracting) {
       if (Math.abs(this.rotationVelocity) > 0.0001) {
         if (this.carouselGroup) {
           this.carouselGroup.rotation.y += this.rotationVelocity;
         }
-        // Exponential damping decay (0.94 decay per frame matches OrbitControls dampingFactor = 0.05)
+
         this.rotationVelocity *= 0.94;
       } else if (this.autoRotate && this.carouselGroup) {
         this.carouselGroup.rotation.y += this.autoRotateSpeed;
@@ -545,7 +515,6 @@ export const CylindricalGallery = memo(function CylindricalGallery() {
     <div ref={containerRef} className="cylindrical-gallery-section" id="cylindrical-gallery-section">
       <canvas ref={canvasRef} className="cylindrical-gallery-canvas" />
 
-      {/* Elegant Bottom Marquee Ticker */}
       <div className="cylindrical-marquee-container" aria-hidden="true">
         <div className="cylindrical-marquee-track">
           <span className="marquee-item">Simon's Photography</span>

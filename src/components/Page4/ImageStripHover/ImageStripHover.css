@@ -1,12 +1,9 @@
-/* Section 3: Image Strip Hover Cursor — High-Performance GPU Composited */
-
 .section3-root {
   margin: 0;
   min-height: 100vh;
   background: #ffffff;
   position: relative;
   overflow: hidden;
-  /* Transitions handled purely by GSAP for zero frame-drops */
 }
 
 .section3-root .parentElem {
@@ -113,10 +110,6 @@
   background-position: center;
   will-change: transform;
 }
-
-/* ==========================================================================
-   TOUCH POLICY: REMOVE FLOATING CURSOR IMAGE ON TOUCH DEVICES
-   ========================================================================== */
 @media (hover: none) and (pointer: coarse) {
   .section3-root .hoverDiv {
     display: none !important;
@@ -126,10 +119,6 @@
     display: block;
   }
 }
-
-/* ==========================================================================
-   TABLET RESPONSIVE (768px - 1024px, 1024x1366 IPAD PRO)
-   ========================================================================== */
 @media (max-width: 1024px) {
   .section3-root .container {
     width: 90%;
@@ -149,10 +138,6 @@
     font-size: 10px;
   }
 }
-
-/* ==========================================================================
-   PHONE RESPONSIVE (<= 640px)
-   ========================================================================== */
 @media (max-width: 640px) {
   .section3-root .container {
     width: 92%;
@@ -179,4 +164,3 @@
     height: 54px;
   }
 }
-

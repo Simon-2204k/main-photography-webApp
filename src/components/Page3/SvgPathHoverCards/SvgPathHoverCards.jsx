@@ -53,7 +53,6 @@ export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
     });
   }, []);
 
-  // Synchronize activeCardIndex changes with forward/reverse GSAP animations
   useEffect(() => {
     cardsRef.current.forEach((card, index) => {
       if (!card) return;
@@ -67,11 +66,10 @@ export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
       gsap.killTweensOf([...paths, ...svgs, hoverCard]);
 
       if (isActive) {
-        // ONE TAP / HOVER: SHOW SVG AND DETAILS
+
         const tl = gsap.timeline();
         card._tl = tl;
 
-        // Reveal SVG layer so drawing starts visibly without prior corner dot
         tl.to(
           svgs,
           {
@@ -100,7 +98,7 @@ export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
           '0.4'
         );
       } else {
-        // ANOTHER TAP / LEAVE: CLOSE DETAILS AND SVG BACKWARDS
+
         const tl = gsap.timeline();
         card._tl = tl;
 
@@ -127,7 +125,6 @@ export const SvgPathHoverCards = memo(function SvgPathHoverCards() {
           );
         });
 
-        // Hide SVG layer cleanly when path finishes drawing backwards so no round cap dot is ever visible!
         tl.to(
           svgs,
           {

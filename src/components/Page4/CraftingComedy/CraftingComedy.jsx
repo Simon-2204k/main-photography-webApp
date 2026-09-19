@@ -13,7 +13,7 @@ export default function Section8CraftingComedy() {
     if (!root) return;
 
     const ctx = gsap.context(() => {
-      // 1. Landing Text Scroll Animation
+
       const chars = root.querySelectorAll('.char');
       const hero = root.querySelector('.hero');
       if (chars.length && hero) {
@@ -45,7 +45,6 @@ export default function Section8CraftingComedy() {
         });
       }
 
-      // Ensure all cards are explicitly off-screen initially so they never peek before scroll
       gsap.set(root.querySelectorAll('.card-1, .card-2, .card-3'), {
         x: '140vw',
         scale: 0.88,
@@ -55,7 +54,6 @@ export default function Section8CraftingComedy() {
         scale: 0.88,
       });
 
-      // 2. Section 1 Animation (+X Entrance)
       const secOne = root.querySelector('.section-one');
       const isMobileView = window.innerWidth <= 768;
 
@@ -75,13 +73,13 @@ export default function Section8CraftingComedy() {
         });
 
         if (isMobileView) {
-          // Phone: quick, light entrance with small scroll distance
+
           tl1
             .fromTo(root.querySelector('.bg-1'), { y: '35vh', opacity: 0 }, { y: '0vh', opacity: 1, duration: 0.3, ease: 'power2.out' })
             .fromTo(root.querySelector('.card-1'), { x: '110vw', scale: 0.95 }, { x: '0vw', scale: 1.0, duration: 0.5, ease: 'power2.out' }, '-=0.15')
             .to({}, { duration: 0.2 });
         } else {
-          // Desktop: original simultaneous 3-card animation
+
           tl1
             .fromTo(
               root.querySelectorAll('.bg-1, .bg-2, .bg-3'),
@@ -94,7 +92,6 @@ export default function Section8CraftingComedy() {
         }
       }
 
-      // 3. Section 2 Animation (-X Entrance)
       const secTwo = root.querySelector('.section-two');
       if (secTwo) {
         const tl2 = gsap.timeline({
@@ -112,13 +109,13 @@ export default function Section8CraftingComedy() {
         });
 
         if (isMobileView) {
-          // Phone: quick, light entrance with small scroll distance
+
           tl2
             .fromTo(root.querySelector('.bg-4'), { y: '35vh', opacity: 0 }, { y: '0vh', opacity: 1, duration: 0.3, ease: 'power2.out' })
             .fromTo(root.querySelector('.card-4'), { x: '-110vw', scale: 0.95 }, { x: '0vw', scale: 1.0, duration: 0.5, ease: 'power2.out' }, '-=0.15')
             .to({}, { duration: 0.2 });
         } else {
-          // Desktop: original simultaneous 3-card animation
+
           tl2
             .fromTo(
               root.querySelectorAll('.bg-4, .bg-5, .bg-6'),
@@ -142,10 +139,9 @@ export default function Section8CraftingComedy() {
       </span>
     ));
 
-
   return (
     <div ref={containerRef} className="section8-root">
-      {/* PAGE 1: LANDING */}
+
       <section className="hero">
         <div className="hero-title-container">
           <h1 className="hero-text cream">{renderChars('CRAFTING')}</h1>
@@ -157,10 +153,9 @@ export default function Section8CraftingComedy() {
         </p>
       </section>
 
-      {/* PAGE 2: PINNED SECTION 1 (Cards enter from +X) */}
       <section className="pinned-section section-one bg-black">
         <div className="grid-container">
-          {/* SLOT 1 */}
+
           <div className="grid-column-slot">
             <div className="column-bg bg-1"><span className="bg-letter">M</span></div>
             <div className="team-card card-1">
@@ -179,7 +174,6 @@ export default function Section8CraftingComedy() {
             </div>
           </div>
 
-          {/* SLOT 2 */}
           <div className="grid-column-slot">
             <div className="column-bg bg-2"><span className="bg-letter">B</span></div>
             <div className="team-card card-2">
@@ -198,7 +192,6 @@ export default function Section8CraftingComedy() {
             </div>
           </div>
 
-          {/* SLOT 3 */}
           <div className="grid-column-slot">
             <div className="column-bg bg-3"><span className="bg-letter">S</span></div>
             <div className="team-card card-3">
@@ -219,10 +212,9 @@ export default function Section8CraftingComedy() {
         </div>
       </section>
 
-      {/* PAGE 3: PINNED SECTION 2 (Cards enter from -X) */}
       <section className="pinned-section section-two alt-bg bg-black">
         <div className="grid-container">
-          {/* SLOT 4 */}
+
           <div className="grid-column-slot">
             <div className="column-bg bg-4"><span className="bg-letter">J</span></div>
             <div className="team-card card-4">
@@ -241,7 +233,6 @@ export default function Section8CraftingComedy() {
             </div>
           </div>
 
-          {/* SLOT 5 */}
           <div className="grid-column-slot">
             <div className="column-bg bg-5"><span className="bg-letter">A</span></div>
             <div className="team-card card-5">
@@ -260,7 +251,6 @@ export default function Section8CraftingComedy() {
             </div>
           </div>
 
-          {/* SLOT 6 */}
           <div className="grid-column-slot">
             <div className="column-bg bg-6"><span className="bg-letter">D</span></div>
             <div className="team-card card-6">

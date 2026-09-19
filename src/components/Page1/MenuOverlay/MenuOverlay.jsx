@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, memo, useCallback } from 'react';
 import gsap from 'gsap';
 import './MenuOverlay.css';
 
-// 4 Navigation Options with 2 localized GIFs each
 const MENU_ITEMS = [
   {
     id: 'page1',
@@ -38,10 +37,8 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
   const rowsRef = useRef([]);
   const isAnimatingCloseRef = useRef(false);
 
-  // Active hover row state (null = none active)
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  // Live India Time (IST / Asia/Kolkata)
   const [timeString, setTimeString] = useState('');
 
   useEffect(() => {
@@ -63,7 +60,6 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
     return () => clearInterval(timer);
   }, []);
 
-  // GSAP Morph Scaling Closing Physics
   const animateClose = useCallback((callback, customRect, options = {}) => {
     if (isAnimatingCloseRef.current) return;
     isAnimatingCloseRef.current = true;
@@ -96,14 +92,12 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
 
     const hold = options.holdDuration || 0;
 
-    // 1. Instantly fade inner content out
     tl.to(inner, {
       opacity: 0,
       duration: 0.16,
       ease: 'power2.in',
     });
 
-    // 2. Morph box smoothly back into destination MENU button (held at 100vw x 100vh if switching pages to cover mount)
     tl.to(el, {
       top: rect.top,
       left: rect.left,
@@ -115,11 +109,9 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
     }, hold > 0 ? `+=${hold}` : '-=0.06');
   }, [triggerRect]);
 
-  // Handle Option Click: shutter curtain page transition (swap behind solid black, morph to unveil new page)
   const handleItemClick = (pageId) => {
     if (isAnimatingCloseRef.current) return;
 
-    // Determine destination MENU button coordinates on the target page
     let destRect;
     if (pageId === 'page3' || pageId === 'page4') {
       destRect = {
@@ -140,12 +132,11 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
     const isPageSwitch = onSelectPage && (!currentPage || currentPage !== pageId);
 
     if (isPageSwitch) {
-      // 1. Switch page behind the solid black overlay on the next micro-tick
+
       setTimeout(() => {
         if (onSelectPage) onSelectPage(pageId);
       }, 30);
 
-      // 2. Hold full-screen black for 0.22s to let new page mount, then morph into destRect revealing new page
       animateClose(() => {
         if (onClose) onClose();
       }, destRect, { holdDuration: 0.22 });
@@ -156,7 +147,6 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
     }
   };
 
-  // Handle Close Button Click
   const handleCloseClick = () => {
     if (isAnimatingCloseRef.current) return;
     animateClose(() => {
@@ -164,7 +154,6 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
     });
   };
 
-  // GSAP Morph Scaling Opening Physics
   useEffect(() => {
     if (!overlayRef.current) return;
 
@@ -181,7 +170,6 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
         height: 34,
       };
 
-      // 1. Initial State matching exact trigger button coordinates
       gsap.killTweensOf([el, inner, topBarRef.current, bottomBarRef.current, rowsRef.current]);
 
       gsap.set(el, {
@@ -202,7 +190,6 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
       gsap.set([topBarRef.current, bottomBarRef.current], { opacity: 0, y: 20 });
       gsap.set(rowsRef.current, { opacity: 0, y: 50 });
 
-      // 2. Physical Morph Scale to 100vw × 100vh
       const tl = gsap.timeline();
 
       tl.to(el, {
@@ -214,7 +201,7 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
         duration: 0.58,
         ease: 'power4.inOut',
       })
-      // 3. Reveal Inner Menu & Content
+
       .to(inner, {
         opacity: 1,
         duration: 0.22,
@@ -243,7 +230,6 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
     }
   }, [isOpen, triggerRect, animateClose]);
 
-  // Handle ESC key to close
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && isOpen) {
@@ -262,17 +248,16 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
       style={{ display: 'none' }}
     >
       <div ref={innerRef} className="k72-menu-inner">
-        {/* Top Header Bar: Centered SIMON'S FRAMEWORK + Right Rotating SVG Close Button */}
+
         <header ref={topBarRef} className="k72-menu-topbar">
           <div className="k72-topbar-spacer" />
-          
+
           <div className="k72-brand-center-container">
             <span className="k72-brand-logo">SIMON'S FRAMEWORK</span>
           </div>
 
-          {/* Large Geometric Rotating SVG Close Button (Top Right) */}
-          <button 
-            className="k72-close-btn" 
+          <button
+            className="k72-close-btn"
             onClick={handleCloseClick}
             onTouchEnd={(e) => {
               e.preventDefault();
@@ -287,7 +272,6 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
           </button>
         </header>
 
-        {/* 4 Interactive Full-Width Navigation Option Rows */}
         <nav className="k72-nav-links">
           {MENU_ITEMS.map((item, idx) => {
             const isHovered = hoveredIndex === idx;
@@ -306,7 +290,6 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
                 }}
               >
                 {isHovered ? (
-                  /* Dynamic Electric-Lime Marquee Ribbon on Hover with 2 Alternating GIFs */
                   <div className="k72-lime-marquee-banner">
                     <div className="k72-marquee-track-infinite">
                       {Array.from({ length: 5 }).map((_, segmentIdx) => (
@@ -324,7 +307,6 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
                     </div>
                   </div>
                 ) : (
-                  /* Clean Minimalist Typography when not hovered */
                   <h2 className="k72-nav-title">{item.title}</h2>
                 )}
               </div>
@@ -332,7 +314,6 @@ export const MenuOverlayComponent = ({ isOpen, onClose, onSelectPage, triggerRec
           })}
         </nav>
 
-        {/* Bottom Screen: Centered India Time with Globe Icon */}
         <footer ref={bottomBarRef} className="k72-menu-bottombar">
           <div className="k72-telemetry-centered">
             <span className="k72-globe-icon">🌐</span>

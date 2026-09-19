@@ -9,8 +9,6 @@
   font-family: 'Space Mono', monospace;
   touch-action: pan-y;
 }
-
-/* Hidden offscreen source video */
 .darkroom-source-video {
   position: absolute;
   width: 1px;
@@ -19,8 +17,6 @@
   pointer-events: none;
   z-index: -1;
 }
-
-/* Middle Bar — Modular Segmented Capsule Blocks with Higher Z-Index and Frosted Glass Blur */
 .darkroom-middle-bar-segmented {
   position: absolute;
   top: 50%;
@@ -51,8 +47,6 @@
   -webkit-backdrop-filter: blur(16px);
   text-transform: uppercase;
 }
-
-/* Grip icon block (::) */
 .darkroom-segment.segment-grip {
   width: 42px;
   padding: 0;
@@ -70,8 +64,6 @@
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 1px;
 }
-
-/* Path block with bold + */
 .darkroom-segment.segment-path {
   gap: 14px;
 }
@@ -82,24 +74,16 @@
   color: #ffffff;
   line-height: 1;
 }
-
-/* Category block */
 .darkroom-segment.segment-category {
   color: #ededf4;
 }
-
-/* Status block */
 .darkroom-segment.segment-status {
   color: #ffffff;
 }
-
-/* Count block */
 .darkroom-segment.segment-count {
   color: #ffffff;
   letter-spacing: 2px;
 }
-
-/* Mask Boxes — Absolute within Section 1 container */
 .darkroom-mask-box {
   position: absolute;
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -118,8 +102,6 @@
   height: 100%;
   display: block;
 }
-
-/* Position Badge (X:0000PX Y:0000PX) — Matches Reference Exactly */
 .darkroom-pos-badge {
   position: absolute;
   top: -26px;
@@ -140,8 +122,6 @@
   border-color: rgba(255, 255, 255, 0.8);
   color: #ffffff;
 }
-
-/* Subtle GRAB Label inside mask box */
 .darkroom-grab-label {
   position: absolute;
   bottom: 12px;
@@ -155,8 +135,6 @@
   pointer-events: none;
   text-transform: uppercase;
 }
-
-/* Responsive Scaling: Tablet (768px - 1024px & 1024x1366) */
 @media (max-width: 1024px) {
   .darkroom-middle-bar-segmented {
     transform: translate(-50%, -50%) scale(0.85);
@@ -173,8 +151,6 @@
     width: 38px;
   }
 }
-
-/* Responsive Scaling: Mobile (< 768px) */
 @media (max-width: 768px) {
   .darkroom-middle-bar-segmented {
     transform: translate(-50%, -50%) scale(0.68);
@@ -200,4 +176,3 @@
     display: none;
   }
 }
-

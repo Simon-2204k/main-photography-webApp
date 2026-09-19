@@ -33,9 +33,8 @@ const PerspectivesGridComponent = () => {
       const rect = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // 🎯 1. Columns start distinct speed motion as second page emerges from bottom (top <= 95% windowHeight)
       const startTrigger = windowHeight * 0.95;
-      // 🎯 2. Stops and locks onto the exact same equal line when second page crosses 10% ABOVE the top (top <= -10% windowHeight)
+
       const endTrigger = -windowHeight * 0.10;
 
       let c1 = 140;
@@ -136,10 +135,9 @@ const PerspectivesGridComponent = () => {
           }
         }
       `}</style>
-      {/* Bounded Cursor Trail for Perspectives Section */}
+
       <CursorTrail zIndex={2} />
 
-      {/* Top Header Section */}
       <div
         ref={headingWrapperRef}
         style={{
@@ -167,7 +165,6 @@ const PerspectivesGridComponent = () => {
         </h2>
       </div>
 
-      {/* 3-Column Seamless Editorial Grid */}
       <div
         className="perspectives-editorial-grid"
         style={{
@@ -181,7 +178,7 @@ const PerspectivesGridComponent = () => {
           backgroundColor: '#000000'
         }}
       >
-        {/* ================= COLUMN 1 (Speed 1) ================= */}
+
         <div
           ref={col1Ref}
           className="perspectives-col-1"
@@ -193,7 +190,7 @@ const PerspectivesGridComponent = () => {
             transition: 'transform 0.08s ease-out'
           }}
         >
-          {/* Card 1.1 */}
+
           <div className="perspective-cell" style={cellStyle}>
             <div>
               <div style={metaStyle}>LIGHT &amp; SHADOW · 2026-06-22</div>
@@ -205,7 +202,6 @@ const PerspectivesGridComponent = () => {
             <div style={arrowBtnStyle}>→</div>
           </div>
 
-          {/* Card 1.2 */}
           <div className="perspective-cell" style={cellStyle}>
             <div>
               <div style={metaStyle}>STREET CHRONICLES · 2026-03-19</div>
@@ -219,7 +215,6 @@ const PerspectivesGridComponent = () => {
             <div style={arrowBtnStyle}>→</div>
           </div>
 
-          {/* Card 1.3 */}
           <div className="perspective-cell" style={cellStyle}>
             <div>
               <div style={metaStyle}>OPTICS &amp; MASTERY · 2025-11-25</div>
@@ -231,7 +226,6 @@ const PerspectivesGridComponent = () => {
             <div style={arrowBtnStyle}>→</div>
           </div>
 
-          {/* Card 1.4 */}
           <div className="perspective-cell" style={cellStyle}>
             <div>
               <div style={metaStyle}>FIELD NOTES · 2025-10-31</div>
@@ -244,7 +238,6 @@ const PerspectivesGridComponent = () => {
           </div>
         </div>
 
-        {/* ================= COLUMN 2 (Speed 2) ================= */}
         <div
           ref={col2Ref}
           className="perspectives-col-2"
@@ -256,7 +249,7 @@ const PerspectivesGridComponent = () => {
             transition: 'transform 0.08s ease-out'
           }}
         >
-          {/* Card 2.1 (Image 1: Four Young Men Filming Outdoors) */}
+
           <div className="perspective-cell" style={cellStyle}>
             <div>
               <div style={imageBannerContainerStyle}>
@@ -287,7 +280,6 @@ const PerspectivesGridComponent = () => {
             <div style={arrowBtnStyle}>→</div>
           </div>
 
-          {/* Card 2.2 (Image 2: Woman in Hat Standing in Front of Group) */}
           <div className="perspective-cell" style={cellStyle}>
             <div>
               <div style={imageBannerContainerStyle}>
@@ -319,7 +311,6 @@ const PerspectivesGridComponent = () => {
           </div>
         </div>
 
-        {/* ================= COLUMN 3 (Speed 3) ================= */}
         <div
           ref={col3Ref}
           style={{
@@ -329,7 +320,7 @@ const PerspectivesGridComponent = () => {
             transition: 'transform 0.08s ease-out'
           }}
         >
-          {/* Card 3.1 (Image 3: Children Gather Around Men in Street Scene) */}
+
           <div className="perspective-cell" style={cellStyle}>
             <div>
               <div style={imageBannerContainerStyle}>
@@ -362,7 +353,6 @@ const PerspectivesGridComponent = () => {
             <div style={arrowBtnStyle}>→</div>
           </div>
 
-          {/* Card 3.2 (Image 4: Five Women Holding Cameras) */}
           <div className="perspective-cell" style={cellStyle}>
             <div>
               <div style={imageBannerContainerStyle}>
@@ -400,7 +390,6 @@ const PerspectivesGridComponent = () => {
   );
 };
 
-/* Reusable Inline Styles (0 Gaps, 0 Roundness, 1px Gray Borders, Normal Default Cursor) */
 const cellStyle = {
   backgroundColor: '#000000',
   borderBottom: '1px solid rgba(255, 255, 255, 0.12)',

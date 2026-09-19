@@ -1,8 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Lenis Smooth Scroll Setup */
 html.lenis, html.lenis body {
   height: auto;
 }
@@ -22,15 +20,13 @@ html.lenis, html.lenis body {
 .lenis.lenis-smooth iframe {
   pointer-events: none;
 }
-
-/* Hide Scrollbar Globally Across All Browsers */
 * {
-  scrollbar-width: none !important; /* Firefox */
-  -ms-overflow-style: none !important; /* IE & Edge */
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 *::-webkit-scrollbar {
-  display: none !important; /* Chrome, Safari, Opera */
+  display: none !important;
   width: 0px !important;
   height: 0px !important;
 }
@@ -79,8 +75,6 @@ html, body {
   width: 100%;
   min-height: 100%;
 }
-
-/* Universal Section Border Rule: Strictly zero divider borders between sections */
 section, footer {
   border: none !important;
   border-top: none !important;
@@ -88,8 +82,6 @@ section, footer {
   border-left: none !important;
   border-right: none !important;
 }
-
-/* Background Giant Typography */
 .hero-backdrop {
   position: absolute;
   inset: 0;
@@ -114,8 +106,6 @@ section, footer {
   text-align: center;
   width: 100%;
 }
-
-/* Telemetry & Crosshairs UI */
 .hud-layer {
   position: absolute;
   inset: 0;
@@ -180,8 +170,6 @@ section, footer {
   background: var(--accent-yellow);
   transform: translateY(-1px);
 }
-
-/* Hairline Grid & Crosshairs */
 .grid-lines {
   position: absolute;
   inset: 0;
@@ -233,8 +221,6 @@ section, footer {
   pointer-events: none;
   z-index: 3;
 }
-
-/* Instructions & Control Tips */
 .hud-footer {
   display: flex;
   justify-content: space-between;
@@ -263,8 +249,6 @@ section, footer {
   border-radius: 50%;
   background: #00ff88;
 }
-
-/* Modal Overlay */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -369,22 +353,16 @@ section, footer {
   background: #fff;
   color: #000;
 }
-
-/* Canvas Container */
 .canvas-wrapper {
   position: absolute;
   inset: 0;
   z-index: 5;
   cursor: default;
 }
-
-/* Perspective Grid Seamless Cells (0 Gaps, 0 Roundness, Normal Default Cursor) */
 .perspective-cell {
   background-color: #0d0d10;
   cursor: default !important;
 }
-
-/* Wood Desk Texture Layer */
 .wood-bg {
   background-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%), url('/assets/wood_desk.jpg');
   background-size: cover;
@@ -398,8 +376,6 @@ section, footer {
   background-size: cover;
   background-position: center;
 }
-
-/* 35mm Film Strip Perforations & Border */
 .film-frame {
   position: relative;
   background: #101010;
@@ -433,8 +409,6 @@ section, footer {
 .film-frame::after {
   bottom: -11px;
 }
-
-/* Continuous 35mm Film Reel */
 .film-reel-track {
   background: #09090b;
   border-top: 18px solid #050507;
@@ -468,8 +442,6 @@ section, footer {
 .film-reel-track::after {
   bottom: -14px;
 }
-
-/* Paper / Document Stack Effects */
 .paper-shadow {
   box-shadow: 
     0 1px 3px rgba(0,0,0,0.12),
@@ -482,8 +454,6 @@ section, footer {
   padding: 10px 10px 32px 10px;
   box-shadow: 0 15px 35px -5px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,0,0,0.05);
 }
-
-/* Glassmorphic Effects */
 .glass-panel {
   background: rgba(24, 24, 27, 0.65);
   backdrop-filter: blur(16px);

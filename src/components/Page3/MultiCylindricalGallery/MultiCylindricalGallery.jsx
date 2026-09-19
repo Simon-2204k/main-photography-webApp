@@ -11,7 +11,6 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
   const [autoRotate, setAutoRotate] = useState(true);
   const [isLocked, setIsLocked] = useState(false);
 
-  // High-performance direct mutable physics ref read by R3F useFrame (0 React re-renders)
   const physicsRef = useRef({
     scrollY: 0,
     scrollYTarget: 0,
@@ -29,7 +28,6 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
   const containerRef = useRef(null);
   const manuallyUnlockedRef = useRef(false);
 
-  // IntersectionObserver to pause physics and rendering when section is offscreen
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -43,12 +41,10 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
     return () => observer.disconnect();
   }, []);
 
-  // Keep autoRotate synced in physics ref
   useEffect(() => {
     physicsRef.current.autoRotate = autoRotate;
   }, [autoRotate]);
 
-  // High-performance lerp loop: runs only when section is visible
   useEffect(() => {
     if (!isVisible) return;
     let animId;
@@ -56,18 +52,15 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
     const updatePhysics = () => {
       const p = physicsRef.current;
 
-      // Auto rotation increment when not dragging
       if (p.autoRotate && !p.isDragging) {
         p.rotationYTarget += 0.003 + p.rotationVelocity;
         p.rotationVelocity *= 0.92;
       }
 
-      // Scroll Y Lerp
       const prevScrollY = p.scrollY;
       p.scrollY += (p.scrollYTarget - p.scrollY) * 0.08;
       p.scrollVelocity = p.scrollY - prevScrollY;
 
-      // Rotation Y Lerp
       p.rotationY += (p.rotationYTarget - p.rotationY) * 0.08;
 
       animId = requestAnimationFrame(updatePhysics);
@@ -77,7 +70,6 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
     return () => cancelAnimationFrame(animId);
   }, [isVisible]);
 
-  // Scroll-lock on section entry via GSAP ScrollTrigger across all devices (Desktop, Tablets & Mobile)
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -106,14 +98,13 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
     };
   }, []);
 
-  // When locked on mobile & tablet, prevent touch gestures from scrolling the underlying page
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
     const preventTouchScrollWhenLocked = (e) => {
       if (isLocked) {
-        // Never prevent clicks or touches on the unlock toggle button
+
         if (e.target && e.target.closest('.multi-cyc-bw-lock-btn')) return;
         if (e.cancelable) {
           e.preventDefault();
@@ -127,29 +118,27 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
     };
   }, [isLocked]);
 
-  // Toggle Scroll Lock handler: User can unlock freely (no auto-scroll to top)
   const handleToggleLock = useCallback(() => {
     if (isLocked) {
-      // User explicitly unlocked: resume Lenis scrolling
+
       manuallyUnlockedRef.current = true;
       setIsLocked(false);
       window.lenis?.start();
     } else {
-      // User re-locks
+
       manuallyUnlockedRef.current = false;
       setIsLocked(true);
       window.lenis?.stop();
     }
   }, [isLocked]);
 
-  // Handle Wheel Scroll inside the section
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const handleWheel = (e) => {
       if (isLocked) {
-        // Prevent default native page scrolling while locked
+
         e.preventDefault();
       }
 
@@ -157,8 +146,6 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
       const p = physicsRef.current;
       p.scrollYTarget += delta;
 
-      // Scroll Down (delta > 0) spins whole cylinder Left-to-Right (+Y)
-      // Scroll Up (delta < 0) spins whole cylinder Right-to-Left (-Y)
       p.rotationYTarget += delta * 0.45;
     };
 
@@ -166,7 +153,6 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
     return () => container.removeEventListener('wheel', handleWheel);
   }, [isLocked]);
 
-  // Handle Keyboard Arrow Navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
       const p = physicsRef.current;
@@ -187,7 +173,6 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Handle Drag Pointer Events with Momentum Throw
   const handlePointerDown = (e) => {
     isDraggingRef.current = true;
     physicsRef.current.isDragging = true;
@@ -201,7 +186,6 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
     const dx = e.clientX - lastMousePosRef.current.x;
     const dy = e.clientY - lastMousePosRef.current.y;
 
-    // Calibrated touch / tablet sensitivity (up to 1024x1366) for swift, normal rotation
     const isTouch = e.pointerType === 'touch' || (typeof window !== 'undefined' && window.innerWidth <= 1024);
     const rotSens = isTouch ? 0.012 : 0.004;
     const scrollSens = isTouch ? 0.015 : 0.006;
@@ -212,7 +196,6 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
     p.rotationYTarget += rotDelta;
     p.rotationVelocity = rotDelta * 0.5;
 
-    // Dragging down -> scroll down -> spin left to right
     p.scrollYTarget -= dy * scrollSens;
     p.rotationYTarget -= dy * rotFromScrollSens;
 
@@ -232,10 +215,9 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
     >
-      {/* Background Subtle Scanning Lines */}
+
       <div className="scanline" />
 
-      {/* Minimal Black & White Scroll-Lock Toggle Button */}
       <button
         type="button"
         onClick={handleToggleLock}
@@ -264,13 +246,11 @@ export default function MultiCylindricalGallery({ onOpenMenu }) {
         </span>
       </button>
 
-      {/* 3D Multi-Cylindrical Gallery Canvas (Reads physicsRef inside useFrame, 0 re-renders) */}
       <CylindricalGalleryCanvas
         physicsRef={physicsRef}
         isVisible={isVisible}
       />
 
-      {/* Bottom-Right Universal MENU button */}
       <button
         type="button"
         onClick={(e) => {

@@ -26,7 +26,7 @@ export const EXPANDING_GALLERY_DATA = Array.from({ length: 64 }, (_, idx) => {
   const id = idx + 1;
   const title = TITLES[idx % TITLES.length];
   const category = CATEGORIES[idx % CATEGORIES.length];
-  const year = 2024 + (idx % 3); // 2024, 2025, 2026
+  const year = 2024 + (idx % 3);
 
   return {
     id,

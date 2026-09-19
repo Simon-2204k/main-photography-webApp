@@ -3,7 +3,6 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import '../../shaders/CurvedCardMaterial';
 
-// Safe non-blocking texture loader hook
 function useSafeTexture(url) {
   const [texture, setTexture] = useState(null);
 
@@ -54,10 +53,8 @@ export const CurvedCardMesh = React.memo(function CurvedCardMesh({
   const materialRef = useRef();
   const [hovered, setHovered] = useState(false);
 
-  // Non-blocking safe texture loading
   const texture = useSafeTexture(card.image);
 
-  // Framed card geometry with horizontal subdivisions for cylinder arc bending
   const planeGeometry = useMemo(() => {
     return new THREE.PlaneGeometry(cardWidth, cardHeight, 32, 1);
   }, [cardWidth, cardHeight]);
@@ -65,13 +62,11 @@ export const CurvedCardMesh = React.memo(function CurvedCardMesh({
   useFrame((state) => {
     if (!meshRef.current || !materialRef.current) return;
 
-    // Hover scale smoothly interpolated
     const targetScale = hovered ? 1.15 : 1.0;
     meshRef.current.scale.x = THREE.MathUtils.lerp(meshRef.current.scale.x, targetScale, 0.18);
     meshRef.current.scale.y = THREE.MathUtils.lerp(meshRef.current.scale.y, targetScale, 0.18);
     meshRef.current.scale.z = THREE.MathUtils.lerp(meshRef.current.scale.z, targetScale, 0.18);
 
-    // Dynamic Shader Uniform Updates
     if (texture) {
       materialRef.current.uTexture = texture;
     }

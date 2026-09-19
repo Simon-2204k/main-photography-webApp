@@ -68,7 +68,6 @@ const artists = [
   },
 ];
 
-// Clean Pure Black Card Texture with subtle Image Box Drop Shadow
 function drawCardCanvas(canvas, artist, imgElem = null) {
   const ctx = canvas.getContext('2d');
   const w = 512;
@@ -76,13 +75,11 @@ function drawCardCanvas(canvas, artist, imgElem = null) {
   canvas.width = w;
   canvas.height = h;
 
-  // Reset shadow for card base
   ctx.shadowColor = 'transparent';
   ctx.shadowBlur = 0;
   ctx.shadowOffsetX = 0;
   ctx.shadowOffsetY = 0;
 
-  // 1. PURE DEEP BLACK Card Background (#000000, 0px border-radius)
   ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, w, h);
 
@@ -90,7 +87,6 @@ function drawCardCanvas(canvas, artist, imgElem = null) {
   ctx.lineWidth = 4;
   ctx.strokeRect(0, 0, w, h);
 
-  // 2. Artist Details (Name, Role, Location ONLY)
   ctx.fillStyle = '#ffffff';
   ctx.font = 'bold 42px Syne, sans-serif';
   ctx.fillText(artist.name, 36, 76);
@@ -103,13 +99,11 @@ function drawCardCanvas(canvas, artist, imgElem = null) {
   ctx.font = '400 20px monospace';
   ctx.fillText(artist.location, 36, 154);
 
-  // 3. Rectangular Image Box with Subtle Drop Shadow
   const imgX = 36;
   const imgY = 186;
   const imgW = 440;
   const imgH = 494;
 
-  // Apply subtle drop shadow behind the image box
   ctx.save();
   ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
   ctx.shadowBlur = 12;
@@ -120,14 +114,13 @@ function drawCardCanvas(canvas, artist, imgElem = null) {
   ctx.fillRect(imgX, imgY, imgW, imgH);
   ctx.restore();
 
-  // Clip for image drawing
   ctx.save();
   ctx.rect(imgX, imgY, imgW, imgH);
   ctx.clip();
 
   if (imgElem && imgElem.complete && imgElem.naturalWidth > 0) {
     try {
-      // Draw image in 100% natural color tone (no overlays or tinting)
+
       ctx.drawImage(imgElem, imgX, imgY, imgW, imgH);
     } catch {
       const grad = ctx.createLinearGradient(imgX, imgY, imgX + imgW, imgY + imgH);
@@ -165,10 +158,9 @@ export default function CylindricalCarousel3D() {
     const width = container.clientWidth || window.innerWidth;
     const height = container.clientHeight || 560;
 
-    // Three.js Scene, Camera, Renderer
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 1000);
-    // Auto-calibrate camera distance on mobile and tablet to guarantee cards never clip or appear too big
+
     const getCameraZ = (w) => (w <= 640 ? 20.5 : (w <= 1024 ? 15.2 : 11.2));
     camera.position.set(0, 0, getCameraZ(width));
 
@@ -177,24 +169,21 @@ export default function CylindricalCarousel3D() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // 1. OUTER TILT GROUP (Holds the fixed Z slant angle: rotation.x = 0, rotation.z = 0.5)
     const tiltGroup = new THREE.Group();
-    tiltGroup.rotation.x = 0;   // NO X-AXIS TILT
-    tiltGroup.rotation.z = 0.5; // FIXED Z-AXIS SLANT TILT (0.5 rad)
+    tiltGroup.rotation.x = 0;
+    tiltGroup.rotation.z = 0.5;
     scene.add(tiltGroup);
 
-    // 2. INNER SPIN GROUP (Rotates around Y-axis smoothly: initial rotation.y = 0.2)
     const ringGroup = new THREE.Group();
-    ringGroup.rotation.y = 0.2; // Initial Y-axis angle offset
+    ringGroup.rotation.y = 0.2;
     tiltGroup.add(ringGroup);
 
-    // Ring Geometry parameters — Enlarged 3D Cylinder Size
-    const totalCards = artists.length; // 8 Photographer Cards
+    const totalCards = artists.length;
     const cylinderRadius = 3.5;
     const cardHeight = 3.0;
 
-    const segmentAngle = (Math.PI * 2) / totalCards; // 45 degrees per slot
-    const gapAngle = 0.15; // Gap angle
+    const segmentAngle = (Math.PI * 2) / totalCards;
+    const gapAngle = 0.15;
     const cardArcAngle = segmentAngle - gapAngle;
 
     const meshes = [];
@@ -207,14 +196,12 @@ export default function CylindricalCarousel3D() {
       texture.minFilter = THREE.LinearFilter;
       texture.magFilter = THREE.LinearFilter;
 
-      // Unlit MeshBasicMaterial with DoubleSide for crisp, natural image rendering
       const material = new THREE.MeshBasicMaterial({
         map: texture,
         side: THREE.DoubleSide,
         transparent: true,
       });
 
-      // Curved cylinder wall segment geometry for each card along the single 3D ring
       const thetaStart = index * segmentAngle + gapAngle / 2;
       const cardGeometry = new THREE.CylinderGeometry(
         cylinderRadius,
@@ -231,7 +218,6 @@ export default function CylindricalCarousel3D() {
       ringGroup.add(mesh);
       meshes.push({ mesh, texture, canvas, artist, geometry: cardGeometry });
 
-      // Optimized Image preloading & decode for buttery-smooth texture generation
       const img = new Image();
       img.src = artist.image;
       if (typeof img.decode === 'function') {
@@ -254,14 +240,13 @@ export default function CylindricalCarousel3D() {
       }
     });
 
-    // Unified Single Rotation around Y-axis on the inner spin group with Viewport Gating
     let reqId = null;
     let isVisible = true;
 
     const animate = () => {
       if (!isVisible) return;
       reqId = requestAnimationFrame(animate);
-      ringGroup.rotation.y += 0.0035; // Continuous smooth Y-axis auto-rotation inside the fixed tiltGroup!
+      ringGroup.rotation.y += 0.0035;
       renderer.render(scene, camera);
     };
 

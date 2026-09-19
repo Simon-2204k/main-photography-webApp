@@ -17,13 +17,11 @@ export const HeroCanvasComponent = () => {
     start: 'top 80%',
   });
 
-  // Helper to format frame file path
   const getFramePath = (index) => {
     const frameNum = String(index + 1).padStart(2, '0');
     return `/assets/ese-hero-sequence${frameNum}.webp`;
   };
 
-  // Canvas render function maintaining cover aspect ratio
   const renderFrame = (index) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -32,7 +30,6 @@ export const HeroCanvasComponent = () => {
 
     if (!img || !img.complete || img.naturalWidth === 0) return;
 
-    // Set canvas internal resolution to window bounds
     const width = window.innerWidth;
     const height = window.innerHeight;
 
@@ -43,7 +40,6 @@ export const HeroCanvasComponent = () => {
 
     ctx.clearRect(0, 0, width, height);
 
-    // Calculate aspect ratio cover math
     const imgWidth = img.naturalWidth;
     const imgHeight = img.naturalHeight;
     const imgRatio = imgWidth / imgHeight;
@@ -59,7 +55,7 @@ export const HeroCanvasComponent = () => {
     } else {
       drawHeight = height;
       drawWidth = height * imgRatio;
-      // On narrow/mobile/tablet portrait screens (<= 1024px), center on subject's focal point (38% of image width)
+
       if (width <= 1024) {
         const focalX = drawWidth * 0.38;
         drawX = Math.min(0, Math.max(width - drawWidth, width / 2 - focalX));
@@ -72,7 +68,6 @@ export const HeroCanvasComponent = () => {
     ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
   };
 
-  // Preload all 49 image frames & setup GSAP ScrollTrigger
   useEffect(() => {
     const loadedImages = [];
 
@@ -88,13 +83,12 @@ export const HeroCanvasComponent = () => {
     }
     imagesRef.current = loadedImages;
 
-    // Render frame 0 if already cached
     renderFrame(0);
 
     const sequenceState = { frame: 0 };
 
     const ctx = gsap.context(() => {
-      // Pin hero & scrub canvas sequence
+
       ScrollTrigger.create({
         trigger: containerRef.current,
         start: 'top top',
@@ -109,18 +103,17 @@ export const HeroCanvasComponent = () => {
           sequenceState.frame = frameIndex;
           renderFrame(frameIndex);
 
-          // Control the single unified marquee element (#unified-marquee)
           const marqueeEl = document.getElementById('unified-marquee');
           const textNodes = document.querySelectorAll('.marquee-text-node');
 
           if (marqueeEl && textNodes.length > 0) {
             if (frameIndex < 29) {
-              // Before Frame 30 (index 29): Hidden & translated y: -10px (hides when scrolling back up)
+
               marqueeEl.style.opacity = '0';
               marqueeEl.style.transform = 'translateY(-10px)';
             } else if (frameIndex >= 29 && frameIndex < 48) {
-              // Frames 30 to 48: Stroke outline text & translates y: -10px -> 0px
-              const progress = (frameIndex - 29) / 19; // 0 to 1
+
+              const progress = (frameIndex - 29) / 19;
               marqueeEl.style.opacity = `${0.35 + progress * 0.5}`;
               marqueeEl.style.transform = `translateY(${-10 + progress * 10}px)`;
               textNodes.forEach((node) => {
@@ -128,7 +121,7 @@ export const HeroCanvasComponent = () => {
                 node.style.webkitTextStroke = '1.5px rgba(255, 255, 255, 0.85)';
               });
             } else {
-              // Frame 49: Solid white filled text with no stroke & y: 0px, 100% visible
+
               marqueeEl.style.opacity = '1';
               marqueeEl.style.transform = 'translateY(0px)';
               textNodes.forEach((node) => {
@@ -141,7 +134,6 @@ export const HeroCanvasComponent = () => {
       });
     }, containerRef);
 
-    // Handle Window Resize
     const handleResize = () => {
       renderFrame(sequenceState.frame);
     };
@@ -155,7 +147,7 @@ export const HeroCanvasComponent = () => {
 
   return (
     <section ref={containerRef} id="hero-sequence-section" className="relative w-full h-screen overflow-hidden" style={{ backgroundColor: '#000000' }}>
-      {/* Option 1 Alpha Gradient Masking on Canvas */}
+
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full object-cover z-0"
@@ -165,7 +157,6 @@ export const HeroCanvasComponent = () => {
         }}
       />
 
-      {/* Hero Marquee Element: Positioned cleanly above bottom edge */}
       <div
         id="unified-marquee"
         className="absolute bottom-24 sm:bottom-28 left-0 right-0 w-full overflow-hidden pointer-events-none select-none transition-all duration-300 opacity-0 -translate-y-[10px] z-50"
@@ -179,13 +170,12 @@ export const HeroCanvasComponent = () => {
                 WebkitTextStroke: '1.5px rgba(255, 255, 255, 0.85)',
               }}
             >
-              where light, shadows, and moments become stories with us overtake 
+              where light, shadows, and moments become stories with us overtake
             </span>
           ))}
         </div>
       </div>
 
-      {/* Floating Subtitle Tags: Cleanly Positioned (MODERN / HIGH QUALITY / FRESH) */}
       <div className="absolute inset-0 z-20 pointer-events-none flex flex-col justify-center p-6 sm:p-12 lg:p-16">
         <div className="w-full flex items-center justify-between text-xs sm:text-sm font-medium tracking-widest text-white uppercase px-6 sm:px-12 mt-12 sm:mt-16">
           <span className="select-none hero-tag">

@@ -1,4 +1,3 @@
-/* Darkroom Grid Grain & Telemetry Overlay */
 .darkroom-grid-grain-overlay {
   position: absolute;
   inset: 0;
@@ -9,8 +8,6 @@
   user-select: none;
   font-family: 'Space Mono', monospace, 'Courier New';
 }
-
-/* 1. Viewport Corner Brackets */
 .darkroom-corner-bracket {
   position: absolute;
   width: 18px;
@@ -46,8 +43,6 @@
   border-bottom: 2px solid rgba(255, 255, 255, 0.5);
   border-right: 2px solid rgba(255, 255, 255, 0.5);
 }
-
-/* 2. Precision Crosshairs & Alignment Marks */
 .darkroom-cross-marker {
   position: absolute;
   color: rgba(255, 255, 255, 0.28);
@@ -78,8 +73,6 @@
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
-
-/* 3. Right-Side Vertical Scale Tick Ladder */
 .darkroom-tick-scale {
   position: absolute;
   right: 28px;
@@ -108,8 +101,6 @@
 .darkroom-tick-scale .tick-line.short {
   width: 12px;
 }
-
-/* 4. Top-Left Telemetry Block */
 .darkroom-telemetry-top-left {
   position: absolute;
   top: clamp(80px, 11vh, 130px);
@@ -137,8 +128,6 @@
 .darkroom-telemetry-top-left .data-val {
   color: #c4c4cc;
 }
-
-/* 5. Bottom-Right Telemetry Block */
 .darkroom-telemetry-bottom-right {
   position: absolute;
   bottom: clamp(16px, 3.5vh, 45px);
@@ -175,4 +164,3 @@
     display: none;
   }
 }
-

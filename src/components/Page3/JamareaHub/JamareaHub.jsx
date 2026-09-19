@@ -6,7 +6,6 @@ import './JamareaHub.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 20 Landscape Photography Assets
 const PORTAL_IMAGES = Array.from(
   { length: 20 },
   (_, i) => `/assets/page3/section4/portal_${String(i + 1).padStart(2, '0')}.webp`
@@ -30,7 +29,6 @@ export const JamareaHub = memo(function JamareaHub() {
     start: 'top 80%',
   });
 
-  // IntersectionObserver to pause cycling and animations when offscreen
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -44,7 +42,6 @@ export const JamareaHub = memo(function JamareaHub() {
     return () => observer.disconnect();
   }, []);
 
-  // 1. Continuous image cycling timer across all 20 images (active only when in viewport)
   useEffect(() => {
     if (!isVisible) return;
     const timer = setInterval(() => {
@@ -54,7 +51,6 @@ export const JamareaHub = memo(function JamareaHub() {
     return () => clearInterval(timer);
   }, [isVisible]);
 
-  // 2. Pin Section 4 for 150vh
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -73,7 +69,6 @@ export const JamareaHub = memo(function JamareaHub() {
     return () => ctx.revert();
   }, []);
 
-  // 3. Mouse scrub on desktop / Auto-ticker fallback on touch or mobile
   useEffect(() => {
     const section = sectionRef.current;
     const track = trackRef.current;
@@ -112,7 +107,7 @@ export const JamareaHub = memo(function JamareaHub() {
 
   return (
     <section ref={sectionRef} className="jamarea-hub-section" id="jamarea-hub-section">
-      {/* Top Navigation - Clean centered links without Menu and Contact */}
+
       <header className="jamarea-topbar">
         <nav className="jamarea-top-nav">
           <span>PORTFOLIO</span>
@@ -125,14 +120,12 @@ export const JamareaHub = memo(function JamareaHub() {
         </nav>
       </header>
 
-      {/* Main Grid Viewport */}
       <div className="jamarea-main-grid">
-        {/* Left Flank: Giant SIMON Typography pushed outward */}
+
         <div className="jamarea-flank flank-left">
           <h1 className="jamarea-huge-title">SIMON</h1>
         </div>
 
-        {/* Left Metadata Column (Mail removed) */}
         <div className="jamarea-meta-col meta-left">
           <div className="meta-block">
             <span className="meta-label">SIMON ARCHIVE</span>
@@ -150,7 +143,6 @@ export const JamareaHub = memo(function JamareaHub() {
           </div>
         </div>
 
-        {/* Center Portal: Landscape (3:2) Continuous Cycling Imagery (Counter removed) */}
         <div className="jamarea-center-portal-wrapper">
           <div className="jamarea-center-portal">
             <img
@@ -164,7 +156,6 @@ export const JamareaHub = memo(function JamareaHub() {
           </div>
         </div>
 
-        {/* Right Metadata Column */}
         <div className="jamarea-meta-col meta-right">
           <div className="meta-block">
             <span className="meta-label">DISCIPLINES</span>
@@ -189,13 +180,11 @@ export const JamareaHub = memo(function JamareaHub() {
           </div>
         </div>
 
-        {/* Right Flank: Giant ARCHIVE Typography pushed outward */}
         <div className="jamarea-flank flank-right">
           <h1 className="jamarea-huge-title">ARCHIVE</h1>
         </div>
       </div>
 
-      {/* Bottom Interactive Mouse-Scrubbed Text Track */}
       <div className="jamarea-bottom-marquee-container">
         <div ref={trackRef} className="jamarea-marquee-track is-mouse-driven">
           {MARQUEE_TERMS.concat(MARQUEE_TERMS, MARQUEE_TERMS).map((term, index) => (

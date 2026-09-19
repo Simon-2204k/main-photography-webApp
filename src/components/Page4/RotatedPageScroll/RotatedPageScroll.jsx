@@ -13,7 +13,7 @@ import './RotatedPageScroll.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const pagesData = [
-  // Page 2: Curators and Artists (Pure Black Card on White Hero Background)
+
   {
     id: 'page-2',
     sectionBg: '#ffffff',
@@ -23,7 +23,7 @@ const pagesData = [
     zIndex: 20,
     component: CuratorsArtistsPage,
   },
-  // Page 3: The Card (Dark Charcoal Card on Black Background)
+
   {
     id: 'page-3',
     sectionBg: '#000000',
@@ -33,7 +33,7 @@ const pagesData = [
     zIndex: 30,
     component: TheCardPage,
   },
-  // Page 4: Centralize (Medium Gray Card on Dark Charcoal Background)
+
   {
     id: 'page-4',
     sectionBg: '#18181b',
@@ -43,7 +43,7 @@ const pagesData = [
     zIndex: 40,
     component: CentralizePage,
   },
-  // Page 5: Testimonials (Light Slate Card on Medium Gray Background)
+
   {
     id: 'page-5',
     sectionBg: '#3f3f46',
@@ -53,7 +53,7 @@ const pagesData = [
     zIndex: 50,
     component: TestimonialsPage,
   },
-  // Page 6: The Connectory (Zinc Card on Light Slate Background)
+
   {
     id: 'page-6',
     sectionBg: '#71717a',
@@ -63,7 +63,7 @@ const pagesData = [
     zIndex: 60,
     component: ConnectoryPage,
   },
-  // Page 7: Join Us (Pure White Card on Zinc Background)
+
   {
     id: 'page-7',
     sectionBg: '#e4e4e7',
@@ -82,7 +82,7 @@ function HeroPageSection() {
       className="hero-page-section-container"
       style={{ backgroundColor: '#ffffff' }}
     >
-      {/* Massive Background Display Typography ("SIMON") in High-Contrast Dark Charcoal */}
+
       <h1
         className="hero-simon-bg-text font-bebas"
         style={{ color: '#111111' }}
@@ -90,7 +90,6 @@ function HeroPageSection() {
         SIMON
       </h1>
 
-      {/* 3D Tilted Cylinder Showcase */}
       <div className="hero-carousel-wrapper">
         <CylindricalCarousel3D />
       </div>
@@ -117,7 +116,7 @@ function RotatedPageSection({
     if (!page || !container) return;
 
     const ctx = gsap.context(() => {
-      // Restored Z-axis tilt rotation (rotateZ: 14) entering on scroll, no scale
+
       gsap.set(page, {
         rotateZ: 14,
         rotateX: 0,
@@ -127,7 +126,6 @@ function RotatedPageSection({
         boxShadow: 'none',
       });
 
-      // Instant 1:1 scrub ScrollTrigger for smooth layered reveal
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
@@ -161,7 +159,7 @@ function RotatedPageSection({
       }}
       className="relative w-screen h-screen flex items-center justify-center overflow-visible"
     >
-      {/* 100% Screen Height & Width Upright Card with Zero Shadows */}
+
       <div
         ref={pageRef}
         style={{ backgroundColor: cardBg, color: textColor, boxShadow: 'none' }}
@@ -178,10 +176,9 @@ function RotatedPageSection({
 export default function Section2RotatedSuite() {
   return (
     <div id="rotated-page-scroll-root" className="relative w-screen overflow-x-hidden">
-      {/* Page 1: Hero Section with SIMON background & 3D Tilted Cylindrical Carousel */}
+
       <HeroPageSection />
 
-      {/* Pages 2 through 7: Layered scroll pages stacked over previous background */}
       {pagesData.map((page) => (
         <RotatedPageSection
           key={page.id}

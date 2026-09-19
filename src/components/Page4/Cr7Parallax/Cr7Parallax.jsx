@@ -21,7 +21,6 @@ export default function Section9Cr7Suite() {
     const hud = hudRef.current;
     if (!root || !hud) return;
 
-    // Pin HUD (Navbar + FixedCenterCard) throughout the entire Section 9 works scroll
     pinTriggerRef.current = ScrollTrigger.create({
       trigger: root,
       start: 'top top',
@@ -39,8 +38,8 @@ export default function Section9Cr7Suite() {
 
   return (
     <div ref={rootRef} id="cr7-parallax-root" className="relative w-full bg-[#0a0a0a] text-white">
-      {/* Pinned HUD Layer: GSAP pin: hudRef ensures it stays 100% fixed in center during Section 9 */}
-      <div 
+
+      <div
         ref={hudRef}
         className="w-full h-screen pointer-events-none z-30 overflow-hidden relative"
       >
@@ -53,7 +52,6 @@ export default function Section9Cr7Suite() {
         <FixedCenterCard projects={cr7Projects} activeIndex={activeIndex} />
       </div>
 
-      {/* Vertical Parallax Background Sections (500vh total, scrolls underneath pinned HUD) */}
       <main id="works" className="relative w-full -mt-[100vh]">
         {cr7Projects.map((project, index) => (
           <ParallaxSection

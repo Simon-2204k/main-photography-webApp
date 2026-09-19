@@ -55,7 +55,6 @@ export const HeaderHUDComponent = ({ isVisible = true }) => {
             text-align: center !important;
             gap: clamp(20px, 3.2vh, 36px) !important;
           }
-          /* Promotes child text elements into direct flex items of .header-hud-top-row */
           .header-hud-center-heading {
             display: contents !important;
           }
@@ -94,7 +93,7 @@ export const HeaderHUDComponent = ({ isVisible = true }) => {
           }
         }
       `}</style>
-      {/* Top HUD Row */}
+
       <div
         className="header-hud-top-row"
         style={{
@@ -106,7 +105,7 @@ export const HeaderHUDComponent = ({ isVisible = true }) => {
           marginTop: '260px'
         }}
       >
-        {/* Top Left Logo: SIMON'S FRAMEWORK */}
+
         <div
           className="header-hud-logo"
           style={{
@@ -123,7 +122,6 @@ export const HeaderHUDComponent = ({ isVisible = true }) => {
           SIMON'S FRAMEWORK
         </div>
 
-        {/* Center Heading & Description (Locked Strictly at Screen Center) */}
         <div
           className="header-hud-center-heading"
           style={{
@@ -181,7 +179,6 @@ export const HeaderHUDComponent = ({ isVisible = true }) => {
           </p>
         </div>
 
-        {/* Top Right Live Telemetry */}
         <div
           className="header-hud-telemetry"
           style={{

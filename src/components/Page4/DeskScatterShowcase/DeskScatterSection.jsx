@@ -20,14 +20,12 @@ const PHOTO_DESCS = [
   "Hand-pulled darkroom contact sheet analyzing grain density and exposure latitude."
 ];
 
-// 100 items distributed across 4 cycles (25 items per cycle)
 const ALL_100_ITEMS = Array.from({ length: 100 }, (_, i) => {
-  const cycle = Math.floor(i / 25); // 0, 1, 2, 3
+  const cycle = Math.floor(i / 25);
   const itemInCycle = i % 25;
   const imgIdx = (i % 56) + 1;
 
-  // Entry and Exit off-screen trajectories
-  const entrySide = itemInCycle % 4; // 0=left, 1=right, 2=top, 3=bottom
+  const entrySide = itemInCycle % 4;
   let initialX = 0;
   let initialY = 0;
   let exitX = 0;
@@ -55,18 +53,16 @@ const ALL_100_ITEMS = Array.from({ length: 100 }, (_, i) => {
     exitY = -1200 - (itemInCycle * 35);
   }
 
-  // Full-Page Natural Scatter (Spread randomly across ENTIRE screen)
   const seedX = Math.sin(i * 17.9898 + 45.12 + (cycle * 13.1)) * 10000;
-  const randX = (seedX - Math.floor(seedX)) * 2 - 1; // -1 to +1
+  const randX = (seedX - Math.floor(seedX)) * 2 - 1;
 
   const seedY = Math.cos(i * 43.233 + 12.89 + (cycle * 19.3)) * 10000;
-  const randY = (seedY - Math.floor(seedY)) * 2 - 1; // -1 to +1
+  const randY = (seedY - Math.floor(seedY)) * 2 - 1;
 
-  // Full viewport spread across the entire desk page (-620px to +620px X, -360px to +360px Y)
   const targetX = randX * 620;
   const targetY = randY * 360;
 
-  const rot = ((i % 11) - 5) * 5; // -25 to +25 deg
+  const rot = ((i % 11) - 5) * 5;
   const title = PHOTO_TITLES[i % PHOTO_TITLES.length];
   const desc = PHOTO_DESCS[i % PHOTO_DESCS.length];
   const category = ["ANALOG CRAFT", "MEDIUM FORMAT", "SILVER HALIDE", "CONTACT SHEET"][i % 4];
@@ -90,7 +86,6 @@ const ALL_100_ITEMS = Array.from({ length: 100 }, (_, i) => {
   };
 });
 
-// Trailing stack cards for the snake motion
 const TRAILING_STACK_CARDS = [
   { id: 't1', title: 'SILVER_HALIDE_ROLL04.RAW', type: 'negative', src: '/assets/items/item_8.jpg', offset: 1 },
   { id: 't2', title: 'LEICA_50MM_STUDY.DNG', type: 'contact', src: '/assets/items/item_12.jpg', offset: 2 },
@@ -102,7 +97,6 @@ const TRAILING_STACK_CARDS = [
 export default function DeskScatterSection() {
   const sectionRef = useRef(null);
 
-  // Phase container refs
   const scatterContainerRef = useRef(null);
   const textFindRef = useRef(null);
   const searchSectionRef = useRef(null);
@@ -127,7 +121,7 @@ export default function DeskScatterSection() {
     if (!section) return;
 
     const ctx = gsap.context(() => {
-      // 1. ScrollTrigger timeline setup for Desk Section (Smoothed pinning & +40% scroll depth)
+
       const masterTl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -139,10 +133,6 @@ export default function DeskScatterSection() {
         },
       });
 
-      /* ----------------------------------------------------
-         PHASE 1: 4-Group Scatter Sequence (25 items per group across 4 cycles = 100 total)
-         ---------------------------------------------------- */
-      // Cycles 0, 1, 2: Enter and reverse back in same direction
       for (let c = 0; c < 3; c++) {
         const cycleSelector = `.cycle-${c}`;
         masterTl.fromTo(
@@ -169,7 +159,6 @@ export default function DeskScatterSection() {
         });
       }
 
-      // Cycle 3 (4th group): Enters, then ALL FLY UPWARDS off the top!
       const cycle3Selector = '.cycle-3';
       masterTl.fromTo(
         cycle3Selector,
@@ -187,9 +176,6 @@ export default function DeskScatterSection() {
         }
       );
 
-      // 1. Synchronized 3-Way Parallel Transition (NO empty desk gap):
-      // Cycle 3 images fly UPWARDS, center text fades OUT, 4 row cards enter from BOTTOM,
-      // and Search Bar + Headline fade in seamlessly
       masterTl.to(cycle3Selector, {
         y: -1300,
         opacity: 1,
@@ -223,7 +209,6 @@ export default function DeskScatterSection() {
         '<'
       );
 
-      // 2. Virtual cursor glides in to upcycled_shoot04.jpg (card 3 in row)
       masterTl.to(cursorRef.current, {
         x: 90,
         y: 60,
@@ -232,7 +217,6 @@ export default function DeskScatterSection() {
         ease: 'power2.out',
       });
 
-      // 3. Highlight 3rd card and smoothly drag & scale it down directly into the LEFT slot of the search bar
       masterTl.to('.card-target-drop', {
         scale: 1.05,
         boxShadow: '0 0 35px rgba(255,255,255,0.7)',
@@ -256,17 +240,15 @@ export default function DeskScatterSection() {
           const bR = bar.getBoundingClientRect();
           return (bR.top + bR.height / 2) - (cR.top + cR.height / 2);
         },
-        scale: 0.12, // Scales down directly into the search bar left slot
+        scale: 0.12,
         duration: 1.1,
         ease: 'power2.inOut',
       });
 
-      // 4. Search bar absorbs card: left-aligned chip appears seamlessly
       masterTl.to('.search-placeholder', { opacity: 0, duration: 0.15 });
       masterTl.to('.search-chip-badge', { opacity: 1, scale: 1, duration: 0.25 }, '<');
       masterTl.to(['.card-target-drop', cursorRef.current], { opacity: 0, duration: 0.15 }, '<');
 
-      // 5. Remaining row cards scatter outward completely off-screen (fade to 0 so no stray cards peek)
       masterTl.to('.row-card-other', {
         x: (i) => (i % 2 === 0 ? -2500 : 2500),
         y: (i) => (i < 2 ? -650 : 650),
@@ -276,7 +258,6 @@ export default function DeskScatterSection() {
         ease: 'power2.inOut',
       });
 
-      // 6. Simultaneously 2nd set of 4 cards comes from below (card 2 in orange)
       masterTl.fromTo(
         '.replacement-row-card',
         { y: 900, opacity: 1 },
@@ -290,9 +271,6 @@ export default function DeskScatterSection() {
         '<'
       );
 
-      /* ----------------------------------------------------
-         PHASE 3: 35mm Reel Entrance & Search Phase Physical Exit
-         ---------------------------------------------------- */
       masterTl.to('.replacement-film-card', {
         scale: 1.08,
         borderColor: '#000000',
@@ -305,14 +283,12 @@ export default function DeskScatterSection() {
         duration: 0.6,
       });
 
-      // 35mm frames glide in on scroll straight from right to left (rotation: 0, no tilt)
       masterTl.fromTo(
         ['.film-split-left', '.film-center-frame', '.film-split-right'],
         { x: '100vw', rotation: 0 },
         { x: 0, rotation: 0, duration: 2, ease: 'none' }
       );
 
-      // Search cards physical exit (opacity: 1, NO opacity: 0)
       masterTl.to('.replacement-film-card', { opacity: 0, duration: 0.4 }, '<+=0.8');
       masterTl.to(searchSectionRef.current, { y: -800, duration: 0.8 }, '<');
       masterTl.to('.replacement-non-film', {
@@ -320,10 +296,6 @@ export default function DeskScatterSection() {
         duration: 0.8,
       }, '<');
 
-      /* ----------------------------------------------------
-         PHASE 4: True Reel Split -> Outer 35mm Mounts Fly Off with OPACITY 1
-         ---------------------------------------------------- */
-      // 1. Central selected 35mm mount straightens up to rotation: 0 and anchors on left
       masterTl.to('.film-center-frame', {
         x: -220,
         y: 0,
@@ -334,7 +306,6 @@ export default function DeskScatterSection() {
         ease: 'power2.out',
       });
 
-      // 2. Outer 35mm split mounts fly off-screen left & right (STRICT: MAINTAIN OPACITY 1)
       masterTl.to('.film-split-left', {
         x: -1600,
         rotation: -10,
@@ -351,7 +322,6 @@ export default function DeskScatterSection() {
         ease: 'power2.in',
       }, '<');
 
-      // AI Chat Conversation bubbles appear sequentially on the right
       masterTl.to(aiChatSectionRef.current, {
         opacity: 1,
         duration: 0.4,
@@ -394,9 +364,7 @@ export default function DeskScatterSection() {
       className="relative w-full h-screen bg-black overflow-hidden flex items-center justify-center select-none"
       style={{ touchAction: 'pan-y' }}
     >
-      {/* ----------------------------------------------------
-          PHASE 1: Headline 'Find your files naturally.' (Clean & Small, z-50 Fixed Over Scatter)
-          ---------------------------------------------------- */}
+
       <div
         ref={textFindRef}
         className="absolute z-50 text-center px-4 max-w-xl pointer-events-none"
@@ -406,9 +374,6 @@ export default function DeskScatterSection() {
         </h2>
       </div>
 
-      {/* ----------------------------------------------------
-          PHASE 1: 56 Landscape Images - Drastically reduced compact size
-          ---------------------------------------------------- */}
       <div
         ref={scatterContainerRef}
         className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
@@ -422,9 +387,9 @@ export default function DeskScatterSection() {
               opacity: 1,
             }}
           >
-            {/* Sized +20% More: Bold, sleek photocard stamp in Pure White & Pure Black text */}
+
             <div className="w-40 sm:w-44 bg-white border border-stone-300 p-2 rounded-none flex flex-col justify-between overflow-hidden shadow-2xl">
-              {/* Top Image Thumbnail (Enlarged +20%) */}
+
               <div className="w-full h-24 sm:h-28 overflow-hidden bg-black rounded-none">
                 <img
                   src={item.src}
@@ -434,7 +399,6 @@ export default function DeskScatterSection() {
                 />
               </div>
 
-              {/* Bottom Metadata Content */}
               <div className="flex flex-col pt-1.5 pb-0.5 text-left">
                 <h3 className="text-[11px] sm:text-[12px] font-bold text-black tracking-tight truncate">
                   {item.title}
@@ -453,14 +417,11 @@ export default function DeskScatterSection() {
         ))}
       </div>
 
-      {/* ----------------------------------------------------
-          PHASE 2: Search Bar & Staggered Row Drag-and-Drop
-          ---------------------------------------------------- */}
       <div
         ref={searchSectionRef}
         className="absolute inset-0 z-50 flex flex-col items-center justify-center pointer-events-none opacity-0 translate-y-10"
       >
-        {/* Search Bar - Solid, centered, unbroken pill */}
+
         <div
           ref={searchBarRef}
           style={{ maxWidth: '520px' }}
@@ -468,7 +429,7 @@ export default function DeskScatterSection() {
         >
           <div className="flex items-center gap-2.5 flex-1 min-w-0">
             <Search className="w-4 h-4 text-stone-400 shrink-0" />
-            {/* Left-Aligned Search Chip (Monochrome styling in pure white) */}
+
             <div className="search-chip-badge opacity-0 scale-75 flex items-center gap-1.5 bg-white border border-black/20 px-2.5 py-0.5 rounded-full">
               <img src="/assets/items/item_3.jpg" alt="Contact Sheet Thumbnail" className="w-4 h-4 rounded-full object-cover" />
               <span className="text-[11px] font-mono font-bold text-black truncate">contact_sheet_roll04.raw</span>
@@ -482,9 +443,8 @@ export default function DeskScatterSection() {
           </div>
         </div>
 
-        {/* Initial Row of 4 Cards - Pure White Background & Pure Black Text */}
         <div ref={initialRowRef} className="flex items-center justify-center gap-3 sm:gap-4 mt-2 w-full max-w-6xl px-4">
-          {/* Card 1: Leica 35mm */}
+
           <div className="initial-row-card row-card-other w-48 sm:w-52 bg-white rounded-none overflow-hidden shadow-2xl p-2.5 border border-stone-300 flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[11px] text-black pb-1.5 border-b border-black/15">
               <div className="flex items-center gap-1.5">
@@ -503,7 +463,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* Card 2: Hasselblad Medium Format */}
           <div className="initial-row-card row-card-other w-48 sm:w-52 bg-white rounded-none overflow-hidden shadow-2xl p-2.5 border border-stone-300 flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[11px] text-black pb-1.5 border-b border-black/15">
               <div className="flex items-center gap-1.5">
@@ -522,7 +481,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* Card 3: Contax T2 (Target Drop Card) */}
           <div className="initial-row-card card-target-drop w-48 sm:w-52 bg-white rounded-none overflow-hidden shadow-2xl p-2.5 border-2 border-black flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[11px] text-black pb-1.5 border-b border-black/15">
               <div className="flex items-center gap-1.5">
@@ -541,7 +499,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* Card 4: Linhof Large Format */}
           <div className="initial-row-card row-card-other w-48 sm:w-52 bg-white rounded-none overflow-hidden shadow-2xl p-2.5 border border-stone-300 flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[11px] text-black pb-1.5 border-b border-black/15">
               <div className="flex items-center gap-1.5">
@@ -561,9 +518,8 @@ export default function DeskScatterSection() {
           </div>
         </div>
 
-        {/* Replacement Row of 4 Cards (Pure White Background & Pure Black Text) */}
         <div ref={replacementRowRef} className="absolute bottom-16 flex items-center justify-center gap-3 sm:gap-4 w-full max-w-6xl px-4">
-          {/* Replacement Card 1 */}
+
           <div className="replacement-row-card replacement-non-film w-48 sm:w-52 bg-white rounded-none overflow-hidden shadow-2xl p-2.5 border border-stone-300 flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[10px] text-black pb-1.5 border-b border-black/15">
               <span className="font-mono text-[9px] font-bold text-black">ARCHIVE: #04</span>
@@ -578,7 +534,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* Replacement Card 2 (Film Highlight Card in Pure White & Bold Black) */}
           <div className="replacement-row-card replacement-film-card w-48 sm:w-52 bg-white rounded-none overflow-hidden shadow-2xl p-2.5 border-2 border-black flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[10px] text-black pb-1.5 border-b border-black/15">
               <span className="font-mono text-[9px] font-bold text-black">FUJI-21</span>
@@ -593,7 +548,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* Replacement Card 3 */}
           <div className="replacement-row-card replacement-non-film w-48 sm:w-52 bg-white rounded-none overflow-hidden shadow-2xl p-2.5 border border-stone-300 flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[10px] text-black pb-1.5 border-b border-black/15">
               <span className="font-mono text-[9px] font-bold text-black">ARCHIVE: #08</span>
@@ -608,7 +562,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* Replacement Card 4 */}
           <div className="replacement-row-card replacement-non-film w-48 sm:w-52 bg-white rounded-none overflow-hidden shadow-2xl p-2.5 border border-stone-300 flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[10px] text-black pb-1.5 border-b border-black/15">
               <span className="font-mono text-[9px] font-bold text-black">ARCHIVE: #14</span>
@@ -624,7 +577,6 @@ export default function DeskScatterSection() {
           </div>
         </div>
 
-        {/* Virtual Cursor */}
         <div
           ref={cursorRef}
           className="absolute z-50 pointer-events-none opacity-0 flex items-center gap-1 drop-shadow-2xl"
@@ -636,16 +588,13 @@ export default function DeskScatterSection() {
         </div>
       </div>
 
-      {/* ----------------------------------------------------
-          PHASE 3 & 4: 7 Independent 35mm Slide Mounts, Split & AI Chat (z-[100])
-          ---------------------------------------------------- */}
       <div
         ref={filmReelSectionRef}
         className="absolute inset-0 z-[100] flex flex-col items-center justify-center pointer-events-none opacity-0"
       >
-        {/* 7 Standalone 35mm Slide Mounts (Continuous film reel with gap-0) */}
+
         <div className="relative flex items-center justify-center gap-0 px-12">
-          {/* Frame 1: Kodak Tri-X */}
+
           <div className="film-split-left w-52 sm:w-60 h-[260px] bg-black p-2.5 rounded-none overflow-hidden border border-white/25 shadow-[0_20px_40px_rgba(0,0,0,0.85)] flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[8px] font-mono text-stone-300 px-1">
               <span>KODAK TRI-X</span>
@@ -668,7 +617,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* Frame 2: Ilford HP5 */}
           <div className="film-split-left w-52 sm:w-60 h-[260px] bg-black p-2.5 rounded-none overflow-hidden border border-white/25 shadow-[0_20px_40px_rgba(0,0,0,0.85)] flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[8px] font-mono text-stone-300 px-1">
               <span>ILFORD HP5+</span>
@@ -691,7 +639,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* Frame 3: Kodak Portra */}
           <div className="film-split-left w-52 sm:w-60 h-[260px] bg-black p-2.5 rounded-none overflow-hidden border border-white/25 shadow-[0_20px_40px_rgba(0,0,0,0.85)] flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[8px] font-mono text-stone-300 px-1">
               <span>PORTRA 400</span>
@@ -714,7 +661,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* Frame 4: Central Active Fujichrome Velvia 50 Frame */}
           <div className="film-center-frame w-64 sm:w-72 h-[275px] bg-black p-2.5 rounded-none overflow-hidden border-2 border-white shadow-[0_0_25px_rgba(255,255,255,0.15)] flex flex-col justify-between shrink-0 z-20">
             <div className="flex items-center justify-between text-[9px] font-mono text-stone-300 font-medium px-1">
               <span>VELVIA 50</span>
@@ -737,7 +683,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* Frame 5: CineStill 800T */}
           <div className="film-split-right w-52 sm:w-60 h-[260px] bg-black p-2.5 rounded-none overflow-hidden border border-white/25 shadow-[0_20px_40px_rgba(0,0,0,0.85)] flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[8px] font-mono text-stone-300 px-1">
               <span>CINESTILL 800T</span>
@@ -760,7 +705,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* Frame 6: Kodak Ektachrome E100 */}
           <div className="film-split-right w-52 sm:w-60 h-[260px] bg-black p-2.5 rounded-none overflow-hidden border border-white/25 shadow-[0_20px_40px_rgba(0,0,0,0.85)] flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[8px] font-mono text-stone-300 px-1">
               <span>EKTACHROME 100</span>
@@ -783,7 +727,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* Frame 7: Ilford Delta 3200 */}
           <div className="film-split-right w-52 sm:w-60 h-[260px] bg-black p-2.5 rounded-none overflow-hidden border border-white/25 shadow-[0_20px_40px_rgba(0,0,0,0.85)] flex flex-col justify-between shrink-0">
             <div className="flex items-center justify-between text-[8px] font-mono text-stone-300 px-1">
               <span>DELTA 3200</span>
@@ -808,13 +751,12 @@ export default function DeskScatterSection() {
         </div>
       </div>
 
-      {/* AI Chat Speech Bubbles Container (Elevated to z-[150] & Styled in Pure Dark Monochrome) */}
       <div
         ref={aiChatSectionRef}
         className="absolute inset-0 z-[150] flex items-center justify-center pointer-events-none opacity-0 px-4"
       >
         <div className="flex flex-col gap-3.5 max-w-md ml-72">
-          {/* Photographer Message 1 */}
+
           <div className="ai-chat-bubble-1 bg-[#121216] border border-white/20 rounded-none p-3.5 shadow-2xl text-xs sm:text-sm text-stone-200 flex items-start gap-2.5">
             <div className="w-6 h-6 rounded-none bg-stone-700 flex items-center justify-center text-[10px] font-bold text-white shrink-0">P</div>
             <div>
@@ -823,7 +765,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* AI Response 1 with Thumbnail Chip */}
           <div className="ai-chat-bubble-2 bg-[#1a1a20] border border-white/20 rounded-none p-3.5 shadow-2xl text-xs sm:text-sm text-stone-100 flex flex-col gap-2">
             <div className="flex items-center gap-2 text-xs text-stone-200 font-semibold">
               <Sparkles className="w-3.5 h-3.5 text-stone-300" /> Darkroom Assistant
@@ -837,7 +778,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* Photographer Message 2 */}
           <div className="ai-chat-bubble-3 bg-[#121216] border border-white/20 rounded-none p-3.5 shadow-2xl text-xs sm:text-sm text-stone-200 flex items-start gap-2.5">
             <div className="w-6 h-6 rounded-none bg-stone-700 flex items-center justify-center text-[10px] font-bold text-white shrink-0">P</div>
             <div>
@@ -846,7 +786,6 @@ export default function DeskScatterSection() {
             </div>
           </div>
 
-          {/* AI Response 2 */}
           <div className="ai-chat-bubble-4 bg-[#1a1a20] border border-white/20 rounded-none p-3.5 shadow-2xl text-xs sm:text-sm text-stone-100 flex flex-col gap-2">
             <div className="flex items-center gap-2 text-xs text-stone-200 font-semibold">
               <Sparkles className="w-3.5 h-3.5 text-stone-300" /> Darkroom Assistant

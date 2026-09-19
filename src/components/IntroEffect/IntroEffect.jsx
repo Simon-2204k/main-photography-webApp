@@ -15,7 +15,6 @@ const INTRO_IMAGES = [
   '/images/intro/intro-10.webp',
 ];
 
-// Pre-computed organic card tilt angles
 const CARD_ROTATIONS = [-12, 16, -6, 22, -18, 10, -24, 14, -8, 20];
 
 export const IntroEffect = memo(function IntroEffect({ onComplete }) {
@@ -40,10 +39,13 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
     }
     gsap.killTweensOf('*');
     gsap.to(container, {
-      opacity: 0,
-      duration: 0.35,
-      ease: 'power2.out',
-      onComplete: finishIntro,
+      yPercent: -100,
+      duration: 0.55,
+      ease: 'power4.inOut',
+      onComplete: () => {
+        container.style.display = 'none';
+        finishIntro();
+      },
     });
   };
 
@@ -55,8 +57,6 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
 
     let isMounted = true;
 
-    // React Image Optimization: Pre-decode all 10 WebP images asynchronously in parallel
-    // so textures are pre-allocated in GPU memory before animations begin
     const preloadPromise = Promise.all(
       INTRO_IMAGES.map((src) => {
         const img = new Image();
@@ -82,23 +82,24 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
         const tl = gsap.timeline({
           onComplete: () => {
             gsap.to(container, {
-              opacity: 0,
-              duration: 0.65,
-              ease: 'power2.inOut',
-              onComplete: finishIntro,
+              yPercent: -100,
+              duration: 0.85,
+              ease: 'power4.inOut',
+              onComplete: () => {
+                container.style.display = 'none';
+                finishIntro();
+              },
             });
           },
         });
 
-        // 1. Cards pop up sequentially over the center title
-        tl.from('.intro-effect-card', {
+        tl.from('.intro-card-inner', {
           scale: 0,
           stagger: 0.185,
           duration: 0.45,
           ease: 'back.out(1.2)',
           transformOrigin: 'center center',
         })
-        // 2. Scale upperDiv down to 0.75, revealing the belowDiv 3-column grid
         .to(
           upperDiv,
           {
@@ -109,13 +110,11 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
           },
           '+=0.15'
         )
-        // 3. Slide horizontally to secondopeningPage
         .to(slider, {
           x: () => -getSlideDistance(),
           duration: 1.0,
           ease: 'power4.inOut',
         })
-        // 4. Scale upperDiv back to full scale 1
         .to(
           upperDiv,
           {
@@ -126,7 +125,6 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
           '+=0.1'
         );
 
-        // Window resize & orientation change handler
         const handleResize = () => {
           if (slider && tl.progress() > 0.5) {
             gsap.set(slider, { x: -getSlideDistance() });
@@ -148,13 +146,11 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
 
   return (
     <div ref={containerRef} className="parentElementLandingDiv" aria-label="Intro Website Animation">
-      {/* Subtle Skip Button */}
       <button onClick={handleSkip} className="intro-skip-btn" aria-label="Skip Intro Animation">
         <span>Skip</span>
         <span>↗</span>
       </button>
 
-      {/* Underneath Monospace Grid (Revealed when upperDiv scales to 0.75) */}
       <div className="belowDiv">
         <div className="belowDiv-col">
           <h4>Master Emulsion Scans</h4>
@@ -178,41 +174,38 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
         </div>
       </div>
 
-      {/* Upper Overlay Slider Window */}
       <div ref={upperDivRef} className="upperDiv">
         <div ref={sliderRef} className="slider">
-          {/* Page 1: Opening Page with Center Title & 10 Popping Image Cards */}
           <div className="openingPage">
             <div className="outerDiv">
-              {/* Center Display Title */}
               <div className="textDiv">
                 <h1 className="title">PHOTOGRAPHY</h1>
               </div>
 
-              {/* 10 Scattered Cards popping up */}
               {INTRO_IMAGES.map((imgSrc, idx) => (
                 <div
                   key={idx}
-                  className="image intro-effect-card"
+                  className="intro-card-slot"
                   style={{
                     transform: `translate(-50%, -50%) rotate(${CARD_ROTATIONS[idx]}deg)`,
                   }}
                 >
-                  <img
-                    src={imgSrc}
-                    alt={`Archive Photographic Exhibit ${idx + 1}`}
-                    className="intro-card-img"
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                    width="200"
-                    height="300"
-                  />
+                  <div className="intro-card-inner">
+                    <img
+                      src={imgSrc}
+                      alt={`Archive Photographic Exhibit ${idx + 1}`}
+                      className="intro-card-img"
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
+                      width="200"
+                      height="300"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
 
-            {/* Bottom Floating Cards */}
             <div className="floating-card left">
               <h4>Silver Halide Craft</h4>
               <p>Analog emulsion scans & darkroom chemistry.</p>
@@ -224,7 +217,6 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
             </div>
           </div>
 
-          {/* Page 2: Second Opening Page (Editorial Monograph Transition) */}
           <div className="secondopeningPage">
             <div className="NamedDiv">
               <div className="leftDiv">

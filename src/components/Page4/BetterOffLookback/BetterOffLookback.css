@@ -1,5 +1,3 @@
-/* BetterOffLookback.css — Page 4 Section 1: Better Off Lookback Drag-Tilt Gallery */
-
 .lookback-section {
   position: relative;
   width: 100vw;
@@ -14,8 +12,6 @@
   flex-direction: column;
   justify-content: space-between;
 }
-
-/* 1] Top Navigation Bar */
 .lookback-top-bar {
   position: absolute;
   top: 0;
@@ -54,8 +50,6 @@
 .lookback-nav-item:hover {
   color: #18181b;
 }
-
-/* Top-Right Music Player Pill */
 .lookback-player-pill {
   display: flex;
   align-items: center;
@@ -90,8 +84,6 @@
   color: #fff;
   flex-shrink: 0;
 }
-
-/* Bold Condensed Uppercase Menu Trigger */
 .lookback-nav-menu-btn {
   background: transparent;
   border: none;
@@ -112,8 +104,6 @@
   transform: scale(1.08);
   opacity: 0.85;
 }
-
-/* 2] Massive Center Display Headline Typography Overlaid with mix-blend-mode: difference */
 .lookback-hero-title-container {
   position: absolute;
   top: clamp(24px, 4.5vh, 48px);
@@ -157,8 +147,6 @@
   letter-spacing: -0.03em;
   color: #ffffff !important;
 }
-
-/* 3] Interactive Drag-Tilt Cards Stage */
 .lookback-stage {
   position: absolute;
   inset: 0;
@@ -182,8 +170,6 @@
   transform-style: preserve-3d;
   pointer-events: none;
 }
-
-/* Individual Card Container with 3D Hinge Flap & Viewport Containment */
 .lookback-card-wrapper {
   position: relative;
   display: flex;
@@ -197,8 +183,6 @@
   content-visibility: auto;
   contain-intrinsic-size: 340px 480px;
 }
-
-/* Photography Card Box — Pure Clean Borderless Image without Shadow or Background Color */
 .lookback-card-box {
   position: relative;
   border-radius: 4px;
@@ -222,8 +206,6 @@
   pointer-events: none;
   border-radius: 4px;
 }
-
-/* Varied Editorial Aspect Ratios Matching Screenshots */
 .lookback-card-box.aspect-tall {
   width: clamp(230px, 19vw, 290px);
   height: clamp(340px, 44vh, 460px);
@@ -238,8 +220,6 @@
   width: clamp(290px, 24vw, 340px);
   height: clamp(200px, 24vh, 260px);
 }
-
-/* Subtle Caption Below Card */
 .lookback-card-caption {
   margin-top: 12px;
   font-family: monospace;
@@ -250,8 +230,6 @@
   text-transform: uppercase;
   white-space: nowrap;
 }
-
-/* 4] Synchronized Looping Jan to Dec Ruler Timeline */
 .lookback-ruler-container {
   position: absolute;
   bottom: 0;
@@ -266,8 +244,6 @@
   justify-content: flex-end;
   padding-bottom: clamp(10px, 1.8vh, 18px);
 }
-
-/* Fixed Center Indicator Needle */
 .lookback-ruler-center-needle {
   position: absolute;
   top: 0px;
@@ -279,8 +255,6 @@
   z-index: 35;
   border-radius: 1px;
 }
-
-/* Scrolling Ruler Track */
 .lookback-ruler-track {
   position: relative;
   width: 100%;
@@ -301,8 +275,6 @@
   flex-direction: column;
   align-items: center;
 }
-
-/* Row of delicate millimeter tick marks */
 .lookback-ruler-ticks {
   display: flex;
   align-items: flex-start;
@@ -323,8 +295,6 @@
   height: 18px;
   background: rgba(0, 0, 0, 0.55);
 }
-
-/* Month Name Label Centered Under Center Tick */
 .lookback-ruler-month-label {
   margin-top: 8px;
   font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
@@ -334,15 +304,9 @@
   color: #18181b;
   text-transform: uppercase;
 }
-
-/* Mobile-only label: hidden by default, shown in ≤640px media query */
 .lookback-mobile-bottom-label {
   display: none;
 }
-
-/* ==========================================================================
-   TABLET RESPONSIVE CALIBRATION (UP TO 1024 × 1366 IPAD PRO)
-   ========================================================================== */
 @media (max-width: 1024px) {
   .lookback-top-bar {
     height: 48px;
@@ -385,28 +349,17 @@
     height: 64px;
   }
 }
-
-/* ==========================================================================
-   MOBILE RESPONSIVE CALIBRATION (<= 640px)
-   ========================================================================== */
 @media (max-width: 640px) {
   .lookback-top-bar {
     padding: 0 14px;
     height: 44px;
   }
-
-  /* Hide non-active nav items AND the full nav-links bar on mobile —
-     Timeline label is repositioned below cards via .lookback-mobile-bottom-label */
   .lookback-nav-links {
     display: none;
   }
-
-  /* Completely hide Mechanical Shutter audio pill on phone */
   .lookback-player-pill {
     display: none !important;
   }
-
-  /* Larger heading sizes for phone */
   .lookback-hero-title-container {
     top: 46px;
     width: 94vw;
@@ -426,8 +379,6 @@
     font-size: clamp(16px, 5vw, 22px);
     letter-spacing: -0.01em;
   }
-
-  /* Center the cards stage vertically and horizontally */
   .lookback-stage {
     display: flex;
     align-items: center;
@@ -466,8 +417,6 @@
   .lookback-ruler-month-label {
     font-size: 8.5px;
   }
-
-  /* Mobile-only: Timeline label positioned below the cards area */
   .lookback-mobile-bottom-label {
     display: flex;
     align-items: center;
@@ -498,8 +447,6 @@
     text-transform: uppercase;
   }
 }
-
-/* Touch Device Optimization */
 @media (hover: none) and (pointer: coarse) {
   .lookback-stage {
     cursor: default;
@@ -509,4 +456,3 @@
     cursor: default;
   }
 }
-

@@ -10,7 +10,7 @@ const CARDS_DATA = [
     id: 'editorial',
     title: 'Editorial & Haute Couture',
     badge: 'DISCIPLINE // 01',
-    bgColor: '#d8b4fe', // Rich soft lavender
+    bgColor: '#d8b4fe',
     textColor: '#18181b',
     subTextColor: '#3f3f46',
     desc: 'Visual narrative direction for high-fashion ateliers, runway archives, and global editorial covers with distinct styling and mood.',
@@ -32,7 +32,7 @@ const CARDS_DATA = [
     id: 'architecture',
     title: 'Architectural & Spatial Vision',
     badge: 'DISCIPLINE // 02',
-    bgColor: '#ffffff', // Crisp architectural white
+    bgColor: '#ffffff',
     textColor: '#18181b',
     subTextColor: '#52525b',
     desc: 'Geometric compositions documenting raw monolithic brutalism, shadow interplay, and tactile materials across modern architectural landmarks.',
@@ -54,7 +54,7 @@ const CARDS_DATA = [
     id: 'monochrome',
     title: 'Fine Art & Silver Halide',
     badge: 'DISCIPLINE // 03',
-    bgColor: '#fde047', // Warm amber ochre
+    bgColor: '#fde047',
     textColor: '#18181b',
     subTextColor: '#3f3f46',
     desc: 'Honoring chemical darkroom traditions, 120mm emulsion rolls, and handcrafted silver gelatin prints with nuanced chiaroscuro and organic grain.',
@@ -76,7 +76,7 @@ const CARDS_DATA = [
     id: 'campaigns',
     title: 'Campaigns & Commercial Lookbooks',
     badge: 'DISCIPLINE // 04',
-    bgColor: '#18181b', // Deep Noir Charcoal
+    bgColor: '#18181b',
     textColor: '#ffffff',
     subTextColor: '#a1a1aa',
     desc: 'High-impact commercial photography campaigns sculpting cultural perception, celebrating product craft, and commanding global audience attention.',
@@ -123,7 +123,7 @@ const DisciplineCardItem = ({ card, cardIndex, playRef }) => {
         color: card.textColor
       }}
     >
-      {/* Left Content Column */}
+
       <div className="card-info-col">
         <div className="card-heading-strip">
           <span
@@ -158,7 +158,6 @@ const DisciplineCardItem = ({ card, cardIndex, playRef }) => {
         </div>
       </div>
 
-      {/* Right Showcase Column with 3 Images from Section 6 */}
       <div className="card-showcase-col">
         <div className="card-images-triptych">
           {card.images.map((imgSrc, imgIdx) => (
@@ -196,9 +195,7 @@ export const StickyDisciplineCards = memo(function StickyDisciplineCards() {
     if (!cards.length) return;
 
     const ctx = gsap.context(() => {
-      // 1. Initial State:
-      // Card 0 is at top: 0 (in view)
-      // Cards 1, 2, 3 sit below the viewport at yPercent: 100
+
       cards.forEach((card, idx) => {
         gsap.set(card, {
           yPercent: idx === 0 ? 0 : 100,
@@ -207,7 +204,6 @@ export const StickyDisciplineCards = memo(function StickyDisciplineCards() {
         });
       });
 
-      // 2. Master pinned timeline
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
@@ -220,24 +216,21 @@ export const StickyDisciplineCards = memo(function StickyDisciplineCards() {
         }
       });
 
-      // Helper function to measure the bottom of card i's heading relative to card i's top
       const getHeadingBottom = (card) => {
         const heading = card.querySelector('.card-heading-strip');
         if (heading) {
           const cardRect = card.getBoundingClientRect();
           const headingRect = heading.getBoundingClientRect();
-          return headingRect.bottom - cardRect.top + 20; // 20px breathing room below title
+          return headingRect.bottom - cardRect.top + 20;
         }
         return 180;
       };
 
-      // 3. Build sequence for each card transition (0 -> 1, 1 -> 2, 2 -> 3)
       for (let i = 0; i < cards.length - 1; i++) {
         const currentCard = cards[i];
         const nextCard = cards[i + 1];
         const nextCardIndex = i + 1;
 
-        // Step A: nextCard scrolls up from 100% until its top border touches currentCard's heading bottom
         tl.to(nextCard, {
           yPercent: 0,
           y: () => getHeadingBottom(currentCard),
@@ -245,14 +238,10 @@ export const StickyDisciplineCards = memo(function StickyDisciplineCards() {
           duration: 1
         });
 
-        // Trigger nextCard's individual Lando text reveal as it glides into view
         tl.call(() => {
           playRefs.current[nextCardIndex]?.current?.();
         }, null, i * 1.25 + 0.6);
 
-        // Step B: nextCard touches the heading bottom ->
-        // currentCard un-sticks and slides up out of the viewport (-headingBottom),
-        // while nextCard simultaneously moves from headingBottom to 0!
         tl.to(currentCard, {
           y: () => -getHeadingBottom(currentCard),
           ease: 'none',
@@ -272,7 +261,7 @@ export const StickyDisciplineCards = memo(function StickyDisciplineCards() {
 
   return (
     <section ref={containerRef} className="sticky-disciplines-section" id="sticky-disciplines-section">
-      {/* Sticky Stacking Cards Container */}
+
       <div className="disciplines-cards-stack">
         {CARDS_DATA.map((card, idx) => (
           <DisciplineCardItem

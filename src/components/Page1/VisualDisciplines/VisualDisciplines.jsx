@@ -112,16 +112,16 @@ const DISCIPLINES = [
 ];
 
 const VisualDisciplinesComponent = () => {
-  const [activeIndex, setActiveIndex] = useState(-1); // -1 when not yet in range
+  const [activeIndex, setActiveIndex] = useState(-1);
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef(null);
   const itemsRef = useRef([]);
-  const cachedPositionsRef = useRef([]); // { offsetTop, halfHeight } for each item
+  const cachedPositionsRef = useRef([]);
   const prevIdxRef = useRef(-1);
   const prevVisibleRef = useRef(false);
 
   useEffect(() => {
-    // Cache element page-relative positions (only on mount + resize, NOT on scroll)
+
     const cachePositions = () => {
       const items = itemsRef.current;
       if (!items.length) return;
@@ -141,7 +141,7 @@ const VisualDisciplinesComponent = () => {
       if (!cached.length) return;
       const scrollY = window.scrollY;
       const centerY = window.innerHeight * 0.5;
-      // Convert viewport centerY to page coordinate
+
       const pageCenterY = scrollY + centerY;
 
       const first = cached[0];
@@ -151,7 +151,6 @@ const VisualDisciplinesComponent = () => {
       const firstCenterY = first.pageTop + first.halfHeight;
       const lastCenterY = last.pageTop + last.halfHeight;
 
-      // Card & highlight are ONLY active between the 1st word reaching 50vh and the 12th word leaving 50vh!
       const isWithinActiveRange = (firstCenterY <= pageCenterY) && (lastCenterY >= pageCenterY);
 
       if (!isWithinActiveRange) {
@@ -171,7 +170,6 @@ const VisualDisciplinesComponent = () => {
         setIsVisible(true);
       }
 
-      // Find closest word to pageCenterY using cached positions (pure arithmetic, 0 reflows)
       let closestIdx = 0;
       let minDistance = Infinity;
 
@@ -186,14 +184,12 @@ const VisualDisciplinesComponent = () => {
         }
       }
 
-      // Only trigger React re-render if the active index actually changed
       if (closestIdx !== prevIdxRef.current) {
         prevIdxRef.current = closestIdx;
         setActiveIndex(closestIdx);
       }
     };
 
-    // Initial cache + scroll
     const initTimer = setTimeout(() => {
       cachePositions();
       handleScroll();
@@ -223,8 +219,8 @@ const VisualDisciplinesComponent = () => {
         boxSizing: 'border-box',
         border: 'none',
         cursor: 'default',
-        paddingTop: '20vh', // 20vh top gap
-        paddingBottom: '20vh' // 20vh bottom gap
+        paddingTop: '20vh',
+        paddingBottom: '20vh'
       }}
     >
       <style>{`
@@ -312,7 +308,7 @@ const VisualDisciplinesComponent = () => {
           }
         }
       `}</style>
-      {/* 1:1 Graphic Preview Box - Fixed Dead-Center at Exact 50% Window Height */}
+
       <div
         className={`visual-preview-box ${isVisible ? 'is-visible' : 'is-hidden'}`}
         style={{
@@ -327,18 +323,18 @@ const VisualDisciplinesComponent = () => {
           borderRadius: '0px',
           padding: '1.6rem',
           boxSizing: 'border-box',
-          display: isVisible ? 'flex' : 'none', // Disappears instantly with ZERO delay
+          display: isVisible ? 'flex' : 'none',
           flexDirection: 'column',
           justifyContent: 'space-between',
           overflow: 'hidden',
           opacity: isVisible ? 1 : 0,
           pointerEvents: isVisible ? 'auto' : 'none',
-          // Smooth continuous background morph between words, but instant on/off outside list
+
           transition: 'background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
           zIndex: 30
         }}
       >
-        {/* Top Row Minimal ID */}
+
         <div
           className="visual-preview-top-row"
           style={{
@@ -374,7 +370,6 @@ const VisualDisciplinesComponent = () => {
           </span>
         </div>
 
-        {/* Center Visual Art Graphic */}
         <div
           className="visual-preview-center"
           style={{
@@ -425,7 +420,6 @@ const VisualDisciplinesComponent = () => {
           </span>
         </div>
 
-        {/* Bottom Row Tag */}
         <div
           className="visual-preview-bottom-row"
           style={{
@@ -458,7 +452,6 @@ const VisualDisciplinesComponent = () => {
         </div>
       </div>
 
-      {/* Right Side: Words List Scrolling Vertically Through 50% Window Height */}
       <div
         className="visual-words-list"
         style={{
@@ -467,8 +460,8 @@ const VisualDisciplinesComponent = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-          paddingLeft: 'calc(50vw - 110px)', // Aligns text directly to the right of fixed 1:1 card
-          gap: '0.3rem', // Zero gap between stacked words
+          paddingLeft: 'calc(50vw - 110px)',
+          gap: '0.3rem',
           position: 'relative',
           boxSizing: 'border-box'
         }}
@@ -483,12 +476,12 @@ const VisualDisciplinesComponent = () => {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                padding: '0.2rem 0', // Zero extra vertical gaps
+                padding: '0.2rem 0',
                 cursor: 'default',
                 whiteSpace: 'nowrap'
               }}
             >
-              {/* Word Title */}
+
               <h2
                 style={{
                   margin: 0,
@@ -504,7 +497,6 @@ const VisualDisciplinesComponent = () => {
                 {item.title}
               </h2>
 
-              {/* Right Side Subtitle */}
               <span
                 className="visual-word-subtag"
                 style={{

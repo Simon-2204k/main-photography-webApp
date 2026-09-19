@@ -52,7 +52,6 @@ export default function Section7DirectorReveal() {
     const homeAnchor = homeAnchorRef.current;
     if (!container || !customCursor) return;
 
-    // Start completely hidden
     gsap.set(customCursor, { xPercent: -50, yPercent: -50, opacity: 0, scale: 0.8 });
 
     const handleMouseMove = (e) => {
@@ -90,7 +89,6 @@ export default function Section7DirectorReveal() {
     container.addEventListener('mouseenter', handleMouseEnter);
     container.addEventListener('mouseleave', handleMouseLeave);
 
-    // Viewport intersection observer to ensure it's NEVER visible when scrolled out of Section 7
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -103,7 +101,6 @@ export default function Section7DirectorReveal() {
     );
     observer.observe(container);
 
-    // Initial state: hide dynamic names below
     dynamicCharsRef.current.forEach((charGroup) => {
       if (charGroup) {
         gsap.set(charGroup, { y: '130%' });
@@ -124,7 +121,6 @@ export default function Section7DirectorReveal() {
 
     const tl = gsap.timeline();
 
-    // Push DIRECTORS text UP
     if (defaultCharsRef.current.length) {
       tl.to(
         defaultCharsRef.current,
@@ -139,7 +135,6 @@ export default function Section7DirectorReveal() {
       );
     }
 
-    // Pull Name text UP (Vibrant Red)
     const targetGroup = dynamicCharsRef.current[i];
     if (targetGroup) {
       tl.to(
@@ -155,7 +150,6 @@ export default function Section7DirectorReveal() {
       );
     }
 
-    // Expand Image
     if (box) {
       const isMobile = window.innerWidth <= 640;
       tl.to(
@@ -178,7 +172,6 @@ export default function Section7DirectorReveal() {
 
     const tl = gsap.timeline();
 
-    // Push Name text DOWN
     const targetGroup = dynamicCharsRef.current[i];
     if (targetGroup) {
       tl.to(
@@ -194,7 +187,6 @@ export default function Section7DirectorReveal() {
       );
     }
 
-    // Pull DIRECTORS text DOWN
     if (defaultCharsRef.current.length) {
       tl.to(
         defaultCharsRef.current,
@@ -209,7 +201,6 @@ export default function Section7DirectorReveal() {
       );
     }
 
-    // Shrink Image
     if (box) {
       const isMobile = window.innerWidth <= 640;
       tl.to(
@@ -226,7 +217,6 @@ export default function Section7DirectorReveal() {
     }
   };
 
-  // Mobile Tap Handler: tap box to reveal name, tap again or click outside to revert to DIRECTORS
   const handleBoxClick = (i) => {
     if (activeMobileIdx === i) {
       handleBoxLeave(i);
@@ -254,7 +244,7 @@ export default function Section7DirectorReveal() {
       className="section7-root grandParent"
       onClick={handleContainerClick}
     >
-      {/* Custom Cursor (Red Arrow Circle, follows cursor or rests next to 'S') */}
+
       <div ref={cursorRef} className="custom-cursor">
         <svg
           viewBox="0 0 24 24"
@@ -271,7 +261,6 @@ export default function Section7DirectorReveal() {
         </svg>
       </div>
 
-      {/* Row of Director Boxes */}
       <div className="parent">
         {directorsData.map((director, i) => (
           <div
@@ -289,7 +278,6 @@ export default function Section7DirectorReveal() {
         ))}
       </div>
 
-      {/* Dynamic Masking Text Area */}
       <div className="textArea">
         <div className="maskingWord">
           <h1 className="default-text">
@@ -304,7 +292,7 @@ export default function Section7DirectorReveal() {
                 </span>
               ))}
             </span>
-            {/* Resting spot anchor element beside the letter 'S' */}
+
             <span ref={homeAnchorRef} className="arrow-resting-spot" />
           </h1>
 

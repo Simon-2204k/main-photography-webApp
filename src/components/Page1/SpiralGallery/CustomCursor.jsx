@@ -12,11 +12,11 @@ export const CustomCursorComponent = ({ isSection1Active = true }) => {
     if (isTouchDevice) return;
 
     const handleMouseMove = (e) => {
-      // Ignore touch events / synthetic touch moves
+
       if (e.sourceCapabilities?.firesTouchEvents || (e.pointerType && e.pointerType === 'touch')) {
         return;
       }
-      // If Section 1 is no longer active (scrolled past hero) or hovering lower interactive sections
+
       if (!isSection1Active || window.scrollY > window.innerHeight * 0.8) {
         setIsVisible(false);
         return;
@@ -70,7 +70,7 @@ export const CustomCursorComponent = ({ isSection1Active = true }) => {
 
   return (
     <>
-      {/* Fullscreen Horizontal Crosshair Line */}
+
       <div
         ref={hLineRef}
         style={{
@@ -87,7 +87,6 @@ export const CustomCursorComponent = ({ isSection1Active = true }) => {
         }}
       />
 
-      {/* Fullscreen Vertical Crosshair Line */}
       <div
         ref={vLineRef}
         style={{
@@ -104,7 +103,6 @@ export const CustomCursorComponent = ({ isSection1Active = true }) => {
         }}
       />
 
-      {/* Custom + Cursor Pointer */}
       <div
         ref={cursorRef}
         style={{

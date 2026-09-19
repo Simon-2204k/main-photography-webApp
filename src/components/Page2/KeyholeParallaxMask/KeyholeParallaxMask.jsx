@@ -24,28 +24,25 @@ const SECTION5_IMAGES = [
 ];
 
 const PARALLAX_CARDS = [
-  // Outer Left Column (balanced at ~5%)
+
   { id: 1, src: '/images/section6/float-1.webp', left: '5%', width: 140, startY: '110vh', targetY: '-150vh' },
   { id: 2, src: '/images/section6/float-2.webp', left: '7%', width: 150, startY: '230vh', targetY: '-150vh' },
   { id: 3, src: '/images/section6/float-3.webp', left: '4%', width: 135, startY: '350vh', targetY: '-150vh' },
   { id: 4, src: '/images/section6/float-4.webp', left: '6%', width: 155, startY: '470vh', targetY: '-150vh' },
   { id: 5, src: '/images/section6/float-5.webp', left: '5%', width: 145, startY: '590vh', targetY: '-150vh' },
 
-  // Inner Left Column (balanced at ~24%)
   { id: 6, src: '/images/section6/float-6.webp', left: '25%', width: 130, startY: '140vh', targetY: '-150vh' },
   { id: 7, src: '/images/section6/float-7.webp', left: '22%', width: 145, startY: '260vh', targetY: '-150vh' },
   { id: 8, src: '/images/section6/float-8.webp', left: '26%', width: 135, startY: '380vh', targetY: '-150vh' },
   { id: 9, src: '/images/section6/float-9.webp', left: '23%', width: 150, startY: '500vh', targetY: '-150vh' },
   { id: 10, src: '/images/section6/float-10.webp', left: '25%', width: 140, startY: '620vh', targetY: '-150vh' },
 
-  // Inner Right Column (balanced at ~24% from right)
   { id: 11, src: '/images/section6/float-11.webp', right: '25%', width: 140, startY: '125vh', targetY: '-150vh' },
   { id: 12, src: '/images/section6/float-12.webp', right: '22%', width: 155, startY: '245vh', targetY: '-150vh' },
   { id: 13, src: '/images/section6/float-13.webp', right: '26%', width: 135, startY: '365vh', targetY: '-150vh' },
   { id: 14, src: '/images/section6/float-14.webp', right: '23%', width: 145, startY: '485vh', targetY: '-150vh' },
   { id: 15, src: '/images/section6/float-15.webp', right: '25%', width: 150, startY: '605vh', targetY: '-150vh' },
 
-  // Outer Right Column (balanced at ~5% from right)
   { id: 16, src: '/images/section6/float-16.webp', right: '5%', width: 150, startY: '155vh', targetY: '-150vh' },
   { id: 17, src: '/images/section6/float-17.webp', right: '7%', width: 135, startY: '275vh', targetY: '-150vh' },
   { id: 18, src: '/images/section6/float-18.webp', right: '4%', width: 160, startY: '395vh', targetY: '-150vh' },

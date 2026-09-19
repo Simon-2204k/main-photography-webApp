@@ -37,7 +37,7 @@ export const TheCardPage = memo(function TheCardPage() {
 
   return (
     <div ref={containerRef} className="rotated-page-content page-the-card">
-      {/* Top Header Strip (from Screenshot 7) */}
+
       <header className="thecard-top-strip">
         <div className="thecard-top-left">
           Your photographic practice, all in one place
@@ -47,15 +47,13 @@ export const TheCardPage = memo(function TheCardPage() {
         </div>
       </header>
 
-      {/* Center Stage: Massive THE CARD Typography + Overlaid Dual Cards */}
       <div className="thecard-center-stage">
         <h2 className="thecard-giant-title">
           THE CARD
         </h2>
 
-        {/* Dual 3D Curled Cards Overlaid in Center (Three.js WebGL, Parallax scrubbed) */}
         <div ref={overlaysRef} className="thecard-overlays-container">
-          {/* Card A: Peeling Orange Digital Pass (3D Curled Paper Mesh) */}
+
           <CurvedMeshCard3D
             type="orange-pass"
             width={280}
@@ -65,7 +63,6 @@ export const TheCardPage = memo(function TheCardPage() {
             className="thecard-3d-orange-pass"
           />
 
-          {/* Card B: Dark Mobile Profile Card (3D Curved Cylinder Mesh) */}
           <CurvedMeshCard3D
             type="mobile-card"
             width={290}
@@ -77,7 +74,6 @@ export const TheCardPage = memo(function TheCardPage() {
         </div>
       </div>
 
-      {/* Signature Bottom-Right Join Button */}
       <button className="follow-join-btn" aria-label="Join Platform">
         <div className="follow-join-icon-row">
           <span className="follow-join-icon">↗</span>

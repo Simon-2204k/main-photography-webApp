@@ -43,15 +43,15 @@ const SpotlightMarqueeComponent = () => {
     if (!section || !strip || !track || !contentWrapper) return;
 
     const cfg = {
-      spd: 110,     // Marquee horizontal speed (px/sec)
-      ease: 0.085,  // Fast, responsive vertical tracking ease
-      inset: 130,   // Vertical margin boundaries
-      rise: 0.85,   // Text rise displacement factor
-      gap: 90,      // Content top gap threshold
-      lift: 125,    // Proximity lift trigger distance
-      wakeS: 2.6,   // Gaussian velocity wake multiplier
-      wakeR: 130,   // Gaussian wake radius
-      settle: 0.09, // Spring return settling speed
+      spd: 110,
+      ease: 0.085,
+      inset: 130,
+      rise: 0.85,
+      gap: 90,
+      lift: 125,
+      wakeS: 2.6,
+      wakeR: 130,
+      settle: 0.09,
     };
 
     let moved = false;
@@ -65,7 +65,6 @@ const SpotlightMarqueeComponent = () => {
     let prevY = 0;
     let isTickerActive = false;
 
-    // Line references with coordinate tracking
     const lineElements = Array.from(contentWrapper.querySelectorAll('.spotlight-line'));
     const lines = lineElements.map((el) => ({
       el,
@@ -103,7 +102,6 @@ const SpotlightMarqueeComponent = () => {
 
     measure();
 
-    // Horizontal Marquee Track Loop Math
     let trackX = 0;
     let singleSetWidth = 0;
 
@@ -115,7 +113,6 @@ const SpotlightMarqueeComponent = () => {
 
     calculateTrackWidth();
 
-    // Pure algebraic calculation on mousemove (Zero Reflow / 0ms latency)
     const handleMouseMove = (e) => {
       moved = true;
       const yOffset = stripBase + stripH / 2;
@@ -131,7 +128,6 @@ const SpotlightMarqueeComponent = () => {
     let lastScrollY = window.scrollY;
     let scrollVel = 0;
 
-    // Zero-query arithmetic calculation on scroll
     const handleScroll = () => {
       if (isVisibleRef.current) {
         rectTop = pageSectionTop - window.scrollY;
@@ -145,7 +141,7 @@ const SpotlightMarqueeComponent = () => {
         const scrollDip = Math.min(Math.max(-scrollVel * 1.6, -60), 60);
 
         if (window.innerWidth < 1024) {
-          // On mobile & tablet, drive vertical marquee strip & wave physics purely from scroll!
+
           const mobileCenterY = rectHeight * 0.36 + scrollDip;
           targetY = gsap.utils.clamp(
             cfg.inset - yOffset,
@@ -170,14 +166,12 @@ const SpotlightMarqueeComponent = () => {
       const dt = Math.min((now - lastTime) / 1000, 0.1);
       lastTime = now;
 
-      // 1. Horizontal Continuous Marquee Movement
       trackX -= cfg.spd * dt;
       if (singleSetWidth > 0 && trackX <= -singleSetWidth) {
         trackX += singleSetWidth;
       }
       track.style.transform = `translate3d(${trackX}px, 0, 0)`;
 
-      // 2. Responsive Vertical Strip Interpolation (Cursor Following)
       currY += (targetY - currY) * cfg.ease;
       strip.style.transform = `translate3d(0, ${currY}px, 0)`;
 
@@ -190,7 +184,6 @@ const SpotlightMarqueeComponent = () => {
         Math.max(0, contentTop - cfg.gap)
       );
 
-      // 3. Magnetic Text Displacement & Wake Physics with Resting Threshold
       lines.forEach((l) => {
         const gap = l.baseY - cY;
         const wake = vY * cfg.wakeS * Math.exp(-(gap * gap) / (2 * cfg.wakeR ** 2));
@@ -207,7 +200,6 @@ const SpotlightMarqueeComponent = () => {
       });
     };
 
-    // IntersectionObserver for Viewport Culling & Measuring
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -249,26 +241,25 @@ const SpotlightMarqueeComponent = () => {
   }, []);
 
   return (
-    <section 
-      id="spotlight-marquee-section" 
-      ref={sectionRef} 
+    <section
+      id="spotlight-marquee-section"
+      ref={sectionRef}
       className="spotlight-marquee-section"
     >
-      {/* Top Navigation HUD — Contact & Socials */}
+
       <div className="spotlight-nav">
         <p>svasu0014@gmail.com</p>
         <p>Instagram, Twitter</p>
       </div>
 
-      {/* Interactive Horizontal Image Marquee Strip (Cursor Follower) */}
       <div ref={stripRef} className="spotlight-marquee">
         <div ref={trackRef} className="spotlight-marquee-track">
-          {/* Dual array for seamless infinite wrap across ultra-wide viewports */}
+
           {[...GALLERY_IMAGES, ...GALLERY_IMAGES].map((src, idx) => (
             <div key={idx} className="spotlight-marquee-item">
-              <img 
-                src={src} 
-                alt={`Archive Frame ${(idx % GALLERY_IMAGES.length) + 1}`} 
+              <img
+                src={src}
+                alt={`Archive Frame ${(idx % GALLERY_IMAGES.length) + 1}`}
                 decoding="async"
                 loading="eager"
               />
@@ -277,7 +268,6 @@ const SpotlightMarqueeComponent = () => {
         </div>
       </div>
 
-      {/* Difference-Blended Center Typography */}
       <div ref={contentWrapperRef} className="spotlight-content-wrapper">
         <h1>
           <span className="spotlight-line">SILVER &amp; GRAIN</span>
@@ -303,7 +293,6 @@ const SpotlightMarqueeComponent = () => {
         </div>
       </div>
 
-      {/* Footer Manifesto */}
       <div className="spotlight-footer">
         <p>
           Silver &amp; Grain Atelier is dedicated to the craft of physical light capture, continuous exploration of silver halide emulsion, and bespoke editorial curation across global physical and digital archives.

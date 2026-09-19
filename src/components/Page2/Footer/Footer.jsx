@@ -43,7 +43,7 @@ export const Footer = memo(({ onOpenMenu }) => {
           : 'bg-black text-white border-white/10'
       }`}
     >
-      {/* Full-Width Edge-to-Edge Zero-Jitter Marquee Track */}
+
       <div className="w-full flex-1 flex items-center overflow-hidden px-0 mx-0">
         <div
           ref={trackRef}
@@ -67,7 +67,6 @@ export const Footer = memo(({ onOpenMenu }) => {
         </div>
       </div>
 
-      {/* Bottom Row Bar: Centered Copyright & Right MENU Trigger */}
       <div
         className={`w-full max-w-7xl mx-auto flex items-center justify-between pt-6 border-t text-xs sm:text-sm font-mono px-6 sm:px-10 transition-colors duration-500 ${
           isInverted

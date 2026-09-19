@@ -1,11 +1,9 @@
-/* Camera Viewfinder HUD & Progress Scoped Styles for ParallaxPages */
-
 .parallax-hud-container {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 30;
-  padding: 20px; /* px-5 py-5 on mobile */
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -71,7 +69,7 @@
   position: fixed;
   left: 0;
   width: 100%;
-  bottom: clamp(18vh, 22vh, 24vh); /* Elevated in the lower pocket like phone across mobile & tablet (<= 1024px) */
+  bottom: clamp(18vh, 22vh, 24vh);
   z-index: 50;
   pointer-events: none;
   user-select: none;
@@ -80,6 +78,6 @@
 
 @media (min-width: 1025px) {
   .carousel-progress-wrapper {
-    bottom: clamp(3rem, 5vh, 4.5rem); /* Standard bottom elevation on desktop */
+    bottom: clamp(3rem, 5vh, 4.5rem);
   }
 }

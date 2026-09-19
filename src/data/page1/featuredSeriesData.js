@@ -1,5 +1,5 @@
 export const FEATURED_SERIES_DATA = [
-  // Column 1
+
   [
     { id: 'c1-1', name: '35mm Noir', tag: 'Monochrome 35mm' },
     { id: 'c1-2', name: 'Analog Decay', tag: 'Film Grain Study' },
@@ -12,7 +12,7 @@ export const FEATURED_SERIES_DATA = [
     { id: 'c1-9', name: 'Prism Divide', tag: 'Optical Dispersion' },
     { id: 'c1-10', name: 'Urban Form', tag: 'Street Architecture' },
   ],
-  // Column 2
+
   [
     { id: 'c2-1', name: 'Raw Contact', tag: 'Contact Sheet' },
     { id: 'c2-2', name: 'Silver Grain', tag: 'Gelatin Silver' },
@@ -25,7 +25,7 @@ export const FEATURED_SERIES_DATA = [
     { id: 'c2-9', name: 'Nocturne Series', tag: 'Midnight Shadows' },
     { id: 'c2-10', name: 'Sub-Surface', tag: 'Refraction Angle' },
   ],
-  // Column 3
+
   [
     { id: 'c3-1', name: 'Aperture Lab', tag: 'Optics Experimental' },
     { id: 'c3-2', name: 'Cyanotype Set', tag: 'Sun Print Classic' },

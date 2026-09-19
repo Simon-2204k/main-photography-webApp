@@ -83,8 +83,6 @@ svg.svgClass {
   line-height: 1.4;
   font-family: Arial, sans-serif;
 }
-
-/* Tablet Responsive: 2x2 grid at 1024px & 1024x1366 */
 @media (max-width: 1024px) {
   .cardsDiv {
     grid-template-columns: repeat(2, minmax(260px, 340px));
@@ -96,8 +94,6 @@ svg.svgClass {
     height: clamp(340px, 38vh, 420px);
   }
 }
-
-/* Mobile: 1 column centered */
 @media (max-width: 600px) {
   .cardsDiv {
     grid-template-columns: 1fr;
@@ -111,5 +107,3 @@ svg.svgClass {
     margin: 0 auto;
   }
 }
-
-

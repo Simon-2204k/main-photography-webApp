@@ -1,5 +1,3 @@
-// Clean metadata for 20 stamp assets with randomized vintage paper background colors
-
 const countries = [
   "POLSKA", "DANMARK", "GREAT BRITAIN", "DEUTSCHLAND", "FRANCE", "NIPPON",
   "ITALIA", "HELVETIA", "MAGYAR POSTA", "SUOMI", "US POSTAGE",

@@ -5,7 +5,6 @@ import './HorizontalTimeline.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 10 Main Chronology Cards (5 B&W, 5 Color)
 const TIMELINE_DATA = [
   {
     id: '01',
@@ -99,8 +98,6 @@ const TIMELINE_DATA = [
   }
 ];
 
-// Distributed vertical positions spanning upper band (7-26%), lower band (68-90%), and mid-flanks (34-58%)
-// Intentionally alternating to ensure completely scattered organic placement with ZERO curved trajectory
 const VERTICAL_SCATTER = [
   12, 78, 22, 85, 16, 74, 42, 88, 9, 81,
   24, 70, 15, 86, 38, 77, 18, 83, 10, 72,
@@ -109,16 +106,15 @@ const VERTICAL_SCATTER = [
   25, 71, 19, 85, 40, 79, 7, 88, 21, 68
 ];
 
-// 50 Ambient Popping Micro-Thumbnails Scattered Across Track
 const AMBIENT_THUMBS = Array.from({ length: 50 }, (_, i) => {
   const num = String(i + 1).padStart(2, '0');
-  // Dispersed horizontal positions covering the entire track length with pseudo-random jitter
+
   const baseLeft = (i / 50) * 95 + 1.5;
   const jitterX = (((i * 37 + 11) % 23) - 11) * 0.14;
   const leftPercent = Math.max(1, Math.min(98.5, Number((baseLeft + jitterX).toFixed(2))));
   const topPercent = VERTICAL_SCATTER[i % VERTICAL_SCATTER.length];
-  const rotation = (((i * 13 + 7) % 27) - 13); // -13deg to +13deg
-  const size = 68 + ((i * 19 + 5) % 28); // 68px to 96px
+  const rotation = (((i * 13 + 7) % 27) - 13);
+  const size = 68 + ((i * 19 + 5) % 28);
 
   return {
     id: i + 1,
@@ -143,7 +139,7 @@ export const HorizontalTimeline = memo(function HorizontalTimeline() {
     if (!section || !track) return;
 
     const ctx = gsap.context(() => {
-      // Horizontal scrub timeline
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -155,13 +151,11 @@ export const HorizontalTimeline = memo(function HorizontalTimeline() {
         }
       });
 
-      // 1. Foreground track travels horizontally
       tl.to(track, {
         x: () => -(track.scrollWidth - window.innerWidth + 160),
         ease: 'none'
       }, 0);
 
-      // 2. Background subtle parallax shift
       if (bgLayerRef.current) {
         tl.to(bgLayerRef.current, {
           xPercent: -15,
@@ -169,7 +163,6 @@ export const HorizontalTimeline = memo(function HorizontalTimeline() {
         }, 0);
       }
 
-      // 3. Central waypoint bead glides along axis
       if (beadRef.current) {
         tl.to(beadRef.current, {
           left: '92%',
@@ -177,14 +170,13 @@ export const HorizontalTimeline = memo(function HorizontalTimeline() {
         }, 0);
       }
 
-      // 4. Continuous organic popping lifecycle for all ambient micro-thumbnails
       const ambientThumbs = gsap.utils.toArray('.timeline-ambient-thumb', track);
       ambientThumbs.forEach((thumb, idx) => {
-        // Individualized deterministic phase & durations
+
         const initialDelay = ((idx * 0.19 + (idx % 7) * 0.4) % 4.2);
-        const stayDuration = 1.8 + ((idx * 11) % 15) * 0.1; // 1.8s to 3.2s
-        const popInDuration = 0.45 + ((idx % 3) * 0.08); // 0.45s to 0.61s
-        const restDuration = 1.2 + ((idx * 7) % 20) * 0.1; // 1.2s to 3.1s
+        const stayDuration = 1.8 + ((idx * 11) % 15) * 0.1;
+        const popInDuration = 0.45 + ((idx % 3) * 0.08);
+        const restDuration = 1.2 + ((idx * 7) % 20) * 0.1;
 
         gsap.set(thumb, { scale: 0, opacity: 0 });
 
@@ -195,20 +187,20 @@ export const HorizontalTimeline = memo(function HorizontalTimeline() {
         });
 
         popTl
-          // 1. Pop in energetically with elastic/back bounce
+
           .to(thumb, {
             scale: 1,
             opacity: 0.95,
             duration: popInDuration,
             ease: 'back.out(2.2)'
           })
-          // 2. Subtle micro-float while alive
+
           .to(thumb, {
             y: (idx % 2 === 0 ? -6 : 6),
             duration: stayDuration,
             ease: 'sine.inOut'
           }, '<+0.1')
-          // 3. Crisp pop out / retract
+
           .to(thumb, {
             scale: 0,
             opacity: 0,
@@ -223,22 +215,20 @@ export const HorizontalTimeline = memo(function HorizontalTimeline() {
 
   return (
     <section ref={sectionRef} className="timeline-horizontal-section" id="timeline-horizontal-section">
-      {/* Stiff Ambient Background Layer */}
+
       <div ref={bgLayerRef} className="timeline-stiff-bg">
         <div className="bg-monogram-pattern" />
         <div className="bg-vignette-overlay" />
       </div>
 
-      {/* Central Axis Guide Line with Floating Progress Bead */}
       <div className="timeline-axis-line">
         <div ref={beadRef} className="timeline-axis-bead">
           <span className="bead-center-dot" />
         </div>
       </div>
 
-      {/* Horizontal Parallax Foreground Track */}
       <div ref={trackRef} className="timeline-horizontal-track">
-        {/* 10 Main Timeline Event Cards */}
+
         {TIMELINE_DATA.map((item) => (
           <div key={item.id} className={`timeline-card-item card-type-${item.type.toLowerCase()}`}>
             <div className="timeline-photo-box">
@@ -265,7 +255,6 @@ export const HorizontalTimeline = memo(function HorizontalTimeline() {
           </div>
         ))}
 
-        {/* 50 Ambient Popping Contact-Sheet Proofs */}
         <div className="timeline-ambient-layer">
           {AMBIENT_THUMBS.map((thumb) => (
             <div

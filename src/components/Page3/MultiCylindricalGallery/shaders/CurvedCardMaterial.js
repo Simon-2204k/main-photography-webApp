@@ -14,8 +14,8 @@ export const CustomCurvedCardMaterial = shaderMaterial(
     uOpacity: 1.0,
     uVelocity: 0.0,
   },
-  // Vertex Shader
-  /* glsl */ `
+
+   `
     uniform float uRadius;
     uniform float uHover;
     uniform float uFocus;
@@ -29,12 +29,10 @@ export const CustomCurvedCardMaterial = shaderMaterial(
 
       float safeRadius = max(uRadius, 1.0);
       float angle = pos.x / safeRadius;
-      
-      // Outward convex cylindrical arc bending
+
       pos.x = safeRadius * sin(angle);
       pos.z = safeRadius * (cos(angle) - 1.0);
 
-      // Hover displacement outward along Z
       pos.z += uHover * 0.25;
 
       vec3 curvedNormal = vec3(sin(angle), 0.0, cos(angle));
@@ -44,8 +42,8 @@ export const CustomCurvedCardMaterial = shaderMaterial(
       gl_Position = projectionMatrix * viewMatrix * worldPos;
     }
   `,
-  // Fragment Shader
-  /* glsl */ `
+
+   `
     uniform sampler2D uTexture;
     uniform float uDistortion;
     uniform float uChromaticAberration;
@@ -54,7 +52,7 @@ export const CustomCurvedCardMaterial = shaderMaterial(
     uniform float uTime;
     uniform float uOpacity;
     uniform float uVelocity;
-    
+
     varying vec2 vUv;
 
     vec2 barrelDistortion(vec2 coord, float amt) {
@@ -68,45 +66,40 @@ export const CustomCurvedCardMaterial = shaderMaterial(
       float dynamicDistortion = uDistortion * focusFactor * (1.0 + abs(uVelocity) * 3.0);
 
       vec2 uv = barrelDistortion(vUv, dynamicDistortion);
-      
+
       if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
         discard;
       }
 
       vec2 offset = vec2(uChromaticAberration * (uv.x - 0.5) * focusFactor * (1.0 + uHover * 1.5 + abs(uVelocity) * 8.0), 0.0);
-      
+
       float r = texture2D(uTexture, uv + offset).r;
       float g = texture2D(uTexture, uv).g;
       float b = texture2D(uTexture, uv - offset).b;
-      
+
       vec4 texColor = texture2D(uTexture, uv);
 
       vec3 rawColor = vec3(r, g, b);
 
-      // 1. Default (unhovered): Soft silver-grey desaturation
       float gray = dot(rawColor, vec3(0.299, 0.587, 0.114));
       vec3 monoColor = vec3(gray * 0.95);
 
-      // 2. Hovered (uHover > 0): Real image colors with lowered contrast, lifted midtones, and spread bloom glow
       vec3 realColor = rawColor;
-      
-      // Soft midtone lift & lowered contrast curve
+
       realColor = pow(max(realColor, vec3(0.0)), vec3(0.92));
       realColor = mix(realColor, realColor * 1.1 + vec3(0.05), 0.5);
 
-      // Soft luminous spread bloom halo
       float luma = dot(realColor, vec3(0.299, 0.587, 0.114));
       vec3 bloomGlow = realColor * (1.2 + luma * 0.6);
       realColor = mix(realColor, bloomGlow, 0.4 * uHover);
 
       vec3 finalColor = mix(monoColor, realColor, uHover);
 
-      // Balanced brightness
       float brightness = 0.9 + uFocus * 0.25 + uHover * 0.2;
       finalColor *= brightness;
 
       float alpha = texColor.a * uOpacity * (0.85 + uFocus * 0.15);
-      
+
       gl_FragColor = vec4(finalColor, alpha);
     }
   `

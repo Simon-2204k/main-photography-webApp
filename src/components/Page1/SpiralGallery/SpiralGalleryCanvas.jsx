@@ -6,41 +6,27 @@ import * as THREE from 'three';
 import { SpiralRibbonMesh } from './SpiralRibbonMesh';
 import { projectsData } from '../../../data/page1/projectsData';
 
-// Eagerly preload all 44 spiral gallery textures into GPU cache
 if (typeof window !== 'undefined') {
   projectsData.forEach((p) => {
     try {
       useTexture.preload(p.image);
     } catch {
-      // safe fallback
+
     }
   });
 }
 
-// ============================================================================
-// MOBILE TUNING VALUES (Change these values if you want to adjust phone appearance)
-// ============================================================================
-// LINE 25: Scale of the 3D spiral on phone screens (< 768px):
 export const MOBILE_SPIRAL_SCALE = 0.45;
 
-// LINE 28: Base vertical Y offset on phone screens:
 export const MOBILE_SPIRAL_Y = -0.1;
 
-// LINE 32: UNIFORM VERTICAL GAP FOR MOBILE (Total spiral height on phone)
-// Default desktop is 5.5. Increasing this for phone (e.g. 7.2) increases the vertical gap between spiral tiers!
 export const MOBILE_SPIRAL_TOTAL_HEIGHT = 10;
 
-// LINE 36: CARD HEIGHT FOR MOBILE (Default desktop is 1.6, set to 1.45 for balanced proportions)
 export const MOBILE_SPIRAL_CARD_HEIGHT = 2.5;
 
-// LINE 39: VERTICAL UPWARD CLIMB WHILE SCROLLING ON PHONE (< 768px)
-// Default is 1.2 (~16.5% climb). Increase to 1.5 - 2.0 to climb higher/faster while scrolling, or lower if needed
 export const MOBILE_SCROLL_CLIMB = 1.2;
 
-// LINE 43: VERTICAL UPWARD CLIMB WHILE SCROLLING ON TABLET & LAPTOP (>= 768px)
-// Default is 1.2. Increase to 1.5 - 2.0 to climb higher/faster while scrolling, or lower if needed
 export const DESKTOP_SCROLL_CLIMB = 1.2;
-// ============================================================================
 
 const SpiralScene = ({ projects, scrollProgress }) => {
   const mainGroupRef = useRef();
@@ -53,19 +39,16 @@ const SpiralScene = ({ projects, scrollProgress }) => {
   const aspect = size.width / Math.max(size.height, 1);
   const heightRatio = Math.max(size.height, 1) / 667;
 
-  // 1] Dynamically scales spiral width to preserve balanced side margins:
   const responsiveScale = isMobileOrTablet
     ? Math.min(Math.max(MOBILE_SPIRAL_SCALE * (aspect / 0.5622), 0.38), 0.72)
     : 1.0;
 
-  // 2] Dynamically positions spiral Y so it stays cleanly below Header HUD with ZERO overlap:
   const responsiveY = isTablet
     ? (MOBILE_SPIRAL_Y - 0.55 - (heightRatio - 1) * 0.15)
     : isMobileOrTablet
       ? (MOBILE_SPIRAL_Y + (heightRatio - 1) * 0.28)
       : 0;
 
-  // 3] Spiral total height and card height scale proportionally:
   const minRadius = 2.9;
   const maxRadius = 4;
   const totalTurns = 2.9;
@@ -84,7 +67,7 @@ const SpiralScene = ({ projects, scrollProgress }) => {
 
   useEffect(() => {
     const handlePointerDown = (e) => {
-      // Allow touch swipe to cleanly scroll the page without locking pointer capture
+
       if (e.pointerType === 'touch') {
         mousePosRef.current = { x: 0, y: 0 };
         return;
@@ -94,7 +77,7 @@ const SpiralScene = ({ projects, scrollProgress }) => {
     };
 
     const handlePointerMove = (e) => {
-      // Ignore touch moves so swiping/scrolling doesn't tilt or shift the spiral
+
       if (e.pointerType === 'touch') {
         mousePosRef.current = { x: 0, y: 0 };
         return;
@@ -137,12 +120,10 @@ const SpiralScene = ({ projects, scrollProgress }) => {
   useFrame(() => {
     if (!spiralGroupRef.current || !mainGroupRef.current) return;
 
-    // Zero out mouse tilt & pan parallax on touch devices (phones & tablets)
     const isTouchOrCoarse = isMobileOrTablet || (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches);
     const mouseX = isTouchOrCoarse ? 0 : mousePosRef.current.x;
     const mouseY = isTouchOrCoarse ? 0 : mousePosRef.current.y;
 
-    // Scroll entrance interpolation
     const entranceStartY = isMobileOrTablet ? -3.4 : -4.2;
     const scrollClimb = isMobileOrTablet ? MOBILE_SCROLL_CLIMB : DESKTOP_SCROLL_CLIMB;
     const entranceEndY = responsiveY + scrollClimb;
@@ -153,7 +134,6 @@ const SpiralScene = ({ projects, scrollProgress }) => {
       0.08
     );
 
-    // Mouse movement interaction
     const targetPosX = -mouseX * 1.6;
     spiralGroupRef.current.position.x = THREE.MathUtils.lerp(
       spiralGroupRef.current.position.x,
@@ -174,7 +154,6 @@ const SpiralScene = ({ projects, scrollProgress }) => {
       0.06
     );
 
-    // Smooth scroll rotation
     scrollPosRef.current = THREE.MathUtils.lerp(
       scrollPosRef.current,
       targetScrollRef.current,

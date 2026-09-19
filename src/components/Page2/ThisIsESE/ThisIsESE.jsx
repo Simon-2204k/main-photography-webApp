@@ -18,7 +18,7 @@ export const ThisIsESEComponent = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Smooth fade-in on scroll into Section 3
+
       gsap.fromTo(
         contentRef.current,
         { opacity: 0.1, y: 30 },
@@ -54,11 +54,6 @@ export const ThisIsESEComponent = () => {
       }}
     >
 
-      {/* 
-        ========================================================================
-        SINGLE UNIFIED MARQUEE ELEMENT (Z-INDEX z-40)
-        ========================================================================
-      */}
       <div
         id="unified-marquee"
         className="w-full overflow-hidden pointer-events-none select-none transition-all duration-300 opacity-0 -translate-y-[10px] z-40 absolute top-8 sm:top-12 left-0"
@@ -75,21 +70,16 @@ export const ThisIsESEComponent = () => {
         </div>
       </div>
 
-      {/* 
-        ========================================================================
-        RESPONSIVE CONTENT: COLUMN ON MOBILE/TABLET, 50/50 ON DESKTOP & 1024x1366
-        ========================================================================
-      */}
       <div
         ref={contentRef}
         className="w-full relative z-20 px-6 sm:px-12 lg:px-20 flex items-center justify-center my-auto"
       >
         <div className="w-full flex flex-col mt-4 sm:mt-12 xl:mt-8 lg:flex-row items-start lg:items-center justify-between gap-8 lg:gap-8">
-          {/* LEFT COLUMN */}
+
           <div
             className="w-full lg:w-1/2 pr-0 lg:pr-10 xl:pr-14 flex flex-col justify-start text-left"
           >
-            {/* Monospace Eyebrow Tag */}
+
             <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
               <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse inline-block" />
               <span className="text-[11px] sm:text-sm font-mono uppercase tracking-[0.2em] sm:tracking-[0.25em] text-neutral-300 font-semibold ese-headline-tag">
@@ -97,7 +87,6 @@ export const ThisIsESEComponent = () => {
               </span>
             </div>
 
-            {/* Stacked Headline */}
             <h2 className="font-sans font-black text-3xl sm:text-5xl lg:text-[52px] xl:text-[64px] leading-[0.95] tracking-tighter text-white uppercase mb-6 sm:mb-8 ese-main-heading">
               <span className="block font-black tracking-tight text-white">MASTER OF</span>
               <span className="block font-black tracking-tight text-white">LIGHT &amp;</span>
@@ -106,7 +95,6 @@ export const ThisIsESEComponent = () => {
               </span>
             </h2>
 
-            {/* 4 Optics Specs Cards in 2x2 Grid */}
             <div className="grid grid-cols-2 gap-2.5 sm:gap-3 font-mono text-xs w-full max-w-lg">
               <div className="bg-white/[0.04] p-2.5 sm:p-3.5 rounded-xl border border-white/10 flex flex-col justify-between hover:border-white/25 transition-colors">
                 <span className="text-neutral-500 uppercase tracking-widest text-[9px] mb-1">
@@ -146,7 +134,6 @@ export const ThisIsESEComponent = () => {
             </div>
           </div>
 
-          {/* RIGHT COLUMN */}
           <div
             className="w-full lg:w-1/2 pl-0 lg:pl-10 xl:pl-14 flex flex-col justify-between text-left pt-0 sm:pt-4"
           >
@@ -154,7 +141,6 @@ export const ThisIsESEComponent = () => {
               Concept-driven, atmospheric and cinematic. Our visual laboratory creates enduring imagery for visionary brands and authentic people. In the disciplines of editorial campaigns, lookbooks, gallery exhibitions and medium format. Between analogue craft and contemporary vision. Frame it, preserve it, treasure it forever. This is <span className="font-extrabold text-white underline decoration-amber-400/50 decoration-2 underline-offset-4">SIMON Photography</span>.
             </p>
 
-            {/* Bottom Photography Meta Bar */}
             <div className="flex flex-wrap items-center gap-6 pt-6 pb-6 border-t border-white/15 text-xs font-mono text-neutral-400 uppercase tracking-wider">
               <div>
                 <span className="text-neutral-500">DISCIPLINE:</span>{' '}

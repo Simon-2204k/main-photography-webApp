@@ -37,13 +37,13 @@ export const CentralizePage = memo(function CentralizePage() {
   return (
     <div ref={containerRef} className="rotated-page-content page-centralize">
       <div className="centralize-main-grid">
-        {/* Left: Giant Title with Star Doodle & Descriptive Copy */}
+
         <div className="centralize-left-col">
           <div className="centralize-title-wrap">
             <h2 className="centralize-giant-title">
               CENTRALIZE
             </h2>
-            {/* Hand-Drawn White 5-Point Star Doodle */}
+
             <svg
               className="centralize-star-doodle"
               viewBox="0 0 100 100"
@@ -67,12 +67,11 @@ export const CentralizePage = memo(function CentralizePage() {
           </div>
         </div>
 
-        {/* Right: 2x2 Feature Cards Grid with Orange Paint Splash Backdrop (Parallax scrubbed) */}
         <div ref={cardsColRef} className="centralize-cards-col">
           <div className="centralize-orange-cross" />
 
           <div className="centralize-cards-grid">
-            {/* Box 1 */}
+
             <div className="centralize-card-box">
               <span className="centralize-card-num">1</span>
               <span className="centralize-card-label">
@@ -80,7 +79,6 @@ export const CentralizePage = memo(function CentralizePage() {
               </span>
             </div>
 
-            {/* Box 2 */}
             <div className="centralize-card-box">
               <span className="centralize-card-num">2</span>
               <span className="centralize-card-label">
@@ -88,7 +86,6 @@ export const CentralizePage = memo(function CentralizePage() {
               </span>
             </div>
 
-            {/* Box 3 */}
             <div className="centralize-card-box">
               <span className="centralize-card-num">3</span>
               <span className="centralize-card-label">
@@ -96,7 +93,6 @@ export const CentralizePage = memo(function CentralizePage() {
               </span>
             </div>
 
-            {/* Box 4 */}
             <div className="centralize-card-box">
               <span className="centralize-card-num">4</span>
               <span className="centralize-card-label">
@@ -107,7 +103,6 @@ export const CentralizePage = memo(function CentralizePage() {
         </div>
       </div>
 
-      {/* Signature Bottom-Right Join Button */}
       <button className="follow-join-btn" aria-label="Join Platform">
         <div className="follow-join-icon-row">
           <span className="follow-join-icon">↗</span>

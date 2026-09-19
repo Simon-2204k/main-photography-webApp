@@ -3,10 +3,6 @@ import * as THREE from 'three';
 import { WaveCardVertexShader, WaveCardFragmentShader } from './WaveCardShader';
 import './WaveDragGallery.css';
 
-/**
- * 21 Fine Art Photography Works from images/section10
- * Formatted in exact 16:9 cinematic aspect ratio
- */
 const SECTION10_WORKS = [
   { src: '/assets/section10/photo_01.webp', title: 'REF 01 // 35MM CONTRAST', meta: 'LEICA M11 • 50MM' },
   { src: '/assets/section10/photo_02.webp', title: 'REF 02 // SEPIA TONING', meta: 'GELATIN SILVER • 6×7' },
@@ -31,17 +27,13 @@ const SECTION10_WORKS = [
   { src: '/assets/section10/photo_21.webp', title: 'REF 21 // FINAL ATELIER', meta: 'SIMON PHOTOGRAPHY' },
 ];
 
-/**
- * Creates an exact 16:9 Canvas (1024x576) with rounded corners and photography metadata
- */
 function renderCardToCanvas(canvas, imgOrNull, title, meta) {
   canvas.width = 1024;
-  canvas.height = 576; // 16:9 ratio
+  canvas.height = 576;
   const ctx = canvas.getContext('2d');
 
   ctx.clearRect(0, 0, 1024, 576);
 
-  // Rounded card frame clipping path (32px radius)
   ctx.save();
   ctx.beginPath();
   if (ctx.roundRect) {
@@ -52,20 +44,18 @@ function renderCardToCanvas(canvas, imgOrNull, title, meta) {
   ctx.clip();
 
   if (imgOrNull && imgOrNull.complete && imgOrNull.naturalWidth > 0) {
-    // Draw real 16:9 photography image
+
     ctx.drawImage(imgOrNull, 8, 8, 1008, 560);
   } else {
-    // Elegant Darkroom Placeholder while image loads
+
     ctx.fillStyle = '#141417';
     ctx.fillRect(8, 8, 1008, 560);
 
-    // Subtle darkroom center grid
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
     ctx.lineWidth = 1;
     ctx.strokeRect(100, 80, 824, 416);
   }
 
-  // Darkroom Lower Vignette for razor-sharp typography readability
   const grad = ctx.createLinearGradient(0, 380, 0, 568);
   grad.addColorStop(0, 'rgba(0, 0, 0, 0)');
   grad.addColorStop(0.5, 'rgba(0, 0, 0, 0.55)');
@@ -73,19 +63,16 @@ function renderCardToCanvas(canvas, imgOrNull, title, meta) {
   ctx.fillStyle = grad;
   ctx.fillRect(8, 380, 1008, 188);
 
-  // Title in crisp monospace
   ctx.fillStyle = '#ffffff';
   ctx.font = 'bold 22px "Space Grotesk", monospace, sans-serif';
   ctx.fillText(title, 38, 532);
 
-  // Camera & Optics Meta Tag
   ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
   ctx.font = '600 15px "Space Grotesk", monospace, sans-serif';
   ctx.fillText(meta, 730, 532);
 
   ctx.restore();
 
-  // Subtle Outer Card Border
   ctx.save();
   ctx.beginPath();
   if (ctx.roundRect) {
@@ -99,10 +86,6 @@ function renderCardToCanvas(canvas, imgOrNull, title, meta) {
   ctx.restore();
 }
 
-/**
- * Universal Modulo Wrap Function:
- * Constrains any number smoothly inside [min, max] without discontinuities
- */
 function wrapRange(val, min, max) {
   const range = max - min;
   return ((((val - min) % range) + range) % range) + min;
@@ -120,7 +103,6 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
     let width = canvasWrapper.clientWidth || window.innerWidth;
     let height = canvasWrapper.clientHeight || window.innerHeight;
 
-    // 1] Three.js Scene & Camera Setup
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#f5f5f7');
 
@@ -136,22 +118,21 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
     renderer.setSize(width, height);
     canvasWrapper.appendChild(renderer.domElement);
 
-    // 2] 16:9 Aspect Ratio Metric Calibration
     const getCardMetrics = (w) => {
-      // Exact 16:9 ratio: height = width * 9 / 16
+
       let cardW = 2.80;
-      let cardH = 2.80 * (9 / 16); // 1.575
+      let cardH = 2.80 * (9 / 16);
       let gap = 0.35;
 
       if (w <= 640) {
-        // Mobile Phones
+
         cardW = 2.05;
-        cardH = 2.05 * (9 / 16); // 1.153
+        cardH = 2.05 * (9 / 16);
         gap = 0.24;
       } else if (w <= 1024) {
-        // Tablets & iPad Pro 1024x1366
+
         cardW = 2.45;
-        cardH = 2.45 * (9 / 16); // 1.378
+        cardH = 2.45 * (9 / 16);
         gap = 0.28;
       }
 
@@ -160,7 +141,6 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
 
     let { cardW, cardH, gap } = getCardMetrics(width);
 
-    // 3] 21 High-Subdivision Wave Mesh Cards (16:9)
     const totalCards = SECTION10_WORKS.length;
     let stride = cardW + gap;
     let totalWidth = totalCards * stride;
@@ -179,7 +159,6 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
 
     let viewportWidth = calcViewportWidth();
 
-    // Instantiate each 16:9 Card with its real photography texture
     SECTION10_WORKS.forEach((work, index) => {
       const cardCanvas = document.createElement('canvas');
       renderCardToCanvas(cardCanvas, null, work.title, work.meta);
@@ -190,7 +169,6 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
       texture.magFilter = THREE.LinearFilter;
       texture.needsUpdate = true;
 
-      // Asynchronously load real photo and update canvas
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.src = work.src;
@@ -220,7 +198,6 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
       cards.push({ mesh, material, texture, baseX, cardCanvas, work, img });
     });
 
-    // 4] Momentum Physics & Infinite Carousel Loop
     let scrollX = 0;
     let targetScrollX = 0;
     let lastScrollX = 0;
@@ -244,7 +221,6 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
 
     let unitsPerPixel = getUnitsPerPixel();
 
-    // 5] Pointer / Touch Interaction Handlers
     const handlePointerDown = (e) => {
       const clientX = e.clientX;
       if (clientX === undefined || clientX === null) return;
@@ -255,7 +231,7 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
       lastPointerX = clientX;
       lastPointerTime = performance.now();
       dragVelocity = 0;
-      flingVelocity = 0; // Cancel prior inertia on new touch
+      flingVelocity = 0;
 
       canvasWrapper.classList.add('is-dragging');
       if (canvasWrapper.setPointerCapture && e.pointerId) {
@@ -277,14 +253,13 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
       lastPointerX = clientX;
       lastPointerTime = now;
 
-      // Calibrate mobile touch swipe distance for swift, natural gestures
       const isTouch = e.pointerType === 'touch' || window.innerWidth <= 1024;
       const moveMultiplier = isTouch ? 2.7 : 1.5;
       const worldDelta = deltaX * unitsPerPixel * moveMultiplier;
 
       if (!isNaN(worldDelta) && isFinite(worldDelta)) {
         targetScrollX += worldDelta;
-        // Calculate instantaneous velocity in world units per standard frame
+
         dragVelocity = (worldDelta / dt) * 16.6;
       }
 
@@ -304,14 +279,12 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
           } catch (_) {}
         }
 
-        // Fling kinetic momentum: carry user's finger swipe through on release
         const isTouch = (e && e.pointerType === 'touch') || window.innerWidth <= 1024;
         const flingMultiplier = isTouch ? 1.45 : 1.0;
         flingVelocity = Math.max(-0.65, Math.min(0.65, dragVelocity * flingMultiplier));
       }
     };
 
-    // Wheel / Trackpad horizontal scrolling
     const handleWheel = (e) => {
       const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
       if (Math.abs(delta) > 1) {
@@ -328,7 +301,6 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
     window.addEventListener('pointercancel', handlePointerUp, { passive: true });
     canvasWrapper.addEventListener('wheel', handleWheel, { passive: true });
 
-    // 6] Resize Handler
     const handleResize = () => {
       if (!canvasWrapper) return;
       width = canvasWrapper.clientWidth || window.innerWidth;
@@ -363,14 +335,13 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
 
     window.addEventListener('resize', handleResize, { passive: true });
 
-    // 7] 60fps High-Performance Render Loop with NaughtyDuk Physics
     let lastTime = performance.now();
 
     const animate = (now) => {
       if (!isVisible) return;
 
       const dt = Math.min(Math.max((now - lastTime) / 1000, 0.001), 0.1);
-      // Apply and decay fling momentum on release
+
       if (!isPointerDown && Math.abs(flingVelocity) > 0.0001) {
         targetScrollX += flingVelocity;
         flingVelocity *= 0.935;
@@ -378,15 +349,12 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
         flingVelocity = 0;
       }
 
-      // Smooth horizontal scroll position interpolation
       const scrollDiff = targetScrollX - scrollX;
       scrollX += scrollDiff * 0.14;
 
-      // Strict NaN Safety Check
       if (isNaN(scrollX) || !isFinite(scrollX)) scrollX = 0;
       if (isNaN(targetScrollX) || !isFinite(targetScrollX)) targetScrollX = 0;
 
-      // NaughtyDuk momentum and warp calculations
       const deltaMovement = scrollX - lastScrollX;
       smoothedVelocity += (deltaMovement - smoothedVelocity) * 0.2;
       lastScrollX = scrollX;
@@ -402,17 +370,14 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
       if (isNaN(warpValue) || !isFinite(warpValue)) warpValue = 0;
       warpValue = Math.max(-1.8, Math.min(1.8, warpValue));
 
-      // Infinite wrapping carousel position math (guarantees cards NEVER disappear)
       cards.forEach(({ mesh, material, baseX }) => {
         const posX = wrapRange(baseX + scrollX, -halfTotal, halfTotal);
         mesh.position.x = posX;
 
-        // Subtle scale falloff from center
         const distFromCenter = posX / stride;
         const cardScale = Math.max(0.78, 1.0 - Math.abs(distFromCenter) * 0.06);
         mesh.scale.set(cardScale, cardScale, 1.0);
 
-        // Update shader warp intensity
         material.uniforms.uWarpIntensity.value = warpValue;
       });
 
@@ -420,12 +385,10 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    // Immediately start rendering on mount so cards are visible from frame 1
     handleResize();
     cancelAnimationFrame(animationFrameId);
     animationFrameId = requestAnimationFrame(animate);
 
-    // 8] IntersectionObserver with safety fallback
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -443,7 +406,6 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
 
     observer.observe(container);
 
-    // 9] Cleanup on Unmount
     return () => {
       observer.disconnect();
       cancelAnimationFrame(animationFrameId);
@@ -469,27 +431,25 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
   }, []);
 
   return (
-    <div 
-      id="wave-drag-gallery-section" 
-      ref={containerRef} 
+    <div
+      id="wave-drag-gallery-section"
+      ref={containerRef}
       className="wave-drag-gallery-section"
       aria-label="Section 10: 3D Wave Drag Photography Gallery"
     >
-      {/* 1] Perspective Vanishing Lines Grid */}
+
       <div className="wave-perspective-grid" aria-hidden="true">
         <div className="wave-grid-line diag-1" />
         <div className="wave-grid-line diag-2" />
         <div className="wave-grid-line vert-axis" />
       </div>
 
-      {/* 2] Interactive 3D WebGL Canvas Layer */}
-      <div 
-        ref={canvasWrapperRef} 
+      <div
+        ref={canvasWrapperRef}
         className="wave-canvas-wrapper"
         aria-label="Interactive 3D Wave Drag Carousel"
       />
 
-      {/* 3] Bottom Partner / Photography Archive Bar */}
       <div className="wave-bottom-partner-bar">
         <div className="wave-partner-logos">
           <span className="wave-logo-item">LEICA</span>
@@ -503,9 +463,8 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
         </div>
       </div>
 
-      {/* 4] Bottom-Right Interactive Menu Button */}
-      <button 
-        type="button" 
+      <button
+        type="button"
         className="wave-corner-menu-right"
         onClick={(e) => {
           e.stopPropagation();

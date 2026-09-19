@@ -105,17 +105,15 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
         scrollTrigger: {
           trigger: section,
           start: 'top top',
-          end: '+=200%', // Increased scroll runway by 25% (from 160% to 200%)
+          end: '+=200%',
           pin: true,
           scrub: 1.2,
-          anticipatePin: 0 // Buttery smooth pinning without aggressive snapping
+          anticipatePin: 0
         }
       });
 
-      // Set initial position: cards container rests offscreen below
       gsap.set(container, { yPercent: 120 });
 
-      // Phase 1 (0.00 to 0.30): Main cards container smoothly glides up from bottom into center
       tl.to(
         container,
         {
@@ -126,7 +124,6 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
         0
       );
 
-      // Phase 2 (0.30 to 0.55): Cards split apart with smooth gap expansion
       tl.to(
         container,
         {
@@ -137,7 +134,6 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
         0.30
       );
 
-      // Phase 3 (0.55 to 0.85): 3D Y-Axis Flip (0deg -> 180deg) staggered across the cards
       cardInnerRefs.current.forEach((cardInner, idx) => {
         if (!cardInner) return;
         tl.to(
@@ -151,7 +147,6 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
         );
       });
 
-      // Phase 4 (0.85 to 1.00): Gentle perspective fan
       const fanConfigs = isCompact
         ? [
             { rotateY: 8, rotateZ: -1.5, xPercent: -2 },
@@ -186,14 +181,13 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
 
   return (
     <section ref={sectionRef} className="triptych-flip-section" id="triptych-flip-section">
-      {/* Photography Editorial Headline with generous margin */}
+
       <div ref={headerRef} className="triptych-header">
         <h2 className="triptych-headline">
           Curated Frames: <em>From Vision</em> to Print
         </h2>
       </div>
 
-      {/* 3D Card Stage (Phone Aspect Ratio) */}
       <div className="triptych-stage">
         <div ref={containerRef} className="triptych-cards-container">
           {activeCards.map((card, idx) => {
@@ -208,7 +202,7 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
                   ref={(el) => (cardInnerRefs.current[idx] = el)}
                   className="triptych-card-inner"
                 >
-                  {/* FRONT FACE: Phone-Aspect Image (Sharp 0px Corners) */}
+
                   <div className="triptych-card-face card-face-front">
                     <img
                       src={card.image}
@@ -220,7 +214,6 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
                     <div className="front-face-overlay" />
                   </div>
 
-                  {/* BACK FACE: Photography Editorial Card (Sharp 0px Corners) */}
                   <div className={`triptych-card-face card-face-back ${card.bgClass}`}>
                     <div className="card-back-header">
                       <IconComponent

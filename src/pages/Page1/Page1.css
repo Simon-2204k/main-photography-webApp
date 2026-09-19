@@ -33,8 +33,6 @@
   background-color: #000000;
   overflow-x: hidden;
 }
-
-/* Impenetrable bottom overscroll shield: blocks any underlying canvas exposure on mobile/tab rubber-banding */
 .page1-editorial-container::after {
   content: '';
   position: absolute;
@@ -52,4 +50,3 @@
     height: 180vh;
   }
 }
-

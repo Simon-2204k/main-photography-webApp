@@ -82,8 +82,6 @@
   0%, 100% { opacity: 0.4; transform: scale(0.9); }
   50% { opacity: 1; transform: scale(1.15); }
 }
-
-/* Bottom Elegant Marquee Ticker */
 .cylindrical-marquee-container {
   position: absolute;
   bottom: 0;
@@ -124,8 +122,6 @@
   font-size: clamp(14px, 1.3vw, 18px);
   opacity: 0.85;
 }
-
-/* Tablet & iPad Pro 1024x1366: Generous marquee height and text size */
 @media (max-width: 1024px) {
   .cylindrical-marquee-container {
     padding: 28px 0;
@@ -144,8 +140,6 @@
     font-size: 15px;
   }
 }
-
-/* Phone: Bold legible marquee height and text size */
 @media (max-width: 640px) {
   .cylindrical-marquee-container {
     padding: 24px 0;

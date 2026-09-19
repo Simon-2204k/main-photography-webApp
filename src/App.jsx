@@ -97,12 +97,10 @@ export function App() {
         <Page1 onOpenMenu={handleOpenMenu} />
       )}
 
-      {/* Intro Website Animation played before normal homepage */}
       {showIntro && currentPage === 'page1' && (
         <IntroEffect onComplete={() => setShowIntro(false)} />
       )}
 
-      {/* Global Persistent MenuOverlay for Symmetrical Morphing */}
       <MenuOverlay
         isOpen={isMenuOpen}
         onClose={handleCloseMenu}

@@ -5,24 +5,9 @@ import { SplitText } from 'gsap/SplitText';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
-/**
- * useSplitTextLines
- * 
- * GSAP SplitText Overflow-Hidden Reveal:
- * - mode: 'chars' | 'words' | 'lines' (default: 'lines')
- * - Initial State: 100% hidden, submerged at yPercent: 110 below overflow: hidden mask.
- * - Trigger: ONLY when element reaches start mark (default: 'top 85%') does it animate from below (100% -> 0%).
- * - Speed & Stagger:
- *   - 'chars': Fast micro-stagger (dynamic ~0.005s - 0.01s, duration ~0.38s).
- *   - 'words': Medium stagger (dynamic ~0.025s - 0.055s, duration ~0.5s).
- *   - 'lines': Stately, visible stagger (dynamic ~0.07s - 0.12s, duration ~0.85s).
- * - Caller can override options: { stagger, duration, start, delay, ease, scrollTrigger }.
- * - Triggers individually per element when scrolled into viewport.
- * - Zero FOUC / Zero text flash before trigger.
- */
 export function useSplitTextLines(triggerRef, targetsOrSelector, options = {}) {
   const {
-    type = 'lines', // 'chars' | 'words' | 'lines'
+    type = 'lines',
     stagger: customStagger,
     duration: customDuration,
     ease = 'power3.out',
@@ -41,7 +26,6 @@ export function useSplitTextLines(triggerRef, targetsOrSelector, options = {}) {
     let resizeTimer = null;
     let isDisposed = false;
 
-    // Helper to resolve elements
     const getElements = () => {
       let elements = [];
       if (typeof targetsOrSelector === 'string') {
@@ -68,7 +52,6 @@ export function useSplitTextLines(triggerRef, targetsOrSelector, options = {}) {
       return elements;
     };
 
-    // Immediately hide elements to eliminate any flash of un-split text before fonts ready
     const initialElements = getElements();
     initialElements.forEach((el) => {
       if (scrollTrigger) {
@@ -99,7 +82,7 @@ export function useSplitTextLines(triggerRef, targetsOrSelector, options = {}) {
         }
 
         if (type === 'chars') {
-          // ================= CHARS MODE (FAST) =================
+
           const split = new SplitText(el, {
             type: 'lines,words,chars',
             linesClass: 'split-line-mask',
@@ -113,7 +96,6 @@ export function useSplitTextLines(triggerRef, targetsOrSelector, options = {}) {
             return;
           }
 
-          // Lines act as overflow: hidden clipping container
           split.lines.forEach((line) => {
             line.style.overflow = 'hidden';
             line.style.display = 'block';
@@ -131,20 +113,17 @@ export function useSplitTextLines(triggerRef, targetsOrSelector, options = {}) {
             char.style.willChange = 'transform, opacity';
           });
 
-          // Submerge chars 110% below line mask immediately
           gsap.set(split.chars, {
             yPercent: 110,
             opacity: 0,
           });
           el.style.visibility = 'visible';
 
-          // Dynamic speed & stagger for chars
           const calcStagger = customStagger !== undefined
             ? customStagger
             : Math.max(0.004, Math.min(0.012, 0.45 / split.chars.length));
           const calcDuration = customDuration !== undefined ? customDuration : 0.38;
 
-          // Animate from submerged state (100% -> 0%) only on trigger mark
           const animConfig = {
             yPercent: 0,
             opacity: 1,
@@ -167,7 +146,7 @@ export function useSplitTextLines(triggerRef, targetsOrSelector, options = {}) {
           const tw = gsap.to(split.chars, animConfig);
           tweens.push(tw);
         } else if (type === 'words') {
-          // ================= WORDS MODE (LITTLE BIT SLOW) =================
+
           const split = new SplitText(el, {
             type: 'lines,words',
             linesClass: 'split-line-mask',
@@ -192,14 +171,12 @@ export function useSplitTextLines(triggerRef, targetsOrSelector, options = {}) {
             word.style.whiteSpace = 'nowrap';
           });
 
-          // Submerge words 110% below line mask immediately
           gsap.set(split.words, {
             yPercent: 110,
             opacity: 0,
           });
           el.style.visibility = 'visible';
 
-          // Dynamic speed & stagger for words
           const calcStagger = customStagger !== undefined
             ? customStagger
             : Math.max(0.025, Math.min(0.055, 0.75 / split.words.length));
@@ -227,7 +204,7 @@ export function useSplitTextLines(triggerRef, targetsOrSelector, options = {}) {
           const tw = gsap.to(split.words, animConfig);
           tweens.push(tw);
         } else {
-          // ================= LINES MODE (STATELY, CLEARLY VISIBLE) =================
+
           const split = new SplitText(el, {
             type: 'lines',
             linesClass: 'split-line-child',
@@ -239,7 +216,6 @@ export function useSplitTextLines(triggerRef, targetsOrSelector, options = {}) {
             return;
           }
 
-          // Wrap each line in an overflow-hidden wrapper for 100% crisp clipping
           split.lines.forEach((line) => {
             const wrapper = document.createElement('div');
             wrapper.className = 'split-line-wrapper';
@@ -253,14 +229,12 @@ export function useSplitTextLines(triggerRef, targetsOrSelector, options = {}) {
             line.style.willChange = 'transform, opacity';
           });
 
-          // Submerge lines 110% below wrapper mask immediately
           gsap.set(split.lines, {
             yPercent: 110,
             opacity: 0,
           });
           el.style.visibility = 'visible';
 
-          // Dynamic speed & stagger for lines (visible pacing so lines don't flash)
           const calcStagger = customStagger !== undefined
             ? customStagger
             : Math.max(0.065, Math.min(0.12, 0.85 / split.lines.length));

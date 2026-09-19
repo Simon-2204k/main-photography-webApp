@@ -122,7 +122,6 @@ export const LaptopFoldingDeck = memo(() => {
         });
       });
 
-      // Background inversion at 50% scroll height (top 50%) across all devices (Desktop, Tablet, Mobile)
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top 50%',

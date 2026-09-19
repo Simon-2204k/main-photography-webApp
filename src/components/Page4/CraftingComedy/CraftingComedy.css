@@ -1,13 +1,9 @@
-/* Styling for Section 8 Crafting Exposure - Darkroom Photography Atelier */
-
 .section8-root {
   background-color: #000000;
   color: #e5e5e0;
   font-family: "Inter", sans-serif;
   overflow-x: hidden;
 }
-
-/* Section 1: Hero Landing */
 .section8-root .hero {
   min-height: 100vh;
   width: 100%;
@@ -67,8 +63,6 @@
   color: #a0a0a0;
   padding: 0 1rem;
 }
-
-/* Shared Pinned Section Styles */
 .section8-root .pinned-section {
   min-height: 100vh;
   width: 100%;
@@ -84,8 +78,6 @@
 .section8-root .pinned-section.alt-bg {
   background-color: #000000;
 }
-
-/* The Grid Controls the dimensions of BOTH column-bg AND team-card in portrait ratio */
 .section8-root .grid-container {
   display: grid;
   grid-template-columns: repeat(3, minmax(260px, 360px));
@@ -96,15 +88,11 @@
   height: clamp(540px, 76vh, 720px);
   position: relative;
 }
-
-/* Wrapper for each column slot */
 .section8-root .grid-column-slot {
   position: relative;
   width: 100%;
   height: 100%;
 }
-
-/* Background Letter Columns: Takes 100% width & height of the slot */
 .section8-root .column-bg {
   position: absolute;
   top: 0;
@@ -128,8 +116,6 @@
   line-height: 1;
   user-select: none;
 }
-
-/* Foreground Team Cards: Elegantly proportioned Portrait Ratio (not 1:1 square) */
 .section8-root .team-card {
   position: absolute;
   top: 0;
@@ -146,8 +132,6 @@
   z-index: 2;
   transform-origin: center center;
 }
-
-/* Tall Portrait image container - keeps face and subject fully in frame */
 .section8-root .card-img-wrapper {
   width: 100%;
   height: 75%;
@@ -160,7 +144,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 18%; /* Focus on portrait subject face & head */
+  object-position: center 18%;
   filter: grayscale(100%);
   transition: filter 0.4s ease, transform 0.4s ease;
 }
@@ -194,15 +178,11 @@
   margin: 0;
   line-height: 1.1;
 }
-
-/* Touch device policy: Disable hover scale jump on touch */
 @media (hover: none) and (pointer: coarse) {
   .section8-root .team-card:hover .card-img-wrapper img {
     transform: none !important;
   }
 }
-
-/* Tablet & iPad Pro (<= 1024px, 1024x1366) */
 @media (max-width: 1024px) {
   .section8-root .grid-container {
     grid-template-columns: repeat(2, minmax(260px, 340px));
@@ -212,8 +192,6 @@
     max-width: 740px;
     justify-content: center;
   }
-
-  /* Show two at a time on tablet */
   .section8-root .grid-column-slot:nth-child(3) {
     display: none !important;
   }
@@ -230,16 +208,11 @@
     font-size: clamp(7rem, 16vw, 11rem);
   }
 }
-
-/* Mobile Devices (<= 640px) */
 @media (max-width: 640px) {
-  /* Show only 1 card per section on phone (1 from right in sec 1, 1 from left in sec 2) */
   .section8-root .section-one .grid-column-slot:nth-child(n+2),
   .section8-root .section-two .grid-column-slot:nth-child(n+2) {
     display: none !important;
   }
-
-  /* Show single block at a time on phone */
   .section8-root .grid-container {
     display: flex;
     justify-content: center;
@@ -256,8 +229,6 @@
     width: 100%;
     height: 100%;
   }
-
-  /* Images initially set off-screen */
   .section8-root .section-one .team-card {
     transform: translateX(140vw);
   }
@@ -283,5 +254,3 @@
     font-size: clamp(8.5rem, 26vw, 13rem);
   }
 }
-
-

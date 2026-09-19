@@ -11,8 +11,6 @@
   isolation: isolate;
   cursor: default;
 }
-
-/* Nav & Footer Headers */
 .spotlight-nav,
 .spotlight-footer {
   position: absolute;
@@ -57,8 +55,6 @@
   width: 90%;
   letter-spacing: 0.02em;
 }
-
-/* Horizontal Moving Image Marquee Strip */
 .spotlight-marquee {
   position: absolute;
   top: 0;
@@ -95,8 +91,6 @@
   backface-visibility: hidden;
   transform: translateZ(0);
 }
-
-/* Center Difference Blend Mode Typography */
 .spotlight-content-wrapper {
   position: relative;
   width: clamp(340px, 36%, 600px);
@@ -155,16 +149,12 @@
 .spotlight-copy p:nth-child(2) {
   text-align: left;
 }
-
-/* Individual Displaceable Text Line */
 .spotlight-line {
   display: block;
   position: relative;
   white-space: pre-wrap;
   will-change: transform;
 }
-
-/* Responsive Media Queries */
 @media (min-width: 768px) and (max-width: 1024px) {
   .spotlight-marquee-section {
     height: auto !important;

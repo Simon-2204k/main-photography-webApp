@@ -1,13 +1,9 @@
-/* Cr7Parallax.css — Section 9 Fixed Center Card Parallax */
-
 #cr7-parallax-root {
   position: relative;
   width: 100vw;
   background-color: #0a0a0a;
   color: #ffffff;
 }
-
-/* Custom Typography & Editorial Fonts */
 .font-serif-italic {
   font-family: 'Playfair Display', Georgia, serif;
   font-style: italic;

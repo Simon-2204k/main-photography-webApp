@@ -1,8 +1,4 @@
 :root {
-  /* ========================================================
-     MENU OPTION ROW HEIGHT CONFIGURATION
-     👉 You can edit this single value anytime to adjust the height of all 4 options!
-     ======================================================== */
   --menu-option-row-height: 19vh;
 }
 
@@ -34,8 +30,6 @@
   z-index: 20;
   overflow: hidden;
 }
-
-/* ================= TOPBAR (CENTERED SIMON'S FRAMEWORK) ================= */
 .k72-menu-topbar {
   display: grid;
   grid-template-columns: clamp(36px, 3.5vw, 48px) 1fr clamp(36px, 3.5vw, 48px);
@@ -92,8 +86,6 @@
   width: 100%;
   height: 100%;
 }
-
-/* ================= CENTRAL NAV ROWS ================= */
 .k72-nav-links {
   display: flex;
   flex-direction: column;
@@ -121,8 +113,6 @@
 .k72-nav-row:last-child {
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
-
-/* Standard Typography Rows */
 .k72-nav-row.standard-row {
   background-color: transparent;
 }
@@ -148,8 +138,6 @@
 .k72-nav-row.standard-row:hover {
   background-color: rgba(255, 255, 255, 0.04);
 }
-
-/* Dynamic Electric-Lime Marquee Ribbon on Hover */
 .k72-nav-row.hovered-marquee-active {
   background-color: #d4ff00;
   color: #000000;
@@ -203,8 +191,6 @@
   padding: 0 0.8rem;
   box-sizing: border-box;
 }
-
-/* Oval Photo/GIF Pill Inside Ribbon (Sized to match/exceed typography cap height) */
 .k72-photo-pill {
   display: inline-flex;
   align-items: center;
@@ -226,8 +212,6 @@
   object-fit: cover;
   display: block;
 }
-
-/* ================= BOTTOMBAR (CENTERED INDIA TIME) ================= */
 .k72-menu-bottombar {
   display: flex;
   justify-content: center;
@@ -254,8 +238,6 @@
 .k72-globe-icon {
   font-size: 1.1em;
 }
-
-/* Responsive Scaling for Tablets & iPads (up to 1024 x 1366) */
 @media (max-width: 1024px) {
   :root {
     --menu-option-row-height: clamp(100px, 14.5vh, 160px);
@@ -288,8 +270,6 @@
     margin: 0 clamp(0.75rem, 1.5vw, 1.5rem);
   }
 }
-
-/* Responsive Scaling for Phones (<= 600px) */
 @media (max-width: 600px) {
   :root {
     --menu-option-row-height: clamp(92px, 14.5vh, 138px);

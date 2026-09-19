@@ -4,7 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 import './MagneticCards.css';
 
-// Section 4 Visual Assets (High-Res Photography)
 const s4_1 = '/images/section4/pexels-304109370-14232091.webp';
 const s4_2 = '/images/section4/pexels-abdelilah-hibat-allah-1652683667-33393728.webp';
 const s4_3 = '/images/section4/pexels-aloevera-17612352.webp';
@@ -24,8 +23,6 @@ const s4_16 = '/images/section4/pexels-myatezhny39-3994122.webp';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Safe interior cell indices (rows 1..4, cols 1..4 of a 6x6 grid)
-// Centering these cells guarantees zero empty spaces are ever revealed in the card viewport!
 const SAFE_INTERIOR_CELLS = [
   7, 8, 9, 10,
   13, 14, 15, 16,
@@ -54,7 +51,6 @@ export default function Section4StudioNamma() {
     }
   );
 
-  // Live Indian Standard Time (IST) Clock
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -69,7 +65,6 @@ export default function Section4StudioNamma() {
     return () => clearInterval(clockInterval);
   }, []);
 
-  // 3D Cursor Follow + Tilt According to Speed & Pin Scroll
   useEffect(() => {
     const section = sectionRef.current;
     const card = cardRef.current;
@@ -77,7 +72,6 @@ export default function Section4StudioNamma() {
 
     if (!section || !card || !matrix) return;
 
-    // --- 1. Pin Section Briefly on Arrival ---
     const st = ScrollTrigger.create({
       trigger: section,
       start: 'top top',
@@ -89,7 +83,6 @@ export default function Section4StudioNamma() {
       preventOverlaps: true,
     });
 
-    // --- 2. Viewport Geometry & Motion Bounds (Zero Layout Thrashing) ---
     let halfW = window.innerWidth / 2;
     let halfH = window.innerHeight / 2;
     let maxOffsetX = Math.max(50, (window.innerWidth - 270) / 2 - 24);
@@ -134,11 +127,9 @@ export default function Section4StudioNamma() {
       const dx = e.clientX - lastMouseX;
       const dy = e.clientY - lastMouseY;
 
-      // Instant velocity (px per frame normalized to ~60fps)
       const instantVx = (dx / dt) * 16.6;
       const instantVy = (dy / dt) * 16.6;
 
-      // Blend velocity smoothly
       velX = velX * 0.35 + instantVx * 0.65;
       velY = velY * 0.35 + instantVy * 0.65;
 
@@ -146,7 +137,6 @@ export default function Section4StudioNamma() {
       lastMouseY = e.clientY;
       lastTime = now;
 
-      // Full 2D Cursor Following: Offset from viewport center in both X and Y axes
       const diffX = e.clientX - halfW;
       const diffY = e.clientY - halfH;
 
@@ -156,7 +146,6 @@ export default function Section4StudioNamma() {
       const normX = Math.max(-1, Math.min(1, diffX / halfW));
       const normY = Math.max(-1, Math.min(1, diffY / halfH));
 
-      // Tilt According to Speed
       const speedTiltY = Math.max(-45, Math.min(45, velX * 1.5));
       const speedTiltX = Math.max(-38, Math.min(38, -velY * 1.5));
       const speedTiltZ = Math.max(-25, Math.min(25, velX * 0.6));
@@ -177,15 +166,12 @@ export default function Section4StudioNamma() {
       isResting = false;
     };
 
-    // Smooth physics ticker loop with zero layout thrashing
     const ticker = () => {
       if (!isVisible) return;
 
-      // Velocity decay towards 0
       velX *= 0.88;
       velY *= 0.88;
 
-      // Settle tilt smoothly when mouse stops
       if (Math.abs(velX) < 0.05 && Math.abs(velY) < 0.05) {
         const normX = Math.max(-1, Math.min(1, (lastMouseX - halfW) / halfW));
         const normY = Math.max(-1, Math.min(1, (lastMouseY - halfH) / halfH));
@@ -200,7 +186,6 @@ export default function Section4StudioNamma() {
       const deltaRotY = mouse.targetRotY - current.rotY;
       const deltaRotZ = mouse.targetRotZ - current.rotZ;
 
-      // Sleep ticker when settled to avoid constant GPU layout updates
       if (
         Math.abs(velX) < 0.01 &&
         Math.abs(velY) < 0.01 &&
@@ -236,7 +221,6 @@ export default function Section4StudioNamma() {
       });
     };
 
-    // --- 3. Inner 6x6 Grid Centering (Zero Empty Spaces) ---
     const isMobileView = window.innerWidth <= 640;
     const cardCenterX = isMobileView ? 102.5 : 135;
     const cardCenterY = isMobileView ? 145 : 190;
@@ -308,7 +292,6 @@ export default function Section4StudioNamma() {
       stopShifting();
     };
 
-    // --- 4. IntersectionObserver: Pause completely when outside viewport ---
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -337,24 +320,22 @@ export default function Section4StudioNamma() {
 
   return (
     <section id="specsheet-section-4" ref={sectionRef} className="page4-section-container studio-namma-section">
-      {/* Top Header Bar — Photography Brand Header */}
+
       <header className="namma-header">
         <div className="namma-brand">SIMON PHOTOGRAPHY</div>
         <div className="namma-talk-btn">BOOK A SESSION</div>
       </header>
 
-      {/* Center Bold Display Typography — 100% Photography Theme */}
       <div className="namma-hero-text-wrap">
         <h1 className="namma-hero-title">WE CAPTURE</h1>
         <h1 className="namma-hero-title">LIGHT AND</h1>
         <h1 className="namma-hero-title">MOMENTS</h1>
       </div>
 
-      {/* Floating & Cursor-Following 3D Card Viewport (Follows with zero gap, tilts with speed) */}
       <div className="namma-3d-card-wrapper">
         <div ref={cardRef} className="namma-3d-card">
           <div ref={matrixRef} className="namma-matrix-container">
-            {/* ROW 0 (Buffer Row) */}
+
             <div className="namma-matrix-cell"><img src={s4_1} alt="Visual 1" loading="lazy" decoding="async" /></div>
             <div className="namma-matrix-cell"><img src={s4_2} alt="Visual 2" loading="lazy" decoding="async" /></div>
             <div className="namma-matrix-cell"><img src={s4_3} alt="Visual 3" loading="lazy" decoding="async" /></div>
@@ -362,7 +343,6 @@ export default function Section4StudioNamma() {
             <div className="namma-matrix-cell"><img src={s4_5} alt="Visual 5" loading="lazy" decoding="async" /></div>
             <div className="namma-matrix-cell"><img src={s4_6} alt="Visual 6" loading="lazy" decoding="async" /></div>
 
-            {/* ROW 1 (Interior Safe Row: Cells 7, 8, 9, 10) */}
             <div className="namma-matrix-cell"><img src={s4_7} alt="Visual 7" loading="lazy" decoding="async" /></div>
             <div className="namma-matrix-cell namma-cell-homework">
               <div className="namma-cell-homework-col">
@@ -385,7 +365,6 @@ export default function Section4StudioNamma() {
             </div>
             <div className="namma-matrix-cell"><img src={s4_10} alt="Visual 10" loading="lazy" decoding="async" /></div>
 
-            {/* ROW 2 (Interior Safe Row: Cells 13, 14, 15, 16) */}
             <div className="namma-matrix-cell"><img src={s4_11} alt="Visual 11" loading="lazy" decoding="async" /></div>
             <div className="namma-matrix-cell"><img src={s4_12} alt="Visual 12" loading="lazy" decoding="async" /></div>
             <div className="namma-matrix-cell namma-cell-curated">
@@ -396,7 +375,6 @@ export default function Section4StudioNamma() {
             <div className="namma-matrix-cell"><img src={s4_14} alt="Visual 14" loading="lazy" decoding="async" /></div>
             <div className="namma-matrix-cell"><img src={s4_15} alt="Visual 15" loading="lazy" decoding="async" /></div>
 
-            {/* ROW 3 (Interior Safe Row: Cells 19, 20, 21, 22) */}
             <div className="namma-matrix-cell"><img src={s4_16} alt="Visual 16" loading="lazy" decoding="async" /></div>
             <div className="namma-matrix-cell namma-cell-portfolio">
               <h3>SELECTED WORKS</h3>
@@ -421,7 +399,6 @@ export default function Section4StudioNamma() {
             </div>
             <div className="namma-matrix-cell"><img src={s4_3} alt="Visual 19" loading="lazy" decoding="async" /></div>
 
-            {/* ROW 4 (Interior Safe Row: Cells 25, 26, 27, 28) */}
             <div className="namma-matrix-cell"><img src={s4_4} alt="Visual 20" loading="lazy" decoding="async" /></div>
             <div className="namma-matrix-cell"><img src={s4_5} alt="Visual 21" loading="lazy" decoding="async" /></div>
             <div className="namma-matrix-cell namma-cell-portfolio">
@@ -434,7 +411,6 @@ export default function Section4StudioNamma() {
             <div className="namma-matrix-cell"><img src={s4_7} alt="Visual 23" loading="lazy" decoding="async" /></div>
             <div className="namma-matrix-cell"><img src={s4_8} alt="Visual 24" loading="lazy" decoding="async" /></div>
 
-            {/* ROW 5 (Buffer Row) */}
             <div className="namma-matrix-cell"><img src={s4_9} alt="Visual 25" loading="lazy" decoding="async" /></div>
             <div className="namma-matrix-cell"><img src={s4_10} alt="Visual 26" loading="lazy" decoding="async" /></div>
             <div className="namma-matrix-cell"><img src={s4_11} alt="Visual 27" loading="lazy" decoding="async" /></div>
@@ -445,7 +421,6 @@ export default function Section4StudioNamma() {
         </div>
       </div>
 
-      {/* Bottom Footer Bar */}
       <footer className="namma-footer">
         <div className="namma-footer-left">
           CAPTURING TIMELESS STORIES & EDITORIAL FRAMES.

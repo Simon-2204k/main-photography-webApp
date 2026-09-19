@@ -28,7 +28,6 @@ const SingleRibbonSegment = ({
     }
   }, [texture]);
 
-  // Construct smooth quad ribbon geometry for this card
   const geometry = useMemo(() => {
     const geom = new THREE.BufferGeometry();
     const positions = [];
@@ -71,12 +70,10 @@ const SingleRibbonSegment = ({
     return geom;
   }, [startT, endT, minRadius, maxRadius, totalTurns, totalHeight, cardHeight, subdivisions]);
 
-  // Midpoint radial vector for pop-out animation
   const midAngle = ((startT + endT) / 2) * totalTurns * Math.PI * 2;
   const normalX = Math.sin(midAngle);
   const normalZ = Math.cos(midAngle);
 
-  // Frame Loop - Smooth hover displacement
   useFrame(() => {
     if (!groupRef.current) return;
     const currentOffset = hoverValRef.current.offset;
@@ -107,20 +104,19 @@ const SingleRibbonSegment = ({
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
     >
-      {/* Front Face (Bright Full Color with Gloomy Luminous Glow & Crisp Highlights) */}
+
       <mesh geometry={geometry}>
         <meshStandardMaterial
           map={texture}
           emissiveMap={texture}
           emissive={new THREE.Color(0xffffff)}
-          emissiveIntensity={1}  /* <-- Change here: Boost/lower front card glow brightness */
+          emissiveIntensity={1}
           side={THREE.FrontSide}
-          roughness={0.01}          /* <-- Change here: Lower roughness (e.g. 0.05) gives shiny highlights */
-          metalness={0.3}          /* <-- Change here: Higher metalness gives sharper specular reflections */
+          roughness={0.01}
+          metalness={0.3}
         />
       </mesh>
 
-      {/* Back Face (Darker Shaded Backing) */}
       <mesh geometry={geometry}>
         <meshStandardMaterial
           map={texture}

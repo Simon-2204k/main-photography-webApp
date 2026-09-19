@@ -13,8 +13,6 @@
   -webkit-user-select: none;
   box-sizing: border-box;
 }
-
-/* Editorial Headline with generous margin to split images */
 .triptych-header {
   position: relative;
   z-index: 10;
@@ -39,8 +37,6 @@
   color: #38bdf8;
   opacity: 0.95;
 }
-
-/* 3D Stage */
 .triptych-stage {
   position: relative;
   width: 100%;
@@ -51,8 +47,6 @@
   -webkit-perspective: 1800px;
   z-index: 5;
 }
-
-/* Single Container with 5 phone-aspect cards side by side initially (gap: 0px) */
 .triptych-cards-container {
   display: flex;
   align-items: center;
@@ -65,8 +59,6 @@
   will-change: transform;
   transition: gap 0.05s ease;
 }
-
-/* Phone Aspect Ratio Card Outer (9:16) - Strictly NO border roundness */
 .triptych-card-outer {
   position: relative;
   height: 100%;
@@ -88,8 +80,6 @@
   -webkit-transform-style: preserve-3d;
   will-change: transform;
 }
-
-/* Card Faces: Strictly NO border roundness */
 .triptych-card-face {
   position: absolute;
   inset: 0;
@@ -100,8 +90,6 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
-
-/* Front Face: Full Phone Image */
 .card-face-front {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background-color: #000000;
@@ -123,8 +111,6 @@
   pointer-events: none;
   border-radius: 0px !important;
 }
-
-/* Back Face: Flip 180deg */
 .card-face-back {
   transform: rotateY(180deg);
   display: flex;
@@ -135,8 +121,6 @@
   box-sizing: border-box;
   border-radius: 0px !important;
 }
-
-/* Color Variants */
 .card-back-light {
   background-color: #e5e5e7;
   border-color: rgba(0, 0, 0, 0.12);
@@ -151,8 +135,6 @@
   background-color: #111114;
   border-color: rgba(255, 255, 255, 0.15);
 }
-
-/* Back Face Editorial Content */
 .card-back-header {
   display: flex;
   align-items: center;
@@ -193,8 +175,6 @@
   opacity: 0.55;
   text-transform: uppercase;
 }
-
-/* Responsive adjustments for 3 cards up to 1024px */
 @media (max-width: 1024px) {
   .triptych-cards-container {
     height: clamp(220px, min(42vh, 52vw), 440px);

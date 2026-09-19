@@ -111,7 +111,6 @@ const SpotlightCardsComponent = () => {
     let pageCenterY = 0;
     let centerX = 0;
 
-    // Cache container page coordinates (Zero layout queries during scroll)
     const measureContainer = () => {
       if (!container) return;
       const rect = container.getBoundingClientRect();
@@ -143,7 +142,6 @@ const SpotlightCardsComponent = () => {
         force3D: true,
       });
 
-      // Hover elevation
       const onMouseEnter = () => {
         gsap.set(card, { zIndex: 50 });
       };
@@ -154,18 +152,18 @@ const SpotlightCardsComponent = () => {
       card.addEventListener('mouseenter', onMouseEnter);
       card.addEventListener('mouseleave', onMouseLeave);
 
-      return { 
-        card, 
-        rx, 
-        ry, 
-        rr, 
+      return {
+        card,
+        rx,
+        ry,
+        rr,
         baseZ,
-        x: rx, 
-        y: ry, 
-        r: rr, 
-        vx: 0, 
-        vy: 0, 
-        vr: 0, 
+        x: rx,
+        y: ry,
+        r: rr,
+        vx: 0,
+        vy: 0,
+        vr: 0,
         isResting: true,
         cleanupHover: () => {
           card.removeEventListener('mouseenter', onMouseEnter);
@@ -199,7 +197,6 @@ const SpotlightCardsComponent = () => {
     let lastScrollY = window.scrollY;
     let scrollVelocity = 0;
 
-    // Pure arithmetic calculation on scroll (ZERO getBoundingClientRect calls)
     const handleScroll = () => {
       if (isVisibleRef.current) {
         centerPosRef.current = {
@@ -211,7 +208,6 @@ const SpotlightCardsComponent = () => {
         const delta = currentY - lastScrollY;
         lastScrollY = currentY;
 
-        // Dynamic scroll inertia: cards gently sway & bounce during scrolling
         scrollVelocity = scrollVelocity * 0.75 + delta * 0.25;
         const clampedVel = Math.min(Math.max(scrollVelocity * 0.35, -20), 20);
 
@@ -260,12 +256,11 @@ const SpotlightCardsComponent = () => {
         c.y += c.vy;
         c.r += c.vr;
 
-        // Check if movement is significant
-        const isMoving = 
-          Math.abs(c.vx) > 0.001 || 
-          Math.abs(c.vy) > 0.001 || 
-          Math.abs(c.vr) > 0.001 || 
-          Math.abs(c.x - c.rx) > 0.01 || 
+        const isMoving =
+          Math.abs(c.vx) > 0.001 ||
+          Math.abs(c.vy) > 0.001 ||
+          Math.abs(c.vr) > 0.001 ||
+          Math.abs(c.x - c.rx) > 0.01 ||
           Math.abs(c.y - c.ry) > 0.01;
 
         if (isMoving) {
@@ -291,7 +286,6 @@ const SpotlightCardsComponent = () => {
       });
     };
 
-    // IntersectionObserver: Only run ticker when visible in viewport
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -335,7 +329,7 @@ const SpotlightCardsComponent = () => {
 
   return (
     <section id="magnetic-spotlight-section" ref={spotlightRef} className="spotlight-section">
-      {/* Top Editorial HUD */}
+
       <div ref={headerRef} className="spotlight-header">
         <div className="spotlight-tag">
           <span>INTERACTIVE SPOTLIGHT</span>
@@ -346,7 +340,6 @@ const SpotlightCardsComponent = () => {
         </p>
       </div>
 
-      {/* Center Interactive Cards Stage */}
       <div className="spotlight-stage">
         <div ref={containerRef} className="spotlight-cards-container">
           {SPOTLIGHT_CARDS.map((card, idx) => (
@@ -355,13 +348,12 @@ const SpotlightCardsComponent = () => {
               ref={(el) => (cardRefs.current[idx] = el)}
               className="spotlight-card"
             >
-              {/* Stepped Darkroom Card Tab */}
+
               <div className="spotlight-card-tab">
                 <span>{card.exp}</span>
                 <span className="spotlight-card-tab-badge">{card.category}</span>
               </div>
 
-              {/* Photo Image & Filmic Overlay */}
               <div className="spotlight-card-img-wrapper">
                 <img
                   src={card.image}
@@ -373,7 +365,6 @@ const SpotlightCardsComponent = () => {
                 <div className="spotlight-card-overlay" />
               </div>
 
-              {/* Under-Card Metadata */}
               <div className="spotlight-card-info">
                 <div className="spotlight-card-title">{card.title}</div>
                 <div className="spotlight-card-sub">

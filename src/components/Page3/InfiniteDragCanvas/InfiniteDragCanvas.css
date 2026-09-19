@@ -7,8 +7,6 @@
   user-select: none;
   -webkit-user-select: none;
 }
-
-/* Authentic Scalloped Postage Stamp Perimeter Mask */
 .stamp-border-scalloped {
   mask-image: 
     linear-gradient(#000, #000),
@@ -71,8 +69,6 @@
 .font-courier {
   font-family: 'Space Mono', 'Courier Prime', monospace;
 }
-
-/* Floating Prompt Directly Below the Draggable Stamp Stack */
 .stamp-helper-prompt {
   position: absolute;
   top: calc(50% + 185px);
@@ -109,8 +105,6 @@
   0% { transform: translate(-50%, 0); opacity: 0.7; }
   100% { transform: translate(-50%, 6px); opacity: 0.95; }
 }
-
-/* Animated Top-Right X Close Button */
 .canvas-close-x-btn {
   position: absolute;
   top: 28px;
@@ -134,8 +128,6 @@
   background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.4);
 }
-
-/* Responsive Stamp Card Dimensions */
 .stamp-card-frame {
   width: 230px;
   height: 290px;
@@ -154,8 +146,6 @@
     height: 175px;
   }
 }
-
-/* Universal Center Center Positioning */
 .stamp-card-centering-wrap {
   transform: translate(-50%, -50%);
   display: flex;
@@ -163,8 +153,6 @@
   justify-content: center;
   will-change: transform;
 }
-
-/* Desktop-Only Center-Center Optical Calibration */
 @media (min-width: 1025px) {
   .stamp-card-centering-wrap {
     transform: translate(-50%, -50%);

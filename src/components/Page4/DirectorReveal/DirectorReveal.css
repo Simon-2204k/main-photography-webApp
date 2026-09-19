@@ -1,5 +1,3 @@
-/* Scoped Styling for Section 7 Director Reveal - Pure White Theme */
-
 .section7-root {
   background-color: #ffffff;
   color: #000000;
@@ -14,8 +12,6 @@
 .section7-root * {
   cursor: none;
 }
-
-/* Custom Cursor Styles (Vibrant Red with Arrow) */
 .section7-root .custom-cursor {
   position: fixed;
   top: 0;
@@ -90,15 +86,11 @@
   letter-spacing: 2px;
   text-transform: uppercase;
 }
-
-/* Pure Black Text for Default Title */
 .section7-root .default-text {
   color: #000000;
   display: inline-flex;
   align-items: center;
 }
-
-/* Red Director Hover Reveal Text */
 .section7-root .dynamic-text {
   color: #c90000 !important;
 }
@@ -109,8 +101,6 @@
   vertical-align: top;
   padding-bottom: 10px;
 }
-
-/* Resting anchor spot beside the letter 'S' */
 .section7-root .arrow-resting-spot {
   display: inline-block;
   width: 78px;
@@ -120,8 +110,6 @@
   pointer-events: none;
   opacity: 0;
 }
-
-/* Touch device policy: Completely disable and hide custom cursor on phones & tablets */
 @media (hover: none) and (pointer: coarse) {
   .section7-root,
   .section7-root * {
@@ -133,8 +121,6 @@
     visibility: hidden !important;
   }
 }
-
-/* Tablet & iPad Pro (<= 1024px, 1024x1366) */
 @media (max-width: 1024px) {
   .section7-root .parent {
     padding: 0 32px;
@@ -163,10 +149,7 @@
     max-width: 90vw;
   }
 }
-
-/* Mobile Devices (≤ 640px) */
 @media (max-width: 640px) {
-  /* Center entire section content vertically and horizontally */
   .section7-root {
     display: flex;
     flex-direction: column;
@@ -174,8 +157,6 @@
     justify-content: center;
     padding: 0;
   }
-
-  /* Show only 4 boxes on phone per user request */
   .section7-root .box:nth-child(n+5) {
     display: none !important;
   }
@@ -222,16 +203,12 @@
     justify-content: center;
     align-items: center;
   }
-
-  /* Eliminate the phantom desktop cursor resting spot which pushed DIRECTORS to the left */
   .section7-root .arrow-resting-spot {
     display: none !important;
     width: 0 !important;
     height: 0 !important;
     margin: 0 !important;
   }
-
-  /* Keep h1 absolute for the text mask overlay animation to work */
   .section7-root .maskingWord h1 {
     position: absolute;
     font-size: clamp(2.2rem, 11vw, 2.9rem);
@@ -252,5 +229,3 @@
     padding-bottom: 0;
   }
 }
-
-

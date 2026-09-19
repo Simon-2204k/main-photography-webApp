@@ -12,8 +12,6 @@
   -webkit-user-select: none;
   box-sizing: border-box;
 }
-
-/* Topbar Navigation: Centered without menu and contact */
 .jamarea-topbar {
   display: flex;
   align-items: center;
@@ -37,8 +35,6 @@
   margin-right: 6px;
   opacity: 0.4;
 }
-
-/* Center Content Grid - Pushed Outward for ample breathing room */
 .jamarea-main-grid {
   position: relative;
   display: grid;
@@ -51,8 +47,6 @@
   padding: 0 10px;
   box-sizing: border-box;
 }
-
-/* Flanking Giant Typography - Pushed Outward */
 .jamarea-flank {
   display: flex;
   align-items: center;
@@ -78,8 +72,6 @@
   margin: 0;
   text-transform: uppercase;
 }
-
-/* Metadata Columns */
 .jamarea-meta-col {
   display: flex;
   flex-direction: column;
@@ -131,8 +123,6 @@
 .tag-accent {
   color: #ff3344;
 }
-
-/* Center Cycling Image Portal: Landscape (3:2 Aspect Ratio) */
 .jamarea-center-portal-wrapper {
   display: flex;
   align-items: center;
@@ -170,8 +160,6 @@
   background-size: 100% 4px;
   pointer-events: none;
 }
-
-/* Bottom Mouse-Driven Text Track */
 .jamarea-bottom-marquee-container {
   width: 100vw;
   margin-left: -20px;
@@ -214,8 +202,6 @@
   font-size: clamp(16px, 2vw, 26px);
   margin-left: 12px;
 }
-
-/* Tablet Responsive Calibration (768px - 1024px & 1024x1366) */
 @media (max-width: 1024px) {
   .jamarea-main-grid {
     grid-template-columns: 1.25fr 0.85fr 1.6fr 0.85fr 1.25fr;
@@ -242,8 +228,6 @@
     font-size: clamp(38px, 6vw, 76px);
   }
 }
-
-/* Mobile Responsive Reflow (< 768px) */
 @media (max-width: 768px) {
   .jamarea-hub-section {
     padding: 18px 14px 0 14px;

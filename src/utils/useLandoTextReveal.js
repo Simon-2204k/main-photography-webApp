@@ -6,22 +6,9 @@ import '../styles/landoTextReveal.css';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
-/**
- * useLandoTextReveal
- * 
- * Lando Norris Text Cover Reveal Animation:
- * 1. Dynamically calculates lines across phone, tablet (including 1024x1366 / 1204x1366), and desktop.
- * 2. Wraps each line in .lando-line-wrapper with an overlay .lando-line-cover.
- * 3. Initial state: scaleX: 1 (covering line).
- * 4. Animates: scaleX: 0, transformOrigin: 'right center', ease: 'power4.inOut'.
- * 5. Trigger: fires when each element crosses start (default 'top 80%') of window height individually.
- * 6. Animates once only (once: true).
- * 7. Zero markers (markers: false).
- * 8. Dual color system: 'dark' (#ffffff cover on black bg) vs 'light' (#000000 cover on white bg).
- */
 export function useLandoTextReveal(triggerRef, targetsOrSelector, options = {}) {
   const {
-    theme = 'dark', // 'dark' = white cover (#ffffff), 'light' = black cover (#000000)
+    theme = 'dark',
     start = 'top 80%',
     duration = 0.4,
     stagger = 0.04,
@@ -47,7 +34,6 @@ export function useLandoTextReveal(triggerRef, targetsOrSelector, options = {}) 
     const setupReveal = () => {
       if (isDisposed) return;
 
-      // Clean up previous animations & splits
       activeTweens.forEach((tw) => {
         if (tw && tw.scrollTrigger) tw.scrollTrigger.kill();
         if (tw && tw.kill) tw.kill();
@@ -58,7 +44,6 @@ export function useLandoTextReveal(triggerRef, targetsOrSelector, options = {}) 
       splits = [];
       covers = [];
 
-      // Determine target elements
       let elements = [];
       if (typeof targetsOrSelector === 'string') {
         elements = Array.from(trigger.querySelectorAll(targetsOrSelector));
@@ -84,11 +69,10 @@ export function useLandoTextReveal(triggerRef, targetsOrSelector, options = {}) 
 
       if (elements.length === 0) return;
 
-      // Split each element into lines dynamically
       const elementData = [];
 
       elements.forEach((el) => {
-        // Cache original innerHTML to revert cleanly on resize
+
         if (el.dataset.originalLando) {
           el.innerHTML = el.dataset.originalLando;
         } else {
@@ -126,13 +110,11 @@ export function useLandoTextReveal(triggerRef, targetsOrSelector, options = {}) 
 
       if (covers.length === 0) return;
 
-      // If already animated, keep revealed state
       if (hasAnimated) {
         gsap.set(covers, { scaleX: 0 });
         return;
       }
 
-      // Initial state: fully covered
       gsap.set(covers, { scaleX: 1, transformOrigin: 'left center' });
 
       const playReveal = () => {
@@ -155,7 +137,7 @@ export function useLandoTextReveal(triggerRef, targetsOrSelector, options = {}) 
 
       if (scrollTrigger) {
         if (individualTrigger && elementData.length > 0) {
-          // Animate each element individually when THAT element enters the viewport
+
           elementData.forEach((item) => {
             const itemStagger = item.lines > 1 ? stagger : 0;
             const tw = gsap.to(item.covers, {
@@ -176,7 +158,7 @@ export function useLandoTextReveal(triggerRef, targetsOrSelector, options = {}) 
             activeTweens.push(tw);
           });
         } else {
-          // Animate bundled to parent trigger
+
           const totalLines = elementData.reduce((sum, item) => sum + item.lines, 0);
           const tw = gsap.to(covers, {
             scaleX: 0,
@@ -203,7 +185,6 @@ export function useLandoTextReveal(triggerRef, targetsOrSelector, options = {}) 
       }
     };
 
-    // Ensure layout and fonts are ready before running SplitText
     const initTimer = setTimeout(() => {
       if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(() => {

@@ -1,18 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-/**
- * CurvedMeshCard3D
- * High-performance WebGL 3D card curved horizontally around Y-axis.
- * ZERO round borders (sharp 90° corners everywhere), zero clipping, zero shadows.
- */
 export default function CurvedMeshCard3D({
   type = 'orange-pass',
   imageSrc,
   testimonialData = null,
   width = 300,
   height = 440,
-  curvature = 0.32, // Pure horizontal cylinder curvature
+  curvature = 0.32,
   rotationZ = 0,
   className = '',
   style = {},
@@ -25,12 +20,11 @@ export default function CurvedMeshCard3D({
     const mount = mountRef.current;
     if (!mount) return;
 
-    // 1. Scene & Camera Setup
     const scene = new THREE.Scene();
 
     const aspect = width / height;
     const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
-    // Generous camera distance (5.2) ensuring zero clipping at top, bottom, or sides
+
     camera.position.z = 5.2;
 
     const renderer = new THREE.WebGLRenderer({
@@ -43,7 +37,6 @@ export default function CurvedMeshCard3D({
     renderer.setClearColor(0x000000, 0);
     mount.appendChild(renderer.domElement);
 
-    // 2. High-DPI 2D Canvas for Sharp Card Texture (0px border radius)
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const cw = 768;
@@ -51,12 +44,11 @@ export default function CurvedMeshCard3D({
     canvas.width = cw;
     canvas.height = ch;
 
-    // 3. Texture Renderer with SHARP 90° CORNERS (NO ROUND BORDERS)
     function renderCardTexture(loadedImg = null, avatarImg = null) {
       ctx.clearRect(0, 0, cw, ch);
 
       if (type === 'orange-pass') {
-        // Vibrant Orange Peeling Pass with 0px Border Radius
+
         ctx.fillStyle = '#ff5d22';
         ctx.fillRect(8, 8, cw - 16, ch - 16);
 
@@ -64,7 +56,6 @@ export default function CurvedMeshCard3D({
         ctx.lineWidth = 4;
         ctx.strokeRect(8, 8, cw - 16, ch - 16);
 
-        // Header
         ctx.fillStyle = '#000000';
         ctx.font = 'bold 32px "Space Grotesk", sans-serif';
         ctx.fillText('SIMON.ARCHIVE', 44, 68);
@@ -72,7 +63,6 @@ export default function CurvedMeshCard3D({
         ctx.fillText('✦ 120MM', cw - 44, 68);
         ctx.textAlign = 'left';
 
-        // Avatar & Details (Sharp square avatar)
         const avX = 44;
         const avY = 108;
         const avS = 88;
@@ -90,14 +80,12 @@ export default function CurvedMeshCard3D({
         ctx.fillText('Medium Format Emulsion', 154, 186);
         ctx.fillText('artist@simon.archive', 154, 218);
 
-        // QR Code in Sharp White Box
         const qrSize = 210;
         const qrX = (cw - qrSize) / 2;
         const qrY = ch - qrSize - 44;
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(qrX, qrY, qrSize, qrSize);
 
-        // Stylized QR pattern
         ctx.fillStyle = '#000000';
         const blk = 18;
         ctx.fillRect(qrX + 20, qrY + 20, blk * 3.5, blk * 3.5);
@@ -111,7 +99,7 @@ export default function CurvedMeshCard3D({
           }
         }
       } else if (type === 'mobile-card') {
-        // Dark Mobile Profile Card with 0px Border Radius & ZERO bottom clipping
+
         ctx.fillStyle = '#0d0d11';
         ctx.fillRect(8, 8, cw - 16, ch - 16);
 
@@ -119,14 +107,12 @@ export default function CurvedMeshCard3D({
         ctx.lineWidth = 3;
         ctx.strokeRect(8, 8, cw - 16, ch - 16);
 
-        // Top brand
         ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
         ctx.font = '600 22px monospace';
         ctx.textAlign = 'right';
         ctx.fillText('SIMON.ARCHIVE', cw - 44, 58);
         ctx.textAlign = 'left';
 
-        // Title
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 38px "Space Grotesk", sans-serif';
         ctx.fillText('Venus Nwaokoro', 44, 108);
@@ -134,7 +120,6 @@ export default function CurvedMeshCard3D({
         ctx.fillStyle = '#a1a1aa';
         ctx.fillText('Editorial & Fine Art • Hasselblad 500C/M', 44, 144);
 
-        // Center Image Box (Sharp rectangle)
         const imgX = 44;
         const imgY = 168;
         const imgW = cw - 88;
@@ -145,7 +130,6 @@ export default function CurvedMeshCard3D({
           ctx.drawImage(loadedImg, imgX, imgY, imgW, imgH);
         }
 
-        // Actions - Safely placed above bottom with clear breathing room
         const btnY1 = ch - 150;
         ctx.fillStyle = '#ff5d22';
         ctx.fillRect(44, btnY1, cw - 88, 56);
@@ -165,21 +149,19 @@ export default function CurvedMeshCard3D({
         ctx.fillText(' Add to Apple Wallet', cw / 2, btnY2 + 35);
         ctx.textAlign = 'left';
       } else if (type === 'photo-frame') {
-        // Curators & Artists Photo Frame with 0px Border Radius
+
         ctx.fillStyle = '#000000';
         ctx.fillRect(6, 6, cw - 12, ch - 12);
         if (loadedImg && loadedImg.complete) {
           ctx.drawImage(loadedImg, 6, 6, cw - 12, ch - 12);
         }
 
-        // Bottom dark gradient
         const grad = ctx.createLinearGradient(0, ch * 0.45, 0, ch);
         grad.addColorStop(0, 'rgba(0,0,0,0)');
         grad.addColorStop(1, 'rgba(0,0,0,0.85)');
         ctx.fillStyle = grad;
         ctx.fillRect(6, 6, cw - 12, ch - 12);
 
-        // Play button (Sharp square box)
         const pSize = 64;
         ctx.fillStyle = '#ffffff';
         ctx.fillRect((cw - pSize) / 2, (ch - pSize) / 2, pSize, pSize);
@@ -188,7 +170,6 @@ export default function CurvedMeshCard3D({
         ctx.textAlign = 'center';
         ctx.fillText('▶', cw / 2 + 2, ch / 2 + 12);
 
-        // Badge
         ctx.textAlign = 'left';
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 30px "Space Grotesk", sans-serif';
@@ -198,7 +179,7 @@ export default function CurvedMeshCard3D({
         ctx.font = '400 24px "Space Grotesk", sans-serif';
         ctx.fillText('works?', 44, ch - 34);
       } else if (type === 'testimonial') {
-        // Testimonials Card (Sharp 0px corners, high contrast)
+
         const data = testimonialData || {
           quote: 'Creating my Photographic Card has been transformative. Curators immediately access 120mm emulsion scans and master print archives.',
           name: 'Venus Nwaokoro',
@@ -213,7 +194,6 @@ export default function CurvedMeshCard3D({
         ctx.lineWidth = 4;
         ctx.strokeRect(8, 8, cw - 16, ch - 16);
 
-        // Quote text (wrapped)
         ctx.fillStyle = '#000000';
         ctx.font = '500 28px "Space Grotesk", sans-serif';
         const words = (`"${data.quote}"`).split(' ');
@@ -233,7 +213,6 @@ export default function CurvedMeshCard3D({
         }
         ctx.fillText(line, 44, qY);
 
-        // Author row
         const rowY = ch - 90;
         ctx.strokeStyle = 'rgba(0,0,0,0.15)';
         ctx.lineWidth = 2;
@@ -254,14 +233,13 @@ export default function CurvedMeshCard3D({
         ctx.fillText(data.flag || '🇨🇦', cw - 44, rowY + 24);
         ctx.textAlign = 'left';
       } else if (type === 'connectory') {
-        // Connectory Mockup Window (Sharp 0px corners, high contrast)
+
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(8, 8, cw - 16, ch - 16);
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 4;
         ctx.strokeRect(8, 8, cw - 16, ch - 16);
 
-        // Topbar
         ctx.fillStyle = '#000000';
         ctx.fillRect(24, 24, 120, 44);
         ctx.fillStyle = '#ffffff';
@@ -281,7 +259,6 @@ export default function CurvedMeshCard3D({
         ctx.fillText('🔍 Search by name', cw - 44, 54);
         ctx.textAlign = 'left';
 
-        // Title
         ctx.fillStyle = '#000000';
         ctx.font = 'bold 32px "Space Grotesk", sans-serif';
         ctx.fillText('The Connectory', 44, 120);
@@ -289,7 +266,6 @@ export default function CurvedMeshCard3D({
         ctx.fillStyle = '#666666';
         ctx.fillText('1,321 Artists in Registry', 280, 120);
 
-        // 4 Tiles grid inside
         const gridY = 150;
         const tileW = (cw - 110) / 2;
         const tileH = (ch - gridY - 50) / 2;
@@ -318,24 +294,21 @@ export default function CurvedMeshCard3D({
 
     renderCardTexture();
 
-    // 4. Create Three.js Texture & Curved Mesh
     const texture = new THREE.CanvasTexture(canvas);
     texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.LinearFilter;
 
-    // Plane geometry with segments for horizontal cylinder curve
     const meshW = 2.0;
     const meshH = meshW * (height / width);
     const segX = 48;
     const segY = 16;
     const geometry = new THREE.PlaneGeometry(meshW, meshH, segX, segY);
 
-    // Pure horizontal cylinder curve around Y-axis (NO vertical wave/twist)
     const pos = geometry.attributes.position;
     for (let i = 0; i < pos.count; i++) {
       const px = pos.getX(i);
-      // Horizontal cylindrical arch:
-      const normX = px / (meshW * 0.5); // -1 to +1
+
+      const normX = px / (meshW * 0.5);
       const curveZ = -Math.cos((normX * Math.PI) / 2) * curvature;
       pos.setZ(i, curveZ);
     }
@@ -352,7 +325,6 @@ export default function CurvedMeshCard3D({
     mesh.rotation.z = rotationZ;
     scene.add(mesh);
 
-    // 5. Preload Images
     if (type === 'orange-pass') {
       const avImg = new Image();
       avImg.src = '/images/section4/pexels-krista-glizdeniece-2150567376-31603972.webp';
@@ -376,7 +348,6 @@ export default function CurvedMeshCard3D({
       };
     }
 
-    // 6. Interactive Mouse Hover Tilt
     let targetRotY = 0;
     let targetRotX = 0;
 
@@ -396,7 +367,6 @@ export default function CurvedMeshCard3D({
     mount.addEventListener('mousemove', handleMouseMove);
     mount.addEventListener('mouseleave', handleMouseLeave);
 
-    // 7. Viewport Intersection Observer for 60fps performance gating
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisibleRef.current = entry.isIntersecting;
@@ -405,7 +375,6 @@ export default function CurvedMeshCard3D({
     );
     observer.observe(mount);
 
-    // 8. Animation Loop
     const animate = () => {
       animFrameRef.current = requestAnimationFrame(animate);
       if (!isVisibleRef.current) return;
@@ -418,7 +387,6 @@ export default function CurvedMeshCard3D({
 
     animate();
 
-    // 9. Cleanup
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       observer.disconnect();

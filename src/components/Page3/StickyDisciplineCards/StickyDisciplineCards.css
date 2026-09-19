@@ -9,8 +9,6 @@
   user-select: none;
   -webkit-user-select: none;
 }
-
-/* Stacking Container */
 .disciplines-cards-stack {
   position: relative;
   width: 100vw;
@@ -18,8 +16,6 @@
   margin: 0;
   padding: 0;
 }
-
-/* Full-Bleed Sticky Card Block */
 .discipline-sticky-card {
   position: absolute;
   top: 0;
@@ -37,15 +33,11 @@
   overflow: hidden;
   will-change: transform;
 }
-
-/* Heading Strip */
 .card-heading-strip {
   display: flex;
   flex-direction: column;
   margin-bottom: 24px;
 }
-
-/* Left Info Column */
 .card-info-col {
   display: flex;
   flex-direction: column;
@@ -99,8 +91,6 @@
   line-height: 1.4;
   opacity: 0.9;
 }
-
-/* Right Showcase Column with 3 Images */
 .card-showcase-col {
   display: flex;
   align-items: center;
@@ -157,8 +147,6 @@
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
-
-/* Tablet Responsive Calibration (768px - 1024px & 1024x1366) */
 @media (max-width: 1024px) and (min-width: 769px) {
   .discipline-sticky-card {
     display: flex;
@@ -193,8 +181,6 @@
     gap: 14px;
   }
 }
-
-/* Mobile Responsive Reflow (< 768px) - Guaranteed 100vh containment */
 @media (max-width: 768px) {
   .discipline-sticky-card {
     display: flex;

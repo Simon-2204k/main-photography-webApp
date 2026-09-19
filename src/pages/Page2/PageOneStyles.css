@@ -11,8 +11,6 @@ body {
   font-family: 'Space Grotesk', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
-
-/* Custom Utilities */
 .font-syne {
   font-family: 'Syne', sans-serif;
 }
@@ -20,11 +18,9 @@ body {
 .font-script {
   font-family: 'Caveat', cursive;
 }
-
-/* Completely Hide Scrollbar Across All Browsers (Brave, Chrome, Safari, Edge, Firefox) */
 html, body {
-  scrollbar-width: none !important; /* Firefox */
-  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 ::-webkit-scrollbar,
@@ -45,16 +41,12 @@ body::-webkit-scrollbar,
   background: transparent !important;
   border: none !important;
 }
-
-/* Glassmorphic Pills */
 .glass-pill {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
-
-/* Marquee Left-to-Right Reverse Scroll Animation */
 @keyframes marquee-reverse {
   0% {
     transform: translateX(-50%);
@@ -74,8 +66,6 @@ body::-webkit-scrollbar,
 .animate-marquee-reverse:hover {
   animation-play-state: paused;
 }
-
-/* Codegrid Carousel Progress Bar */
 .progress-bar {
   position: relative;
   flex: 1;

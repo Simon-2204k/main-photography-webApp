@@ -3,11 +3,11 @@ import gsap from 'gsap';
 import { TRAIL_IMAGES } from '../../../data/page1/trailImagesData';
 import { globalImageCache } from '../../../utils/imagePreloadCache';
 
-const IMAGE_SIZE = 200; // Crisp 200px display size
-const DISTANCE_THRESHOLD = 30; // Min px distance during mouse movement to trigger image
-const MAX_TRAIL_IMAGES = 14; // Strict FIFO queue limit of 14 images
-const FAST_IDLE_SPAWN_INTERVAL = 150; // High-speed spawn rate when mouse STOPS inside container (150ms)
-const MIN_LIFETIME_MS = 1000; // 1 second minimum visible time
+const IMAGE_SIZE = 200;
+const DISTANCE_THRESHOLD = 30;
+const MAX_TRAIL_IMAGES = 14;
+const FAST_IDLE_SPAWN_INTERVAL = 150;
+const MIN_LIFETIME_MS = 1000;
 
 export const CursorTrailComponent = ({ zIndex = 2 }) => {
   const containerRef = useRef(null);
@@ -21,7 +21,7 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
   const trailQueueRef = useRef([]);
 
   useEffect(() => {
-    // Disable completely on touch devices / coarse pointers
+
     if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
       return;
     }
@@ -78,7 +78,6 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
       imgEl.style.height = `${IMAGE_SIZE}px`;
       imgEl.style.willChange = 'transform, opacity';
 
-      // Auto-fallback in case any individual image network fails
       imgEl.onerror = () => {
         imgEl.src = TRAIL_IMAGES[0].url;
       };
@@ -87,7 +86,6 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
 
       const randomRotation = (Math.random() - 0.5) * 22;
 
-      // Absolute coordinates inside container coordinate space
       gsap.set(imgEl, {
         x: x - IMAGE_SIZE / 2,
         y: y - IMAGE_SIZE / 2,
@@ -165,7 +163,6 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
       const rect = parent.getBoundingClientRect();
       const { clientX, clientY } = e;
 
-      // Strict parent boundary check
       const isInParent = (
         clientX >= rect.left &&
         clientX <= rect.right &&
@@ -210,7 +207,6 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
       }, 100);
     };
 
-    // IntersectionObserver: Only attach mousemove when parent section is in viewport
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -220,7 +216,7 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
           } else if (!entry.isIntersecting && isViewportVisible) {
             isViewportVisible = false;
             window.removeEventListener('mousemove', handleMouseMove);
-            // Reset state when leaving viewport
+
             isInsideRef.current = false;
             isMouseMovingRef.current = false;
             stopHighSpeedIdleTimer();

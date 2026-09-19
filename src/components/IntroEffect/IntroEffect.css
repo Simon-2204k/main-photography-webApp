@@ -1,8 +1,3 @@
-/* ==========================================================================
-   INTRO EFFECT STYLES (copyFromThisFolder/introEffect faithful reproduction)
-   Fully responsive: Mobile, Tablet (up to 1204x1366 / iPad Pro), Desktop
-   ========================================================================== */
-
 .parentElementLandingDiv {
   position: fixed;
   inset: 0;
@@ -13,9 +8,9 @@
   z-index: 99999;
   background-color: #000000;
   pointer-events: auto;
+  will-change: transform;
 }
 
-/* Skip Button */
 .intro-skip-btn {
   position: absolute;
   top: clamp(16px, 3vh, 32px);
@@ -46,9 +41,6 @@
   transform: translateY(-2px);
 }
 
-/* --------------------------------------------------------------------------
-   BELOW DIV (Background 3-column Monospace Grid revealed when scaled down)
-   -------------------------------------------------------------------------- */
 .belowDiv {
   width: 100vw;
   height: 100vh;
@@ -88,9 +80,6 @@
   text-overflow: ellipsis;
 }
 
-/* --------------------------------------------------------------------------
-   UPPER DIV (Scaling Window containing Opening Page & Second Opening Page)
-   -------------------------------------------------------------------------- */
 .upperDiv {
   width: 100vw;
   height: 100vh;
@@ -111,9 +100,6 @@
   will-change: transform;
 }
 
-/* --------------------------------------------------------------------------
-   OPENING PAGE (Center Title, Popping Cards & Floating Info Cards)
-   -------------------------------------------------------------------------- */
 .openingPage {
   position: relative;
   width: 100vw;
@@ -130,7 +116,6 @@
   overflow: hidden;
 }
 
-/* Center Display Title */
 .textDiv {
   color: #ffffff;
   position: absolute;
@@ -149,19 +134,27 @@
   white-space: nowrap;
 }
 
-/* Scattered Popping Image Cards */
-.image.intro-effect-card {
-  width: clamp(120px, 16vw, 200px);
-  height: clamp(170px, 24vw, 300px);
-  aspect-ratio: 2 / 3;
+.intro-card-slot {
   position: absolute;
   top: 50%;
   left: 50%;
+  width: clamp(120px, 16vw, 200px);
+  height: clamp(170px, 24vw, 300px);
+  aspect-ratio: 2 / 3;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.intro-card-inner {
+  width: 100%;
+  height: 100%;
   border-radius: 0px !important;
   overflow: hidden;
   background-color: #1a1a1e;
-  z-index: 3;
   will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   border: none !important;
   box-shadow: none !important;
 }
@@ -171,9 +164,11 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
 }
 
-/* Floating Glassmorphism Cards */
 .floating-card {
   position: absolute;
   bottom: clamp(20px, 4vh, 36px);
@@ -220,9 +215,6 @@
   margin: 0;
 }
 
-/* --------------------------------------------------------------------------
-   SECOND OPENING PAGE (Editorial High-Impact Transition Monograph)
-   -------------------------------------------------------------------------- */
 .secondopeningPage {
   width: 100vw;
   height: 100%;
@@ -325,15 +317,12 @@
   margin-top: 18px;
 }
 
-/* --------------------------------------------------------------------------
-   RESPONSIVE: TABLETS (768px to 1204px / iPad Pro 1024x1366)
-   -------------------------------------------------------------------------- */
 @media (max-width: 1204px) and (min-width: 769px) {
   .textDiv {
     font-size: clamp(3.2rem, 9vw, 6.5rem);
   }
 
-  .image.intro-effect-card {
+  .intro-card-slot {
     width: clamp(130px, 18vw, 175px);
     height: clamp(190px, 26vw, 255px);
   }
@@ -354,9 +343,6 @@
   }
 }
 
-/* --------------------------------------------------------------------------
-   RESPONSIVE: MOBILE PHONES (< 768px)
-   -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
   .intro-skip-btn {
     top: 12px;
@@ -386,12 +372,11 @@
     font-size: clamp(2.2rem, 11vw, 3.8rem);
   }
 
-  .image.intro-effect-card {
+  .intro-card-slot {
     width: clamp(100px, 28vw, 135px);
     height: clamp(150px, 42vw, 200px);
   }
 
-  /* Compact floating cards at bottom to fit 100vw cleanly */
   .floating-card {
     bottom: 12px;
     width: calc(50vw - 16px);
@@ -416,7 +401,6 @@
     line-height: 1.35;
   }
 
-  /* Second Opening Page Mobile Stack */
   .secondopeningPage {
     padding: 16px;
   }

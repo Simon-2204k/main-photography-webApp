@@ -38,7 +38,6 @@ export const DarkroomHeaderComponent = ({ onOpenMenu }) => {
         CHRONICLES IN LIGHT
       </h1>
 
-      {/* Bold Condensed Uppercase Menu Trigger (No Border, Transparent) */}
       <button
         onClick={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();

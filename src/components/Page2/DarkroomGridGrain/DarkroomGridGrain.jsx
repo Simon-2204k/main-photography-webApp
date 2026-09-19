@@ -8,7 +8,7 @@ export const DarkroomGridGrainComponent = () => {
   const [browserName, setBrowserName] = useState('GOOGLE CHROME');
 
   useEffect(() => {
-    // Detect browser
+
     if (typeof navigator !== 'undefined') {
       const ua = navigator.userAgent;
       if (ua.includes('Firefox')) setBrowserName('MOZILLA FIREFOX');
@@ -19,7 +19,7 @@ export const DarkroomGridGrainComponent = () => {
 
     const updateMetrics = () => {
       const now = new Date();
-      // IST / Indian standard time
+
       const timeOpts = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
       setTimeStr(new Intl.DateTimeFormat('en-GB', timeOpts).format(now));
 
@@ -43,31 +43,27 @@ export const DarkroomGridGrainComponent = () => {
 
   return (
     <div className="darkroom-grid-grain-overlay" aria-hidden="true">
-      {/* 1. Four Precision Corner Viewport Brackets */}
+
       <div className="darkroom-corner-bracket top-left" />
       <div className="darkroom-corner-bracket top-right" />
       <div className="darkroom-corner-bracket bottom-left" />
       <div className="darkroom-corner-bracket bottom-right" />
 
-      {/* 2. Grid Grain Markers: Crosshairs (+) */}
       <span className="darkroom-cross-marker" style={{ top: '15%', left: '22%' }}>+</span>
       <span className="darkroom-cross-marker" style={{ top: '55%', left: '28%' }}>+</span>
       <span className="darkroom-cross-marker" style={{ top: '78%', left: '18%' }}>+</span>
       <span className="darkroom-cross-marker" style={{ top: '35%', right: '24%' }}>+</span>
       <span className="darkroom-cross-marker" style={{ top: '70%', right: '35%' }}>+</span>
 
-      {/* 3. Technical Target Boxes [X] */}
       <div className="darkroom-target-box" style={{ top: '18%', left: '17%' }}>✕</div>
       <div className="darkroom-target-box" style={{ top: '42%', left: '54%' }}>✕</div>
       <div className="darkroom-target-box" style={{ top: '75%', left: '9%' }}>✕</div>
       <div className="darkroom-target-box" style={{ top: '82%', right: '18%' }}>✕</div>
       <div className="darkroom-target-box" style={{ top: '88%', right: '31%' }}>✕</div>
 
-      {/* 4. Circular Reticles */}
       <div className="darkroom-reticle-circle" style={{ top: '17%', left: '18%' }} />
       <div className="darkroom-reticle-circle" style={{ top: '57%', left: '32%' }} />
 
-      {/* 5. Right-Side Vertical Scale Tick Ladder */}
       <div className="darkroom-tick-scale">
         <div className="tick-line long" />
         <div className="tick-line med" />
@@ -82,7 +78,6 @@ export const DarkroomGridGrainComponent = () => {
         <div className="tick-line long" />
       </div>
 
-      {/* 6. Top-Left Monospace Telemetry Block */}
       <div className="darkroom-telemetry-top-left">
         <div className="title-line">PARSING DATA</div>
         <div className="divider">------------</div>
@@ -95,7 +90,6 @@ export const DarkroomGridGrainComponent = () => {
         <div>LANGUAGE: <span className="data-val">[ENGLISH]</span></div>
       </div>
 
-      {/* 7. Bottom-Right Monospace Telemetry Block */}
       <div className="darkroom-telemetry-bottom-right">
         <div>VIDEO ID / AAN 5410AQZ8FAZ8A / POK5 XFRK YV7C VIEWPORT /</div>
         <div>FRAMES 1920X1080*1.28 / 0 DROPPED OF 8545% CURRENT /</div>

@@ -12,8 +12,6 @@
   user-select: none;
   z-index: 20;
 }
-
-/* Ribbons Stage */
 .marquee-ribbons-stage {
   position: relative;
   width: 100%;
@@ -23,8 +21,6 @@
   align-items: center;
   overflow: visible;
 }
-
-/* Base Ribbon Strip — Sleek Editorial Greyish Tone */
 .marquee-ribbon-wrapper {
   position: relative;
   width: 135%;
@@ -37,8 +33,6 @@
   backface-visibility: hidden;
   contain: paint layout;
 }
-
-/* Top Ribbon: Tilted Left (-3deg) & Moving Right */
 .marquee-ribbon-top {
   height: clamp(130px, 15vw, 190px);
   transform: rotate(-3deg) skewX(-2deg);
@@ -47,8 +41,6 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
   margin-bottom: -1.8rem;
 }
-
-/* Bottom Ribbon: Tilted OPPOSITE Right (+3deg) & Moving Left */
 .marquee-ribbon-bottom {
   height: clamp(140px, 16vw, 200px);
   transform: rotate(3deg) skewX(2deg);
@@ -56,8 +48,6 @@
   border-top: 1.5px solid rgba(255, 255, 255, 0.45);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
-
-/* Continuous Infinite Hardware-Accelerated Tracks */
 .marquee-track {
   display: flex;
   align-items: center;
@@ -67,8 +57,6 @@
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
 }
-
-/* Individual Content Repeat Unit */
 .marquee-item {
   display: inline-flex;
   align-items: center;
@@ -76,8 +64,6 @@
   margin-right: clamp(1.5rem, 3vw, 3.5rem);
   flex-shrink: 0;
 }
-
-/* Giant Main Typography: IT'S A ... RAW SHOT */
 .marquee-text-main {
   font-family: 'Anton', 'Oswald', sans-serif;
   font-size: clamp(4.4rem, 9.5vw, 8.8rem);
@@ -87,8 +73,6 @@
   text-transform: uppercase;
   letter-spacing: -0.01em;
 }
-
-/* Tilted Stamp Badge Box: PRISM OPTICS */
 .marquee-badge-box {
   display: inline-flex;
   flex-direction: column;
@@ -111,8 +95,6 @@
   letter-spacing: 0.02em;
   text-align: center;
 }
-
-/* 3-Line Sub-Label Lockup */
 .marquee-sub-lockup {
   display: inline-flex;
   flex-direction: column;
@@ -130,8 +112,6 @@
 .marquee-sub-line {
   white-space: nowrap;
 }
-
-/* Responsive adjustments */
 @media (max-width: 1024px) {
   .slanted-marquee-section {
     padding: clamp(5rem, 8vw, 7.5rem) 0 clamp(5.5rem, 8vw, 8rem) 0 !important;

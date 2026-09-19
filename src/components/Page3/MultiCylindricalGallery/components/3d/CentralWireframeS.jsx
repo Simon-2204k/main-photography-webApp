@@ -5,7 +5,6 @@ import * as THREE from 'three';
 export const CentralWireframeS = React.memo(function CentralWireframeS({ physicsRef, scrollVelocity = 0 }) {
   const groupRef = useRef();
 
-  // Construct a compact 3D "S" curve path
   const tubeGeometry = useMemo(() => {
     const points = [
       new THREE.Vector3(0.5, 1.0, 0),
@@ -25,7 +24,6 @@ export const CentralWireframeS = React.memo(function CentralWireframeS({ physics
   useFrame((state, delta) => {
     if (!groupRef.current) return;
 
-    // Read dynamic velocity from physicsRef without triggering React re-renders
     const currentVelocity = physicsRef?.current?.scrollVelocity ?? scrollVelocity;
     const absVelocity = Math.abs(currentVelocity);
     const scrollSpin = currentVelocity * 2.2;
@@ -36,7 +34,6 @@ export const CentralWireframeS = React.memo(function CentralWireframeS({ physics
       0.1
     );
 
-    // 2. Dynamic Scale: Shrinks on scroll velocity, expands smoothly back on stop
     const targetScale = Math.max(0.4, 0.7 - Math.min(0.3, absVelocity * 5.0));
     groupRef.current.scale.x = THREE.MathUtils.lerp(groupRef.current.scale.x, targetScale, 0.15);
     groupRef.current.scale.y = THREE.MathUtils.lerp(groupRef.current.scale.y, targetScale, 0.15);
@@ -45,7 +42,7 @@ export const CentralWireframeS = React.memo(function CentralWireframeS({ physics
 
   return (
     <group ref={groupRef} position={[0, 0, 0]} scale={[0.7, 0.7, 0.7]}>
-      {/* Compact 3D Volumetric Wireframe "S" Sculpture */}
+
       <mesh geometry={tubeGeometry}>
         <meshBasicMaterial
           wireframe
@@ -55,7 +52,6 @@ export const CentralWireframeS = React.memo(function CentralWireframeS({ physics
         />
       </mesh>
 
-      {/* Framing Geodesic Wireframe Core Sphere */}
       <mesh position={[0, 0, 0]}>
         <icosahedronGeometry args={[0.55, 2]} />
         <meshBasicMaterial
@@ -66,7 +62,6 @@ export const CentralWireframeS = React.memo(function CentralWireframeS({ physics
         />
       </mesh>
 
-      {/* Orbital Trajectory Ring */}
       <mesh rotation={[Math.PI / 3, 0, Math.PI / 6]}>
         <torusGeometry args={[1.6, 0.012, 16, 80]} />
         <meshBasicMaterial

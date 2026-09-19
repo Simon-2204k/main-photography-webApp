@@ -3,7 +3,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './ImageStripHover.css';
 
-// Optimized Section 3 Public Assets
 const img1 = '/images/section3/baptiste-merel--bYa_kDl_tk-unsplash.webp';
 const img2 = '/images/section3/brian-lundquist-xJWUhJP-qPc-unsplash.webp';
 const img3 = '/images/section3/erik-mclean-7jRqtUvNFgA-unsplash.webp';
@@ -35,7 +34,6 @@ export default function Section3ImageStripHover() {
     let isVisible = false;
     gsap.set(hoverDiv, { xPercent: -50, yPercent: -50, scale: 0.8, opacity: 0, force3D: true });
 
-    // ScrollTrigger: Invert background and text when crossing 50% of the screen height
     const st = ScrollTrigger.create({
       trigger: container,
       start: 'top 50%',
@@ -102,7 +100,6 @@ export default function Section3ImageStripHover() {
         overwrite: 'auto',
       });
 
-      // Adaptive Hover Background & Text Color
       const hoverBg = isDarkRef.current ? '#ffffff' : '#000000';
       const hoverColor = isDarkRef.current ? '#000000' : '#ffffff';
 
@@ -131,7 +128,6 @@ export default function Section3ImageStripHover() {
         overwrite: 'auto',
       });
 
-      // Adaptive Reversion Color
       const defaultColor = isDarkRef.current ? '#ffffff' : '#000000';
 
       gsap.to(box, {
@@ -161,7 +157,6 @@ export default function Section3ImageStripHover() {
       });
     });
 
-    // IntersectionObserver to sleep Section 3 when off-screen
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -205,9 +200,9 @@ export default function Section3ImageStripHover() {
                 <h2 className="box-title">{item.title}</h2>
                 <span className="box-tag">{item.tag}</span>
               </div>
-              <div 
-                className="mobile-thumb" 
-                style={{ backgroundImage: `url(${item.img})` }} 
+              <div
+                className="mobile-thumb"
+                style={{ backgroundImage: `url(${item.img})` }}
                 aria-hidden="true"
               />
             </div>

@@ -36,20 +36,18 @@ export const ConnectoryPage = memo(function ConnectoryPage() {
 
   return (
     <div ref={containerRef} className="rotated-page-content page-connectory">
-      {/* Giant Background Title */}
+
       <h2 className="connectory-giant-bg-title">
         CONNECTORY
       </h2>
 
-      {/* Cursive Script "The" Doodle Overlaid */}
       <div className="connectory-the-script">
         The
       </div>
 
-      {/* Center 3D Tilted Web Interface Mockup */}
       <div className="connectory-stage">
         <div ref={stageRef} className="connectory-window-mockup">
-          {/* Mockup Header Bar */}
+
           <div className="connectory-window-topbar">
             <div className="connectory-tabs">
               <span className="connectory-tab active">Artists</span>
@@ -61,9 +59,8 @@ export const ConnectoryPage = memo(function ConnectoryPage() {
             </div>
           </div>
 
-          {/* Mockup Body: Sidebar Filters + Directory Grid */}
           <div className="connectory-window-body">
-            {/* Sidebar */}
+
             <div className="connectory-sidebar">
               <div className="connectory-sidebar-item"><span>Country</span><span>›</span></div>
               <div className="connectory-sidebar-item"><span>City</span><span>›</span></div>
@@ -74,14 +71,13 @@ export const ConnectoryPage = memo(function ConnectoryPage() {
               <div className="connectory-sidebar-item"><span>Artwork Price Range</span><span>›</span></div>
             </div>
 
-            {/* Grid Area */}
             <div className="connectory-grid-content">
               <div className="connectory-directory-title">
                 The Connectory <span style={{ fontWeight: 450, fontSize: '11px', color: '#777' }}>1,321 Artists</span>
               </div>
 
               <div className="connectory-cards-grid">
-                {/* Artist Tile 1 */}
+
                 <div className="connectory-artist-card">
                   <div className="connectory-artist-name">Teona Toderei</div>
                   <img
@@ -92,7 +88,6 @@ export const ConnectoryPage = memo(function ConnectoryPage() {
                   />
                 </div>
 
-                {/* Artist Tile 2 */}
                 <div className="connectory-artist-card">
                   <div className="connectory-artist-name">Erin J Coholan</div>
                   <img
@@ -103,7 +98,6 @@ export const ConnectoryPage = memo(function ConnectoryPage() {
                   />
                 </div>
 
-                {/* Artist Tile 3 */}
                 <div className="connectory-artist-card">
                   <div className="connectory-artist-name">Danny Van der Elst</div>
                   <img
@@ -114,7 +108,6 @@ export const ConnectoryPage = memo(function ConnectoryPage() {
                   />
                 </div>
 
-                {/* Artist Tile 4 */}
                 <div className="connectory-artist-card">
                   <div className="connectory-artist-name">Alberto Balocca</div>
                   <img
@@ -130,7 +123,6 @@ export const ConnectoryPage = memo(function ConnectoryPage() {
         </div>
       </div>
 
-      {/* Signature Bottom-Right Join Button */}
       <button className="follow-join-btn" aria-label="Join Platform">
         <div className="follow-join-icon-row">
           <span className="follow-join-icon">↗</span>

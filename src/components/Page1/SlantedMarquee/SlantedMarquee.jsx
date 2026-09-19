@@ -8,7 +8,6 @@ const MarqueeUnit = ({ keyPrefix = 'u' }) => (
   <div className="marquee-item">
     <span className="marquee-text-main">IT'S A</span>
 
-    {/* Tilted Stamp Badge Box: PRISM OPTICS */}
     <div className="marquee-badge-box">
       <span className="marquee-badge-line">PRISM</span>
       <span className="marquee-badge-line">OPTICS</span>
@@ -16,7 +15,6 @@ const MarqueeUnit = ({ keyPrefix = 'u' }) => (
 
     <span className="marquee-text-main">RAW SHOT</span>
 
-    {/* 3-Line Sub-Label Lockup */}
     <div className="marquee-sub-lockup">
       <span className="marquee-sub-line">APERTURE LAB®</span>
       <span className="marquee-sub-line">VISUAL</span>
@@ -40,14 +38,13 @@ const SlantedMarqueeComponent = () => {
 
     let posTop = -2000;
     let posBottom = 0;
-    const BASE_SPEED = 3.4; // Increased base cruising velocity
+    const BASE_SPEED = 3.4;
 
     let targetVelocity = 0;
     let currentVelocity = 0;
     let lastScrollY = window.scrollY;
     let isTickerActive = false;
 
-    // Measure single set width for seamless wrap
     let topSetWidth = 0;
     let bottomSetWidth = 0;
 
@@ -69,26 +66,22 @@ const SlantedMarqueeComponent = () => {
       const deltaY = currentScrollY - lastScrollY;
       lastScrollY = currentScrollY;
 
-      // High-impact kinetic velocity multiplier on scroll
       targetVelocity = Math.min(Math.abs(deltaY) * 0.65, 35);
     };
 
     const ticker = () => {
       if (!isVisibleRef.current) return;
 
-      // Smooth decay of velocity boost
       currentVelocity += (targetVelocity - currentVelocity) * 0.15;
       targetVelocity *= 0.90;
 
       const currentSpeed = BASE_SPEED + currentVelocity;
 
-      // Top ribbon moves to the RIGHT
       posTop += currentSpeed;
       if (topSetWidth > 0 && posTop >= 0) {
         posTop -= topSetWidth;
       }
 
-      // Bottom ribbon moves to the LEFT
       posBottom -= currentSpeed;
       if (bottomSetWidth > 0 && posBottom <= -bottomSetWidth) {
         posBottom += bottomSetWidth;
@@ -98,7 +91,6 @@ const SlantedMarqueeComponent = () => {
       bottomTrack.style.transform = `translate3d(${posBottom}px, 0, 0)`;
     };
 
-    // Viewport Culling with IntersectionObserver
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -137,9 +129,9 @@ const SlantedMarqueeComponent = () => {
 
   return (
     <section id="slanted-marquee-section" ref={sectionRef} className="slanted-marquee-section">
-      {/* Dual Dynamic Slanted Ribbons Stage */}
+
       <div className="marquee-ribbons-stage">
-        {/* Top Ribbon — Moving RIGHT */}
+
         <div className="marquee-ribbon-wrapper marquee-ribbon-top">
           <div ref={topTrackRef} className="marquee-track">
             {Array.from({ length: REPEAT_COUNT }).map((_, idx) => (
@@ -148,7 +140,6 @@ const SlantedMarqueeComponent = () => {
           </div>
         </div>
 
-        {/* Bottom Ribbon — Moving LEFT with extended solid greyish base */}
         <div className="marquee-ribbon-wrapper marquee-ribbon-bottom">
           <div ref={bottomTrackRef} className="marquee-track">
             {Array.from({ length: REPEAT_COUNT }).map((_, idx) => (

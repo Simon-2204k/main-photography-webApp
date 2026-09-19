@@ -1,5 +1,3 @@
-/* WaveDragGallery.css — Page 3 Section 10: WebGL Wave Drag Gallery */
-
 .wave-drag-gallery-section {
   position: relative;
   width: 100vw;
@@ -11,8 +9,6 @@
   user-select: none;
   -webkit-user-select: none;
 }
-
-/* 1] Perspective Vanishing Lines Grid (Matching Reference Screenshots) */
 .wave-perspective-grid {
   position: absolute;
   inset: 0;
@@ -27,8 +23,6 @@
   background: rgba(0, 0, 0, 0.35);
   transform-origin: center center;
 }
-
-/* Cardinal and Diagonal radiating perspective rays */
 .wave-grid-line.diag-1 {
   top: 50%;
   left: -20%;
@@ -52,8 +46,6 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.2);
 }
-
-/* 2] Top Telemetry HUD Bar */
 .wave-top-hud {
   position: absolute;
   top: 0;
@@ -93,8 +85,6 @@
   align-items: center;
   gap: 10px;
 }
-
-/* Secondary Action Floating Badges (Upper-Right) */
 .wave-floating-actions {
   position: absolute;
   top: 48px;
@@ -145,8 +135,6 @@
   object-fit: cover;
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
-
-/* 3] Interactive 3D WebGL Canvas Layer */
 .wave-canvas-wrapper {
   position: absolute;
   inset: 0;
@@ -166,8 +154,6 @@
   height: 100% !important;
   display: block;
 }
-
-/* 4] Bottom Partner / Creative Powerhouse Bar */
 .wave-bottom-partner-bar {
   position: absolute;
   bottom: clamp(18px, 3.2vh, 36px);
@@ -230,8 +216,6 @@
   color: #1a1a1c;
   text-transform: uppercase;
 }
-
-/* 5] Bottom Corner Brand Stamps */
 .wave-corner-stamp-left {
   position: absolute;
   bottom: clamp(16px, 2.8vh, 28px);
@@ -271,12 +255,6 @@
 .wave-corner-menu-right:active {
   transform: scale(0.96);
 }
-
-
-
-/* ==========================================================================
-   TABLET RESPONSIVE CALIBRATION (UP TO 1024 × 1366 IPAD PRO)
-   ========================================================================== */
 @media (max-width: 1024px) {
   .wave-top-hud {
     height: 36px;
@@ -285,7 +263,7 @@
   }
 
   .wave-top-hud-center {
-    display: none; /* Hide middle telemetry to preserve clean margins on tablets */
+    display: none;
   }
 
   .wave-floating-actions {
@@ -324,10 +302,6 @@
     font-size: 24px;
   }
 }
-
-/* ==========================================================================
-   MOBILE PHONES RESPONSIVE CALIBRATION (<= 640px)
-   ========================================================================== */
 @media (max-width: 640px) {
   .wave-top-hud {
     height: 32px;
@@ -336,7 +310,7 @@
   }
 
   .wave-floating-actions {
-    display: none; /* Streamline mobile view to keep focus purely on the WebGL wave */
+    display: none;
   }
 
 
@@ -359,7 +333,7 @@
   }
 
   .wave-corner-stamp-left {
-    display: none; /* Prevent cluttering behind the bottom bar on small phone screens */
+    display: none;
   }
 
   .wave-corner-menu-right {

@@ -37,7 +37,7 @@ export const JoinUsPage = memo(function JoinUsPage() {
   return (
     <div ref={containerRef} className="rotated-page-content page-join-us">
       <div className="join-main-grid">
-        {/* Left: Giant JOIN Typography + Script "Us" + 3 Avatar Portraits */}
+
         <div className="join-left-col">
           <h2 className="join-giant-title">
             JOIN
@@ -47,7 +47,6 @@ export const JoinUsPage = memo(function JoinUsPage() {
             Us
           </div>
 
-          {/* Overlaid 3-Avatar Photo Cluster (Parallax scrubbed) */}
           <div ref={avatarsRef} className="join-avatars-cluster">
             <img
               src="/images/section4/pexels-kyle-miller-169884138-13411957.webp"
@@ -70,13 +69,11 @@ export const JoinUsPage = memo(function JoinUsPage() {
           </div>
         </div>
 
-        {/* Right: Headline & Curved Arrow pointing to Join button */}
         <div className="join-right-col">
           <p className="join-headline-text">
             <u>Create Your Card</u> and share wherever your practice is seen
           </p>
 
-          {/* Hand-Drawn Black Arrow Pointing Toward Bottom-Right Button */}
           <svg
             className="join-arrow-doodle"
             viewBox="0 0 100 60"
@@ -92,7 +89,6 @@ export const JoinUsPage = memo(function JoinUsPage() {
         </div>
       </div>
 
-      {/* Signature Bottom-Right Join Button */}
       <button className="follow-join-btn" aria-label="Join Platform">
         <div className="follow-join-icon-row">
           <span className="follow-join-icon">↗</span>

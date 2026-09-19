@@ -37,9 +37,9 @@ export const CuratorsArtistsPage = memo(function CuratorsArtistsPage() {
 
   return (
     <div ref={containerRef} className="rotated-page-content page-curators-artists">
-      {/* Main Split Grid */}
+
       <div className="curators-main-grid">
-        {/* Left: Frame Card with Orange Paint Backdrop (Parallax scrubbed, 3D curved mesh) */}
+
         <div ref={photoColRef} className="curators-photo-col">
           <div className="curators-orange-backdrop" />
           <div className="curators-frame-card-3d-wrap" style={{ position: 'relative', zIndex: 2 }}>
@@ -54,7 +54,6 @@ export const CuratorsArtistsPage = memo(function CuratorsArtistsPage() {
           </div>
         </div>
 
-        {/* Right: Giant Heading & Feature Bullets */}
         <div className="curators-content-col">
           <div className="curators-heading-wrap">
             <h2 className="curators-giant-title">
@@ -78,7 +77,6 @@ export const CuratorsArtistsPage = memo(function CuratorsArtistsPage() {
         </div>
       </div>
 
-      {/* Signature Bottom-Right Join Button */}
       <button className="follow-join-btn" aria-label="Join Platform">
         <div className="follow-join-icon-row">
           <span className="follow-join-icon">↗</span>

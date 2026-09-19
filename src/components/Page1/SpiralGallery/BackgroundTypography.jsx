@@ -42,7 +42,6 @@ export const BackgroundTypographyComponent = ({ onOpenMenu, isVisible = true }) 
         THE WORLD THROUGH LENSES
       </h1>
 
-      {/* Bold Condensed Uppercase Menu Trigger (No Border, Transparent) */}
       <button
         onClick={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();

@@ -1,5 +1,3 @@
-/* RotatedPageScroll.css — Section 2 Z-axis Rotated Scroll */
-
 .rotated-page-suite {
   position: relative;
   width: 100vw;
@@ -89,8 +87,6 @@
 .font-bebas {
   font-family: 'Bebas Neue', 'Anton', Impact, sans-serif;
 }
-
-/* Big Display Typography "SIMON" on Section 2 Page 1 */
 .hero-page-section-container {
   position: relative;
   width: 100vw;

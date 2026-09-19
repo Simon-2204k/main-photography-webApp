@@ -32,7 +32,7 @@ export default function ParallaxPages() {
   const statementRef = useRef(null);
   const progressBarRefs = useRef([]);
   const marqueeXRef = useRef(0);
-  const scrollDirRef = useRef(1); // 1 = Scroll Down (Left), -1 = Scroll Up (Right)
+  const scrollDirRef = useRef(1);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   useLandoTextReveal(statementRef, ['.capability-quote', '.capability-title'], {
@@ -46,7 +46,6 @@ export default function ParallaxPages() {
   const previousProgressRef = useRef(0);
   const isAnimatingRef = useRef(false);
 
-
   useEffect(() => {
     progressBarRefs.current = progressBarRefs.current.slice(0, PAGES.length);
   }, []);
@@ -56,7 +55,6 @@ export default function ParallaxPages() {
       const carousel = carouselRef.current;
       if (!carousel) return;
 
-      // 1. Update progress bars custom CSS property --progress (0 -> 1)
       const updateProgressBars = (progress) => {
         progressBarRefs.current.forEach((barEl, index) => {
           if (!barEl) return;
@@ -65,7 +63,6 @@ export default function ParallaxPages() {
         });
       };
 
-      // 2. Initial Setup for First Slide
       const initialSlide = carousel.querySelector('.slide');
       if (initialSlide) {
         gsap.set(initialSlide, {
@@ -77,7 +74,6 @@ export default function ParallaxPages() {
         }
       }
 
-      // 3. Helper to Create Slide DOM Element with Camera HUD Overlay
       const createSlideElement = (slideData) => {
         const slide = document.createElement('div');
         slide.className = 'slide absolute inset-0 w-full h-full overflow-hidden flex flex-col justify-center items-center pointer-events-none select-none z-10';
@@ -148,7 +144,6 @@ export default function ParallaxPages() {
         return slide;
       };
 
-      // 4. Infinite Zero-Jitter Marquee Engine (100% Mathematically Seamless Wrap at -50%)
       const animateMarquee = () => {
         const tracks = carousel.querySelectorAll('.marquee-track');
         if (!tracks.length) return;
@@ -165,7 +160,6 @@ export default function ParallaxPages() {
 
       gsap.ticker.add(animateMarquee);
 
-      // 5. Codegrid Slide Creation & clipPath Polygon Animation Engine
       const createAndAnimateSlide = (targetIndex, isScrollingForward) => {
         const currentSlide = carousel.querySelector('.slide');
         if (!currentSlide) {
@@ -298,7 +292,6 @@ export default function ParallaxPages() {
         }
       };
 
-      // 6. Master Pinned GSAP ScrollTrigger for 6-Slide Carousel
       ScrollTrigger.create({
         trigger: carousel,
         start: 'top top',
@@ -323,7 +316,6 @@ export default function ParallaxPages() {
         onUpdate: (self) => {
           const currentProgress = self.progress;
 
-          // Fade in/out the bottom carousel progress timeline
           if (timelineBarRef.current) {
             if (self.isActive || (currentProgress >= 0.001 && currentProgress <= 0.999)) {
               timelineBarRef.current.style.opacity = '1';
@@ -332,7 +324,6 @@ export default function ParallaxPages() {
             }
           }
 
-          // Detect scroll direction
           if (currentProgress > previousProgressRef.current) {
             scrollDirRef.current = 1;
           } else if (currentProgress < previousProgressRef.current) {
@@ -340,7 +331,6 @@ export default function ParallaxPages() {
           }
           previousProgressRef.current = currentProgress;
 
-          // Calculate current active slide index based on progress
           const segmentSize = 1 / PAGES.length;
           const targetIndex = Math.min(
             Math.floor(currentProgress / segmentSize),
@@ -368,13 +358,13 @@ export default function ParallaxPages() {
 
   return (
     <section ref={containerRef} className="relative w-full text-white" style={{ backgroundColor: '#000000' }}>
-      {/* Pinned Codegrid Carousel Container */}
+
       <div
         ref={carouselRef}
         className="carousel relative w-full h-screen overflow-hidden flex justify-center items-center"
         style={{ backgroundColor: '#000000' }}
       >
-        {/* Initial Active Slide DOM Element */}
+
         <div className="slide absolute inset-0 w-full h-full overflow-hidden flex flex-col justify-center items-center pointer-events-none select-none z-10">
           <div className="slide-img absolute inset-0 w-full h-full overflow-hidden z-0">
             <img
@@ -384,9 +374,8 @@ export default function ParallaxPages() {
             />
           </div>
 
-          {/* Camera Viewfinder HUD Overlay */}
           <div className="parallax-hud-container">
-            {/* Top HUD Bar */}
+
             <div className="parallax-hud-row">
               <div className="flex items-center gap-1.5 sm:gap-2.5">
                 <span className="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-red-600 animate-pulse inline-block"></span>
@@ -400,7 +389,6 @@ export default function ParallaxPages() {
               </div>
             </div>
 
-            {/* 4 Viewfinder Corner Brackets & Center Crosshair */}
             <div className="parallax-hud-brackets">
               <div className="absolute top-0 left-0 w-4 sm:w-8 lg:w-10 h-4 sm:h-8 lg:h-10 border-t-2 border-l-2 border-white/70"></div>
               <div className="absolute top-0 right-0 w-4 sm:w-8 lg:w-10 h-4 sm:h-8 lg:h-10 border-t-2 border-r-2 border-white/70"></div>
@@ -411,7 +399,6 @@ export default function ParallaxPages() {
               </div>
             </div>
 
-            {/* Bottom HUD Bar */}
             <div className="parallax-hud-row">
               <div className="flex items-center gap-1.5 sm:gap-4 text-white/80">
                 <span>F/2.8</span>
@@ -464,7 +451,6 @@ export default function ParallaxPages() {
           </div>
         </div>
 
-        {/* Codegrid Bottom Carousel Progress Bar Container */}
         <div
           ref={timelineBarRef}
           className="carousel-progress-wrapper px-8 sm:px-16 lg:px-24"
@@ -481,24 +467,16 @@ export default function ParallaxPages() {
         </div>
       </div>
 
-      {/* 
-        ========================================================================
-        EDITORIAL STATEMENT & CAPABILITY SHOWCASE (IMAGE 4 ALADESIGN.CZ STYLE)
-        CURSOR TRAIL LAYER IS DIRECTLY OVER THE TEXT (Z-INDEX 40)
-        ========================================================================
-      */}
       <div ref={statementRef} className="relative w-full bg-[#000000] text-white py-16 sm:py-24 lg:py-36 px-7 sm:px-12 lg:px-20 z-40 border-none overflow-hidden select-none">
-        {/* Photo Cursor Trail Layer: SPAWNS OVER THE TEXT (zIndex 40) */}
+
         <CursorTrail zIndex={40} />
 
-        {/* Text Content: Under cursor trail at relative z-10 */}
         <div className="max-w-6xl mx-auto relative z-10 pointer-events-auto">
-          {/* Main High-Fashion Editorial Serif Statement (Image 4 Style) */}
+
           <h2 className="capability-quote font-serif font-normal text-xl sm:text-3xl lg:text-[44px] xl:text-[50px] leading-[1.38] tracking-tight text-white/95 mb-10 sm:mb-16 select-none">
             Our approach combines analogue discipline with a deep understanding of cinematic light, allowing us to create imagery that not only captures attention, but commands an enduring emotional resonance.
           </h2>
 
-          {/* 2-Column Capability / Discipline Rows (Image 4 Style) */}
           <div className="border-t border-white/15 divide-y divide-white/15 text-left font-sans">
             <div className="py-6 sm:py-9 grid grid-cols-1 md:grid-cols-12 gap-2.5 sm:gap-6 items-start">
               <div className="capability-title md:col-span-4 font-sans font-semibold text-base sm:text-xl text-white">

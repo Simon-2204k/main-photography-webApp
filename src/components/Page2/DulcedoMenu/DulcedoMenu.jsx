@@ -79,7 +79,6 @@ export const DulcedoMenu = memo(() => {
     const targetHeight = rowRect.height;
     const targetCenterY = targetTop + targetHeight / 2;
 
-    // 1. Smooth highlight bar tracking (Desktop only)
     if (!isMobileOrTablet) {
       gsap.to(highlightBar, {
         opacity: 1,
@@ -91,7 +90,6 @@ export const DulcedoMenu = memo(() => {
       });
     }
 
-    // 2. Luxurious vertical glide for desktop preview container
     if (preview) {
       const previewHeight = 420;
       gsap.to(preview, {
@@ -104,7 +102,6 @@ export const DulcedoMenu = memo(() => {
       });
     }
 
-    // 3. Buttery-smooth directional clipPath wipe for desktop & mobile decks
     if (prevIndex !== index) {
       const isMovingDown = prevIndex === null || index > prevIndex;
 
@@ -199,14 +196,13 @@ export const DulcedoMenu = memo(() => {
         paddingBottom: isMobileOrTablet ? 'clamp(24px, 4vh, 40px)' : 'clamp(3rem, 6vh, 6rem)',
       }}
     >
-      {/* 100% Full-Width Solid White Highlight Bar across the hovered row (Desktop Only) */}
+
       <div
         ref={highlightBarRef}
         className="absolute left-0 w-full bg-white pointer-events-none opacity-0 z-10 transition-colors"
         style={{ top: 0, height: 0, display: isMobileOrTablet ? 'none' : 'block' }}
       />
 
-      {/* Desktop Floating Image Preview Card (> 1024px) */}
       <div
         ref={previewRef}
         className="dulcedo-desktop-preview"
@@ -232,9 +228,8 @@ export const DulcedoMenu = memo(() => {
         ))}
       </div>
 
-      {/* Mobile Top Viewfinder Frame (<= 1024px / iPhone SE, Pixel, Galaxy, iPad) */}
       <div className="dulcedo-mobile-viewfinder">
-        {/* Viewfinder Images Deck */}
+
         {ITEMS.map((item, idx) => (
           <img
             key={`mob-${item.id}`}
@@ -255,7 +250,6 @@ export const DulcedoMenu = memo(() => {
           />
         ))}
 
-        {/* Viewfinder Corner Brackets */}
         <div className="absolute inset-2 pointer-events-none z-30">
           <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-white/70" />
           <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-white/70" />
@@ -264,7 +258,6 @@ export const DulcedoMenu = memo(() => {
         </div>
       </div>
 
-      {/* Main 5-Option Stacked Typography List */}
       <div
         className={`relative z-20 w-full ${
           isMobileOrTablet ? 'max-w-xl my-0 py-1 sm:py-3' : 'max-w-6xl my-auto py-2 sm:py-8'
@@ -304,7 +297,6 @@ export const DulcedoMenu = memo(() => {
         })}
       </div>
 
-      {/* Centered Bottom Bio Block */}
       <div
         style={{
           fontSize: isMobileOrTablet ? 'clamp(11px, 2.8vw, 13px)' : 'clamp(11px, 1.1vw, 13px)',

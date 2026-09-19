@@ -44,14 +44,12 @@ const ExpandingGalleryComponent = () => {
       }
     };
 
-    // Smooth dynamic expansion synchronized with Lenis ticker (Zero layout thrashing via read/write batching)
     const updateScroll = () => {
       const scrollY = window.scrollY;
       const viewportHeight = window.innerHeight;
       const rows = rowsRef.current;
       const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
 
-      // Phase 1: Batch all DOM layout reads together (triggers at most 1 layout pass)
       const measurements = [];
       for (let i = 0; i < ROWS_COUNT; i++) {
         const row = rows[i];
@@ -64,7 +62,6 @@ const ExpandingGalleryComponent = () => {
         });
       }
 
-      // Phase 2: Batch all DOM style writes together (zero interleaved reflows)
       const widthDelta = endWidth - startWidth;
       for (let i = 0; i < measurements.length; i++) {
         const { row, rowTop, height } = measurements[i];
@@ -83,7 +80,6 @@ const ExpandingGalleryComponent = () => {
       }
     };
 
-    // IntersectionObserver: Ticker runs strictly when in or approaching viewport
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -117,7 +113,6 @@ const ExpandingGalleryComponent = () => {
     };
   }, []);
 
-  // Split 64 items into 8 rows of 8 items
   const rowsData = [];
   for (let r = 0; r < ROWS_COUNT; r++) {
     rowsData.push(EXPANDING_GALLERY_DATA.slice(r * ITEMS_PER_ROW, (r + 1) * ITEMS_PER_ROW));
@@ -142,7 +137,7 @@ const ExpandingGalleryComponent = () => {
         zIndex: 10
       }}
     >
-      {/* Dynamic Expanding Rows */}
+
       {rowsData.map((rowItems, rowIdx) => (
         <div
           key={rowIdx}
@@ -166,7 +161,7 @@ const ExpandingGalleryComponent = () => {
                 transform: 'translateZ(0)'
               }}
             >
-              {/* Stepped Darkroom Cassette Tab */}
+
               <div
                 style={{
                   display: 'inline-flex',
@@ -192,7 +187,6 @@ const ExpandingGalleryComponent = () => {
                 <span style={{ color: '#e5a956' }}>{item.category}</span>
               </div>
 
-              {/* Main Photo Frame Body */}
               <div
                 className="project-img"
                 style={{
@@ -221,7 +215,6 @@ const ExpandingGalleryComponent = () => {
                 />
               </div>
 
-              {/* Under-Card Metadata */}
               <div
                 className="project-info"
                 style={{

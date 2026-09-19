@@ -53,13 +53,13 @@ const StudioManifestoComponent = () => {
           }
         }
       `}</style>
-      {/* Bounded Cursor Trail for Studio Manifesto Section (Appears on top of text) */}
+
       <CursorTrail zIndex={15} />
 
       <div
         className="manifesto-content"
         style={{
-          maxWidth: '1050px', // Compressed width for tighter centered composition
+          maxWidth: '1050px',
           margin: '0 auto',
           display: 'flex',
           flexDirection: 'column',
@@ -69,7 +69,7 @@ const StudioManifestoComponent = () => {
           zIndex: 5
         }}
       >
-        {/* Top Tagline */}
+
         <div
           className="manifesto-tagline"
           style={{
@@ -85,19 +85,18 @@ const StudioManifestoComponent = () => {
           Visual studio crafting timeless stories through photography
         </div>
 
-        {/* Single Centered Flowing Typography Paragraph with Increased Line Height & Compressed Bounds */}
         <p
           className="manifesto-paragraph"
           style={{
             margin: 0,
             fontFamily: "'Anton', 'Oswald', 'Bebas Neue', sans-serif",
             fontSize: 'clamp(2.1rem, 4.2vw, 4.4rem)',
-            lineHeight: '1.42', // Increased line space for elegance and breath
+            lineHeight: '1.42',
             letterSpacing: '0.015em',
             textTransform: 'uppercase',
             color: '#ffffff',
             textAlign: 'center',
-            maxWidth: '1000px', // Compressed container width
+            maxWidth: '1000px',
           }}
         >
           It’s never “just a photograph.” Every <span style={underlineStyle}>frame</span> holds a story. We capture what words cannot express. Your vision. Our <span style={underlineStyle}>perspective</span>. Light, emotion, movement, and atmosphere. We preserve moments that deserve to be remembered. Not just images. <span style={underlineStyle}>Experiences</span> frozen in time. Every detail has a story waiting to be seen. Your world. Our lens. We frame the <span style={underlineStyle}>extraordinary</span>.
@@ -112,12 +111,12 @@ const underlineStyle = {
   fontFamily: "'Newsreader', 'Playfair Display', 'Instrument Serif', Georgia, serif",
   fontStyle: 'italic',
   fontWeight: 400,
-  textTransform: 'none', // Elegant lowercase/editorial italic lettering
+  textTransform: 'none',
   textDecoration: 'underline',
   textUnderlineOffset: '8px',
   textDecorationThickness: '2px',
   textDecorationColor: '#ffffff',
-  margin: '0 15px', // 15px margin on left and right
+  margin: '0 15px',
   color: '#ffffff'
 };
 

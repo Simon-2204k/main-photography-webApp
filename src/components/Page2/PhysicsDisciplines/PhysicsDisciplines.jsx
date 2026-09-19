@@ -69,25 +69,21 @@ const DISCIPLINES = [
   },
 ];
 
-// =============================================================
-// 🎛️ GSAP CARD STAGGER & EASING CONTROLS (TUNE HERE)
-// =============================================================
 export const CARD_ANIM_CONFIG = {
-  duration: 0.3,       // Duration per card (seconds)
-  staggerDelay: 0.1,   // Delay between Card 1 -> Card 2 -> Card 3
-  ease: 'power2.out',   // GSAP ease curve ('power2.out', 'power3.out', 'back.out(1.2)')
-  fromY: '105%',        // Starts below mask (bottom-to-top)
-  toY: '-4px',          // Pushed up 4px so bottom rounded corners are never clipped
+  duration: 0.3,
+  staggerDelay: 0.1,
+  ease: 'power2.out',
+  fromY: '105%',
+  toY: '-4px',
 };
 
-// Sub-component for the 3-Card Stack with bottom-to-top GSAP stagger masked by overflow: hidden
 const CardDeck = memo(({ cards }) => {
   const card1Ref = useRef(null);
   const card2Ref = useRef(null);
   const card3Ref = useRef(null);
 
   useEffect(() => {
-    // Reveal sequentially rising from bottom to top: Card 1 -> Card 2 -> Card 3
+
     const tl = gsap.timeline();
     tl.fromTo(
       [card1Ref.current, card2Ref.current, card3Ref.current],
@@ -123,7 +119,7 @@ const CardDeck = memo(({ cards }) => {
         paddingBottom: '8px',
       }}
     >
-      {/* Card 1: Back Left (Appears First) - Clean with NO Shadow */}
+
       <div
         ref={card1Ref}
         style={{
@@ -152,7 +148,6 @@ const CardDeck = memo(({ cards }) => {
         />
       </div>
 
-      {/* Card 2: Back Right (Appears Second) - Clean with NO Shadow */}
       <div
         ref={card2Ref}
         style={{
@@ -181,7 +176,6 @@ const CardDeck = memo(({ cards }) => {
         />
       </div>
 
-      {/* Card 3: Center Foreground (Appears Third) - Clean with NO Shadow */}
       <div
         ref={card3Ref}
         style={{
@@ -245,10 +239,9 @@ export const PhysicsDisciplines = memo(() => {
     }, 100);
   };
 
-  // Handle Matter.js physics pill drops on the active word
   useEffect(() => {
     if (hoveredIdx === null) {
-      // Clean up previous simulation
+
       if (renderLoopRef.current) cancelAnimationFrame(renderLoopRef.current);
       if (runnerRef.current) Matter.Runner.stop(runnerRef.current);
       if (engineRef.current) Matter.World.clear(engineRef.current.world, false);
@@ -261,7 +254,6 @@ export const PhysicsDisciplines = memo(() => {
       return;
     }
 
-    // Delay 110ms so physics measures coordinates right as the push-down motion completes
     const spawnTimer = setTimeout(() => {
       const canvas = canvasRef.current;
       const section = sectionRef.current;
@@ -273,7 +265,6 @@ export const PhysicsDisciplines = memo(() => {
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      // Calculate exact bounding coordinates of the active <h2> letters
       const sectionRect = section.getBoundingClientRect();
       const textRect = targetH2.getBoundingClientRect();
 
@@ -281,13 +272,11 @@ export const PhysicsDisciplines = memo(() => {
       const wordWidth = textRect.width;
       const textBottomY = textRect.bottom - sectionRect.top;
 
-      // Create Matter.js Engine
       const engine = Matter.Engine.create({
         gravity: { x: 0, y: 1.15 },
       });
       engineRef.current = engine;
 
-      // Physical collision platform placed right at the bottom baseline of the letters
       const platformY = textBottomY - 6;
       const platformWidth = Math.min(width * 0.95, Math.max(wordWidth * 1.02, 450));
 
@@ -297,7 +286,6 @@ export const PhysicsDisciplines = memo(() => {
         restitution: 0.25,
       });
 
-      // Left and right angled barrier walls so pills stay gathered over the word
       const leftWall = Matter.Bodies.rectangle(
         wordCenterX - platformWidth / 2 - 15,
         platformY - 60,
@@ -322,7 +310,6 @@ export const PhysicsDisciplines = memo(() => {
         }
       );
 
-      // Subtle center wedge to disperse pills naturally across both sides of the word
       const centerDeflector = Matter.Bodies.polygon(wordCenterX, platformY - 8, 3, 20, {
         isStatic: true,
         angle: Math.PI,
@@ -330,11 +317,9 @@ export const PhysicsDisciplines = memo(() => {
 
       Matter.World.add(engine.world, [ground, leftWall, rightWall, centerDeflector]);
 
-      // Spawn 10 pills dropping dynamically from behind the 3 floating cards
       const discipline = DISCIPLINES[hoveredIdx];
       const newPills = [];
       const cardsOriginY = textRect.top - sectionRect.top - 60;
-
 
       discipline.pills.forEach((pillText, i) => {
         ctx.font = '600 13px Inter, sans-serif';
@@ -363,12 +348,10 @@ export const PhysicsDisciplines = memo(() => {
       pillBodiesRef.current = newPills;
       Matter.World.add(engine.world, newPills);
 
-      // Run Matter Runner
       const runner = Matter.Runner.create();
       runnerRef.current = runner;
       Matter.Runner.run(runner, engine);
 
-      // Canvas Render Loop for Pill Badges
       const render = () => {
         ctx.clearRect(0, 0, width, height);
 
@@ -383,7 +366,6 @@ export const PhysicsDisciplines = memo(() => {
           ctx.translate(x, y);
           ctx.rotate(angle);
 
-          // Pill capsule body (dark charcoal with crisp white border)
           ctx.beginPath();
           ctx.roundRect(-w / 2, -h / 2, w, h, r);
           ctx.fillStyle = '#141416';
@@ -392,7 +374,6 @@ export const PhysicsDisciplines = memo(() => {
           ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
           ctx.stroke();
 
-          // Pill text
           ctx.font = '600 12px Inter, sans-serif';
           ctx.fillStyle = '#ffffff';
           ctx.textAlign = 'center';
@@ -433,13 +414,12 @@ export const PhysicsDisciplines = memo(() => {
         paddingBottom: 'clamp(4rem, 8vh, 7rem)',
       }}
     >
-      {/* Physics Overlay Canvas for Pill Badges */}
+
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full pointer-events-none z-30"
       />
 
-      {/* Top Header in Warm Cream Serif */}
       <div
         className="w-full max-w-5xl mx-auto text-center z-10"
         style={{ marginBottom: 'clamp(3rem, 6vh, 5.5rem)' }}
@@ -456,7 +436,6 @@ export const PhysicsDisciplines = memo(() => {
         </h3>
       </div>
 
-      {/* Center 3 Giant Serif Disciplines with Dynamic Push-Down & Tight Idle Spacing */}
       <div className="relative z-20 w-full max-w-6xl mx-auto flex flex-col items-center justify-center">
         {DISCIPLINES.map((discipline, idx) => {
           const isHovered = hoveredIdx === idx;
@@ -467,7 +446,7 @@ export const PhysicsDisciplines = memo(() => {
               className="relative w-full flex flex-col items-center justify-center transition-all duration-300"
               style={{ margin: 'clamp(1.4rem, 2.8vh, 2.2rem) 0' }}
             >
-              {/* Unified Interactive Container: captures hover across expanded spacer, cards, text & Learn More */}
+
               <div
                 ref={(el) => (wordRefs.current[idx] = el)}
                 onClick={(e) => {
@@ -479,7 +458,7 @@ export const PhysicsDisciplines = memo(() => {
                 className="relative inline-flex flex-col items-center justify-center cursor-pointer w-fit mx-auto px-4 py-2"
                 style={{ touchAction: 'manipulation' }}
               >
-                {/* Dynamic Push-Down Spacer Slot (Houses CardDeck right above text) */}
+
                 <div
                   style={{
                     height: isHovered ? '195px' : '0px',
@@ -489,11 +468,10 @@ export const PhysicsDisciplines = memo(() => {
                     pointerEvents: 'none',
                   }}
                 >
-                  {/* 3-Card Stack anchored snugly inside the 195px opened slot */}
+
                   {isHovered && <CardDeck cards={discipline.cards} />}
                 </div>
 
-                {/* Giant Serif Word: Clean flat colors, ZERO gloomy text-shadow */}
                 <h2
                   ref={(el) => (h2Refs.current[idx] = el)}
                   className="physics-word font-serif font-bold text-center tracking-normal transition-colors duration-200 select-none pointer-events-none"
@@ -506,7 +484,6 @@ export const PhysicsDisciplines = memo(() => {
                   {discipline.title}
                 </h2>
 
-                {/* Clean Learn More link below hovered word */}
                 <div
                   className="pt-4 transition-opacity duration-200 pointer-events-none"
                   style={{

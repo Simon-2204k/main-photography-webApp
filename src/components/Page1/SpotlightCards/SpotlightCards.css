@@ -15,8 +15,6 @@
   z-index: 25;
   contain: paint layout;
 }
-
-/* Header & HUD with High Z-Index */
 .spotlight-header {
   position: relative;
   display: flex;
@@ -60,8 +58,6 @@
   color: #92929e;
   letter-spacing: 0.02em;
 }
-
-/* Cards Physics Stage */
 .spotlight-stage {
   position: relative;
   width: 100%;
@@ -108,8 +104,6 @@
 .spotlight-card:active {
   cursor: grabbing;
 }
-
-/* Stepped Darkroom Card Top Tab */
 .spotlight-card-tab {
   display: flex;
   justify-content: space-between;
@@ -129,8 +123,6 @@
 .spotlight-card-tab-badge {
   color: #e5a956;
 }
-
-/* Image Container */
 .spotlight-card-img-wrapper {
   position: relative;
   flex: 1;
@@ -149,8 +141,6 @@
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
 }
-
-/* Gradient Overlay at Bottom of Card */
 .spotlight-card-overlay {
   position: absolute;
   inset: 0;
@@ -162,8 +152,6 @@
   );
   pointer-events: none;
 }
-
-/* Card Bottom Metadata */
 .spotlight-card-info {
   position: absolute;
   bottom: 0;
@@ -194,8 +182,6 @@
   color: #8c8c98;
   letter-spacing: 0.04em;
 }
-
-/* Responsive adjustments */
 @media (max-width: 900px) {
   .spotlight-card {
     width: 220px;

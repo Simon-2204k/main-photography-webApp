@@ -91,19 +91,15 @@ export const ArcStepShowcase = memo(function ArcStepShowcase() {
     if (!section) return;
 
     const totalSteps = STEP_DATA.length;
-    // Smooth scroll runway
+
     const scrollRunway = totalSteps * 850;
-    
-    // Timeline segmentation:
-    // 0.00 to 0.80: 11 cards sequential progression
-    // 0.80 to 0.87: Step 11 and Card 10 completely exit offscreen
-    // 0.88 to 1.00: Outro Manifesto sequentially rolls up in series (clean, no overlap)
+
     const phase1Duration = 0.80;
     const initialHold = 0.05;
     const transitionDuration = (phase1Duration - initialHold) / (totalSteps - 1);
 
     const ctx = gsap.context(() => {
-      // 1. Initial positions: Card 0 is centered at (0, 0, 0); all others far offscreen right (400%)
+
       cardRefs.current.forEach((card, index) => {
         if (!card) return;
         card.style.zIndex = 10 + index;
@@ -148,13 +144,11 @@ export const ArcStepShowcase = memo(function ArcStepShowcase() {
         }
       });
 
-      // 2. Sequential Right-to-Left Convex Trajectories (Steps 1 through 11)
       for (let k = 0; k < totalSteps - 1; k++) {
         const transitionStart = initialHold + k * transitionDuration;
         const outgoingCard = cardRefs.current[k];
         const incomingCard = cardRefs.current[k + 1];
 
-        // Outgoing card glides down-left far offscreen past left edge (-400%)
         if (outgoingCard) {
           tl.to(
             outgoingCard,
@@ -171,7 +165,6 @@ export const ArcStepShowcase = memo(function ArcStepShowcase() {
           );
         }
 
-        // Incoming card glides in from offscreen right (400%) to center (0%)
         if (incomingCard) {
           tl.fromTo(
             incomingCard,
@@ -196,7 +189,6 @@ export const ArcStepShowcase = memo(function ArcStepShowcase() {
         }
       }
 
-      // 3. Number roll animation (bottom-to-top masked transition under STEP)
       if (numberRollRef.current) {
         tl.to(
           numberRollRef.current,
@@ -209,10 +201,6 @@ export const ArcStepShowcase = memo(function ArcStepShowcase() {
         );
       }
 
-      // =========================================================================
-      // 4. STEP 11 COMPLETE EXIT (Phase 2: 0.80 to 0.87)
-      // Step 11 card and STEP 11 text completely exit before Outro starts
-      // =========================================================================
       const lastCard = cardRefs.current[totalSteps - 1];
       if (lastCard) {
         tl.to(
@@ -253,10 +241,6 @@ export const ArcStepShowcase = memo(function ArcStepShowcase() {
         );
       }
 
-      // =========================================================================
-      // 5. SEQUENTIAL OUTRO MANIFESTO REVEAL (Phase 3: 0.88 to 1.00)
-      // Only starts AFTER Step 11 is completely offscreen! Continuous sequence.
-      // =========================================================================
       if (outroRef.current) {
         tl.set(
           outroRef.current,
@@ -268,7 +252,6 @@ export const ArcStepShowcase = memo(function ArcStepShowcase() {
         );
       }
 
-      // Eyebrow roll-up
       if (outroEyebrowRef.current) {
         tl.fromTo(
           outroEyebrowRef.current,
@@ -282,7 +265,6 @@ export const ArcStepShowcase = memo(function ArcStepShowcase() {
         );
       }
 
-      // Headline Line (accent cyan)
       if (outroLinesRef.current[0]) {
         tl.fromTo(
           outroLinesRef.current[0],
@@ -296,7 +278,6 @@ export const ArcStepShowcase = memo(function ArcStepShowcase() {
         );
       }
 
-      // Meta Tag
       if (outroMetaRef.current) {
         tl.fromTo(
           outroMetaRef.current,
@@ -316,11 +297,10 @@ export const ArcStepShowcase = memo(function ArcStepShowcase() {
 
   return (
     <section ref={sectionRef} className="arc-step-section" id="arc-step-section">
-      {/* Background Soft Lighting & Analogue Vignette */}
+
       <div className="arc-vignette-layer" />
       <div className="arc-radial-spotlight" />
 
-      {/* Giant Kinetic Step Background Typography - Stacked on Left */}
       <div className="arc-huge-typography">
         <div className="step-label-row" ref={stepLabelRef}>
           {'STEP'.split('').map((char, i) => (
@@ -330,7 +310,6 @@ export const ArcStepShowcase = memo(function ArcStepShowcase() {
           ))}
         </div>
 
-        {/* Masked Vertical Odometer for Number Roll */}
         <div className="step-number-mask-box">
           <div className="step-number-roll" ref={numberRollRef}>
             {STEP_DATA.map((item) => (
@@ -342,7 +321,6 @@ export const ArcStepShowcase = memo(function ArcStepShowcase() {
         </div>
       </div>
 
-      {/* Semicircle Arc Curved Cards Track */}
       <div className="arc-track-viewport">
         {STEP_DATA.map((item, idx) => (
           <div
@@ -364,11 +342,10 @@ export const ArcStepShowcase = memo(function ArcStepShowcase() {
         ))}
       </div>
 
-      {/* Outro Photography Statement (Sequenced cleanly after Step 11 completely leaves) */}
       <div ref={outroRef} className="arc-outro-statement-container">
         <div className="outro-mask-line outro-eyebrow-line">
           <span ref={outroEyebrowRef} className="outro-eyebrow-text">
-            ✦ SIMON PHOTOGRAPHY ARCHIVE // MANIFESTO
+            ✦ SIMON PHOTOGRAPHY ARCHIVE
           </span>
         </div>
 
