@@ -1,9 +1,27 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 import './Footer.css';
 
 const FooterComponent = ({ onOpenMenu }) => {
   const [isInverted, setIsInverted] = useState(false);
   const footerRef = useRef(null);
+
+  useLandoTextReveal(
+    footerRef,
+    [
+      '.simon-wordmark',
+      '.simon-footer-statement p',
+      '.simon-footer-contact a',
+      '.simon-footer-socials a',
+      '.simon-copyright',
+    ],
+    {
+      theme: 'light',
+      start: 'top 80%',
+      duration: 0.4,
+      stagger: 0.04,
+    }
+  );
 
   useEffect(() => {
     const handleScroll = () => {

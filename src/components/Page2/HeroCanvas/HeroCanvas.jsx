@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,6 +11,11 @@ export const HeroCanvasComponent = () => {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const imagesRef = useRef([]);
+
+  useLandoTextReveal(containerRef, '.hero-tag', {
+    theme: 'dark',
+    start: 'top 80%',
+  });
 
   // Helper to format frame file path
   const getFramePath = (index) => {
@@ -182,13 +188,13 @@ export const HeroCanvasComponent = () => {
       {/* Floating Subtitle Tags: Cleanly Positioned (MODERN / HIGH QUALITY / FRESH) */}
       <div className="absolute inset-0 z-20 pointer-events-none flex flex-col justify-center p-6 sm:p-12 lg:p-16">
         <div className="w-full flex items-center justify-between text-xs sm:text-sm font-medium tracking-widest text-white uppercase px-6 sm:px-12 mt-12 sm:mt-16">
-          <span className="select-none">
+          <span className="select-none hero-tag">
             modern
           </span>
-          <span className="select-none font-semibold">
+          <span className="select-none font-semibold hero-tag">
             high quality
           </span>
-          <span className="select-none">
+          <span className="select-none hero-tag">
             fresh
           </span>
         </div>

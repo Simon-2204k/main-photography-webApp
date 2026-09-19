@@ -26,12 +26,10 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
       return;
     }
 
-    // Eagerly pre-warm all 57 trail images into GPU memory
-    globalImageCache.preloadAll();
-
     const container = containerRef.current;
     if (!container) return;
     const parent = container.parentElement || container;
+    let isViewportVisible = false;
 
     const removeOldestImage = () => {
       if (trailQueueRef.current.length === 0) return;
@@ -212,9 +210,31 @@ export const CursorTrailComponent = ({ zIndex = 2 }) => {
       }, 100);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    // IntersectionObserver: Only attach mousemove when parent section is in viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isViewportVisible) {
+            isViewportVisible = true;
+            window.addEventListener('mousemove', handleMouseMove);
+          } else if (!entry.isIntersecting && isViewportVisible) {
+            isViewportVisible = false;
+            window.removeEventListener('mousemove', handleMouseMove);
+            // Reset state when leaving viewport
+            isInsideRef.current = false;
+            isMouseMovingRef.current = false;
+            stopHighSpeedIdleTimer();
+            if (moveStopTimeoutRef.current) clearTimeout(moveStopTimeoutRef.current);
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(parent);
 
     return () => {
+      observer.disconnect();
       window.removeEventListener('mousemove', handleMouseMove);
       stopHighSpeedIdleTimer();
       if (moveStopTimeoutRef.current) clearTimeout(moveStopTimeoutRef.current);

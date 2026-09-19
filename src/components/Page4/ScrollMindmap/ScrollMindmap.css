@@ -84,7 +84,8 @@
   text-transform: uppercase;
   letter-spacing: -0.03em;
   color: #ffffff;
-  margin: 0;
+  max-width: 12ch;
+  margin: 0 auto;
 }
 
 /* 10 Mindmap Nodes - Sleek Darkroom Monolith Badges (Single-line, Zero wrap, Monochromatic) */

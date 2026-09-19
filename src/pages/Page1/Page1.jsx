@@ -78,21 +78,26 @@ export const Page1Component = ({ onOpenMenu }) => {
       // When scrollY > spacerHeight + 250, ZERO state updates occur, eliminating all scroll re-renders across Sections 2-10
     };
 
+    gsap.registerPlugin(ScrollTrigger);
+    lenis.on('scroll', ScrollTrigger.update);
     lenis.on('scroll', handleScroll);
-    // Native window scroll listener for mobile/tablet touch swipe scrolling
-    window.addEventListener('scroll', handleScroll, { passive: true });
     // Initialize synchronously on mount / reload to prevent rotation freeze
     handleScroll();
+
+    // Refresh ScrollTrigger once DOM layout and fonts settle
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 250);
 
     const updateLenis = (time) => {
       lenis.raf(time * 1000);
     };
     gsap.ticker.add(updateLenis);
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(500, 33);
 
     return () => {
+      clearTimeout(refreshTimer);
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', handleScroll);
       gsap.ticker.remove(updateLenis);
       lenis.destroy();
     };

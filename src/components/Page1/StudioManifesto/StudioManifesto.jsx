@@ -1,10 +1,21 @@
-import React, { memo } from 'react';
+import React, { useRef, memo } from 'react';
 import { CursorTrail } from '../CursorTrail/CursorTrail';
+import { useSplitTextLines } from '../../../utils/useSplitTextLines';
 
 const StudioManifestoComponent = () => {
+  const sectionRef = useRef(null);
+
+  useSplitTextLines(sectionRef, ['.manifesto-tagline', '.manifesto-paragraph'], {
+    type: 'lines',
+    stagger: 0.085,
+    start: 'top 85%',
+    duration: 0.85,
+  });
+
   return (
     <section
       id="manifesto-section"
+      ref={sectionRef}
       style={{
         width: '100%',
         backgroundColor: '#000000',

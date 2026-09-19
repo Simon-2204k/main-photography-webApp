@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,6 +10,11 @@ const HERO_MARQUEE_TEXT = "where light, shadows, and moments become stories with
 export const ThisIsESEComponent = () => {
   const sectionRef = useRef(null);
   const contentRef = useRef(null);
+
+  useLandoTextReveal(sectionRef, ['.ese-headline-tag', '.ese-main-heading span'], {
+    theme: 'dark',
+    start: 'top 80%',
+  });
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -86,13 +92,13 @@ export const ThisIsESEComponent = () => {
             {/* Monospace Eyebrow Tag */}
             <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
               <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse inline-block" />
-              <span className="text-[11px] sm:text-sm font-mono uppercase tracking-[0.2em] sm:tracking-[0.25em] text-neutral-300 font-semibold">
+              <span className="text-[11px] sm:text-sm font-mono uppercase tracking-[0.2em] sm:tracking-[0.25em] text-neutral-300 font-semibold ese-headline-tag">
                 ✦ SIMON PHOTOGRAPHY ARCHIVE
               </span>
             </div>
 
             {/* Stacked Headline */}
-            <h2 className="font-sans font-black text-3xl sm:text-5xl lg:text-[52px] xl:text-[64px] leading-[0.95] tracking-tighter text-white uppercase mb-6 sm:mb-8">
+            <h2 className="font-sans font-black text-3xl sm:text-5xl lg:text-[52px] xl:text-[64px] leading-[0.95] tracking-tighter text-white uppercase mb-6 sm:mb-8 ese-main-heading">
               <span className="block font-black tracking-tight text-white">MASTER OF</span>
               <span className="block font-black tracking-tight text-white">LIGHT &amp;</span>
               <span className="block font-serif font-normal italic tracking-normal text-white text-4xl sm:text-6xl lg:text-[58px] xl:text-[70px] capitalize mt-1">

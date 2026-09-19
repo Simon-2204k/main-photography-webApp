@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, memo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -94,6 +95,12 @@ export const LaptopFoldingDeck = memo(() => {
   const [isMobile, setIsMobile] = useState(
     typeof window !== 'undefined' ? window.innerWidth < 768 : false
   );
+
+  useLandoTextReveal(sectionRef, '.laptop-headline', {
+    theme: 'light',
+    start: 'top 75%',
+    stagger: 0.04,
+  });
 
   useEffect(() => {
     const handleResize = () => {
@@ -210,6 +217,7 @@ export const LaptopFoldingDeck = memo(() => {
         }}
       >
         <h2
+          className="laptop-headline"
           style={{
             fontFamily: "'Inter', sans-serif",
             fontWeight: 800,

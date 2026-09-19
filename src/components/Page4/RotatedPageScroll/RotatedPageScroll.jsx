@@ -2,23 +2,65 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import CylindricalCarousel3D from './CylindricalCarousel3D';
+import CuratorsArtistsPage from './pages/CuratorsArtistsPage';
+import TheCardPage from './pages/TheCardPage';
+import CentralizePage from './pages/CentralizePage';
+import TestimonialsPage from './pages/TestimonialsPage';
+import ConnectoryPage from './pages/ConnectoryPage';
+import JoinUsPage from './pages/JoinUsPage';
 import './RotatedPageScroll.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const pagesData = [
-  // Page 2: Section background is Page 1 White (#FFFFFF), Card is Black (#000000)
-  { id: 'page-2', sectionBg: '#FFFFFF', cardBg: '#000000', zIndex: 20 },
-  // Page 3: Section background is Page 2 Black (#000000), Card is Dark Charcoal (#18181b)
-  { id: 'page-3', sectionBg: '#000000', cardBg: '#18181b', zIndex: 30 },
-  // Page 4: Section background is Page 3 Dark Charcoal (#18181b), Card is Medium Gray (#3f3f46)
-  { id: 'page-4', sectionBg: '#18181b', cardBg: '#3f3f46', zIndex: 40 },
-  // Page 5: Section background is Page 4 Medium Gray (#3f3f46), Card is Light Slate (#71717a)
-  { id: 'page-5', sectionBg: '#3f3f46', cardBg: '#71717a', zIndex: 50 },
-  // Page 6: Section background is Page 5 Light Slate (#71717a), Card is Zinc (#e4e4e7)
-  { id: 'page-6', sectionBg: '#71717a', cardBg: '#e4e4e7', zIndex: 60 },
-  // Page 7 (End One): Section background is Zinc (#e4e4e7), Card is Pure White (#FFFFFF)
-  { id: 'page-7', sectionBg: '#e4e4e7', cardBg: '#FFFFFF', zIndex: 70 },
+  // Page 2: Curators and Artists (Sage Green)
+  {
+    id: 'page-2',
+    sectionBg: '#000000',
+    cardBg: '#848c7c',
+    zIndex: 20,
+    component: CuratorsArtistsPage,
+  },
+  // Page 3: The Card (Dusty Rose)
+  {
+    id: 'page-3',
+    sectionBg: '#848c7c',
+    cardBg: '#b88890',
+    zIndex: 30,
+    component: TheCardPage,
+  },
+  // Page 4: Centralize (Sage Green)
+  {
+    id: 'page-4',
+    sectionBg: '#b88890',
+    cardBg: '#848c7c',
+    zIndex: 40,
+    component: CentralizePage,
+  },
+  // Page 5: Testimonials (Slate Blue)
+  {
+    id: 'page-5',
+    sectionBg: '#848c7c',
+    cardBg: '#788c9e',
+    zIndex: 50,
+    component: TestimonialsPage,
+  },
+  // Page 6: The Connectory (Sage Green)
+  {
+    id: 'page-6',
+    sectionBg: '#788c9e',
+    cardBg: '#848c7c',
+    zIndex: 60,
+    component: ConnectoryPage,
+  },
+  // Page 7: Join Us (Vibrant Orange)
+  {
+    id: 'page-7',
+    sectionBg: '#848c7c',
+    cardBg: '#f25822',
+    zIndex: 70,
+    component: JoinUsPage,
+  },
 ];
 
 function HeroPageSection() {
@@ -44,7 +86,7 @@ function HeroPageSection() {
   );
 }
 
-function RotatedPageSection({ id, sectionBg, cardBg, zIndex = 20 }) {
+function RotatedPageSection({ id, sectionBg, cardBg, zIndex = 20, component: Component }) {
   const containerRef = useRef(null);
   const pageRef = useRef(null);
 
@@ -102,13 +144,13 @@ function RotatedPageSection({ id, sectionBg, cardBg, zIndex = 20 }) {
       }}
       className="relative w-screen h-screen flex items-center justify-center overflow-visible perspective-container"
     >
-      {/* 100% Screen Height & Width Page - EMPTY Container pushed below viewport before scroll */}
+      {/* 100% Screen Height & Width Page with Mounted Component */}
       <div
         ref={pageRef}
         style={{ backgroundColor: cardBg }}
         className="relative w-full h-full text-white rounded-none shadow-none overflow-hidden preserve-3d flex items-center justify-center"
       >
-        {/* Completely EMPTY Page Container */}
+        {Component ? <Component /> : null}
       </div>
     </section>
   );
@@ -128,6 +170,7 @@ export default function Section2RotatedSuite() {
           sectionBg={page.sectionBg}
           cardBg={page.cardBg}
           zIndex={page.zIndex}
+          component={page.component}
         />
       ))}
     </div>

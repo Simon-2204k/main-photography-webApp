@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { X } from 'lucide-react';
 import { InfiniteCanvas } from './InfiniteCanvas';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 import './InfiniteDragCanvas.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -11,6 +12,11 @@ export const InfiniteDragCanvas = memo(function InfiniteDragCanvas() {
   const [isExpanded, setIsExpanded] = useState(false);
   const sectionRef = useRef(null);
   const closeBtnRef = useRef(null);
+
+  useLandoTextReveal(sectionRef, '.stamp-helper-prompt span:last-child', {
+    theme: 'dark',
+    start: 'top 80%',
+  });
 
   // Pin Section 5 with ScrollTrigger
   useEffect(() => {

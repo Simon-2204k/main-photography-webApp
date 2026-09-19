@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, memo } from 'react';
 import gsap from 'gsap';
 import { FEATURED_SERIES_DATA, SIDEBAR_NAV_LINKS } from '../../../data/page1/featuredSeriesData';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 import './FeaturedSeries.css';
 
 const FeaturedSeriesComponent = () => {
@@ -8,10 +9,21 @@ const FeaturedSeriesComponent = () => {
   const [activeItemId, setActiveItemId] = useState(null);
   const hoverCardRef = useRef(null);
   const sectionRef = useRef(null);
+  const asideRef = useRef(null);
   const isHoveredRef = useRef(false);
+
+  useLandoTextReveal(asideRef, ['.featured-nav-item', '.featured-title-line'], {
+    theme: 'dark',
+    start: 'top 80%',
+    duration: 0.4,
+    stagger: 0.04,
+  });
 
   const xTo = useRef(null);
   const yTo = useRef(null);
+
+  const cachedCellsRef = useRef([]); // { pageTop, halfHeight, id, tag }
+  const prevActiveIdRef = useRef(null);
 
   useEffect(() => {
     if (!hoverCardRef.current) return;
@@ -23,47 +35,80 @@ const FeaturedSeriesComponent = () => {
     xTo.current = gsap.quickTo(hoverCardRef.current, 'x', { duration: 0.35, ease: 'power3.out' });
     yTo.current = gsap.quickTo(hoverCardRef.current, 'y', { duration: 0.35, ease: 'power3.out' });
 
+    // Cache cell positions on mount and resize (NOT on every scroll frame)
+    const cacheCellPositions = () => {
+      if (window.innerWidth > 1024) return;
+      const section = sectionRef.current;
+      if (!section) return;
+      const scrollY = window.scrollY;
+      const cells = section.querySelectorAll('.featured-grid-cell:not(.featured-hide-mobile)');
+      cachedCellsRef.current = Array.from(cells).map((cell) => {
+        const rect = cell.getBoundingClientRect();
+        return {
+          pageTop: rect.top + scrollY,
+          halfHeight: rect.height / 2,
+          id: cell.getAttribute('data-id'),
+          tag: cell.getAttribute('data-tag'),
+        };
+      });
+    };
+
     // On mobile and tablet screens, activate whichever row crosses the center of the screen purely on scroll!
     const handleScroll = () => {
       if (window.innerWidth > 1024) return;
       const section = sectionRef.current;
       if (!section) return;
 
-      const rect = section.getBoundingClientRect();
+      const scrollY = window.scrollY;
       const centerY = window.innerHeight * 0.5;
+      const pageCenterY = scrollY + centerY;
+      const sectionRect = section.getBoundingClientRect();
 
-      if (rect.top <= centerY && rect.bottom >= centerY) {
-        const cells = section.querySelectorAll('.featured-grid-cell:not(.featured-hide-mobile)');
+      if (sectionRect.top <= centerY && sectionRect.bottom >= centerY) {
+        const cached = cachedCellsRef.current;
         let closestCell = null;
         let minDistance = Infinity;
 
-        cells.forEach((cell) => {
-          const cRect = cell.getBoundingClientRect();
-          const dist = Math.abs(cRect.top + cRect.height / 2 - centerY);
+        for (let i = 0; i < cached.length; i++) {
+          const c = cached[i];
+          const cellCenterY = c.pageTop + c.halfHeight;
+          const dist = Math.abs(cellCenterY - pageCenterY);
           if (dist < minDistance) {
             minDistance = dist;
-            closestCell = cell;
+            closestCell = c;
           }
-        });
+        }
 
         if (closestCell && minDistance < 50) {
-          const id = closestCell.getAttribute('data-id');
-          const tag = closestCell.getAttribute('data-tag');
-          if (id) setActiveItemId(id);
-          if (tag) setHoveredTag(tag);
+          if (closestCell.id !== prevActiveIdRef.current) {
+            prevActiveIdRef.current = closestCell.id;
+            if (closestCell.id) setActiveItemId(closestCell.id);
+            if (closestCell.tag) setHoveredTag(closestCell.tag);
+          }
           if (xTo.current && yTo.current) {
             xTo.current(window.innerWidth * 0.72);
             yTo.current(centerY);
           }
         }
-      } else if (rect.top > centerY || rect.bottom < centerY) {
-        setActiveItemId(null);
-        setHoveredTag(null);
+      } else if (sectionRect.top > centerY || sectionRect.bottom < centerY) {
+        if (prevActiveIdRef.current !== null) {
+          prevActiveIdRef.current = null;
+          setActiveItemId(null);
+          setHoveredTag(null);
+        }
       }
     };
 
+    // Initial cache after DOM settles
+    const initTimer = setTimeout(cacheCellPositions, 150);
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', cacheCellPositions, { passive: true });
+    return () => {
+      clearTimeout(initTimer);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', cacheCellPositions);
+    };
   }, []);
 
   const handleMouseMove = (e) => {
@@ -115,7 +160,7 @@ const FeaturedSeriesComponent = () => {
       {/* Main Content Area */}
       <div className="featured-series-main">
         {/* Left Sidebar */}
-        <aside className="featured-series-sidebar">
+        <aside ref={asideRef} className="featured-series-sidebar">
           <nav className="featured-nav-links">
             {SIDEBAR_NAV_LINKS.map((link, idx) => (
               <span 

@@ -1,0 +1,37 @@
+/* Lando Norris Text Cover Reveal Styles */
+.lando-line-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.lando-line {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  position: relative;
+}
+
+.lando-line-cover {
+  position: absolute;
+  inset: -1px -3px;
+  z-index: 10;
+  pointer-events: none;
+  transform-origin: left center;
+}
+
+/* Color 1: For Dark Backgrounds (White Text) — Crisp Solid White Cover */
+.lando-line-cover.dark,
+.lando-line-cover-dark {
+  background-color: #ffffff;
+}
+
+/* Color 2: For Light Backgrounds (Black Text, like Footer) — Solid Deep Black Cover */
+.lando-line-cover.light,
+.lando-line-cover-light {
+  background-color: #000000;
+}
+

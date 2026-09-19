@@ -58,25 +58,39 @@ class ImagePreloadCache {
     if (typeof window === 'undefined' || this.isPreloaded) return;
     this.isPreloaded = true;
 
-    // 1. Eagerly preload and GPU-decode all 57 cursor trail WebPs immediately
-    TRAIL_IMAGES.forEach((item) => {
+    // Phase 1 (Immediate): Only preload first 10 trail images for initial interaction
+    const immediateTrails = TRAIL_IMAGES.slice(0, 10);
+    immediateTrails.forEach((item) => {
       this.preload(item.url);
     });
 
-    // 2. Preload all 8 local menu GIFs
-    MENU_GIF_URLS.forEach((url) => {
-      this.preload(url);
-    });
-
-    // 3. Preload all Section 1-6 high-fidelity WebPs for 0ms hover & 60fps scroll
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(() => {
-        SECTION_WEBP_URLS.forEach((url) => this.preload(url));
+    // Phase 2 (Idle): Preload remaining 47 trail images + 8 menu GIFs when browser is idle
+    const deferPhase2 = () => {
+      TRAIL_IMAGES.slice(10).forEach((item) => {
+        this.preload(item.url);
       });
+      MENU_GIF_URLS.forEach((url) => {
+        this.preload(url);
+      });
+    };
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(deferPhase2, { timeout: 3000 });
     } else {
+      setTimeout(deferPhase2, 1500);
+    }
+
+    // Phase 3 (Late): Preload section WebPs after 5 seconds when page is settled
+    const deferPhase3 = () => {
+      SECTION_WEBP_URLS.forEach((url) => this.preload(url));
+    };
+
+    if ('requestIdleCallback' in window) {
       setTimeout(() => {
-        SECTION_WEBP_URLS.forEach((url) => this.preload(url));
-      }, 300);
+        window.requestIdleCallback(deferPhase3, { timeout: 8000 });
+      }, 5000);
+    } else {
+      setTimeout(deferPhase3, 5000);
     }
   }
 

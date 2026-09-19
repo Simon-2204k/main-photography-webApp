@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { CursorTrail } from '../../Page1/CursorTrail/CursorTrail';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 import './ParallaxPages.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -28,10 +29,18 @@ export default function ParallaxPages() {
   const containerRef = useRef(null);
   const carouselRef = useRef(null);
   const timelineBarRef = useRef(null);
+  const statementRef = useRef(null);
   const progressBarRefs = useRef([]);
   const marqueeXRef = useRef(0);
   const scrollDirRef = useRef(1); // 1 = Scroll Down (Left), -1 = Scroll Up (Right)
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
+  useLandoTextReveal(statementRef, ['.capability-quote', '.capability-title'], {
+    theme: 'dark',
+    start: 'top 80%',
+    duration: 0.4,
+    stagger: 0.04,
+  });
 
   const activeIndexRef = useRef(0);
   const previousProgressRef = useRef(0);
@@ -478,21 +487,21 @@ export default function ParallaxPages() {
         CURSOR TRAIL LAYER IS DIRECTLY OVER THE TEXT (Z-INDEX 40)
         ========================================================================
       */}
-      <div className="relative w-full bg-[#000000] text-white py-16 sm:py-24 lg:py-36 px-7 sm:px-12 lg:px-20 z-40 border-none overflow-hidden select-none">
+      <div ref={statementRef} className="relative w-full bg-[#000000] text-white py-16 sm:py-24 lg:py-36 px-7 sm:px-12 lg:px-20 z-40 border-none overflow-hidden select-none">
         {/* Photo Cursor Trail Layer: SPAWNS OVER THE TEXT (zIndex 40) */}
         <CursorTrail zIndex={40} />
 
         {/* Text Content: Under cursor trail at relative z-10 */}
         <div className="max-w-6xl mx-auto relative z-10 pointer-events-auto">
           {/* Main High-Fashion Editorial Serif Statement (Image 4 Style) */}
-          <h2 className="font-serif font-normal text-xl sm:text-3xl lg:text-[44px] xl:text-[50px] leading-[1.38] tracking-tight text-white/95 mb-10 sm:mb-16 select-none">
+          <h2 className="capability-quote font-serif font-normal text-xl sm:text-3xl lg:text-[44px] xl:text-[50px] leading-[1.38] tracking-tight text-white/95 mb-10 sm:mb-16 select-none">
             Our approach combines analogue discipline with a deep understanding of cinematic light, allowing us to create imagery that not only captures attention, but commands an enduring emotional resonance.
           </h2>
 
           {/* 2-Column Capability / Discipline Rows (Image 4 Style) */}
           <div className="border-t border-white/15 divide-y divide-white/15 text-left font-sans">
             <div className="py-6 sm:py-9 grid grid-cols-1 md:grid-cols-12 gap-2.5 sm:gap-6 items-start">
-              <div className="md:col-span-4 font-sans font-semibold text-base sm:text-xl text-white">
+              <div className="capability-title md:col-span-4 font-sans font-semibold text-base sm:text-xl text-white">
                 Strategic Creative Direction
               </div>
               <div className="md:col-span-8 font-sans font-normal text-xs sm:text-base text-neutral-300 leading-relaxed">
@@ -501,7 +510,7 @@ export default function ParallaxPages() {
             </div>
 
             <div className="py-6 sm:py-9 grid grid-cols-1 md:grid-cols-12 gap-2.5 sm:gap-6 items-start">
-              <div className="md:col-span-4 font-sans font-semibold text-base sm:text-xl text-white">
+              <div className="capability-title md:col-span-4 font-sans font-semibold text-base sm:text-xl text-white">
                 Medium Format &amp; Analogue Craft
               </div>
               <div className="md:col-span-8 font-sans font-normal text-xs sm:text-base text-neutral-300 leading-relaxed">
@@ -510,7 +519,7 @@ export default function ParallaxPages() {
             </div>
 
             <div className="py-6 sm:py-9 grid grid-cols-1 md:grid-cols-12 gap-2.5 sm:gap-6 items-start">
-              <div className="md:col-span-4 font-sans font-semibold text-base sm:text-xl text-white">
+              <div className="capability-title md:col-span-4 font-sans font-semibold text-base sm:text-xl text-white">
                 Exhibition &amp; Fine Art Printmaking
               </div>
               <div className="md:col-span-8 font-sans font-normal text-xs sm:text-base text-neutral-300 leading-relaxed">

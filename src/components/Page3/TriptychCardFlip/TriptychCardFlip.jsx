@@ -2,6 +2,7 @@ import React, { useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Camera, Aperture, Sun, Droplets, Layers } from 'lucide-react';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 import './TriptychCardFlip.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -72,8 +73,12 @@ const CARD_DATA = [
 export const TriptychCardFlip = memo(function TriptychCardFlip() {
   const sectionRef = useRef(null);
   const containerRef = useRef(null);
+  const headerRef = useRef(null);
   const cardInnerRefs = useRef([]);
   const cardOuterRefs = useRef([]);
+
+  useLandoTextReveal(headerRef, '.triptych-headline', { theme: 'dark', start: 'top 80%' });
+
   const [isCompact, setIsCompact] = React.useState(
     () => typeof window !== 'undefined' && window.innerWidth <= 1024
   );
@@ -182,7 +187,7 @@ export const TriptychCardFlip = memo(function TriptychCardFlip() {
   return (
     <section ref={sectionRef} className="triptych-flip-section" id="triptych-flip-section">
       {/* Photography Editorial Headline with generous margin */}
-      <div className="triptych-header">
+      <div ref={headerRef} className="triptych-header">
         <h2 className="triptych-headline">
           Curated Frames: <em>From Vision</em> to Print
         </h2>

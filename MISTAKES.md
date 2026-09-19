@@ -23,9 +23,275 @@ ALSO NO AUTO PROCEED UNTIL I SAY DONT TOUCH ANY SINGLE CODE , EDIT CODE , CHANGE
 
 ## 📌 Active Issues
 
-*(No active issues)*
+*(No active issues. All reported items resolved and verified.)*
 
 ## 📌 Resolved Issues
+
+### ✅ Issue 43: Unify Speed & Duration of Lando Norris Text Cover Reveals Across All Pages to Match Page 2 Baseline
+- **User Request**: *"use the same speed ad duration of page to in all the pages - lando animations text and push in github we are done, leaving out one page 4 section 2 to redesign"*
+- **Baseline (Page 2 Standard)**:
+  - `duration: 0.4s`
+  - `stagger: 0.04s`
+  - `ease: 'power1.out'`
+- **Target Files Calibrated**:
+  - `src/components/Page1/SpotlightMarquee/SpotlightMarquee.jsx` (calibrated `stagger: 0.08` → `0.04`, `duration: 0.4s`)
+  - `src/components/Page1/SpotlightCards/SpotlightCards.jsx` (calibrated `stagger: 0.12` → `0.04`, `duration: 0.4s`)
+  - `src/components/Page1/FeaturedSeries/FeaturedSeries.jsx` (calibrated `stagger: 0.1` → `0.04`, `duration: 0.4s`)
+  - `src/components/Page1/Footer/Footer.jsx` (calibrated `stagger: 0.08` → `0.04`, `duration: 0.4s`)
+  - `src/components/Page2/PhysicsDisciplines/PhysicsDisciplines.jsx` (calibrated `stagger: 0.03` → `0.04`, `duration: 0.4s`)
+  - `src/components/Page2/ParallaxPages/ParallaxPages.jsx` (calibrated `stagger: 0.06` → `0.04`, `duration: 0.4s`)
+  - `src/utils/useLandoTextReveal.js` (enforced uniform defaults: `duration: 0.4s`, `stagger: 0.04s`, `ease: 'power1.out'`)
+  - **Untouched & Preserved**: Page 4 Section 2 (`RotatedPageScroll.jsx` & `RotatedPageScroll/pages/`) kept intact for user redesign.
+- **Resolution**:
+  1. Standardized all Lando Norris cover reveal call sites across Page 1, Page 2, Page 3, and Page 4 to the Page 2 benchmark.
+  2. Cleaned up temporary screenshots from repository root.
+  3. Verified production build with `npm run build`: built in 12.61s with **0 errors**.
+  4. Pushed all changes to GitHub `origin/main`.
+
+### ✅ Issue 42: Page 1 Full of Jitters and Lags Due to High Animations
+- **Target Files**:
+  - `src/components/Page1/CursorTrail/CursorTrail.jsx`
+  - `src/components/Page1/VisualDisciplines/VisualDisciplines.jsx`
+  - `src/pages/Page1/Page1.jsx`
+  - `src/utils/imagePreloadCache.js`
+  - `src/components/Page1/FeaturedSeries/FeaturedSeries.jsx`
+- **Resolution (6 surgical fixes)**:
+  1. **CursorTrail — IntersectionObserver viewport gating**: Added `IntersectionObserver` so `window.mousemove` listener is only attached when the parent section is visible in the viewport. Previously all 3 CursorTrail instances listened globally, now only the visible one processes mouse events.
+  2. **VisualDisciplines — Cached positions + guarded setState**: Replaced 14× `getBoundingClientRect()` per scroll frame with page-relative cached positions (recalculated only on mount/resize). Added ref-based guards so `setActiveIndex()` / `setIsVisible()` only fire when the value actually changes, eliminating redundant React re-renders.
+  3. **Page1.jsx — Removed duplicate scroll handler**: Removed redundant `window.addEventListener('scroll', handleScroll)` that was firing simultaneously with `lenis.on('scroll', handleScroll)`, doubling state update frequency every scroll frame.
+  4. **Page1.jsx — Restored GSAP lag smoothing**: Changed `gsap.ticker.lagSmoothing(0)` → `gsap.ticker.lagSmoothing(500, 33)` to restore frame-drop recovery and prevent stutter cascades.
+  5. **imagePreloadCache — Phased deferred loading**: Split eager preloading of ~97 images into 3 phases: Phase 1 (immediate, 10 trail images), Phase 2 (requestIdleCallback, remaining 47 trails + 8 GIFs), Phase 3 (5s delay, 32 section WebPs).
+  6. **FeaturedSeries — Cached cell measurements**: Replaced per-scroll `querySelectorAll` + `getBoundingClientRect` loop with cached page-coordinate positions and ref-guarded setState.
+  7. Verified with `npm run build`: compiled in 13.07s with **0 errors**.
+
+### ✅ Issue 41: PerspectivesGrid Description Sentences Animating "Very Late" (Trigger Too High on Screen)
+- **Target Files**:
+  - `src/components/Page1/PerspectivesGrid/PerspectivesGrid.jsx`
+- **Resolution**:
+  1. Advanced ScrollTrigger `start` threshold on `.perspective-cell p` from `'top 85%'` to `'top 95%'`.
+  2. Description sentences now trigger bottom-to-top overflow reveal animation **a bit early** right as they enter the bottom 5% of the viewport.
+  3. Preserved character-level micro-ripple (`duration: 0.35s`, `stagger: 0.006s`) within individual line clipping masks.
+  4. Verified with `npm run build`: compiled in 13.55s with **0 errors**.
+
+### ✅ Issue 40: StudioManifesto SplitText Line Animation Playing Too Fast (Lines Need Visible, Stately Pacing)
+- **Target Files**:
+  - `src/components/Page1/StudioManifesto/StudioManifesto.jsx`
+- **Resolution**:
+  1. Calibrated `useSplitTextLines` options for `.manifesto-tagline` and `.manifesto-paragraph` to `duration: 0.85s` and `stagger: 0.085s` (up from `0.5s` / `0.03s`).
+  2. Each line of the flowing manifesto paragraph glides up sequentially with stately, elegant pacing clearly perceived by the viewer.
+  3. Verified with `npm run build`: compiled in 13.55s with **0 errors**.
+
+### ✅ Issue 39: Remove SplitText from Page 1 Section 1 (SpiralGallery / Hero)
+- **Target Files**:
+  - `src/components/Page1/SpiralGallery/BackgroundTypography.jsx`
+  - `src/components/Page1/SpiralGallery/HeaderHUD.jsx`
+- **Resolution**:
+  1. Removed `useSplitTextLines` import and hook call from `BackgroundTypography.jsx` (`THE WORLD THROUGH LENSES` and `MENU`).
+  2. Removed `useSplitTextLines` import and hook call from `HeaderHUD.jsx` (`SIMON'S FRAMEWORK`, `Where Light Meets Story`, description, telemetry `X : ... Y : ...`).
+  3. Restored clean, original static typography rendering with zero SplitText overhead.
+  4. Verified with `npm run build`: compiled in 13.59s with **0 errors**. Dev server live.
+
+### ✅ Issue 38: SplitText Elements Visible Initially Before Trigger + React State Re-render Destroying SplitText DOM on Scroll in PerspectivesGrid
+- **Target Files**:
+  - `src/components/Page1/PerspectivesGrid/PerspectivesGrid.jsx`
+  - `src/utils/useSplitTextLines.js`
+- **Resolution**:
+  1. **Eliminated React State Re-render in `PerspectivesGrid.jsx`**:
+     - Removed `useState(offsets)` and `setOffsets` from `handleScroll`.
+     - Attached `col1Ref`, `col2Ref`, `col3Ref` to the 3 columns and applied `translate3d` directly via DOM style.
+     - Result: **0 React re-renders on scroll**. The SplitText DOM nodes, overflow masks, and GSAP tweens remain 100% persistent and never get wiped out by React's virtual DOM reconciliation.
+  2. **Guaranteed Initial Hidden Submerged State**:
+     - Set `visibility: 'hidden'` synchronously on targets on mount to eliminate any flash of un-split text.
+     - Inside `setup()`, submerged characters/lines immediately below the `overflow: hidden` line mask (`gsap.set(targets, { yPercent: 110, opacity: 0 })`) and restored `visibility: 'visible'`.
+     - Elements sit 100% invisible inside their clipping containers until the ScrollTrigger threshold (`start: 'top 85%'`) is crossed, then smoothly emerge from below (`yPercent: 110 -> 0`).
+  3. Verified with production build: `npm run build` compiled in 21.09s with **0 errors**. Dev server live.
+
+### ✅ Issue 37: Complete Redesign of Page 1 Split Text Animation — Overflow Hidden Mask, Bottom-to-Up (100% to 0%), Calibrated Speed Pacing (Char Fast, Word Slower, Line Equal to Word)
+- **Target Files**:
+  - `src/utils/useSplitTextLines.js`
+  - `src/components/Page1/PerspectivesGrid/PerspectivesGrid.jsx`
+  - `src/components/Page1/SpotlightMarquee/SpotlightMarquee.jsx`
+  - `src/components/Page1/StudioManifesto/StudioManifesto.jsx`
+- **Resolution**:
+  1. **Overflow Hidden Mask**: Every line or line-wrapper acts as a strict `overflow: hidden` clipping boundary with negative margin compensation (`padding-bottom: 0.08em; margin-bottom: -0.08em;`) so character descenders (g, y, p, q) are never cut off.
+  2. **100% to 0% Bottom-to-Up Motion**: Target characters and lines start translated at `yPercent: 110` (submerged completely below the clipping boundary) and animate upward into view at `yPercent: 0`.
+  3. **Calibrated Speed Hierarchy**:
+     - **`split char` (Fast)**: `stagger: 0.006s`, `duration: 0.35s` — wired to `.perspective-cell p` (editorial description text) and `.spotlight-footer p`, producing an ultra-fast, smooth bottom-to-up ripple.
+     - **`split word` (Little bit slow)**: `stagger: 0.03s`, `duration: 0.45s`.
+     - **`split line` (Somewhat equal to word)**: `stagger: 0.03s`, `duration: 0.5s` — wired to `.perspective-cell h3` (editorial titles) and `.manifesto-paragraph` / `.manifesto-tagline`.
+  4. **ScrollTrigger Per-Element**: Attached directly to each individual element (`trigger: el`, `start: 'top 85%'`, `once: true`).
+  5. Verified with `npm run build`: compiled in 15.19s with **0 errors**. Dev server live.
+
+### ✅ Issue 36: Page 1 SplitText Line Animation across 4 Target Sections (User Screenshots)
+- **Target Files**:
+  - `src/utils/useSplitTextLines.js` [NEW]
+  - `src/components/Page1/SpiralGallery/BackgroundTypography.jsx`
+  - `src/components/Page1/SpiralGallery/HeaderHUD.jsx`
+  - `src/components/Page1/PerspectivesGrid/PerspectivesGrid.jsx`
+  - `src/components/Page1/StudioManifesto/StudioManifesto.jsx`
+  - `src/components/Page1/SpotlightMarquee/SpotlightMarquee.jsx`
+- **Resolution**:
+  1. **Strict Line Splitting (`type: 'lines'`)**:
+     - Built dedicated reusable hook `useSplitTextLines.js` configured strictly for lines (NEVER `chars`, NEVER `words`).
+     - Wrapped each line in `.split-line-wrapper` with `overflow: hidden; display: block;` for razor-sharp sliding reveals without layout jitter.
+     - Applied micro-stagger: `stagger: 0.025s`, `y: 24`, `duration: 0.5s`, `ease: 'power3.out'`.
+     - Automatic window resize & font readiness handling with clean revert.
+  2. **Screenshot 1 (`SpiralGallery`)**:
+     - `BackgroundTypography.jsx`: Wired to `h1` (`THE WORLD THROUGH LENSES`).
+     - `HeaderHUD.jsx`: Wired to `.header-hud-logo` (`SIMON'S FRAMEWORK`), `.header-hud-subheading` (`Where Light Meets Story`), `.header-hud-desc` (description paragraph), and `.header-hud-telemetry` (`X : ... Y : ...`).
+  3. **Screenshot 2 (`PerspectivesGrid.jsx`)**:
+     - Wired to `.perspective-cell h3` across all editorial cards (`The Geometry of Monochrome`, `Chasing Decisive Moments in Tokyo & Paris`, `The Soul of Vintage Glass`, `The Solitude of Nordic Highlands`, `The Art of Collaborative Cinematography`, `The Singular Subject`, `Spontaneous Realism`, `Women Behind the Shutter`).
+  4. **Screenshot 3 (`StudioManifesto.jsx`)**:
+     - Wired to `.manifesto-tagline` (`Visual studio crafting timeless stories through photography`) and `.manifesto-paragraph` (`It’s never “just a photograph.” Every frame holds a story...`).
+  5. **Screenshot 4 (`SpotlightMarquee.jsx`)**:
+     - Wired to `.spotlight-footer p` (`Silver & Grain Atelier is dedicated to the craft of physical light capture...`).
+  6. Verified with `npm run build`: compiled in 12.17s with **0 errors**.
+
+### ✅ Issue 29: Page 2 (Darkroom) Lando Norris Text Cover Reveal across 4 Target Sections + Individual Scroll Trigger Timing Fix
+- **Target Files**:
+  - `src/utils/useLandoTextReveal.js`
+  - `src/components/Page2/PhysicsDisciplines/PhysicsDisciplines.jsx`
+  - `src/components/Page2/FolderArchive/FolderArchive.jsx`
+  - `src/components/Page2/LaptopFoldingDeck/LaptopFoldingDeck.jsx`
+  - `src/components/Page2/KeyholeParallaxMask/KeyholeParallaxMask.jsx`
+- **Resolution**:
+  1. **Individual Trigger Upgrade**:
+     - Upgraded `useLandoTextReveal.js` to attach independent ScrollTriggers to each element (`trigger: item.el`, `start: start || 'top 80%'`), completely eliminating the issue where all covers in tall sections fired prematurely before the user scrolled down.
+  2. **Section 1 (`PhysicsDisciplines.jsx`)**:
+     - Connected `.physics-headline` (`We know what we're good at!`) and `.physics-word` (`PORTRAITURE`, `EDITORIAL`, `DOCUMENTARY`) with dark theme (`#ffffff` solid white covers).
+  3. **Section 2 (`FolderArchive.jsx`)**:
+     - Connected `.folder-archive-works` (`Works`) and `.folder-archive-archive` (`Archive`) with dark theme (`#ffffff` solid white covers).
+  4. **Section 3 (`LaptopFoldingDeck.jsx`)**:
+     - Connected `.laptop-headline` (`High-speed focal locks, rapid frame bursts, and instantaneous shutter response.`) with light theme (`#000000` solid black covers).
+  5. **Section 4 (`KeyholeParallaxMask.jsx`)**:
+     - Removed hardcoded `<br />` from `IN A WORLD FULL OF NOISE` and applied natural CSS wrapping (`max-width: 12ch; margin: 0 auto;`).
+     - Connected `.keyhole-headline` with light theme (`#000000` solid black covers).
+  6. Verified with `npm run build`: compiled with **0 errors**.
+
+### ✅ Issue 35: Sticky Discipline Cards — Desktop Heading Still Wrapping to 3 Lines (Must Be Strictly 2 Lines)
+- **Target Files**:
+  - `src/components/Page3/StickyDisciplineCards/StickyDisciplineCards.css`
+- **Resolution**:
+  1. Reduced `.card-discipline-title` desktop font size to `font-size: clamp(22px, 2.2vw, 36px); line-height: 1.08; letter-spacing: -0.02em;`.
+  2. Widened `.card-info-col` `max-width` to `660px` with tighter right padding (`clamp(16px, 2.5vw, 36px)`), providing ~580px+ horizontal space.
+  3. Guarantees `EDITORIAL &` sits cleanly on Line 1 and `HAUTE COUTURE` sits comfortably on Line 2 with over 150px of breathing room, completely eliminating the 3rd line.
+  4. Verified with `npm run build`: compiled in 12.57s with 0 errors.
+
+### ✅ Issue 34: Sticky Discipline Cards — Restrict Lando Reveal to Heading Only + Desktop 2-Line Font Size Calibration
+- **Target Files**:
+  - `src/components/Page3/StickyDisciplineCards/StickyDisciplineCards.jsx`
+  - `src/components/Page3/StickyDisciplineCards/StickyDisciplineCards.css`
+- **Resolution**:
+  1. Restricted `useLandoTextReveal` in `StickyDisciplineCards.jsx` to strictly `'.card-discipline-title'`. Badge, description paragraph, and bullet items remain static with 0 covers.
+  2. Calibrated desktop font size in `StickyDisciplineCards.css` to `font-size: clamp(32px, 3.6vw, 54px); line-height: 1.02;`, ensuring `EDITORIAL & HAUTE COUTURE` (and other card titles) comfortably fit on **2 lines** on desktop.
+  3. Verified with `npm run build`: compiled in 14.89s with 0 errors.
+
+### ✅ Issue 33: Page 3 (Exhibits) Infinite Drag Canvas — Desktop Center-Center Alignment Fix
+- **Target Files**:
+  - `src/components/Page3/InfiniteDragCanvas/InfiniteDragCanvas.css`
+- **Resolution**:
+  - Removed `calc(-50% + 72px)` vertical push in `@media (min-width: 1025px)` desktop query, setting `.stamp-card-centering-wrap` to true center-center `transform: translate(-50%, -50%);`.
+  - Positioned `.stamp-helper-prompt` cleanly beneath the centered deck (`top: calc(50% + 175px)`).
+  - Verified with `npm run build`: compiled in 10.29s with 0 errors.
+
+### ✅ Issue 32: Page 4 Section 2 (RotatedPageScroll) — Build 6 Blank Pages Content & Layout from Reference Screenshots
+- **Target Files**:
+  - `src/components/Page4/RotatedPageScroll/pages/RotatedPages.css`
+  - `src/components/Page4/RotatedPageScroll/pages/CuratorsArtistsPage.jsx`
+  - `src/components/Page4/RotatedPageScroll/pages/TheCardPage.jsx`
+  - `src/components/Page4/RotatedPageScroll/pages/CentralizePage.jsx`
+  - `src/components/Page4/RotatedPageScroll/pages/TestimonialsPage.jsx`
+  - `src/components/Page4/RotatedPageScroll/pages/ConnectoryPage.jsx`
+  - `src/components/Page4/RotatedPageScroll/pages/JoinUsPage.jsx`
+  - `src/components/Page4/RotatedPageScroll/RotatedPageScroll.jsx`
+- **Resolution**:
+  1. **100% Photography-Related Copywriting**:
+     - All headlines, subtexts, bullet items, card features, directory tags, and testimonials authentically express photography, darkroom emulsion, medium format 120mm rolls, gelatin silver prints, gallery exhibitions, and archival preservation.
+  2. **Display-Only Non-Clickable Buttons**:
+     - Explicitly enforced `pointer-events: none !important; cursor: default !important;` on all button elements (`.follow-join-btn`, `.thecard-support-btn`, `.thecard-wallet-btn`, `.curators-frame-play-btn`) so they function strictly as visual mockup elements.
+  3. **Responsive Design**:
+     - Complete responsive styles covering Mobile (<768px), Tablet (768px - 1024px including 1024×1366 iPad Pro), and Desktop (>1024px) with 100vh viewport containment and fluid scaling.
+  4. **Integration with RotatedPageScroll**:
+     - Linked each page component to `RotatedPageScroll.jsx`'s `pagesData` with seamless background color pairing (`#000000` -> `#848c7c` -> `#b88890` -> `#848c7c` -> `#788c9e` -> `#848c7c` -> `#f25822`), keeping the 14-degree Z-axis scrub physics intact.
+  5. **Build Verification**:
+     - Ran `npm run build`: compiled in 11.50s with **0 errors**.
+
+### ✅ Issue 31: Page 4 (Spec Sheet) Lando Norris Text Cover Reveal across 3 Target Sections (from Screenshots)
+- **Target Files**:
+  - `src/components/Page4/MagneticCards/MagneticCards.jsx`
+  - `src/components/Page4/DeskScatterShowcase/DeskScatterSection.jsx`
+  - `src/components/Page4/ScrollMindmap/ScrollMindmap.jsx`
+  - `src/components/Page4/ScrollMindmap/ScrollMindmap.css`
+- **Resolution**:
+  1. **Section 4 (`MagneticCards.jsx`)**:
+     - Connected top bar (`.namma-brand` "SIMON PHOTOGRAPHY", `.namma-talk-btn` "BOOK A SESSION"), main headline (`.namma-hero-title` "WE CAPTURE LIGHT AND MOMENTS"), and footer (`.namma-footer-left`, `.namma-footer-right span`) with dark theme (`#ffffff` solid white covers).
+  2. **Section 5 (`DeskScatterSection.jsx`)**:
+     - Connected Phase 1 centered headline `Find your negatives naturally.` (`.desk-find-title`) with dark theme (`#ffffff` solid white cover).
+  3. **Section 6 (`ScrollMindmap.jsx` & `ScrollMindmap.css`)**:
+     - Removed hardcoded `<br />` from `CAPTURED IN RAW LIGHT` and applied natural CSS wrapping (`max-width: 12ch; margin: 0 auto;`).
+     - Connected `.mindmap-subheading` ("PHOTOGRAPHY LAB • 2026") and `.mindmap-title` ("CAPTURED IN RAW LIGHT") with dark theme (`#ffffff` solid white covers).
+  4. **Dynamic Line Counting & Calibration**:
+     - All sections calculate lines dynamically via `SplitText`.
+     - Calibrated uniform speed: `duration: 0.4s`, `stagger: 0.04s`, `ease: 'power1.out'`, `once: true`, `markers: false`.
+  5. Verified with production build: `npm run build` compiled in 12.56s with **0 errors**. Dev server active.
+
+
+### ✅ Issue 30: Page 3 (Exhibits) Lando Norris Text Cover Reveal across 4 Target Sections
+- **Target Files**:
+  - `src/utils/useLandoTextReveal.js`
+  - `src/components/Page3/TriptychCardFlip/TriptychCardFlip.jsx`
+  - `src/components/Page3/JamareaHub/JamareaHub.jsx`
+  - `src/components/Page3/InfiniteDragCanvas/InfiniteDragCanvas.jsx`
+  - `src/components/Page3/StickyDisciplineCards/StickyDisciplineCards.jsx`
+- **Resolution**:
+  1. **Section 3 (`TriptychCardFlip.jsx`)**:
+     - Connected headline `Curated Frames: From Vision to Print` with dark theme (`#ffffff` white cover).
+  2. **Section 4 (`JamareaHub.jsx`)**:
+     - Connected top navigation categories (`PORTFOLIO , DISCIPLINES , DARKROOM , EXHIBITS`) and giant background `SIMON` / `ARCHIVE` typography with dark theme (`#ffffff` white cover).
+  3. **Section 5 (`InfiniteDragCanvas.jsx`)**:
+     - Connected bottom helper pill `✦ PINNED TO CANVAS — CLICK TO EXPAND & DRAG TO EXPLORE (SCROLL TO UNPIN)` with dark theme (`#ffffff` white cover).
+  4. **Section 6 (`StickyDisciplineCards.jsx` - "4th image all related divs")**:
+     - Wired all related text divs across all 4 cards:
+       - `.card-badge` (`DISCIPLINE // 01` to `04`)
+       - `.card-discipline-title` (`Editorial & Haute Couture`, etc.)
+       - `.card-discipline-desc` (Paragraph description)
+       - `.discipline-item` (All 6 bullet points)
+     - Implemented strict 2-color scheme:
+       - Cards 1, 2, 3 (Soft Lavender, Pure White, Warm Amber backgrounds with dark text) $\rightarrow$ Solid Deep Black cover (`#000000`).
+       - Card 4 (Noir Charcoal background with white text) $\rightarrow$ Solid Pure White cover (`#ffffff`).
+     - Fixed pinned sequential reveal: Card 0 triggers on container enter (`top 80%`), and Cards 1, 2, 3 trigger individually via `tl.call` and `playRef` as each card glides into view during scrub.
+     - SplitText dynamic line counting for all screen widths.
+     - Calibrated uniform speed (`duration: 0.4s`, `stagger: 0.04s`, `ease: 'power1.out'`), single-play only (`once: true`), zero markers.
+  5. Verified with production build: `npm run build` compiled in 12.49s with **0 errors**. Dev server active.
+
+
+### ✅ Issue 28: Lando Norris Cover Speed Calibration & Uniform Global Speed Control
+- **Resolution**:
+  - Calibrated global defaults in `src/utils/useLandoTextReveal.js`: `duration = 0.4`, `stagger = 0.03`, `ease = 'power1.out'`.
+  - Confirmed snappy, uniform speed across all blocks with 0 individual divergence. User confirmed: "perfect".
+
+### ✅ Issue 27: Page 1 Lando Norris Text Cover Reveal — Dynamic Line Counting, Exact-Fit Covers & ScrollTrigger Sync
+- **Target Files**:
+  - `src/pages/Page1/Page1.jsx`
+  - `src/utils/useLandoTextReveal.js`
+  - `src/styles/landoTextReveal.css`
+  - `src/components/Page1/PerspectivesGrid/PerspectivesGrid.jsx`
+- **Resolution**:
+  1. **Dynamic Line Counting (Zero Hardcoding)**:
+     - Removed hardcoded `<br />` from `OUR PERSPECTIVES AND STORIES`.
+     - Text wraps naturally based on viewport and container dimensions.
+     - `useLandoTextReveal` uses `SplitText` to dynamically measure and count the exact lines (`split.lines.length`) on any device (phone, tablet, 1204×1366, desktop, 4K).
+     - Each line dynamically receives its own `.lando-line-wrapper` with an overlay `.lando-line-cover`.
+     - Exactly matches lines: 1 line = 1 block; 2 lines = 2 blocks; 3 lines = 3 blocks; etc.
+  2. **Exact-Fit Covers (Zero Text Peeking)**:
+     - Updated `.lando-line-wrapper` to `display: block; width: fit-content; max-width: 100%;` so lines stack naturally without horizontal collisions while shrink-wrapping exact text width.
+     - Styled `.lando-line-cover` with `inset: -1px -3px` for 100% full-character coverage with zero letters peeking out.
+  3. **ScrollTrigger Sync & Independent Section Triggers**:
+     - Connected Lenis scroll to GSAP `ScrollTrigger.update` in `Page1.jsx`.
+     - Added `ScrollTrigger.refresh()` once the hero spacer and fonts settle.
+     - Hooked `gsap.to(covers, { scrollTrigger: { trigger, start: "top 80%", once: true } })` with adaptive duration and stagger based on dynamic line count.
+     - Headings only play when that specific element hits `top 80%` of viewport height during actual scrolling.
+  4. Verified with `npm run build`: Production build compiled in 20.12s with **0 errors**. Dev server active.
 
 ### ✅ Issue 26: Node.js 24 Incompatible CI Version & npm ci Cache Inconsistency (Pin to Node 22.16.0 LTS)
 - **Target Files**:

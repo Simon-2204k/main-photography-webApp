@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 import './MagneticCards.css';
 
 // Section 4 Visual Assets (High-Res Photography)
@@ -37,6 +38,21 @@ export default function Section4StudioNamma() {
   const cardRef = useRef(null);
   const matrixRef = useRef(null);
   const [timeStr, setTimeStr] = useState('');
+
+  useLandoTextReveal(
+    sectionRef,
+    [
+      '.namma-brand',
+      '.namma-talk-btn',
+      '.namma-hero-title',
+      '.namma-footer-left',
+      '.namma-footer-right span',
+    ],
+    {
+      theme: 'dark',
+      start: 'top 80%',
+    }
+  );
 
   // Live Indian Standard Time (IST) Clock
   useEffect(() => {

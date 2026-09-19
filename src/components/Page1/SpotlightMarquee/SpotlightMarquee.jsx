@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
+import { useSplitTextLines } from '../../../utils/useSplitTextLines';
 import './SpotlightMarquee.css';
 
 const GALLERY_IMAGES = [
@@ -17,6 +19,20 @@ const SpotlightMarqueeComponent = () => {
   const trackRef = useRef(null);
   const contentWrapperRef = useRef(null);
   const isVisibleRef = useRef(false);
+
+  useLandoTextReveal(contentWrapperRef, ['h1 .spotlight-line', 'h3 .spotlight-line', '.spotlight-copy p span'], {
+    theme: 'dark',
+    start: 'top 80%',
+    duration: 0.4,
+    stagger: 0.04,
+  });
+
+  useSplitTextLines(sectionRef, '.spotlight-footer p', {
+    type: 'chars',
+    stagger: 0.006,
+    start: 'top 90%',
+    duration: 0.35,
+  });
 
   useEffect(() => {
     const section = sectionRef.current;

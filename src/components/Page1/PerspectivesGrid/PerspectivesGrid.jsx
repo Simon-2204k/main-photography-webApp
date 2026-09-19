@@ -1,9 +1,31 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { CursorTrail } from '../CursorTrail/CursorTrail';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
+import { useSplitTextLines } from '../../../utils/useSplitTextLines';
 
 const PerspectivesGridComponent = () => {
-  const [offsets, setOffsets] = useState({ col1: 140, col2: 320, col3: 220 });
   const sectionRef = useRef(null);
+  const headingWrapperRef = useRef(null);
+  const headingTitleRef = useRef(null);
+  const col1Ref = useRef(null);
+  const col2Ref = useRef(null);
+  const col3Ref = useRef(null);
+
+  useLandoTextReveal(headingWrapperRef, headingTitleRef, { theme: 'dark', start: 'top 80%' });
+
+  useSplitTextLines(sectionRef, '.perspective-cell h3', {
+    type: 'lines',
+    stagger: 0.03,
+    start: 'top 85%',
+    duration: 0.5,
+  });
+
+  useSplitTextLines(sectionRef, '.perspective-cell p', {
+    type: 'chars',
+    stagger: 0.006,
+    start: 'top 95%',
+    duration: 0.35,
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,30 +38,30 @@ const PerspectivesGridComponent = () => {
       // 🎯 2. Stops and locks onto the exact same equal line when second page crosses 10% ABOVE the top (top <= -10% windowHeight)
       const endTrigger = -windowHeight * 0.10;
 
+      let c1 = 140;
+      let c2 = 320;
+      let c3 = 220;
+
       if (rect.top > startTrigger) {
-        // Before emergence threshold: columns stay at their initial resting offset
-        setOffsets({ col1: 140, col2: 320, col3: 220 });
+        c1 = 140;
+        c2 = 320;
+        c3 = 220;
       } else if (rect.top <= endTrigger) {
-        // When page crosses 10% above the top window screen: all 3 columns lock in the exact same equal line (0px)
-        setOffsets({ col1: 0, col2: 0, col3: 0 });
+        c1 = 0;
+        c2 = 0;
+        c3 = 0;
       } else {
-        // Between bottom emergence and 10% above top: 3 distinct speeds
         const progress = (startTrigger - rect.top) / (startTrigger - endTrigger);
         const clamped = Math.min(Math.max(progress, 0), 1);
 
-        // Column 1 Speed (Linear steady flow)
-        const col1 = (1 - clamped) * 140;
-        // Column 2 Speed (Fast dynamic surge)
-        const col2 = (1 - Math.pow(clamped, 1.4)) * 320;
-        // Column 3 Speed (Smooth trailing glide)
-        const col3 = (1 - Math.pow(clamped, 0.75)) * 220;
-
-        setOffsets({
-          col1: Math.round(col1),
-          col2: Math.round(col2),
-          col3: Math.round(col3)
-        });
+        c1 = Math.round((1 - clamped) * 140);
+        c2 = Math.round((1 - Math.pow(clamped, 1.4)) * 320);
+        c3 = Math.round((1 - Math.pow(clamped, 0.75)) * 220);
       }
+
+      if (col1Ref.current) col1Ref.current.style.transform = `translate3d(0, ${c1}px, 0)`;
+      if (col2Ref.current) col2Ref.current.style.transform = `translate3d(0, ${c2}px, 0)`;
+      if (col3Ref.current) col3Ref.current.style.transform = `translate3d(0, ${c3}px, 0)`;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -119,6 +141,7 @@ const PerspectivesGridComponent = () => {
 
       {/* Top Header Section */}
       <div
+        ref={headingWrapperRef}
         style={{
           display: 'flex',
           justifyContent: 'flex-start',
@@ -129,17 +152,18 @@ const PerspectivesGridComponent = () => {
         }}
       >
         <h2
+          ref={headingTitleRef}
           style={{
             margin: 0,
-            fontSize: 'clamp(2.2rem, 5vw, 4.4rem)',
+            fontSize: 'clamp(2rem, 4.2vw, 4.4rem)',
             fontWeight: '900',
-            lineHeight: '0.95',
-            letterSpacing: '-0.03em',
+            lineHeight: '1.05',
+            letterSpacing: '-0.02em',
             textTransform: 'uppercase',
             color: '#ffffff'
           }}
         >
-          OUR PERSPECTIVES<br />AND STORIES
+          OUR PERSPECTIVES AND STORIES
         </h2>
       </div>
 
@@ -159,12 +183,13 @@ const PerspectivesGridComponent = () => {
       >
         {/* ================= COLUMN 1 (Speed 1) ================= */}
         <div
+          ref={col1Ref}
           className="perspectives-col-1"
           style={{
             display: 'flex',
             flexDirection: 'column',
             borderRight: '1px solid rgba(255, 255, 255, 0.12)',
-            transform: `translate3d(0, ${offsets.col1}px, 0)`,
+            transform: 'translate3d(0, 140px, 0)',
             transition: 'transform 0.08s ease-out'
           }}
         >
@@ -221,12 +246,13 @@ const PerspectivesGridComponent = () => {
 
         {/* ================= COLUMN 2 (Speed 2) ================= */}
         <div
+          ref={col2Ref}
           className="perspectives-col-2"
           style={{
             display: 'flex',
             flexDirection: 'column',
             borderRight: '1px solid rgba(255, 255, 255, 0.12)',
-            transform: `translate3d(0, ${offsets.col2}px, 0)`,
+            transform: 'translate3d(0, 320px, 0)',
             transition: 'transform 0.08s ease-out'
           }}
         >
@@ -295,10 +321,11 @@ const PerspectivesGridComponent = () => {
 
         {/* ================= COLUMN 3 (Speed 3) ================= */}
         <div
+          ref={col3Ref}
           style={{
             display: 'flex',
             flexDirection: 'column',
-            transform: `translate3d(0, ${offsets.col3}px, 0)`,
+            transform: 'translate3d(0, 220px, 0)',
             transition: 'transform 0.08s ease-out'
           }}
         >

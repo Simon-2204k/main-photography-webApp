@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Search, CornerDownLeft, Sparkles, MessageSquare } from 'lucide-react';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -115,6 +116,11 @@ export default function DeskScatterSection() {
   const stackSectionRef = useRef(null);
   const leaderCardRef = useRef(null);
   const trailingChainRef = useRef(null);
+
+  useLandoTextReveal(sectionRef, '.desk-find-title', {
+    theme: 'dark',
+    start: 'top 80%',
+  });
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -395,7 +401,7 @@ export default function DeskScatterSection() {
         ref={textFindRef}
         className="absolute z-50 text-center px-4 max-w-xl pointer-events-none"
       >
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-serif text-white/95 drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] tracking-normal font-normal">
+        <h2 className="desk-find-title text-xl sm:text-2xl md:text-3xl font-serif text-white/95 drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] tracking-normal font-normal">
           Find your negatives naturally.
         </h2>
       </div>

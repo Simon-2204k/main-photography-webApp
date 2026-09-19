@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 import './ScrollMindmap.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -25,6 +26,15 @@ export default function Section6ScrollMindmap() {
   const pathRef = useRef(null);
   const ballRef = useRef(null);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 768);
+
+  useLandoTextReveal(
+    containerRef,
+    ['.mindmap-subheading', '.mindmap-title'],
+    {
+      theme: 'dark',
+      start: 'top 80%',
+    }
+  );
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -168,7 +178,7 @@ export default function Section6ScrollMindmap() {
             PHOTOGRAPHY LAB • 2026
           </span>
           <h2 className="mindmap-title">
-            CAPTURED<br />IN RAW LIGHT
+            CAPTURED IN RAW LIGHT
           </h2>
         </div>
 

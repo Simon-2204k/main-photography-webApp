@@ -96,8 +96,97 @@ const CARDS_DATA = [
   }
 ];
 
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
+
+const DisciplineCardItem = ({ card, cardIndex, playRef }) => {
+  const cardRef = useRef(null);
+  const cardTheme = card.textColor === '#ffffff' ? 'dark' : 'light';
+
+  useLandoTextReveal(
+    cardRef,
+    '.card-discipline-title',
+    {
+      theme: cardTheme,
+      start: 'top 80%',
+      stagger: 0.04,
+      scrollTrigger: cardIndex === 0,
+      playRef: playRef,
+    }
+  );
+
+  return (
+    <div
+      ref={cardRef}
+      className="discipline-sticky-card"
+      style={{
+        backgroundColor: card.bgColor,
+        color: card.textColor
+      }}
+    >
+      {/* Left Content Column */}
+      <div className="card-info-col">
+        <div className="card-heading-strip">
+          <span
+            className="card-badge"
+            style={{
+              color: card.subTextColor,
+              borderColor: card.subTextColor
+            }}
+          >
+            {card.badge}
+          </span>
+
+          <h3 className="card-discipline-title" style={{ color: card.textColor }}>
+            {card.title}
+          </h3>
+        </div>
+
+        <p className="card-discipline-desc" style={{ color: card.subTextColor }}>
+          {card.desc}
+        </p>
+
+        <div className="card-disciplines-list">
+          {card.disciplines.map((item, i) => (
+            <span
+              key={i}
+              className="discipline-item"
+              style={{ color: card.subTextColor }}
+            >
+              • {item}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Right Showcase Column with 3 Images from Section 6 */}
+      <div className="card-showcase-col">
+        <div className="card-images-triptych">
+          {card.images.map((imgSrc, imgIdx) => (
+            <div key={imgIdx} className="triptych-photo-card">
+              <img
+                src={imgSrc}
+                alt={`${card.title} plate 0${imgIdx + 1}`}
+                loading="lazy"
+                decoding="async"
+                className="triptych-photo"
+              />
+              <div className="triptych-photo-tag">0{imgIdx + 1}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const StickyDisciplineCards = memo(function StickyDisciplineCards() {
   const containerRef = useRef(null);
+  const playRefs = useRef([
+    React.createRef(),
+    React.createRef(),
+    React.createRef(),
+    React.createRef()
+  ]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -146,16 +235,20 @@ export const StickyDisciplineCards = memo(function StickyDisciplineCards() {
       for (let i = 0; i < cards.length - 1; i++) {
         const currentCard = cards[i];
         const nextCard = cards[i + 1];
+        const nextCardIndex = i + 1;
 
         // Step A: nextCard scrolls up from 100% until its top border touches currentCard's heading bottom
-        // This smoothly covers currentCard's description, deliverables, and images
-        // leaving ONLY currentCard's heading strip visible!
         tl.to(nextCard, {
           yPercent: 0,
           y: () => getHeadingBottom(currentCard),
           ease: 'none',
           duration: 1
         });
+
+        // Trigger nextCard's individual Lando text reveal as it glides into view
+        tl.call(() => {
+          playRefs.current[nextCardIndex]?.current?.();
+        }, null, i * 1.25 + 0.6);
 
         // Step B: nextCard touches the heading bottom ->
         // currentCard un-sticks and slides up out of the viewport (-headingBottom),
@@ -182,67 +275,12 @@ export const StickyDisciplineCards = memo(function StickyDisciplineCards() {
       {/* Sticky Stacking Cards Container */}
       <div className="disciplines-cards-stack">
         {CARDS_DATA.map((card, idx) => (
-          <div
+          <DisciplineCardItem
             key={card.id}
-            className="discipline-sticky-card"
-            style={{
-              backgroundColor: card.bgColor,
-              color: card.textColor
-            }}
-          >
-            {/* Left Content Column */}
-            <div className="card-info-col">
-              <div className="card-heading-strip">
-                <span
-                  className="card-badge"
-                  style={{
-                    color: card.subTextColor,
-                    borderColor: card.subTextColor
-                  }}
-                >
-                  {card.badge}
-                </span>
-
-                <h3 className="card-discipline-title" style={{ color: card.textColor }}>
-                  {card.title}
-                </h3>
-              </div>
-
-              <p className="card-discipline-desc" style={{ color: card.subTextColor }}>
-                {card.desc}
-              </p>
-
-              <div className="card-disciplines-list">
-                {card.disciplines.map((item, i) => (
-                  <span
-                    key={i}
-                    className="discipline-item"
-                    style={{ color: card.subTextColor }}
-                  >
-                    • {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Showcase Column with 3 Images from Section 6 */}
-            <div className="card-showcase-col">
-              <div className="card-images-triptych">
-                {card.images.map((imgSrc, imgIdx) => (
-                  <div key={imgIdx} className="triptych-photo-card">
-                    <img
-                      src={imgSrc}
-                      alt={`${card.title} plate 0${imgIdx + 1}`}
-                      loading="lazy"
-                      decoding="async"
-                      className="triptych-photo"
-                    />
-                    <div className="triptych-photo-tag">0{imgIdx + 1}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+            card={card}
+            cardIndex={idx}
+            playRef={playRefs.current[idx]}
+          />
         ))}
       </div>
     </section>

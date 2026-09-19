@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, memo } from 'react';
 import Matter from 'matter-js';
 import gsap from 'gsap';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 
 const DISCIPLINES = [
   {
@@ -218,6 +219,13 @@ export const PhysicsDisciplines = memo(() => {
   const wordRefs = useRef([]);
   const h2Refs = useRef([]);
   const [hoveredIdx, setHoveredIdx] = useState(null);
+
+  useLandoTextReveal(sectionRef, ['.physics-headline', '.physics-word'], {
+    theme: 'dark',
+    start: 'top 80%',
+    duration: 0.4,
+    stagger: 0.04,
+  });
 
   const engineRef = useRef(null);
   const runnerRef = useRef(null);
@@ -437,7 +445,7 @@ export const PhysicsDisciplines = memo(() => {
         style={{ marginBottom: 'clamp(3rem, 6vh, 5.5rem)' }}
       >
         <h3
-          className="font-serif italic font-normal tracking-tight text-white/95"
+          className="physics-headline font-serif italic font-normal tracking-tight text-white/95"
           style={{
             fontSize: 'clamp(2rem, 4.5vw, 4.5rem)',
             color: '#f7f4ea',
@@ -488,7 +496,7 @@ export const PhysicsDisciplines = memo(() => {
                 {/* Giant Serif Word: Clean flat colors, ZERO gloomy text-shadow */}
                 <h2
                   ref={(el) => (h2Refs.current[idx] = el)}
-                  className="font-serif font-bold text-center tracking-normal transition-colors duration-200 select-none pointer-events-none"
+                  className="physics-word font-serif font-bold text-center tracking-normal transition-colors duration-200 select-none pointer-events-none"
                   style={{
                     fontSize: 'clamp(2.1rem, 6.8vw, 7.8rem)',
                     lineHeight: 0.92,

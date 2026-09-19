@@ -1,0 +1,1215 @@
+/* ==========================================================================
+   ROTATED PAGE SCROLL — 6 PAGES STYLES (FOLLOW.ART EDITORIAL DESIGN)
+   ========================================================================== */
+
+/* Shared Container */
+.rotated-page-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: clamp(24px, 4vh, 48px) clamp(24px, 5vw, 64px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   SHARED UI: BOTTOM-RIGHT "JOIN" BUTTON (Black Box + Circle Arrow)
+   -------------------------------------------------------------------------- */
+.follow-join-btn {
+  position: absolute;
+  bottom: clamp(20px, 3.5vh, 40px);
+  right: clamp(20px, 4vw, 48px);
+  width: clamp(100px, 10vw, 130px);
+  height: clamp(52px, 6.5vh, 68px);
+  background-color: #000000;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 14px;
+  box-sizing: border-box;
+  text-decoration: none;
+  z-index: 50;
+  pointer-events: none !important;
+  cursor: default !important;
+  border: none;
+  border-radius: 0px;
+}
+
+.follow-join-icon-row {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.follow-join-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.follow-join-text {
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(14px, 1.2vw, 17px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-align: left;
+}
+
+/* ==========================================================================
+   PAGE 2: CURATORS AND ARTISTS (Sage Green #848c7c)
+   ========================================================================== */
+.page-curators-artists {
+  background-color: #848c7c;
+  color: #ffffff;
+}
+
+.curators-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  align-items: center;
+  gap: clamp(24px, 5vw, 64px);
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Left Photo Card with Orange Backdrop */
+.curators-photo-col {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.curators-orange-backdrop {
+  position: absolute;
+  width: clamp(220px, 32vw, 420px);
+  height: clamp(220px, 32vw, 420px);
+  background-color: #ff5d22;
+  border-radius: 50%;
+  z-index: 1;
+  filter: blur(0px);
+  transform: translate(-10%, 0);
+}
+
+.curators-frame-card {
+  position: relative;
+  z-index: 2;
+  width: clamp(200px, 24vw, 320px);
+  aspect-ratio: 3 / 4;
+  background-color: #000000;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+}
+
+.curators-frame-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.curators-frame-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.curators-frame-badge {
+  position: relative;
+  z-index: 3;
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.curators-frame-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 38px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+  color: #000;
+  font-size: 14px;
+  font-weight: 900;
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+/* Right Content Column */
+.curators-content-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+}
+
+.curators-heading-wrap {
+  position: relative;
+  margin-bottom: clamp(20px, 3vh, 32px);
+}
+
+.curators-giant-title {
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(48px, 7.8vw, 118px);
+  line-height: 0.92;
+  font-weight: 900;
+  color: #000000;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.curators-sparkle-stars {
+  position: absolute;
+  top: 45%;
+  right: 15%;
+  color: #ffffff;
+  display: flex;
+  gap: 12px;
+  font-size: clamp(22px, 3vw, 42px);
+  pointer-events: none;
+  animation: floatSparkle 3s ease-in-out infinite alternate;
+}
+
+@keyframes floatSparkle {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-8px) rotate(8deg); }
+}
+
+.curators-bullets-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 clamp(16px, 2.5vh, 28px) 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 1vh, 12px);
+}
+
+.curators-bullets-list li {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(16px, 1.6vw, 26px);
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.curators-subtext {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(15px, 1.4vw, 22px);
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.4;
+  max-width: 480px;
+}
+
+.curators-subtext u {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* ==========================================================================
+   PAGE 3: THE CARD (Dusty Rose #b88890)
+   ========================================================================== */
+.page-the-card {
+  background-color: #b88890;
+  color: #ffffff;
+}
+
+/* Top 2-Column Metadata Strip (from Screenshot 7) */
+.thecard-top-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+  padding-bottom: clamp(12px, 2vh, 20px);
+  gap: 32px;
+}
+
+.thecard-top-left {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(14px, 1.3vw, 20px);
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.thecard-top-right {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(13px, 1.15vw, 17px);
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 520px;
+  border-left: 1px solid rgba(255, 255, 255, 0.28);
+  padding-left: 28px;
+}
+
+/* Center Stage with Giant Typography & Overlaid Dual Cards */
+.thecard-center-stage {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.thecard-giant-title {
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(80px, 18vw, 290px);
+  line-height: 0.88;
+  font-weight: 900;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  z-index: 1;
+}
+
+/* Overlaid Floating Cards (Left Orange Peeling Card + Right Black Profile) */
+.thecard-overlays-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3vw, 44px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Left Card: Peeling Orange Card with QR Code */
+.thecard-peel-card {
+  width: clamp(180px, 20vw, 270px);
+  aspect-ratio: 9 / 14;
+  background-color: #ff5d22;
+  border-radius: 12px;
+  padding: 16px;
+  box-sizing: border-box;
+  box-shadow: -12px 18px 38px rgba(0, 0, 0, 0.45);
+  transform: rotate(-7deg) translateY(10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #000;
+  pointer-events: auto;
+  transition: transform 0.35s ease;
+}
+
+.thecard-peel-card:hover {
+  transform: rotate(-4deg) translateY(-4px) scale(1.03);
+}
+
+.thecard-peel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.thecard-peel-body {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.thecard-peel-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #000;
+}
+
+.thecard-peel-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.thecard-peel-meta {
+  font-size: 10px;
+  opacity: 0.85;
+}
+
+.thecard-peel-qr {
+  width: 72px;
+  height: 72px;
+  align-self: center;
+  background: #ffffff;
+  padding: 6px;
+  border-radius: 6px;
+}
+
+/* Right Card: Dark Mobile Card with Wallet button */
+.thecard-mobile-card {
+  width: clamp(190px, 22vw, 290px);
+  aspect-ratio: 9 / 15;
+  background-color: #0d0d11;
+  border-radius: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+  box-shadow: 12px 20px 42px rgba(0, 0, 0, 0.5);
+  transform: rotate(5deg) translateY(-10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #ffffff;
+  pointer-events: auto;
+  transition: transform 0.35s ease;
+}
+
+.thecard-mobile-card:hover {
+  transform: rotate(2deg) translateY(-18px) scale(1.03);
+}
+
+.thecard-mobile-header {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1px;
+  opacity: 0.7;
+  text-align: right;
+}
+
+.thecard-mobile-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-top: 8px;
+}
+
+.thecard-mobile-img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.thecard-mobile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.thecard-wallet-btn {
+  background: #1c1c22;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+.thecard-support-btn {
+  background: #ff5d22;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  text-align: center;
+  color: #fff;
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+/* ==========================================================================
+   PAGE 4: CENTRALIZE (Sage Green #848c7c)
+   ========================================================================== */
+.page-centralize {
+  background-color: #848c7c;
+  color: #ffffff;
+}
+
+.centralize-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  align-items: center;
+  gap: clamp(24px, 5vw, 64px);
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.centralize-left-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.centralize-title-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: clamp(24px, 4vh, 48px);
+}
+
+.centralize-giant-title {
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(52px, 8.8vw, 136px);
+  line-height: 0.9;
+  font-weight: 900;
+  color: #000000;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.centralize-star-doodle {
+  width: clamp(38px, 5vw, 76px);
+  height: clamp(38px, 5vw, 76px);
+  margin-left: 12px;
+  color: #ffffff;
+}
+
+.centralize-copy-block {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 440px;
+}
+
+.centralize-lead-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(16px, 1.6vw, 24px);
+  font-weight: 600;
+  line-height: 1.4;
+  color: #ffffff;
+  margin: 0;
+}
+
+.centralize-sub-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(15px, 1.4vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+}
+
+/* Right 2x2 Feature Cards Grid with Orange Paint Backdrop */
+.centralize-cards-col {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.centralize-orange-cross {
+  position: absolute;
+  width: clamp(260px, 32vw, 420px);
+  height: clamp(260px, 32vw, 420px);
+  background: #ff5d22;
+  border-radius: 20px;
+  z-index: 1;
+  transform: rotate(8deg);
+  opacity: 0.95;
+}
+
+.centralize-cards-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(12px, 1.5vw, 20px);
+  width: clamp(280px, 36vw, 460px);
+}
+
+.centralize-card-box {
+  background-color: #000000;
+  aspect-ratio: 1 / 1;
+  padding: clamp(14px, 2vw, 22px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #ffffff;
+  transition: transform 0.25s ease;
+}
+
+.centralize-card-box:hover {
+  transform: translateY(-4px);
+}
+
+.centralize-card-num {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(12px, 1.1vw, 15px);
+  font-weight: 700;
+  opacity: 0.75;
+}
+
+.centralize-card-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(14px, 1.3vw, 20px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* ==========================================================================
+   PAGE 5: TESTIMONIALS (Slate Blue #788c9e)
+   ========================================================================== */
+.page-testimonials {
+  background-color: #788c9e;
+  color: #ffffff;
+}
+
+.testimonials-giant-bg-title {
+  position: absolute;
+  top: clamp(20px, 6vh, 60px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(70px, 16vw, 250px);
+  line-height: 0.88;
+  font-weight: 900;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  margin: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.testimonials-speech-bubble-doodle {
+  position: absolute;
+  top: clamp(80px, 16vh, 160px);
+  left: clamp(40px, 8vw, 140px);
+  width: clamp(70px, 10vw, 140px);
+  height: clamp(50px, 8vw, 100px);
+  color: #ffffff;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Center Carousel Stage */
+.testimonials-stage {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+}
+
+.testimonials-cards-stack {
+  position: relative;
+  width: clamp(300px, 44vw, 560px);
+  min-height: clamp(280px, 44vh, 420px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.testimonial-card-main {
+  position: relative;
+  z-index: 5;
+  background-color: #ffffff;
+  color: #000000;
+  padding: clamp(20px, 3vh, 36px) clamp(22px, 3vw, 40px);
+  box-sizing: border-box;
+  border-radius: 0px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.testimonial-quote-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(13px, 1.15vw, 17px);
+  line-height: 1.55;
+  color: #111114;
+  margin: 0 0 clamp(16px, 2.5vh, 28px) 0;
+  font-weight: 500;
+}
+
+.testimonial-author-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding-top: 14px;
+}
+
+.testimonial-author-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.testimonial-author-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #222;
+}
+
+.testimonial-author-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #000;
+}
+
+.testimonial-author-role {
+  font-size: 11px;
+  color: #666;
+}
+
+.testimonial-flag-icon {
+  font-size: 20px;
+}
+
+/* Fanned Secondary Cards in Background */
+.testimonial-card-fanned-1 {
+  position: absolute;
+  width: 96%;
+  height: 96%;
+  background: #f4f4f5;
+  z-index: 3;
+  transform: rotate(6deg) translate(8%, 4%);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.testimonial-card-fanned-2 {
+  position: absolute;
+  width: 94%;
+  height: 94%;
+  background: #e4e4e7;
+  z-index: 2;
+  transform: rotate(12deg) translate(14%, 8%);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+/* Bottom Controls */
+.testimonials-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  z-index: 4;
+}
+
+.testimonials-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(14px, 1.3vw, 20px);
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.testimonials-nav-btns {
+  display: flex;
+  gap: 16px;
+  margin-right: clamp(120px, 12vw, 160px);
+}
+
+.testimonials-nav-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(13px, 1.1vw, 16px);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.testimonials-nav-btn:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* ==========================================================================
+   PAGE 6: THE CONNECTORY (Sage Green #848c7c)
+   ========================================================================== */
+.page-connectory {
+  background-color: #848c7c;
+  color: #ffffff;
+}
+
+.connectory-giant-bg-title {
+  position: absolute;
+  top: clamp(10px, 3vh, 40px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(64px, 15vw, 240px);
+  line-height: 0.88;
+  font-weight: 900;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  margin: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.connectory-the-script {
+  position: absolute;
+  top: clamp(20px, 6vh, 60px);
+  left: clamp(30px, 8vw, 120px);
+  font-family: 'Caveat', 'Brush Script MT', cursive;
+  font-size: clamp(38px, 6vw, 92px);
+  color: #ffffff;
+  transform: rotate(-12deg);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Perspective Tilted Directory Window Mockup */
+.connectory-stage {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+}
+
+.connectory-window-mockup {
+  width: clamp(320px, 58vw, 840px);
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 8px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: perspective(1000px) rotateY(-4deg) rotateX(4deg) scale(0.96);
+  transition: transform 0.35s ease;
+}
+
+.connectory-window-mockup:hover {
+  transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1);
+}
+
+.connectory-window-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+}
+
+.connectory-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.connectory-tab {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.connectory-tab.active {
+  background: #000;
+  color: #fff;
+}
+
+.connectory-window-body {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  min-height: clamp(240px, 36vh, 340px);
+}
+
+.connectory-sidebar {
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  color: #555;
+}
+
+.connectory-sidebar-item {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.connectory-grid-content {
+  padding: 16px;
+}
+
+.connectory-directory-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  margin: 0 0 12px 0;
+}
+
+.connectory-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.connectory-artist-card {
+  background: #000000;
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.connectory-artist-name {
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.connectory-artist-img {
+  width: 100%;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   PAGE 7: JOIN US (Vibrant Orange #f25822)
+   ========================================================================== */
+.page-join-us {
+  background-color: #f25822;
+  color: #ffffff;
+}
+
+.join-main-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  align-items: center;
+  gap: clamp(24px, 5vw, 64px);
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Left Huge JOIN Title + Overlaid Script "Us" & 3 Portrait Photos */
+.join-left-col {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.join-giant-title {
+  font-family: 'Anton', 'Impact', sans-serif;
+  font-size: clamp(100px, 24vw, 360px);
+  line-height: 0.85;
+  font-weight: 900;
+  color: #000000;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: -0.04em;
+}
+
+.join-us-script {
+  position: absolute;
+  top: 18%;
+  right: 18%;
+  font-family: 'Caveat', 'Brush Script MT', cursive;
+  font-size: clamp(52px, 9vw, 130px);
+  color: #ffffff;
+  transform: rotate(-10deg);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.join-avatars-cluster {
+  position: absolute;
+  top: 25%;
+  left: 20%;
+  display: flex;
+  gap: 8px;
+  z-index: 4;
+}
+
+.join-avatar-img {
+  width: clamp(50px, 6vw, 90px);
+  height: clamp(50px, 6vw, 90px);
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.join-avatar-img:nth-child(2) {
+  transform: translateY(22px);
+}
+
+.join-avatar-img:nth-child(3) {
+  transform: translateY(44px);
+}
+
+/* Right Headline & Hand-Drawn Arrow */
+.join-right-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.join-headline-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(20px, 2.4vw, 38px);
+  font-weight: 700;
+  line-height: 1.3;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin: 0 0 32px 0;
+  max-width: 480px;
+}
+
+.join-headline-text u {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 6px;
+}
+
+.join-arrow-doodle {
+  width: clamp(70px, 9vw, 120px);
+  height: clamp(40px, 5vw, 70px);
+  color: #000000;
+  margin-top: clamp(20px, 4vh, 60px);
+  margin-left: clamp(20px, 4vw, 80px);
+  transform: rotate(15deg);
+}
+
+/* ==========================================================================
+   TABLET RESPONSIVE (768px - 1024px, including 1024x1366 iPad Pro)
+   ========================================================================== */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .curators-main-grid,
+  .centralize-main-grid,
+  .join-main-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .thecard-giant-title,
+  .testimonials-giant-bg-title,
+  .connectory-giant-bg-title {
+    font-size: clamp(60px, 14vw, 180px);
+  }
+
+  .connectory-window-mockup {
+    width: 90%;
+  }
+
+  .connectory-window-body {
+    grid-template-columns: 140px 1fr;
+  }
+}
+
+/* ==========================================================================
+   MOBILE PHONE RESPONSIVE (< 768px) — 100vh Fullscreen Containment
+   ========================================================================== */
+@media (max-width: 768px) {
+  .rotated-page-content {
+    padding: 20px 18px;
+    justify-content: flex-start;
+    gap: 16px;
+  }
+
+  /* Page 2 Mobile */
+  .curators-main-grid {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .curators-photo-col {
+    display: none; /* Hide heavy side frame on narrow mobile to give headline full stage */
+  }
+
+  .curators-giant-title {
+    font-size: clamp(38px, 11vw, 56px);
+  }
+
+  .curators-bullets-list li {
+    font-size: 15px;
+  }
+
+  /* Page 3 Mobile */
+  .thecard-top-strip {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+
+  .thecard-top-right {
+    border-left: none;
+    padding-left: 0;
+    font-size: 12px;
+  }
+
+  .thecard-giant-title {
+    font-size: clamp(48px, 14vw, 84px);
+  }
+
+  .thecard-overlays-container {
+    gap: 10px;
+    transform: scale(0.85);
+  }
+
+  /* Page 4 Mobile */
+  .centralize-main-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .centralize-giant-title {
+    font-size: clamp(40px, 12vw, 64px);
+  }
+
+  .centralize-cards-grid {
+    width: 100%;
+    gap: 8px;
+  }
+
+  .centralize-card-box {
+    padding: 10px;
+  }
+
+  .centralize-card-label {
+    font-size: 12px;
+  }
+
+  /* Page 5 Mobile */
+  .testimonials-giant-bg-title {
+    font-size: clamp(42px, 13vw, 72px);
+    top: 15px;
+  }
+
+  .testimonials-cards-stack {
+    width: 95%;
+    min-height: auto;
+  }
+
+  .testimonial-card-main {
+    padding: 16px;
+  }
+
+  .testimonial-quote-text {
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .testimonial-card-fanned-1,
+  .testimonial-card-fanned-2 {
+    display: none;
+  }
+
+  /* Page 6 Mobile */
+  .connectory-giant-bg-title {
+    font-size: clamp(38px, 11vw, 64px);
+  }
+
+  .connectory-window-mockup {
+    width: 100%;
+    transform: none;
+  }
+
+  .connectory-window-body {
+    grid-template-columns: 1fr;
+  }
+
+  .connectory-sidebar {
+    display: none;
+  }
+
+  /* Page 7 Mobile */
+  .join-main-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .join-giant-title {
+    font-size: clamp(72px, 22vw, 120px);
+  }
+
+  .join-headline-text {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .join-arrow-doodle {
+    display: none;
+  }
+
+  .follow-join-btn {
+    bottom: 14px;
+    right: 14px;
+    width: 90px;
+    height: 48px;
+    padding: 6px 10px;
+  }
+}

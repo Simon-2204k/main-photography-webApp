@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo, memo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, memo } from 'react';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 
 const FOLDER_ROWS = [
   // Row 1: 50% / 50%
@@ -126,8 +127,16 @@ export const FolderArchive = memo(() => {
     return FOLDER_ROWS.flatMap((r) => r.folders);
   }, []);
 
+  const sectionRef = useRef(null);
+  useLandoTextReveal(sectionRef, ['.folder-archive-works', '.folder-archive-archive'], {
+    theme: 'dark',
+    start: 'top 80%',
+    stagger: 0.04,
+  });
+
   return (
     <section
+      ref={sectionRef}
       onClick={() => {
         // Tapping blank backdrop resets any open folder
         if (hoveredId !== null) setHoveredId(null);
@@ -164,6 +173,7 @@ export const FolderArchive = memo(() => {
         }}
       >
         <h2
+          className="folder-archive-works"
           style={{
             fontFamily: "'Newsreader', serif",
             fontSize: isNarrowPhone ? 'clamp(2.2rem, 7.5vw, 2.8rem)' : 'clamp(2.4rem, 4.5vw, 3.8rem)',
@@ -177,6 +187,7 @@ export const FolderArchive = memo(() => {
           Works
         </h2>
         <span
+          className="folder-archive-archive"
           style={{
             fontFamily: "'Newsreader', serif",
             fontSize: isNarrowPhone ? 'clamp(2.2rem, 7.5vw, 2.8rem)' : 'clamp(2.4rem, 4.5vw, 3.8rem)',

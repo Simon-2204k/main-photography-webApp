@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 import './JamareaHub.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -23,6 +24,11 @@ export const JamareaHub = memo(function JamareaHub() {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
   const trackRef = useRef(null);
+
+  useLandoTextReveal(sectionRef, ['.jamarea-top-nav', '.jamarea-huge-title'], {
+    theme: 'dark',
+    start: 'top 80%',
+  });
 
   // IntersectionObserver to pause cycling and animations when offscreen
   useEffect(() => {

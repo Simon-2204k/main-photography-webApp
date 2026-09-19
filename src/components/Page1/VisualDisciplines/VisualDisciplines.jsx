@@ -116,56 +116,96 @@ const VisualDisciplinesComponent = () => {
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef(null);
   const itemsRef = useRef([]);
+  const cachedPositionsRef = useRef([]); // { offsetTop, halfHeight } for each item
+  const prevIdxRef = useRef(-1);
+  const prevVisibleRef = useRef(false);
 
   useEffect(() => {
+    // Cache element page-relative positions (only on mount + resize, NOT on scroll)
+    const cachePositions = () => {
+      const items = itemsRef.current;
+      if (!items.length) return;
+      const scrollY = window.scrollY;
+      cachedPositionsRef.current = items.map((el) => {
+        if (!el) return { pageTop: 0, halfHeight: 0 };
+        const rect = el.getBoundingClientRect();
+        return {
+          pageTop: rect.top + scrollY,
+          halfHeight: rect.height / 2,
+        };
+      });
+    };
+
     const handleScroll = () => {
-      if (!itemsRef.current.length) return;
+      const cached = cachedPositionsRef.current;
+      if (!cached.length) return;
+      const scrollY = window.scrollY;
       const centerY = window.innerHeight * 0.5;
+      // Convert viewport centerY to page coordinate
+      const pageCenterY = scrollY + centerY;
 
-      const firstItem = itemsRef.current[0];
-      const lastItem = itemsRef.current[itemsRef.current.length - 1];
+      const first = cached[0];
+      const last = cached[cached.length - 1];
+      if (!first || !last) return;
 
-      if (!firstItem || !lastItem) return;
-
-      const firstRect = firstItem.getBoundingClientRect();
-      const lastRect = lastItem.getBoundingClientRect();
-
-      const firstCenterY = firstRect.top + firstRect.height / 2;
-      const lastCenterY = lastRect.top + lastRect.height / 2;
+      const firstCenterY = first.pageTop + first.halfHeight;
+      const lastCenterY = last.pageTop + last.halfHeight;
 
       // Card & highlight are ONLY active between the 1st word reaching 50vh and the 12th word leaving 50vh!
-      const isWithinActiveRange = (firstCenterY <= centerY) && (lastCenterY >= centerY);
+      const isWithinActiveRange = (firstCenterY <= pageCenterY) && (lastCenterY >= pageCenterY);
 
       if (!isWithinActiveRange) {
-        setIsVisible(false);
-        setActiveIndex(-1);
+        if (prevVisibleRef.current) {
+          prevVisibleRef.current = false;
+          setIsVisible(false);
+        }
+        if (prevIdxRef.current !== -1) {
+          prevIdxRef.current = -1;
+          setActiveIndex(-1);
+        }
         return;
       }
 
-      setIsVisible(true);
+      if (!prevVisibleRef.current) {
+        prevVisibleRef.current = true;
+        setIsVisible(true);
+      }
 
-      // Find closest word to centerY
+      // Find closest word to pageCenterY using cached positions (pure arithmetic, 0 reflows)
       let closestIdx = 0;
       let minDistance = Infinity;
 
-      itemsRef.current.forEach((el, idx) => {
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const itemCenterY = rect.top + rect.height / 2;
-        const distance = Math.abs(centerY - itemCenterY);
-
+      for (let idx = 0; idx < cached.length; idx++) {
+        const c = cached[idx];
+        if (!c) continue;
+        const itemCenterY = c.pageTop + c.halfHeight;
+        const distance = Math.abs(pageCenterY - itemCenterY);
         if (distance < minDistance) {
           minDistance = distance;
           closestIdx = idx;
         }
-      });
+      }
 
-      setActiveIndex(closestIdx);
+      // Only trigger React re-render if the active index actually changed
+      if (closestIdx !== prevIdxRef.current) {
+        prevIdxRef.current = closestIdx;
+        setActiveIndex(closestIdx);
+      }
     };
 
+    // Initial cache + scroll
+    const initTimer = setTimeout(() => {
+      cachePositions();
+      handleScroll();
+    }, 100);
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', cachePositions, { passive: true });
+    return () => {
+      clearTimeout(initTimer);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', cachePositions);
+    };
   }, []);
 
   const activeItem = (activeIndex >= 0 && DISCIPLINES[activeIndex]) ? DISCIPLINES[activeIndex] : DISCIPLINES[0];

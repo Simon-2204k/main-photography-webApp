@@ -167,9 +167,9 @@
 /* Desktop-Only Center-Center Optical Calibration */
 @media (min-width: 1025px) {
   .stamp-card-centering-wrap {
-    transform: translate(-50%, calc(-50% + 72px));
+    transform: translate(-50%, -50%);
   }
   .stamp-helper-prompt {
-    top: calc(50% + 245px);
+    top: calc(50% + 175px);
   }
 }

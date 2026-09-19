@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 import './SpotlightCards.css';
 
 const SPOTLIGHT_CARDS = [
@@ -71,6 +72,14 @@ const SpotlightCardsComponent = () => {
   const cardRefs = useRef([]);
   const centerPosRef = useRef({ cx: 0, cy: 0 });
   const isVisibleRef = useRef(false);
+  const headerRef = useRef(null);
+
+  useLandoTextReveal(headerRef, ['.spotlight-tag span', '.spotlight-title', '.spotlight-subtitle'], {
+    theme: 'dark',
+    start: 'top 80%',
+    duration: 0.4,
+    stagger: 0.04,
+  });
 
   useEffect(() => {
     const spotlight = spotlightRef.current;
@@ -327,7 +336,7 @@ const SpotlightCardsComponent = () => {
   return (
     <section id="magnetic-spotlight-section" ref={spotlightRef} className="spotlight-section">
       {/* Top Editorial HUD */}
-      <div className="spotlight-header">
+      <div ref={headerRef} className="spotlight-header">
         <div className="spotlight-tag">
           <span>INTERACTIVE SPOTLIGHT</span>
         </div>

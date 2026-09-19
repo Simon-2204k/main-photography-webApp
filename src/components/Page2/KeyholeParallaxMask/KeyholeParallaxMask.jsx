@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, memo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 import { Footer } from '../Footer/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -61,6 +62,12 @@ export const KeyholeParallaxMask = memo(({ onOpenMenu }) => {
   const maskWindowRef = useRef(null);
   const frontLayerRef = useRef(null);
   const cardRefs = useRef([]);
+
+  useLandoTextReveal(sectionRef, '.keyhole-headline', {
+    theme: 'light',
+    start: 'top 70%',
+    stagger: 0.04,
+  });
 
   useEffect(() => {
     let timer = null;
@@ -338,6 +345,7 @@ export const KeyholeParallaxMask = memo(({ onOpenMenu }) => {
             }}
           >
             <h2
+              className="keyhole-headline"
               style={{
                 fontFamily: "'Inter', sans-serif",
                 fontWeight: 900,
@@ -348,9 +356,12 @@ export const KeyholeParallaxMask = memo(({ onOpenMenu }) => {
                 color: '#ffffff',
                 mixBlendMode: 'difference',
                 margin: 0,
+                maxWidth: '12ch',
+                marginLeft: 'auto',
+                marginRight: 'auto',
               }}
             >
-              IN A WORLD FULL <br /> OF NOISE
+              IN A WORLD FULL OF NOISE
             </h2>
           </div>
         </div>
