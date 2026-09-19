@@ -146,12 +146,24 @@ export const InfiniteCanvas = ({ isExpanded, onToggleExpand }) => {
     startPointerRef.current = { x: e.clientX, y: e.clientY };
     lastPointerRef.current = { x: e.clientX, y: e.clientY, time: performance.now() };
     velocityRef.current = { x: 0, y: 0 };
+
+    if (e.currentTarget && e.currentTarget.setPointerCapture && e.pointerId !== undefined) {
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch (_) {}
+    }
+    window.lenis?.stop();
   };
 
   const handlePointerMove = (e) => {
-    if (!isDraggingRef.current || !isExpanded || e.buttons !== 1) {
+    if (!isDraggingRef.current || !isExpanded) return;
+    if (e.pointerType === 'mouse' && e.buttons !== 1) {
       isDraggingRef.current = false;
       return;
+    }
+
+    if (e.cancelable) {
+      e.preventDefault();
     }
 
     const dx = e.clientX - startPointerRef.current.x;
@@ -170,13 +182,22 @@ export const InfiniteCanvas = ({ isExpanded, onToggleExpand }) => {
     lastPointerRef.current = { x: e.clientX, y: e.clientY, time: now };
   };
 
-  const handlePointerUp = () => {
+  const handlePointerUp = (e) => {
     isDraggingRef.current = false;
+    window.lenis?.start();
+    if (e && e.currentTarget && e.currentTarget.releasePointerCapture && e.pointerId !== undefined) {
+      try {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      } catch (_) {}
+    }
   };
 
   useEffect(() => {
     const handleGlobalUp = () => {
-      isDraggingRef.current = false;
+      if (isDraggingRef.current) {
+        isDraggingRef.current = false;
+        window.lenis?.start();
+      }
     };
 
     window.addEventListener('pointerup', handleGlobalUp);
@@ -238,16 +259,7 @@ export const InfiniteCanvas = ({ isExpanded, onToggleExpand }) => {
         const currentRotation = lerp(item.stackRot + idleFloatRot + idleTilt, 0, p);
         const currentScale = lerp(item.stackScale, 1, p);
 
-        const staticZIndex = gridItems.length - index;
-
-        gsap.set(cardEl, {
-          x: currentX,
-          y: currentY,
-          rotation: currentRotation,
-          scale: currentScale,
-          force3D: true,
-          zIndex: staticZIndex
-        });
+        cardEl.style.transform = `translate3d(${currentX.toFixed(1)}px, ${currentY.toFixed(1)}px, 0px) rotate(${currentRotation.toFixed(2)}deg) scale(${currentScale.toFixed(3)})`;
       });
 
       animFrameRef.current = requestAnimationFrame(updatePositions);
@@ -256,6 +268,7 @@ export const InfiniteCanvas = ({ isExpanded, onToggleExpand }) => {
     if (isInView) {
       animFrameRef.current = requestAnimationFrame(updatePositions);
     }
+
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
@@ -307,7 +320,7 @@ export const InfiniteCanvas = ({ isExpanded, onToggleExpand }) => {
               key={item.id}
               ref={(el) => (cardsRef.current[index] = el)}
               className="absolute left-0 top-0 touch-none will-change-transform"
-              style={{ transformOrigin: 'center center' }}
+              style={{ transformOrigin: 'center center', zIndex: gridItems.length - index }}
             >
               <div className="stamp-card-centering-wrap">
                 <StampCard

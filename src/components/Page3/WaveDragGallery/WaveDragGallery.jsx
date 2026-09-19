@@ -225,6 +225,19 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
       const clientX = e.clientX;
       if (clientX === undefined || clientX === null) return;
 
+      const rect = canvasWrapper.getBoundingClientRect();
+      const relY = (e.clientY - rect.top) / rect.height;
+
+      // Cards wave gallery is vertically centered (from ~22% to ~78% height)
+      const isOverCardArea = relY >= 0.22 && relY <= 0.78;
+
+      if (!isOverCardArea && (e.pointerType === 'touch' || window.innerWidth <= 1024)) {
+        // Touched blank area! Allow normal page scroll
+        isPointerDown = false;
+        isCardDrag = false;
+        return;
+      }
+
       isPointerDown = true;
       isCardDrag = true;
       startPointerX = clientX;
@@ -232,6 +245,8 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
       lastPointerTime = performance.now();
       dragVelocity = 0;
       flingVelocity = 0;
+
+      window.lenis?.stop();
 
       canvasWrapper.classList.add('is-dragging');
       if (canvasWrapper.setPointerCapture && e.pointerId) {
@@ -263,7 +278,7 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
         dragVelocity = (worldDelta / dt) * 16.6;
       }
 
-      if (e.cancelable && Math.abs(clientX - startPointerX) > 6) {
+      if (e.cancelable) {
         e.preventDefault();
       }
     };
@@ -272,6 +287,7 @@ export const WaveDragGalleryComponent = ({ onOpenMenu }) => {
       if (isPointerDown) {
         isPointerDown = false;
         isCardDrag = false;
+        window.lenis?.start();
         canvasWrapper.classList.remove('is-dragging');
         if (canvasWrapper.releasePointerCapture && e && e.pointerId) {
           try {

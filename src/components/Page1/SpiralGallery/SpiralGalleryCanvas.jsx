@@ -122,11 +122,15 @@ const SpiralScene = ({ projects, scrollProgressRef }) => {
     const scrollClimb = isMobileOrTablet ? MOBILE_SCROLL_CLIMB : DESKTOP_SCROLL_CLIMB;
     const entranceEndY = responsiveY + scrollClimb;
     const entranceY = THREE.MathUtils.lerp(entranceStartY, entranceEndY, scrollProgress);
-    mainGroupRef.current.position.y = THREE.MathUtils.lerp(
-      mainGroupRef.current.position.y,
-      entranceY,
-      0.08
-    );
+    if (Math.abs(mainGroupRef.current.position.y - entranceY) > 1.5) {
+      mainGroupRef.current.position.y = entranceY;
+    } else {
+      mainGroupRef.current.position.y = THREE.MathUtils.lerp(
+        mainGroupRef.current.position.y,
+        entranceY,
+        0.12
+      );
+    }
 
     const targetPosX = -mouseX * 1.6;
     spiralGroupRef.current.position.x = THREE.MathUtils.lerp(
@@ -212,7 +216,7 @@ export const SpiralGalleryCanvas = React.memo(({ projects, scrollProgressRef, is
   const dprVal = typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 1.5) : 1;
 
   return (
-    <div className="canvas-wrapper" style={{ display: isActive ? 'block' : 'none' }}>
+    <div className="canvas-wrapper" style={{ visibility: isActive ? 'visible' : 'hidden', pointerEvents: isActive ? 'auto' : 'none' }}>
       <Canvas
         frameloop={isActive ? "always" : "never"}
         gl={{

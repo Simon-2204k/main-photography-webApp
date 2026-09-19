@@ -135,12 +135,24 @@ export const DarkroomCanvasComponent = () => {
     box.style.zIndex = highestZIndexRef.current;
     box.classList.add('is-dragging');
 
+    if (box.setPointerCapture && e.pointerId !== undefined) {
+      try {
+        box.setPointerCapture(e.pointerId);
+      } catch (_) {}
+    }
+
+    window.lenis?.stop();
+
     const rect = box.getBoundingClientRect();
     const offsetX = e.clientX - rect.left;
     const offsetY = e.clientY - rect.top;
 
     const handlePointerMove = (moveEvent) => {
       if (!isDraggingRef.current) return;
+      if (moveEvent.cancelable) {
+        moveEvent.preventDefault();
+      }
+
       const newLeft = moveEvent.clientX - offsetX;
       const newTop = moveEvent.clientY - offsetY;
 
@@ -150,17 +162,25 @@ export const DarkroomCanvasComponent = () => {
       updateBadge(idx);
     };
 
-    const handlePointerUp = () => {
+    const handlePointerUp = (upEvent) => {
       isDraggingRef.current = false;
       box.classList.remove('is-dragging');
+      window.lenis?.start();
+
+      if (box.releasePointerCapture && upEvent && upEvent.pointerId !== undefined) {
+        try {
+          box.releasePointerCapture(upEvent.pointerId);
+        } catch (_) {}
+      }
+
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);
       window.removeEventListener('pointercancel', handlePointerUp);
     };
 
-    window.addEventListener('pointermove', handlePointerMove);
-    window.addEventListener('pointerup', handlePointerUp);
-    window.addEventListener('pointercancel', handlePointerUp);
+    window.addEventListener('pointermove', handlePointerMove, { passive: false });
+    window.addEventListener('pointerup', handlePointerUp, { passive: true });
+    window.addEventListener('pointercancel', handlePointerUp, { passive: true });
   };
 
   useEffect(() => {

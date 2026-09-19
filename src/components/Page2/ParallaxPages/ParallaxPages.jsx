@@ -32,6 +32,7 @@ export default function ParallaxPages() {
   const statementRef = useRef(null);
   const progressBarRefs = useRef([]);
   const marqueeXRef = useRef(0);
+  const targetMarqueeXRef = useRef(0);
   const scrollDirRef = useRef(1);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
@@ -148,13 +149,12 @@ export default function ParallaxPages() {
         const tracks = carousel.querySelectorAll('.marquee-track');
         if (!tracks.length) return;
 
-        const step = 0.08 * scrollDirRef.current;
-        marqueeXRef.current -= step;
+        marqueeXRef.current += (targetMarqueeXRef.current - marqueeXRef.current) * 0.12;
 
         const wrappedX = gsap.utils.wrap(-50, 0, marqueeXRef.current);
 
         tracks.forEach((track) => {
-          gsap.set(track, { xPercent: wrappedX });
+          track.style.transform = `translate3d(${wrappedX}%, 0px, 0px)`;
         });
       };
 
@@ -324,12 +324,12 @@ export default function ParallaxPages() {
             }
           }
 
-          if (currentProgress > previousProgressRef.current) {
-            scrollDirRef.current = 1;
-          } else if (currentProgress < previousProgressRef.current) {
-            scrollDirRef.current = -1;
-          }
+          const delta = currentProgress - previousProgressRef.current;
           previousProgressRef.current = currentProgress;
+
+          if (Math.abs(delta) > 0.00001) {
+            targetMarqueeXRef.current -= delta * 160;
+          }
 
           const segmentSize = 1 / PAGES.length;
           const targetIndex = Math.min(

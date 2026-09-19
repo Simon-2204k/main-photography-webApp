@@ -63,7 +63,7 @@ export const Page1Component = ({ onOpenMenu, isIntroActive = false }) => {
           prevSpiralActiveRef.current = false;
           setIsSpiralActive(false);
         }
-      } else if (rectTop >= window.innerHeight * 0.5) {
+      } else if (rectTop > 0) {
         if (!prevSpiralActiveRef.current) {
           prevSpiralActiveRef.current = true;
           setIsSpiralActive(true);
@@ -84,6 +84,7 @@ export const Page1Component = ({ onOpenMenu, isIntroActive = false }) => {
     gsap.registerPlugin(ScrollTrigger);
     lenis.on('scroll', ScrollTrigger.update);
     lenis.on('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     handleScroll();
 
@@ -99,6 +100,7 @@ export const Page1Component = ({ onOpenMenu, isIntroActive = false }) => {
     return () => {
       clearTimeout(refreshTimer);
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
       gsap.ticker.remove(updateLenis);
       lenis.destroy();
     };
@@ -118,11 +120,10 @@ export const Page1Component = ({ onOpenMenu, isIntroActive = false }) => {
       <div
         className="page1-fixed-spiral-canvas"
         style={{
-          display: isSpiralActive ? 'block' : 'none',
           visibility: isSpiralActive ? 'visible' : 'hidden',
           opacity: isSpiralActive ? 1 : 0,
           pointerEvents: isSpiralActive ? 'auto' : 'none',
-          transition: 'opacity 0.25s ease'
+          transition: 'opacity 0.2s ease'
         }}
       >
         <SpiralGalleryCanvas

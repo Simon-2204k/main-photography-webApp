@@ -115,45 +115,93 @@ export default function Section7DirectorReveal() {
     };
   }, []);
 
-  const handleBoxEnter = (i) => {
-    const box = boxRefs.current[i];
-    if (box) box.style.filter = 'grayscale(0%)';
+  const currentActiveRef = useRef(null);
+
+  const activateAuthor = (i) => {
+    const prevIdx = currentActiveRef.current;
+    if (prevIdx === i) return;
+
+    currentActiveRef.current = i;
+    setActiveMobileIdx(i);
 
     const tl = gsap.timeline();
 
+    // If switching from another author, hide previous author without restoring DIRECTORS
+    if (prevIdx !== null && prevIdx !== i) {
+      const prevBox = boxRefs.current[prevIdx];
+      if (prevBox) {
+        prevBox.style.filter = 'grayscale(100%)';
+        const isMobile = window.innerWidth <= 640;
+        tl.to(
+          prevBox,
+          {
+            width: isMobile ? 68 : 100,
+            height: isMobile ? 94 : 100,
+            duration: 0.3,
+            ease: 'power2.out',
+            overwrite: 'auto',
+          },
+          0
+        );
+      }
+
+      const prevGroup = dynamicCharsRef.current[prevIdx];
+      if (prevGroup) {
+        tl.to(
+          prevGroup,
+          {
+            y: '130%',
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.out',
+            overwrite: 'auto',
+            stagger: { from: 'center', amount: 0.12 },
+          },
+          0
+        );
+      }
+    }
+
+    // Ensure DIRECTORS is completely hidden
     if (defaultCharsRef.current.length) {
       tl.to(
         defaultCharsRef.current,
         {
           y: '-100%',
+          opacity: 0,
           duration: 0.35,
           ease: 'power3.out',
           overwrite: 'auto',
-          stagger: { from: 'center', amount: 0.2 },
+          stagger: { from: 'center', amount: 0.15 },
         },
         0
       );
     }
 
+    // Animate target author letters in
     const targetGroup = dynamicCharsRef.current[i];
     if (targetGroup) {
       tl.to(
         targetGroup,
         {
           y: '0%',
+          opacity: 1,
           duration: 0.35,
           ease: 'power3.out',
           overwrite: 'auto',
-          stagger: { from: 'center', amount: 0.2 },
+          stagger: { from: 'center', amount: 0.18 },
         },
         0
       );
     }
 
-    if (box) {
+    // Expand target box
+    const currentBox = boxRefs.current[i];
+    if (currentBox) {
+      currentBox.style.filter = 'grayscale(0%)';
       const isMobile = window.innerWidth <= 640;
       tl.to(
-        box,
+        currentBox,
         {
           width: isMobile ? 82 : 200,
           height: isMobile ? 112 : 200,
@@ -166,11 +214,29 @@ export default function Section7DirectorReveal() {
     }
   };
 
-  const handleBoxLeave = (i) => {
-    const box = boxRefs.current[i];
-    if (box) box.style.filter = 'grayscale(100%)';
+  const deactivateAuthor = (i) => {
+    if (currentActiveRef.current !== i) return;
+    currentActiveRef.current = null;
+    setActiveMobileIdx(null);
 
     const tl = gsap.timeline();
+
+    const box = boxRefs.current[i];
+    if (box) {
+      box.style.filter = 'grayscale(100%)';
+      const isMobile = window.innerWidth <= 640;
+      tl.to(
+        box,
+        {
+          width: isMobile ? 68 : 100,
+          height: isMobile ? 94 : 100,
+          duration: 0.35,
+          ease: 'power2.out',
+          overwrite: 'auto',
+        },
+        0
+      );
+    }
 
     const targetGroup = dynamicCharsRef.current[i];
     if (targetGroup) {
@@ -178,39 +244,27 @@ export default function Section7DirectorReveal() {
         targetGroup,
         {
           y: '130%',
-          duration: 0.4,
+          opacity: 0,
+          duration: 0.35,
           ease: 'power2.out',
           overwrite: 'auto',
-          stagger: { from: 'center', amount: 0.2 },
+          stagger: { from: 'center', amount: 0.15 },
         },
         0
       );
     }
 
+    // Only restore DIRECTORS when all authors are deselected
     if (defaultCharsRef.current.length) {
       tl.to(
         defaultCharsRef.current,
         {
           y: '0%',
-          duration: 0.4,
+          opacity: 1,
+          duration: 0.35,
           ease: 'power2.out',
           overwrite: 'auto',
           stagger: { from: 'center', amount: 0.2 },
-        },
-        0
-      );
-    }
-
-    if (box) {
-      const isMobile = window.innerWidth <= 640;
-      tl.to(
-        box,
-        {
-          width: isMobile ? 68 : 100,
-          height: isMobile ? 94 : 100,
-          duration: 0.4,
-          ease: 'power2.out',
-          overwrite: 'auto',
         },
         0
       );
@@ -218,22 +272,16 @@ export default function Section7DirectorReveal() {
   };
 
   const handleBoxClick = (i) => {
-    if (activeMobileIdx === i) {
-      handleBoxLeave(i);
-      setActiveMobileIdx(null);
+    if (currentActiveRef.current === i) {
+      deactivateAuthor(i);
     } else {
-      if (activeMobileIdx !== null) {
-        handleBoxLeave(activeMobileIdx);
-      }
-      handleBoxEnter(i);
-      setActiveMobileIdx(i);
+      activateAuthor(i);
     }
   };
 
   const handleContainerClick = () => {
-    if (activeMobileIdx !== null) {
-      handleBoxLeave(activeMobileIdx);
-      setActiveMobileIdx(null);
+    if (currentActiveRef.current !== null) {
+      deactivateAuthor(currentActiveRef.current);
     }
   };
 
@@ -268,8 +316,16 @@ export default function Section7DirectorReveal() {
             ref={(el) => (boxRefs.current[i] = el)}
             className={`box ${activeMobileIdx === i ? 'mobile-active' : ''}`}
             style={{ backgroundImage: `url(${director.img})` }}
-            onMouseEnter={() => handleBoxEnter(i)}
-            onMouseLeave={() => handleBoxLeave(i)}
+            onMouseEnter={() => {
+              if (typeof window !== 'undefined' && window.matchMedia && !window.matchMedia('(hover: none)').matches) {
+                activateAuthor(i);
+              }
+            }}
+            onMouseLeave={() => {
+              if (typeof window !== 'undefined' && window.matchMedia && !window.matchMedia('(hover: none)').matches) {
+                deactivateAuthor(i);
+              }
+            }}
             onClick={(e) => {
               e.stopPropagation();
               handleBoxClick(i);

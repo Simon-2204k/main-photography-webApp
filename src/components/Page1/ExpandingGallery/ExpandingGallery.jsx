@@ -15,16 +15,18 @@ const ExpandingGalleryComponent = () => {
 
     let startWidth = 125;
     let endWidth = 500;
-    let isTickerActive = false;
+    let cachedMetrics = [];
+    let lastScrollY = -1;
+    let animFrameId = null;
 
     const setupLayout = () => {
       const width = window.innerWidth;
       if (width < 768) {
-        startWidth = 280;
-        endWidth = 750;
+        startWidth = 240;
+        endWidth = 620;
       } else if (width <= 1024) {
         startWidth = Math.round(125 * (1200 / Math.max(width, 500)));
-        endWidth = Math.round(startWidth * 3.8);
+        endWidth = Math.round(startWidth * 3.4);
       } else {
         startWidth = 125;
         endWidth = 500;
@@ -42,29 +44,34 @@ const ExpandingGalleryComponent = () => {
 
         section.style.height = `${singleRowHeight * ROWS_COUNT + gapSize * (ROWS_COUNT - 1) + paddingTop + paddingBottom}px`;
       }
-    };
 
-    const updateScroll = () => {
+      // Cache document-relative row positions ONCE on setup/resize to avoid layout thrashing
       const scrollY = window.scrollY;
-      const viewportHeight = window.innerHeight;
-      const rows = rowsRef.current;
-      const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-
-      const measurements = [];
+      cachedMetrics = [];
       for (let i = 0; i < ROWS_COUNT; i++) {
-        const row = rows[i];
+        const row = rowsRef.current[i];
         if (!row) continue;
         const rect = row.getBoundingClientRect();
-        measurements.push({
+        cachedMetrics.push({
           row,
           rowTop: rect.top + scrollY,
-          height: rect.height,
+          height: rect.height || 180,
         });
       }
+      lastScrollY = -1;
+      updateScroll(true);
+    };
 
+    const updateScroll = (force = false) => {
+      const scrollY = window.scrollY;
+      if (!force && Math.abs(scrollY - lastScrollY) < 0.5) return;
+      lastScrollY = scrollY;
+
+      const viewportHeight = window.innerHeight;
       const widthDelta = endWidth - startWidth;
-      for (let i = 0; i < measurements.length; i++) {
-        const { row, rowTop, height } = measurements[i];
+
+      for (let i = 0; i < cachedMetrics.length; i++) {
+        const { row, rowTop, height } = cachedMetrics[i];
         const scrollStart = rowTop - viewportHeight;
         const scrollEnd = rowTop + height;
         const span = scrollEnd - scrollStart || 1;
@@ -80,19 +87,26 @@ const ExpandingGalleryComponent = () => {
       }
     };
 
+    const handleScroll = () => {
+      if (!animFrameId) {
+        animFrameId = requestAnimationFrame(() => {
+          updateScroll();
+          animFrameId = null;
+        });
+      }
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setupLayout();
-            if (!isTickerActive) {
-              gsap.ticker.add(updateScroll);
-              isTickerActive = true;
-            }
+            window.addEventListener('scroll', handleScroll, { passive: true });
           } else {
-            if (isTickerActive) {
-              gsap.ticker.remove(updateScroll);
-              isTickerActive = false;
+            window.removeEventListener('scroll', handleScroll);
+            if (animFrameId) {
+              cancelAnimationFrame(animFrameId);
+              animFrameId = null;
             }
           }
         });
@@ -107,8 +121,10 @@ const ExpandingGalleryComponent = () => {
     return () => {
       observer.disconnect();
       window.removeEventListener('resize', setupLayout);
-      if (isTickerActive) {
-        gsap.ticker.remove(updateScroll);
+      window.removeEventListener('scroll', handleScroll);
+      if (animFrameId) {
+        cancelAnimationFrame(animFrameId);
+        animFrameId = null;
       }
     };
   }, []);

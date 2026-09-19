@@ -301,25 +301,38 @@ export class CylindricalGalleryEngine {
       const rect = this.canvas.getBoundingClientRect();
       const clientX = e.touches[0].clientX - rect.left;
       const clientY = e.touches[0].clientY - rect.top;
+      const relX = clientX / rect.width;
+      const relY = clientY / rect.height;
+
       this.touchVector.x = (clientX / rect.width) * 2 - 1;
       this.touchVector.y = -(clientY / rect.height) * 2 + 1;
 
+      let hitCylinder = false;
       if (this.camera && this.carouselGroup) {
         this.raycaster.setFromCamera(this.touchVector, this.camera);
         const intersects = this.raycaster.intersectObjects(this.carouselGroup.children, true);
-        this.isTouchOnCylinder = intersects.length > 0;
-      } else {
-        this.isTouchOnCylinder = false;
+        hitCylinder = intersects.length > 0;
       }
 
+      // If raycaster hit or touch falls within the cylinder's vertical band
+      const inCylinderBounds = relY >= 0.18 && relY <= 0.80 && relX >= 0.08 && relX <= 0.92;
+      this.isTouchOnCylinder = hitCylinder || inCylinderBounds;
       this.isUserInteracting = this.isTouchOnCylinder;
+
+      if (this.isTouchOnCylinder) {
+        window.lenis?.stop();
+      }
     };
 
     this.handleTouchMove = (e) => {
       if (!e.touches || e.touches.length === 0) return;
 
       if (!this.isTouchOnCylinder) {
-        return;
+        return; // Blank area: allow normal page scroll
+      }
+
+      if (e.cancelable) {
+        e.preventDefault(); // On cylinder: prevent page scroll
       }
 
       const currentX = e.touches[0].clientX;
@@ -333,17 +346,12 @@ export class CylindricalGalleryEngine {
       const deltaAngle = (deltaX / viewportWidth) * Math.PI * 1.6;
 
       if (this.carouselGroup) {
-
         this.carouselGroup.rotation.y += deltaAngle;
 
         const tiltSensitivity = 0.95;
         const tiltDelta = (deltaY / viewportHeight) * tiltSensitivity;
         this.touchTiltX = Math.max(-0.25, Math.min(0.25, (this.touchTiltX || 0) + tiltDelta));
         this.carouselGroup.rotation.x = this.touchTiltX;
-      }
-
-      if (e.cancelable) {
-        e.preventDefault();
       }
 
       this.rotationVelocity = this.rotationVelocity * 0.25 + deltaAngle * 0.75;
@@ -354,6 +362,7 @@ export class CylindricalGalleryEngine {
     this.handleTouchEnd = () => {
       if (this.isTouchOnCylinder) {
         this.scheduleTiltReset();
+        window.lenis?.start();
       }
       this.isTouchOnCylinder = false;
       this.isUserInteracting = false;
