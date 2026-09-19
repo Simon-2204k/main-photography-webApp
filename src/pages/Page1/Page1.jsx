@@ -58,12 +58,12 @@ export const Page1Component = ({ onOpenMenu, isIntroActive = false }) => {
       const section2El = document.getElementById('perspectives-section');
       const rectTop = section2El ? section2El.getBoundingClientRect().top : (spacerHeight - scrollY);
 
-      if (rectTop <= 0) {
+      if (rectTop <= -100) {
         if (prevSpiralActiveRef.current) {
           prevSpiralActiveRef.current = false;
           setIsSpiralActive(false);
         }
-      } else if (rectTop > 0) {
+      } else if (rectTop > -50) {
         if (!prevSpiralActiveRef.current) {
           prevSpiralActiveRef.current = true;
           setIsSpiralActive(true);

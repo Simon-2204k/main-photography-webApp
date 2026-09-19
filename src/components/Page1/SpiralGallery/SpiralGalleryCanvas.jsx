@@ -122,15 +122,7 @@ const SpiralScene = ({ projects, scrollProgressRef }) => {
     const scrollClimb = isMobileOrTablet ? MOBILE_SCROLL_CLIMB : DESKTOP_SCROLL_CLIMB;
     const entranceEndY = responsiveY + scrollClimb;
     const entranceY = THREE.MathUtils.lerp(entranceStartY, entranceEndY, scrollProgress);
-    if (Math.abs(mainGroupRef.current.position.y - entranceY) > 1.5) {
-      mainGroupRef.current.position.y = entranceY;
-    } else {
-      mainGroupRef.current.position.y = THREE.MathUtils.lerp(
-        mainGroupRef.current.position.y,
-        entranceY,
-        0.12
-      );
-    }
+    mainGroupRef.current.position.y = entranceY;
 
     const targetPosX = -mouseX * 1.6;
     spiralGroupRef.current.position.x = THREE.MathUtils.lerp(
