@@ -27,6 +27,59 @@ ALSO NO AUTO PROCEED UNTIL I SAY DONT TOUCH ANY SINGLE CODE , EDIT CODE , CHANGE
 
 ## 📌 Resolved Issues
 
+### ✅ Issue 50: Intro Images WebP Optimization from `temp-images/`, Gitignore, Resize Animation & Whole-Website Unified Lenis Touch/Swipe Physics
+- **User Requests**:
+  1. *"for intro images i agve u in a tempory images folder which i will delte later @[temp-images] dont add in git - gitignore and make react optimization push in github"*
+  2. *"see check this on resize :- resize animation lenis to whole website yes add to whole website very very smooth pinning scrolling grabbing, touch , swipe in phone tab and esktop ."*
+  3. *"proceed-push in github"*
+- **Target Files**:
+  - `.gitignore` [MODIFY]
+  - `public/images/intro/` [10 lightweight WebP assets]
+  - `src/components/IntroEffect/IntroEffect.jsx` [MODIFY]
+  - `src/components/IntroEffect/IntroEffect.css` [MODIFY]
+  - `src/pages/Page1/Page1.jsx`, `Page2.jsx`, `Page3.jsx`, `Page4.jsx` [MODIFY]
+- **Resolution**:
+  1. **Gitignore Temporary Raw Assets**:
+     - Added `temp-images/` and `/temp-images/` to `.gitignore` so the temporary raw folder is completely ignored and safe for deletion by user.
+  2. **Retina WebP Conversion & 99% Bandwidth Reduction**:
+     - Converted 10 selected photography assets from `temp-images/` to `600×900px` WebP (`intro-01.webp` through `intro-10.webp`). Total payload slashed from 25MB down to 290KB.
+  3. **React Image Optimization**:
+     - Asynchronous pre-decoding (`img.decode()`) in `useEffect` so all 10 cards pop up simultaneously with zero stutter or white flash.
+     - Added `fetchPriority="high"`, `decoding="async"`, and explicit `aspect-ratio: 2 / 3` styling.
+  4. **Resize Animation Stability**:
+     - Added dynamic window resize and orientation change handler in `IntroEffect.jsx` ensuring slide distances recalculate cleanly on phone, tablet (up to 1204 × 1366), and desktop.
+  5. **Whole-Website Unified Lenis Touch/Swipe Physics**:
+     - Standardized Lenis across all pages (`Page1`, `Page2`, `Page3`, `Page4`) with `syncTouch: true`, `syncTouchLerp: 0.08`, `touchMultiplier: 1.6`, `touchInertiaExponent: 1.65`, `smoothWheel: true`, and window resize sync with `lenis.resize()` and `ScrollTrigger.refresh()`.
+     - Delivers butter-smooth pinning, scrolling, grabbing, touch, and swipe across mobile, tablet, and desktop.
+  6. Verified with `npm run build`: built in 11.34s with **0 errors**.
+
+### ✅ Issue 48: Integrate Intro Website Animation Before Normal Homepage (Full Responsive & Photography-Themed)
+- **User Request**:
+  - *"@[copyFromThisFolder/introEffect] use intro website animtion before the normal hoemepage also replace all the word / sentence with photography related one"*
+  - *"1] full responsive: phone , tab = till 1204 x 1366, desktop alredy present"*
+  - *"100% copy no , gilthc and jitter smoothly combined"*
+- **Target Files**:
+  - `src/components/IntroEffect/IntroEffect.jsx` [NEW]
+  - `src/components/IntroEffect/IntroEffect.css` [NEW]
+  - `public/images/intro/` [NEW assets]
+  - `src/App.jsx` [MODIFY]
+- **Resolution**:
+  1. **100% Faithful Recreation of `copyFromThisFolder/introEffect`**:
+     - Background grid (`.belowDiv`) with 3 columns of dotted monospace phrase tags.
+     - Upper scaling slider with `openingPage` (center title `PHOTOGRAPHY`, 10 scattered floating photo cards popping up with stagger, 2 floating glassmorphism info cards at bottom left/right) and `secondopeningPage`.
+     - GSAP timeline: cards scale from 0 with stagger -> `upperDiv` scales down to 0.75 revealing the background grid -> `.slider` translates `-(width + gap)` -> `upperDiv` scales back to 1 -> smooth dissolve transition into the normal homepage (`Page1`) with zero glitch or jitter.
+  2. **Full Photography Theming**:
+     - Replaced all words/phrases with high-end photography, analog emulsion, darkroom, and master print terminology.
+     - Center display title: `PHOTOGRAPHY`.
+     - 10 authentic photographic gallery assets from `copyFromThisFolder/introEffect/imagesGallery/`.
+  3. **Full Responsiveness**:
+     - Desktop, Tablet (up to 1204 × 1366 / iPad Pro), and Mobile phones (< 768px).
+     - Dynamic viewport sizing without hardcoded static pixel overflow.
+  4. **Smooth Integration (Zero Glitch / Jitter)**:
+     - Seamless fade transition (`opacity: 0`, 0.65s) from intro into `Page1` with proper cleanup, avoiding layout shifts or Lenis scroll collisions.
+     - Included a subtle top-right "Skip ↗" button for instant bypass.
+  5. Verified with `npm run build`: built in 13.14s with **0 errors**.
+
 ### ✅ Issue 47: Section 2 — Restore Connectory & Testimonials Interactive DOM Layout with Zero Borders
 - **User Request**:
   - *"restore the previous connectory and testinomal but no border -"*

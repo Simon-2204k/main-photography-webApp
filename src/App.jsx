@@ -4,6 +4,7 @@ import { Page2 } from './pages/Page2/Page2';
 import { Page3 } from './pages/Page3/Page3';
 import { Page4 } from './pages/Page4/Page4';
 import { MenuOverlay } from './components/Page1/MenuOverlay/MenuOverlay';
+import { IntroEffect } from './components/IntroEffect/IntroEffect';
 
 export function App() {
   const [currentPage, setCurrentPage] = useState(() => {
@@ -20,6 +21,16 @@ export function App() {
       }
     }
     return 'page1';
+  });
+
+  const [showIntro, setShowIntro] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.toLowerCase();
+      if (!hash || hash === '#home' || hash === '#page1') {
+        return true;
+      }
+    }
+    return false;
   });
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -84,6 +95,11 @@ export function App() {
         <Page2 onOpenMenu={handleOpenMenu} />
       ) : (
         <Page1 onOpenMenu={handleOpenMenu} />
+      )}
+
+      {/* Intro Website Animation played before normal homepage */}
+      {showIntro && currentPage === 'page1' && (
+        <IntroEffect onComplete={() => setShowIntro(false)} />
       )}
 
       {/* Global Persistent MenuOverlay for Symmetrical Morphing */}

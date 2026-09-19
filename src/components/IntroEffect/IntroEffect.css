@@ -1,0 +1,465 @@
+/* ==========================================================================
+   INTRO EFFECT STYLES (copyFromThisFolder/introEffect faithful reproduction)
+   Fully responsive: Mobile, Tablet (up to 1204x1366 / iPad Pro), Desktop
+   ========================================================================== */
+
+.parentElementLandingDiv {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  z-index: 99999;
+  background-color: #000000;
+  pointer-events: auto;
+}
+
+/* Skip Button */
+.intro-skip-btn {
+  position: absolute;
+  top: clamp(16px, 3vh, 32px);
+  right: clamp(16px, 3vw, 36px);
+  z-index: 100000;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(11px, 1vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  border-radius: 0px !important;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.intro-skip-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   BELOW DIV (Background 3-column Monospace Grid revealed when scaled down)
+   -------------------------------------------------------------------------- */
+.belowDiv {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: rgb(223, 221, 221);
+  color: rgb(0, 0, 0);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: clamp(20px, 4vh, 48px) clamp(16px, 3vw, 40px);
+  align-items: center;
+}
+
+.belowDiv-col {
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(0.5rem, 1.5vh, 0.9rem);
+  margin: 0 clamp(6px, 1vw, 16px);
+}
+
+.belowDiv-col h4 {
+  color: rgba(7, 7, 7, 0.68);
+  font-size: clamp(0.75rem, 1.05vw, 0.95rem);
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+  border: 1px dotted rgba(68, 68, 68, 0.63);
+  padding: 4px 8px;
+  letter-spacing: 0.02em;
+  margin: 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --------------------------------------------------------------------------
+   UPPER DIV (Scaling Window containing Opening Page & Second Opening Page)
+   -------------------------------------------------------------------------- */
+.upperDiv {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  color: rgb(26, 24, 24);
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.slider {
+  display: flex;
+  height: 100%;
+  gap: clamp(20px, 5vw, 90px);
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   OPENING PAGE (Center Title, Popping Cards & Floating Info Cards)
+   -------------------------------------------------------------------------- */
+.openingPage {
+  position: relative;
+  width: 100vw;
+  height: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.outerDiv {
+  width: 100%;
+  height: 100%;
+  background: #111113;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Center Display Title */
+.textDiv {
+  color: #ffffff;
+  position: absolute;
+  z-index: 5;
+  font-family: 'Anton', 'Impact', 'Franklin Gothic Medium', sans-serif;
+  font-size: clamp(3.5rem, 11vw, 9.5rem);
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  text-align: center;
+  pointer-events: none;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+}
+
+/* Scattered Popping Image Cards */
+.image.intro-effect-card {
+  width: clamp(120px, 16vw, 200px);
+  height: clamp(170px, 24vw, 300px);
+  aspect-ratio: 2 / 3;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 0px !important;
+  overflow: hidden;
+  background-color: #1a1a1e;
+  z-index: 3;
+  will-change: transform;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.intro-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Floating Glassmorphism Cards */
+.floating-card {
+  position: absolute;
+  bottom: clamp(20px, 4vh, 36px);
+  width: clamp(180px, 22vw, 250px);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px dotted rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  opacity: 0.85;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 10;
+  border-radius: 0px !important;
+}
+
+.floating-card:hover {
+  opacity: 1;
+  transform: translateY(-5px);
+}
+
+.floating-card.left {
+  left: clamp(16px, 3vw, 36px);
+}
+
+.floating-card.right {
+  right: clamp(16px, 3vw, 36px);
+}
+
+.floating-card h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(0.85rem, 1.05vw, 1.05rem);
+  font-weight: 700;
+  margin: 0;
+  padding: 10px 14px 4px 14px;
+  letter-spacing: -0.01em;
+}
+
+.floating-card p {
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  font-size: clamp(0.72rem, 0.88vw, 0.88rem);
+  padding: 4px 14px 10px 14px;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   SECOND OPENING PAGE (Editorial High-Impact Transition Monograph)
+   -------------------------------------------------------------------------- */
+.secondopeningPage {
+  width: 100vw;
+  height: 100%;
+  background: #000000;
+  color: #ffffff;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(24px, 4vh, 48px) clamp(20px, 4vw, 56px);
+  position: relative;
+  overflow: hidden;
+}
+
+.NamedDiv {
+  width: 100%;
+  height: 46vh;
+  justify-content: space-between;
+  align-items: flex-start;
+  display: flex;
+  margin-top: auto;
+}
+
+.leftDiv {
+  flex: 1.2;
+  display: flex;
+  align-items: flex-start;
+  padding: clamp(16px, 2.5vw, 32px);
+  border: 1px dotted rgba(255, 255, 255, 0.35);
+  height: 100%;
+}
+
+.leftDiv h1 {
+  color: #ffffff;
+  font-size: clamp(50px, 9vw, 140px);
+  line-height: 0.85;
+  font-weight: 900;
+  position: relative;
+  font-family: 'Anton', 'Impact', sans-serif;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.leftDiv .registered {
+  font-size: clamp(18px, 3.2vw, 42px);
+  position: absolute;
+  top: -8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 400;
+}
+
+.rightDiv {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  border: 1px dotted rgba(255, 255, 255, 0.35);
+  border-left: none;
+}
+
+.top-meta {
+  font-size: clamp(13px, 1.2vw, 18px);
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: clamp(16px, 2vw, 32px);
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  padding: clamp(16px, 2.5vw, 32px);
+}
+
+.bio {
+  max-width: 440px;
+  font-size: clamp(11px, 0.95vw, 14px);
+  line-height: 1.45;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.88);
+  font-family: 'Space Grotesk', monospace;
+  letter-spacing: 0.04em;
+}
+
+.date-time {
+  text-align: right;
+  font-size: clamp(11px, 0.95vw, 14px);
+  font-family: 'Courier New', monospace;
+  white-space: nowrap;
+}
+
+.squares {
+  letter-spacing: 3px;
+  margin-bottom: 6px;
+  color: #ffffff;
+}
+
+.thirdDiv {
+  width: 100%;
+  height: 3.5vh;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  margin-top: 18px;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE: TABLETS (768px to 1204px / iPad Pro 1024x1366)
+   -------------------------------------------------------------------------- */
+@media (max-width: 1204px) and (min-width: 769px) {
+  .textDiv {
+    font-size: clamp(3.2rem, 9vw, 6.5rem);
+  }
+
+  .image.intro-effect-card {
+    width: clamp(130px, 18vw, 175px);
+    height: clamp(190px, 26vw, 255px);
+  }
+
+  .floating-card {
+    width: clamp(190px, 24vw, 225px);
+    bottom: 24px;
+  }
+
+  .belowDiv-col h4 {
+    font-size: clamp(0.68rem, 1.1vw, 0.82rem);
+    padding: 3px 6px;
+  }
+
+  .NamedDiv {
+    height: auto;
+    min-height: 40vh;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE: MOBILE PHONES (< 768px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .intro-skip-btn {
+    top: 12px;
+    right: 12px;
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+
+  .belowDiv {
+    padding: 16px 8px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .belowDiv-col {
+    height: auto;
+    gap: 0.4rem;
+    margin: 0 3px;
+  }
+
+  .belowDiv-col h4 {
+    font-size: 0.6rem;
+    padding: 2px 3px;
+    letter-spacing: 0;
+  }
+
+  .textDiv {
+    font-size: clamp(2.2rem, 11vw, 3.8rem);
+  }
+
+  .image.intro-effect-card {
+    width: clamp(100px, 28vw, 135px);
+    height: clamp(150px, 42vw, 200px);
+  }
+
+  /* Compact floating cards at bottom to fit 100vw cleanly */
+  .floating-card {
+    bottom: 12px;
+    width: calc(50vw - 16px);
+  }
+
+  .floating-card.left {
+    left: 8px;
+  }
+
+  .floating-card.right {
+    right: 8px;
+  }
+
+  .floating-card h4 {
+    font-size: 0.76rem;
+    padding: 6px 8px 2px 8px;
+  }
+
+  .floating-card p {
+    font-size: 0.66rem;
+    padding: 2px 8px 8px 8px;
+    line-height: 1.35;
+  }
+
+  /* Second Opening Page Mobile Stack */
+  .secondopeningPage {
+    padding: 16px;
+  }
+
+  .NamedDiv {
+    flex-direction: column;
+    height: auto;
+    margin-top: auto;
+  }
+
+  .leftDiv {
+    width: 100%;
+    padding: 16px;
+    height: auto;
+  }
+
+  .leftDiv h1 {
+    font-size: clamp(42px, 14vw, 70px);
+  }
+
+  .rightDiv {
+    width: 100%;
+    border-left: 1px dotted rgba(255, 255, 255, 0.35);
+    border-top: none;
+  }
+
+  .top-meta {
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .bio {
+    font-size: 11px;
+  }
+
+  .date-time {
+    text-align: left;
+    font-size: 10px;
+  }
+
+  .thirdDiv {
+    height: 18px;
+    margin-top: 10px;
+  }
+}

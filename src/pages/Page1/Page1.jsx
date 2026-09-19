@@ -52,6 +52,8 @@ export const Page1Component = ({ onOpenMenu }) => {
 
     const handleResize = () => {
       spacerHeight = getSpacerHeight();
+      lenis.resize();
+      ScrollTrigger.refresh();
     };
     window.addEventListener('resize', handleResize, { passive: true });
 

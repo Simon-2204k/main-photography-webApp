@@ -41,6 +41,11 @@ export const Page3Component = ({ onOpenMenu }) => {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       wheelMultiplier: 1.0,
+      syncTouch: true, // Ultra-smooth synced physics scrolling on touch devices (phones & tablets)
+      syncTouchLerp: 0.08, // Butter-smooth interpolation on touch
+      touchMultiplier: 1.6, // Responsive touch sensitivity
+      touchInertiaExponent: 1.65,
+      infinite: false,
     });
 
     window.lenis = lenis;
@@ -56,13 +61,20 @@ export const Page3Component = ({ onOpenMenu }) => {
     gsap.ticker.add(updateLenis);
     gsap.ticker.lagSmoothing(0);
 
+    const handleResize = () => {
+      lenis.resize();
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+
     // Refresh ScrollTrigger to ensure pinned sections compute accurate geometry
     const refreshTimer = setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 300);
+    }, 200);
 
     return () => {
       clearTimeout(refreshTimer);
+      window.removeEventListener('resize', handleResize);
       delete window.lenis;
       lenis.destroy();
       gsap.ticker.remove(updateLenis);
