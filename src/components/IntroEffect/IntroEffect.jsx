@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, memo, useState } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
 import './IntroEffect.css';
 
@@ -22,7 +22,6 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
   const sliderRef = useRef(null);
   const upperDivRef = useRef(null);
   const isFinishedRef = useRef(false);
-  const [imagesReady, setImagesReady] = useState(false);
 
   const finishIntro = () => {
     if (isFinishedRef.current) return;
@@ -51,21 +50,6 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
   };
 
   useEffect(() => {
-    let cancelled = false;
-    Promise.all(
-      INTRO_IMAGES.map((src) => {
-        const img = new Image();
-        img.src = src;
-        return img.decode ? img.decode().catch(() => {}) : Promise.resolve();
-      })
-    ).then(() => {
-      if (!cancelled) setImagesReady(true);
-    });
-    return () => { cancelled = true; };
-  }, []);
-
-  useEffect(() => {
-    if (!imagesReady) return;
     const container = containerRef.current;
     const slider = sliderRef.current;
     const upperDiv = upperDivRef.current;
@@ -77,9 +61,13 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
         return container.clientWidth + gap;
       };
 
-      const cards = container.querySelectorAll('.intro-card-slot');
+      const cardInners = container.querySelectorAll('.intro-card-inner');
 
-      gsap.set(cards, { scale: 0 });
+      gsap.set(cardInners, {
+        scale: 0,
+        opacity: 0,
+        visibility: 'visible',
+      });
 
       const tl = gsap.timeline({
         onComplete: () => {
@@ -95,11 +83,13 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
         },
       });
 
-      tl.to(cards, {
+      tl.to(cardInners, {
         scale: 1,
+        opacity: 1,
         stagger: 0.185,
         duration: 0.45,
         ease: 'back.out(1.2)',
+        force3D: true,
       })
       .to(
         upperDiv,
@@ -141,7 +131,7 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
     return () => {
       ctx.revert();
     };
-  }, [imagesReady]);
+  }, []);
 
   return (
     <div ref={containerRef} className="parentElementLandingDiv" aria-label="Intro Website Animation">
@@ -186,19 +176,28 @@ export const IntroEffect = memo(function IntroEffect({ onComplete }) {
                   key={idx}
                   className="intro-card-slot"
                   style={{
-                    '--card-rotation': `${CARD_ROTATIONS[idx]}deg`,
+                    transform: `translate(-50%, -50%) rotate(${CARD_ROTATIONS[idx]}deg)`,
                   }}
                 >
-                  <img
-                    src={imgSrc}
-                    alt={`Archive Photographic Exhibit ${idx + 1}`}
-                    className="intro-card-img"
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                    width="200"
-                    height="300"
-                  />
+                  <div
+                    className="intro-card-inner"
+                    style={{
+                      opacity: 0,
+                      visibility: 'hidden',
+                      transform: 'scale(0)',
+                    }}
+                  >
+                    <img
+                      src={imgSrc}
+                      alt={`Archive Photographic Exhibit ${idx + 1}`}
+                      className="intro-card-img"
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
+                      width="200"
+                      height="300"
+                    />
+                  </div>
                 </div>
               ))}
             </div>

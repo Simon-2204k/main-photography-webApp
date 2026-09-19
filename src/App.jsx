@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import { Page1 } from './pages/Page1/Page1';
 import { MenuOverlay } from './components/Page1/MenuOverlay/MenuOverlay';
 import { IntroEffect } from './components/IntroEffect/IntroEffect';
 
-const Page1 = lazy(() => import('./pages/Page1/Page1'));
 const Page2 = lazy(() => import('./pages/Page2/Page2'));
 const Page3 = lazy(() => import('./pages/Page3/Page3'));
 const Page4 = lazy(() => import('./pages/Page4/Page4'));
@@ -92,18 +92,20 @@ export function App() {
         <IntroEffect onComplete={() => setShowIntro(false)} />
       )}
 
-      {!(showIntro && currentPage === 'page1') && (
+      {currentPage === 'page4' ? (
         <Suspense fallback={null}>
-          {currentPage === 'page4' ? (
-            <Page4 onOpenMenu={handleOpenMenu} />
-          ) : currentPage === 'page3' ? (
-            <Page3 onOpenMenu={handleOpenMenu} />
-          ) : currentPage === 'page2' ? (
-            <Page2 onOpenMenu={handleOpenMenu} />
-          ) : (
-            <Page1 onOpenMenu={handleOpenMenu} />
-          )}
+          <Page4 onOpenMenu={handleOpenMenu} />
         </Suspense>
+      ) : currentPage === 'page3' ? (
+        <Suspense fallback={null}>
+          <Page3 onOpenMenu={handleOpenMenu} />
+        </Suspense>
+      ) : currentPage === 'page2' ? (
+        <Suspense fallback={null}>
+          <Page2 onOpenMenu={handleOpenMenu} />
+        </Suspense>
+      ) : (
+        <Page1 onOpenMenu={handleOpenMenu} isIntroActive={showIntro} />
       )}
 
       <MenuOverlay

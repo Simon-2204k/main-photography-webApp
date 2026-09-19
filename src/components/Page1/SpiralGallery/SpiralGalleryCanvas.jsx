@@ -11,24 +11,18 @@ if (typeof window !== 'undefined') {
     try {
       useTexture.preload(p.image);
     } catch {
-
     }
   });
 }
 
 export const MOBILE_SPIRAL_SCALE = 0.45;
-
 export const MOBILE_SPIRAL_Y = -0.1;
-
 export const MOBILE_SPIRAL_TOTAL_HEIGHT = 10;
-
 export const MOBILE_SPIRAL_CARD_HEIGHT = 2.5;
-
 export const MOBILE_SCROLL_CLIMB = 1.2;
-
 export const DESKTOP_SCROLL_CLIMB = 1.2;
 
-const SpiralScene = ({ projects, scrollProgress }) => {
+const SpiralScene = ({ projects, scrollProgressRef }) => {
   const mainGroupRef = useRef();
   const spiralGroupRef = useRef();
   const { camera, size } = useThree();
@@ -67,7 +61,6 @@ const SpiralScene = ({ projects, scrollProgress }) => {
 
   useEffect(() => {
     const handlePointerDown = (e) => {
-
       if (e.pointerType === 'touch') {
         mousePosRef.current = { x: 0, y: 0 };
         return;
@@ -77,7 +70,6 @@ const SpiralScene = ({ projects, scrollProgress }) => {
     };
 
     const handlePointerMove = (e) => {
-
       if (e.pointerType === 'touch') {
         mousePosRef.current = { x: 0, y: 0 };
         return;
@@ -119,6 +111,8 @@ const SpiralScene = ({ projects, scrollProgress }) => {
 
   useFrame(() => {
     if (!spiralGroupRef.current || !mainGroupRef.current) return;
+
+    const scrollProgress = scrollProgressRef?.current ?? 0;
 
     const isTouchOrCoarse = isMobileOrTablet || (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches);
     const mouseX = isTouchOrCoarse ? 0 : mousePosRef.current.x;
@@ -193,7 +187,7 @@ const SpiralScene = ({ projects, scrollProgress }) => {
         </group>
       </group>
 
-      <EffectComposer multisampling={4}>
+      <EffectComposer multisampling={0}>
         <Bloom
           luminanceThreshold={0.4}
           luminanceSmoothing={0.8}
@@ -214,7 +208,9 @@ const SpiralScene = ({ projects, scrollProgress }) => {
   );
 };
 
-export const SpiralGalleryCanvas = React.memo(({ projects, scrollProgress, isActive = true }) => {
+export const SpiralGalleryCanvas = React.memo(({ projects, scrollProgressRef, isActive = true }) => {
+  const dprVal = typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 1.5) : 1;
+
   return (
     <div className="canvas-wrapper">
       <Canvas
@@ -225,7 +221,7 @@ export const SpiralGalleryCanvas = React.memo(({ projects, scrollProgress, isAct
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.5
         }}
-        dpr={[1, 1.75]}
+        dpr={[1, dprVal]}
       >
         <PerspectiveCamera
           makeDefault
@@ -233,7 +229,7 @@ export const SpiralGalleryCanvas = React.memo(({ projects, scrollProgress, isAct
           position={[0, 0.3, 9.5]}
         />
         <React.Suspense fallback={null}>
-          <SpiralScene projects={projects} scrollProgress={scrollProgress} />
+          <SpiralScene projects={projects} scrollProgressRef={scrollProgressRef} />
         </React.Suspense>
       </Canvas>
     </div>

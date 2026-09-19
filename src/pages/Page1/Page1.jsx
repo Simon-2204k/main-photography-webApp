@@ -21,25 +21,21 @@ import { Footer } from '../../components/Page1/Footer/Footer';
 import { projectsData } from '../../data/page1/projectsData';
 import './Page1.css';
 
-export const Page1Component = ({ onOpenMenu }) => {
-  const [scrollProgress, setScrollProgress] = useState(0);
+export const Page1Component = ({ onOpenMenu, isIntroActive = false }) => {
   const [isSpiralActive, setIsSpiralActive] = useState(true);
+  const [isHeaderActive, setIsHeaderActive] = useState(true);
+  const scrollProgressRef = useRef(0);
+  const prevSpiralActiveRef = useRef(true);
+  const prevHeaderActiveRef = useRef(true);
   const heroSpacerRef = useRef(null);
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      syncTouch: true,
-      syncTouchLerp: 0.075,
-      touchMultiplier: 1.5,
-      touchInertiaExponent: 1.6,
       infinite: false,
     });
-
-    let prevProgress = 0;
-    let prevSpiralActive = true;
 
     const getSpacerHeight = () => {
       if (heroSpacerRef.current) {
@@ -61,20 +57,20 @@ export const Page1Component = ({ onOpenMenu }) => {
       const scrollY = window.scrollY;
 
       const active = scrollY <= spacerHeight + 250;
-      if (active !== prevSpiralActive) {
-        prevSpiralActive = active;
+      if (active !== prevSpiralActiveRef.current) {
+        prevSpiralActiveRef.current = active;
         setIsSpiralActive(active);
       }
 
-      if (active) {
-        const progressLimit = spacerHeight;
-        const progress = Math.min(Math.max(scrollY / progressLimit, 0), 1);
-        if (Math.abs(progress - prevProgress) > 0.001 || progress === 0 || progress === 1) {
-          prevProgress = progress;
-          setScrollProgress(progress);
-        }
-      }
+      const progressLimit = spacerHeight || 1;
+      const progress = Math.min(Math.max(scrollY / progressLimit, 0), 1);
+      scrollProgressRef.current = progress;
 
+      const headerActive = active && progress < 0.65;
+      if (headerActive !== prevHeaderActiveRef.current) {
+        prevHeaderActiveRef.current = headerActive;
+        setIsHeaderActive(headerActive);
+      }
     };
 
     gsap.registerPlugin(ScrollTrigger);
@@ -91,7 +87,6 @@ export const Page1Component = ({ onOpenMenu }) => {
       lenis.raf(time * 1000);
     };
     gsap.ticker.add(updateLenis);
-    gsap.ticker.lagSmoothing(500, 33);
 
     return () => {
       clearTimeout(refreshTimer);
@@ -101,11 +96,8 @@ export const Page1Component = ({ onOpenMenu }) => {
     };
   }, []);
 
-  const isHeaderActive = isSpiralActive && scrollProgress < 0.65;
-
   return (
     <div className="page1-root-wrapper">
-
       <CustomCursor isSection1Active={isSpiralActive} />
 
       <BackgroundTypography
@@ -126,15 +118,14 @@ export const Page1Component = ({ onOpenMenu }) => {
       >
         <SpiralGalleryCanvas
           projects={projectsData}
-          scrollProgress={scrollProgress}
-          isActive={isSpiralActive}
+          scrollProgressRef={scrollProgressRef}
+          isActive={!isIntroActive && isSpiralActive}
         />
       </div>
 
       <div ref={heroSpacerRef} className="page1-hero-spacer" />
 
       <div className="page1-editorial-container" style={{ background: '#000000', position: 'relative', zIndex: 10, width: '100%' }}>
-
         <div id="page-2-container">
           <CursorTrail />
         </div>

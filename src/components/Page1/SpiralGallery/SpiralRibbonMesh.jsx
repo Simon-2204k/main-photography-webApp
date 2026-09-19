@@ -1,10 +1,10 @@
-import React, { useRef, useMemo, useState } from 'react';
+import React, { useRef, useMemo, memo } from 'react';
 import * as THREE from 'three';
 import { useTexture } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import gsap from 'gsap';
 
-const SingleRibbonSegment = ({
+const SingleRibbonSegmentComponent = ({
   item,
   startT,
   endT,
@@ -17,6 +17,7 @@ const SingleRibbonSegment = ({
 }) => {
   const groupRef = useRef();
   const hoverValRef = useRef({ offset: 0 });
+  const prevOffsetRef = useRef(0);
   const texture = useTexture(item.image);
 
   useMemo(() => {
@@ -24,7 +25,6 @@ const SingleRibbonSegment = ({
       texture.colorSpace = THREE.SRGBColorSpace;
       texture.minFilter = THREE.LinearMipmapLinearFilter;
       texture.magFilter = THREE.LinearFilter;
-      texture.needsUpdate = true;
     }
   }, [texture]);
 
@@ -77,8 +77,11 @@ const SingleRibbonSegment = ({
   useFrame(() => {
     if (!groupRef.current) return;
     const currentOffset = hoverValRef.current.offset;
-    groupRef.current.position.x = normalX * currentOffset;
-    groupRef.current.position.z = normalZ * currentOffset;
+    if (currentOffset !== 0 || prevOffsetRef.current !== 0) {
+      groupRef.current.position.x = normalX * currentOffset;
+      groupRef.current.position.z = normalZ * currentOffset;
+      prevOffsetRef.current = currentOffset;
+    }
   });
 
   const handlePointerOver = (e) => {
@@ -104,7 +107,6 @@ const SingleRibbonSegment = ({
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
     >
-
       <mesh geometry={geometry}>
         <meshStandardMaterial
           map={texture}
@@ -133,7 +135,9 @@ const SingleRibbonSegment = ({
   );
 };
 
-export const SpiralRibbonMesh = ({
+const SingleRibbonSegment = memo(SingleRibbonSegmentComponent);
+
+export const SpiralRibbonMesh = memo(({
   projects,
   minRadius = 2.9,
   maxRadius = 4.0,
@@ -177,4 +181,6 @@ export const SpiralRibbonMesh = ({
       ))}
     </group>
   );
-};
+});
+
+export default SpiralRibbonMesh;

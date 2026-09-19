@@ -1,34 +1,38 @@
-import React, { useEffect, useRef, useState, memo } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 
 export const CustomCursorComponent = ({ isSection1Active = true }) => {
   const cursorRef = useRef(null);
   const hLineRef = useRef(null);
   const vLineRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
 
   const isTouchDevice = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
   useEffect(() => {
     if (isTouchDevice) return;
 
-    const handleMouseMove = (e) => {
+    const setElementsOpacity = (opacity) => {
+      if (cursorRef.current) cursorRef.current.style.opacity = opacity;
+      if (hLineRef.current) hLineRef.current.style.opacity = opacity;
+      if (vLineRef.current) vLineRef.current.style.opacity = opacity;
+    };
 
+    const handleMouseMove = (e) => {
       if (e.sourceCapabilities?.firesTouchEvents || (e.pointerType && e.pointerType === 'touch')) {
         return;
       }
 
       if (!isSection1Active || window.scrollY > window.innerHeight * 0.8) {
-        setIsVisible(false);
+        setElementsOpacity('0');
         return;
       }
 
       const overExcluded = !!e.target.closest('#manifesto-section, #page-2-container, #perspectives-section, #visual-disciplines-section, #magnetic-spotlight-section, #slanted-marquee-section, #featured-series-section, #spotlight-marquee-section, #footer-section, #menu-overlay-container, .darkroom-mask-box');
       if (overExcluded) {
-        setIsVisible(false);
+        setElementsOpacity('0');
         return;
       }
 
-      setIsVisible(true);
+      setElementsOpacity('1');
 
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
@@ -44,12 +48,12 @@ export const CustomCursorComponent = ({ isSection1Active = true }) => {
     };
 
     const handleMouseLeave = () => {
-      setIsVisible(false);
+      setElementsOpacity('0');
     };
 
     const handleMouseEnter = () => {
       if (isSection1Active && window.scrollY <= window.innerHeight * 0.8) {
-        setIsVisible(true);
+        setElementsOpacity('1');
       }
     };
 
@@ -66,11 +70,8 @@ export const CustomCursorComponent = ({ isSection1Active = true }) => {
 
   if (isTouchDevice) return null;
 
-  const shouldRenderVisible = isVisible && isSection1Active;
-
   return (
     <>
-
       <div
         ref={hLineRef}
         style={{
@@ -82,7 +83,7 @@ export const CustomCursorComponent = ({ isSection1Active = true }) => {
           backgroundColor: 'rgba(255, 255, 255, 0.12)',
           pointerEvents: 'none',
           zIndex: 9998,
-          opacity: shouldRenderVisible ? 1 : 0,
+          opacity: 0,
           transition: 'opacity 0.25s ease'
         }}
       />
@@ -98,7 +99,7 @@ export const CustomCursorComponent = ({ isSection1Active = true }) => {
           backgroundColor: 'rgba(255, 255, 255, 0.12)',
           pointerEvents: 'none',
           zIndex: 9998,
-          opacity: shouldRenderVisible ? 1 : 0,
+          opacity: 0,
           transition: 'opacity 0.25s ease'
         }}
       />
@@ -124,7 +125,7 @@ export const CustomCursorComponent = ({ isSection1Active = true }) => {
           lineHeight: 1,
           userSelect: 'none',
           mixBlendMode: 'difference',
-          opacity: shouldRenderVisible ? 1 : 0,
+          opacity: 0,
           transition: 'opacity 0.2s ease'
         }}
       >
