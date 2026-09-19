@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, memo } from 'react';
 import gsap from 'gsap';
 import { FEATURED_SERIES_DATA, SIDEBAR_NAV_LINKS } from '../../../data/page1/featuredSeriesData';
-import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
 import './FeaturedSeries.css';
 
 const FeaturedSeriesComponent = () => {
@@ -9,15 +8,7 @@ const FeaturedSeriesComponent = () => {
   const [activeItemId, setActiveItemId] = useState(null);
   const hoverCardRef = useRef(null);
   const sectionRef = useRef(null);
-  const asideRef = useRef(null);
   const isHoveredRef = useRef(false);
-
-  useLandoTextReveal(asideRef, ['.featured-nav-item', '.featured-title-line'], {
-    theme: 'dark',
-    start: 'top 80%',
-    duration: 0.4,
-    stagger: 0.04,
-  });
 
   const xTo = useRef(null);
   const yTo = useRef(null);
@@ -155,7 +146,7 @@ const FeaturedSeriesComponent = () => {
 
       <div className="featured-series-main">
 
-        <aside ref={asideRef} className="featured-series-sidebar">
+        <aside className="featured-series-sidebar">
           <nav className="featured-nav-links">
             {SIDEBAR_NAV_LINKS.map((link, idx) => (
               <span

@@ -55,18 +55,26 @@ export const Page1Component = ({ onOpenMenu, isIntroActive = false }) => {
 
     const handleScroll = () => {
       const scrollY = window.scrollY;
+      const section2El = document.getElementById('perspectives-section');
+      const rectTop = section2El ? section2El.getBoundingClientRect().top : (spacerHeight - scrollY);
 
-      const active = scrollY <= spacerHeight + 250;
-      if (active !== prevSpiralActiveRef.current) {
-        prevSpiralActiveRef.current = active;
-        setIsSpiralActive(active);
+      if (rectTop <= 0) {
+        if (prevSpiralActiveRef.current) {
+          prevSpiralActiveRef.current = false;
+          setIsSpiralActive(false);
+        }
+      } else if (rectTop >= window.innerHeight * 0.5) {
+        if (!prevSpiralActiveRef.current) {
+          prevSpiralActiveRef.current = true;
+          setIsSpiralActive(true);
+        }
       }
 
       const progressLimit = spacerHeight || 1;
       const progress = Math.min(Math.max(scrollY / progressLimit, 0), 1);
       scrollProgressRef.current = progress;
 
-      const headerActive = active && progress < 0.65;
+      const headerActive = prevSpiralActiveRef.current && progress < 0.65;
       if (headerActive !== prevHeaderActiveRef.current) {
         prevHeaderActiveRef.current = headerActive;
         setIsHeaderActive(headerActive);
@@ -110,6 +118,7 @@ export const Page1Component = ({ onOpenMenu, isIntroActive = false }) => {
       <div
         className="page1-fixed-spiral-canvas"
         style={{
+          display: isSpiralActive ? 'block' : 'none',
           visibility: isSpiralActive ? 'visible' : 'hidden',
           opacity: isSpiralActive ? 1 : 0,
           pointerEvents: isSpiralActive ? 'auto' : 'none',

@@ -1,31 +1,11 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { CursorTrail } from '../CursorTrail/CursorTrail';
-import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
-import { useSplitTextLines } from '../../../utils/useSplitTextLines';
 
 const PerspectivesGridComponent = () => {
   const sectionRef = useRef(null);
-  const headingWrapperRef = useRef(null);
-  const headingTitleRef = useRef(null);
   const col1Ref = useRef(null);
   const col2Ref = useRef(null);
   const col3Ref = useRef(null);
-
-  useLandoTextReveal(headingWrapperRef, headingTitleRef, { theme: 'dark', start: 'top 80%' });
-
-  useSplitTextLines(sectionRef, '.perspective-cell h3', {
-    type: 'lines',
-    stagger: 0.03,
-    start: 'top 85%',
-    duration: 0.5,
-  });
-
-  useSplitTextLines(sectionRef, '.perspective-cell p', {
-    type: 'chars',
-    stagger: 0.006,
-    start: 'top 95%',
-    duration: 0.35,
-  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -139,7 +119,6 @@ const PerspectivesGridComponent = () => {
       <CursorTrail zIndex={2} />
 
       <div
-        ref={headingWrapperRef}
         style={{
           display: 'flex',
           justifyContent: 'flex-start',
@@ -150,7 +129,6 @@ const PerspectivesGridComponent = () => {
         }}
       >
         <h2
-          ref={headingTitleRef}
           style={{
             margin: 0,
             fontSize: 'clamp(2rem, 4.2vw, 4.4rem)',

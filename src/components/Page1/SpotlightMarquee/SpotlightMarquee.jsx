@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
 import { useLandoTextReveal } from '../../../utils/useLandoTextReveal';
-import { useSplitTextLines } from '../../../utils/useSplitTextLines';
 import './SpotlightMarquee.css';
 
 const GALLERY_IMAGES = [
@@ -25,13 +24,6 @@ const SpotlightMarqueeComponent = () => {
     start: 'top 80%',
     duration: 0.4,
     stagger: 0.04,
-  });
-
-  useSplitTextLines(sectionRef, '.spotlight-footer p', {
-    type: 'chars',
-    stagger: 0.006,
-    start: 'top 90%',
-    duration: 0.35,
   });
 
   useEffect(() => {

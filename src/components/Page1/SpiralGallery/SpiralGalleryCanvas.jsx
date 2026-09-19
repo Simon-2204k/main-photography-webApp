@@ -212,7 +212,7 @@ export const SpiralGalleryCanvas = React.memo(({ projects, scrollProgressRef, is
   const dprVal = typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 1.5) : 1;
 
   return (
-    <div className="canvas-wrapper">
+    <div className="canvas-wrapper" style={{ display: isActive ? 'block' : 'none' }}>
       <Canvas
         frameloop={isActive ? "always" : "never"}
         gl={{
