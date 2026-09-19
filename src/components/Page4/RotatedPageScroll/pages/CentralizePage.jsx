@@ -1,9 +1,41 @@
-import React, { memo } from 'react';
+import React, { memo, useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './RotatedPages.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const CentralizePage = memo(function CentralizePage() {
+  const containerRef = useRef(null);
+  const cardsColRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const cardsCol = cardsColRef.current;
+    if (!container || !cardsCol) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        cardsCol,
+        { yPercent: 12 },
+        {
+          yPercent: -12,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        }
+      );
+    }, container);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="rotated-page-content page-centralize">
+    <div ref={containerRef} className="rotated-page-content page-centralize">
       <div className="centralize-main-grid">
         {/* Left: Giant Title with Star Doodle & Descriptive Copy */}
         <div className="centralize-left-col">
@@ -35,8 +67,8 @@ export const CentralizePage = memo(function CentralizePage() {
           </div>
         </div>
 
-        {/* Right: 2x2 Feature Cards Grid with Orange Paint Splash Backdrop */}
-        <div className="centralize-cards-col">
+        {/* Right: 2x2 Feature Cards Grid with Orange Paint Splash Backdrop (Parallax scrubbed) */}
+        <div ref={cardsColRef} className="centralize-cards-col">
           <div className="centralize-orange-cross" />
 
           <div className="centralize-cards-grid">

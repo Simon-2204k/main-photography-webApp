@@ -1,9 +1,41 @@
-import React, { memo } from 'react';
+import React, { memo, useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './RotatedPages.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const ConnectoryPage = memo(function ConnectoryPage() {
+  const containerRef = useRef(null);
+  const stageRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const stage = stageRef.current;
+    if (!container || !stage) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        stage,
+        { yPercent: 10 },
+        {
+          yPercent: -10,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        }
+      );
+    }, container);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="rotated-page-content page-connectory">
+    <div ref={containerRef} className="rotated-page-content page-connectory">
       {/* Giant Background Title */}
       <h2 className="connectory-giant-bg-title">
         CONNECTORY
@@ -16,7 +48,7 @@ export const ConnectoryPage = memo(function ConnectoryPage() {
 
       {/* Center 3D Tilted Web Interface Mockup */}
       <div className="connectory-stage">
-        <div className="connectory-window-mockup">
+        <div ref={stageRef} className="connectory-window-mockup">
           {/* Mockup Header Bar */}
           <div className="connectory-window-topbar">
             <div className="connectory-tabs">

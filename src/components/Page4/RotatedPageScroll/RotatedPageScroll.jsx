@@ -13,51 +13,63 @@ import './RotatedPageScroll.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const pagesData = [
-  // Page 2: Curators and Artists (Sage Green)
+  // Page 2: Curators and Artists (Pure Black Card on White Hero Background)
   {
     id: 'page-2',
-    sectionBg: '#000000',
-    cardBg: '#848c7c',
+    sectionBg: '#ffffff',
+    cardBg: '#000000',
+    textColor: '#ffffff',
+    theme: 'dark',
     zIndex: 20,
     component: CuratorsArtistsPage,
   },
-  // Page 3: The Card (Dusty Rose)
+  // Page 3: The Card (Dark Charcoal Card on Black Background)
   {
     id: 'page-3',
-    sectionBg: '#848c7c',
-    cardBg: '#b88890',
+    sectionBg: '#000000',
+    cardBg: '#18181b',
+    textColor: '#ffffff',
+    theme: 'dark',
     zIndex: 30,
     component: TheCardPage,
   },
-  // Page 4: Centralize (Sage Green)
+  // Page 4: Centralize (Medium Gray Card on Dark Charcoal Background)
   {
     id: 'page-4',
-    sectionBg: '#b88890',
-    cardBg: '#848c7c',
+    sectionBg: '#18181b',
+    cardBg: '#3f3f46',
+    textColor: '#ffffff',
+    theme: 'dark',
     zIndex: 40,
     component: CentralizePage,
   },
-  // Page 5: Testimonials (Slate Blue)
+  // Page 5: Testimonials (Light Slate Card on Medium Gray Background)
   {
     id: 'page-5',
-    sectionBg: '#848c7c',
-    cardBg: '#788c9e',
+    sectionBg: '#3f3f46',
+    cardBg: '#71717a',
+    textColor: '#ffffff',
+    theme: 'dark',
     zIndex: 50,
     component: TestimonialsPage,
   },
-  // Page 6: The Connectory (Sage Green)
+  // Page 6: The Connectory (Zinc Card on Light Slate Background)
   {
     id: 'page-6',
-    sectionBg: '#788c9e',
-    cardBg: '#848c7c',
+    sectionBg: '#71717a',
+    cardBg: '#e4e4e7',
+    textColor: '#111111',
+    theme: 'light',
     zIndex: 60,
     component: ConnectoryPage,
   },
-  // Page 7: Join Us (Vibrant Orange)
+  // Page 7: Join Us (Pure White Card on Zinc Background)
   {
     id: 'page-7',
-    sectionBg: '#848c7c',
-    cardBg: '#f25822',
+    sectionBg: '#e4e4e7',
+    cardBg: '#ffffff',
+    textColor: '#111111',
+    theme: 'light',
     zIndex: 70,
     component: JoinUsPage,
   },
@@ -86,7 +98,15 @@ function HeroPageSection() {
   );
 }
 
-function RotatedPageSection({ id, sectionBg, cardBg, zIndex = 20, component: Component }) {
+function RotatedPageSection({
+  id,
+  sectionBg,
+  cardBg,
+  textColor,
+  theme,
+  zIndex = 20,
+  component: Component,
+}) {
   const containerRef = useRef(null);
   const pageRef = useRef(null);
 
@@ -97,34 +117,31 @@ function RotatedPageSection({ id, sectionBg, cardBg, zIndex = 20, component: Com
     if (!page || !container) return;
 
     const ctx = gsap.context(() => {
-      // Initial State: Pushed down below viewport (yPercent: 20) with Z-AXIS ROTATION ONLY (rotateZ: 14)
+      // Restored Z-axis tilt rotation (rotateZ: 14) entering on scroll, no scale
       gsap.set(page, {
         rotateZ: 14,
         rotateX: 0,
         rotateY: 0,
         yPercent: 20,
         transformOrigin: '50% 50%',
-        scale: 0.88,
         boxShadow: 'none',
       });
 
-      // Instant 1:1 scrub ScrollTrigger (scrub: true) for symmetric scroll up & down rotation
+      // Instant 1:1 scrub ScrollTrigger for smooth layered reveal
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
           start: 'top 100%',
-          end: 'top 10%',
+          end: 'top 15%',
           scrub: true,
         },
       });
 
-      // Smoothly animate rotateZ to 0 and yPercent to 0 as page enters viewport
       tl.to(page, {
         rotateZ: 0,
         rotateX: 0,
         rotateY: 0,
         yPercent: 0,
-        scale: 1.0,
         boxShadow: 'none',
         ease: 'none',
       });
@@ -142,15 +159,17 @@ function RotatedPageSection({ id, sectionBg, cardBg, zIndex = 20, component: Com
         zIndex,
         marginTop: id !== 'page-2' ? '-2px' : '0',
       }}
-      className="relative w-screen h-screen flex items-center justify-center overflow-visible perspective-container"
+      className="relative w-screen h-screen flex items-center justify-center overflow-visible"
     >
-      {/* 100% Screen Height & Width Page with Mounted Component */}
+      {/* 100% Screen Height & Width Upright Card with Zero Shadows */}
       <div
         ref={pageRef}
-        style={{ backgroundColor: cardBg }}
-        className="relative w-full h-full text-white rounded-none shadow-none overflow-hidden preserve-3d flex items-center justify-center"
+        style={{ backgroundColor: cardBg, color: textColor, boxShadow: 'none' }}
+        className="relative w-full h-full rounded-none overflow-hidden flex items-center justify-center"
       >
-        {Component ? <Component /> : null}
+        {Component ? (
+          <Component textColor={textColor} theme={theme} cardBg={cardBg} />
+        ) : null}
       </div>
     </section>
   );
@@ -162,13 +181,15 @@ export default function Section2RotatedSuite() {
       {/* Page 1: Hero Section with SIMON background & 3D Tilted Cylindrical Carousel */}
       <HeroPageSection />
 
-      {/* Pages 2 through 7: Rotated scroll pages stacked over previous background */}
+      {/* Pages 2 through 7: Layered scroll pages stacked over previous background */}
       {pagesData.map((page) => (
         <RotatedPageSection
           key={page.id}
           id={page.id}
           sectionBg={page.sectionBg}
           cardBg={page.cardBg}
+          textColor={page.textColor}
+          theme={page.theme}
           zIndex={page.zIndex}
           component={page.component}
         />

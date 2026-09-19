@@ -1,5 +1,9 @@
-import React, { useState, memo } from 'react';
+import React, { useState, memo, useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './RotatedPages.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const TESTIMONIALS_DATA = [
   {
@@ -33,6 +37,33 @@ const TESTIMONIALS_DATA = [
 
 export const TestimonialsPage = memo(function TestimonialsPage() {
   const [currentIdx, setCurrentIdx] = useState(0);
+  const containerRef = useRef(null);
+  const stackRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const stack = stackRef.current;
+    if (!container || !stack) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        stack,
+        { yPercent: 12 },
+        {
+          yPercent: -12,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        }
+      );
+    }, container);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleNext = () => {
     setCurrentIdx((prev) => (prev + 1) % TESTIMONIALS_DATA.length);
@@ -45,13 +76,13 @@ export const TestimonialsPage = memo(function TestimonialsPage() {
   const current = TESTIMONIALS_DATA[currentIdx];
 
   return (
-    <div className="rotated-page-content page-testimonials">
+    <div ref={containerRef} className="rotated-page-content page-testimonials">
       {/* Giant Background Title */}
       <h2 className="testimonials-giant-bg-title">
         TESTIMONIALS
       </h2>
 
-      {/* Hand-Drawn White Speech Bubble Doodle on Left */}
+      {/* Hand-Drawn Speech Bubble Doodle on Left */}
       <svg
         className="testimonials-speech-bubble-doodle"
         viewBox="0 0 120 80"
@@ -67,7 +98,7 @@ export const TestimonialsPage = memo(function TestimonialsPage() {
 
       {/* Center Carousel Stack */}
       <div className="testimonials-stage">
-        <div className="testimonials-cards-stack">
+        <div ref={stackRef} className="testimonials-cards-stack">
           {/* Fanned Cards in Background for 3D physical depth */}
           <div className="testimonial-card-fanned-2" />
           <div className="testimonial-card-fanned-1" />

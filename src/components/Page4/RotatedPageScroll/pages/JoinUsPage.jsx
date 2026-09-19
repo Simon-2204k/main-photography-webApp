@@ -1,9 +1,41 @@
-import React, { memo } from 'react';
+import React, { memo, useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './RotatedPages.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const JoinUsPage = memo(function JoinUsPage() {
+  const containerRef = useRef(null);
+  const avatarsRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const avatars = avatarsRef.current;
+    if (!container || !avatars) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        avatars,
+        { yPercent: 14 },
+        {
+          yPercent: -14,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        }
+      );
+    }, container);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="rotated-page-content page-join-us">
+    <div ref={containerRef} className="rotated-page-content page-join-us">
       <div className="join-main-grid">
         {/* Left: Giant JOIN Typography + Script "Us" + 3 Avatar Portraits */}
         <div className="join-left-col">
@@ -15,7 +47,8 @@ export const JoinUsPage = memo(function JoinUsPage() {
             Us
           </div>
 
-          <div className="join-avatars-cluster">
+          {/* Overlaid 3-Avatar Photo Cluster (Parallax scrubbed) */}
+          <div ref={avatarsRef} className="join-avatars-cluster">
             <img
               src="/images/section4/pexels-kyle-miller-169884138-13411957.webp"
               alt="Community Member 1"

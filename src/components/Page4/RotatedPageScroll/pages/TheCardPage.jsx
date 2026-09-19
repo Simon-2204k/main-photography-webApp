@@ -1,9 +1,42 @@
-import React, { memo } from 'react';
+import React, { memo, useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import CurvedMeshCard3D from './CurvedMeshCard3D';
 import './RotatedPages.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const TheCardPage = memo(function TheCardPage() {
+  const containerRef = useRef(null);
+  const overlaysRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const overlays = overlaysRef.current;
+    if (!container || !overlays) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        overlays,
+        { yPercent: 10 },
+        {
+          yPercent: -10,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: container,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        }
+      );
+    }, container);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="rotated-page-content page-the-card">
+    <div ref={containerRef} className="rotated-page-content page-the-card">
       {/* Top Header Strip (from Screenshot 7) */}
       <header className="thecard-top-strip">
         <div className="thecard-top-left">
@@ -20,60 +53,27 @@ export const TheCardPage = memo(function TheCardPage() {
           THE CARD
         </h2>
 
-        {/* Dual Floating Cards Overlaid in Center */}
-        <div className="thecard-overlays-container">
-          {/* Card A: Peeling Orange Digital Pass */}
-          <div className="thecard-peel-card">
-            <div className="thecard-peel-header">
-              <span>SIMON.ARCHIVE</span>
-              <span>✦ 120MM</span>
-            </div>
-            <div className="thecard-peel-body">
-              <img
-                src="/images/section4/pexels-krista-glizdeniece-2150567376-31603972.webp"
-                alt="Venus Nwaokoro"
-                className="thecard-peel-avatar"
-                loading="lazy"
-              />
-              <div>
-                <div className="thecard-peel-name">Venus Nwaokoro</div>
-                <div className="thecard-peel-meta">Medium Format Emulsion</div>
-                <div className="thecard-peel-meta">artist@simon.archive</div>
-              </div>
-            </div>
-            <div className="thecard-peel-qr">
-              {/* Crisp SVG QR Code Representation */}
-              <svg viewBox="0 0 40 40" width="100%" height="100%">
-                <rect width="40" height="40" fill="#ffffff" />
-                <path d="M4 4h10v10H4zm2 2v6h6V6zm16-2h10v10H22zm2 2v6h6V6zM4 22h10v10H4zm2 2v6h6v-6zm16 6h4v4h-4zm6-6h4v4h-4zm0 6h4v4h-4zm-6-4h4v4h-4z" fill="#000000" />
-              </svg>
-            </div>
-          </div>
+        {/* Dual 3D Curled Cards Overlaid in Center (Three.js WebGL, Parallax scrubbed) */}
+        <div ref={overlaysRef} className="thecard-overlays-container">
+          {/* Card A: Peeling Orange Digital Pass (3D Curled Paper Mesh) */}
+          <CurvedMeshCard3D
+            type="orange-pass"
+            width={280}
+            height={420}
+            curvature={0.48}
+            rotationZ={-0.12}
+            className="thecard-3d-orange-pass"
+          />
 
-          {/* Card B: Dark Mobile Profile Card */}
-          <div className="thecard-mobile-card">
-            <div className="thecard-mobile-header">
-              SIMON.ARCHIVE
-            </div>
-            <div className="thecard-mobile-title">
-              Venus Nwaokoro
-              <div style={{ fontSize: '11px', color: '#a1a1aa', fontWeight: 500 }}>
-                Editorial &amp; Fine Art • Hasselblad 500C/M
-              </div>
-            </div>
-
-            <img
-              src="/images/section4/pexels-aloevera-17612352.webp"
-              alt="Artist Studio"
-              className="thecard-mobile-img"
-              loading="lazy"
-            />
-
-            <div className="thecard-mobile-actions">
-              <div className="thecard-support-btn">Commission Series</div>
-              <div className="thecard-wallet-btn"> Add to Apple Wallet</div>
-            </div>
-          </div>
+          {/* Card B: Dark Mobile Profile Card (3D Curved Cylinder Mesh) */}
+          <CurvedMeshCard3D
+            type="mobile-card"
+            width={290}
+            height={450}
+            curvature={0.36}
+            rotationZ={0.08}
+            className="thecard-3d-mobile-pass"
+          />
         </div>
       </div>
 

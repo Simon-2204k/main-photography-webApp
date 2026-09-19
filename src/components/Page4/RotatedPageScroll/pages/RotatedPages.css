@@ -50,7 +50,7 @@
 .follow-join-icon {
   width: 18px;
   height: 18px;
-  border-radius: 50%;
+  border-radius: 0px !important;
   border: 1.5px solid #ffffff;
   display: flex;
   align-items: center;
@@ -72,7 +72,7 @@
    PAGE 2: CURATORS AND ARTISTS (Sage Green #848c7c)
    ========================================================================== */
 .page-curators-artists {
-  background-color: #848c7c;
+  background-color: transparent;
   color: #ffffff;
 }
 
@@ -94,6 +94,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  will-change: transform;
 }
 
 .curators-orange-backdrop {
@@ -103,7 +104,8 @@
   background-color: #ff5d22;
   border-radius: 50%;
   z-index: 1;
-  filter: blur(0px);
+  filter: none !important;
+  box-shadow: none !important;
   transform: translate(-10%, 0);
 }
 
@@ -113,9 +115,9 @@
   width: clamp(200px, 24vw, 320px);
   aspect-ratio: 3 / 4;
   background-color: #000000;
-  border-radius: 2px;
+  border-radius: 0px !important;
   overflow: hidden;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+  box-shadow: none !important;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -128,6 +130,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 0px !important;
 }
 
 .curators-frame-overlay {
@@ -154,7 +157,7 @@
   width: 38px;
   height: 38px;
   background: rgba(255, 255, 255, 0.95);
-  border-radius: 4px;
+  border-radius: 0px !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -182,12 +185,12 @@
 .curators-giant-title {
   font-family: 'Anton', 'Impact', sans-serif;
   font-size: clamp(48px, 7.8vw, 118px);
-  line-height: 0.92;
+  line-height: 1.02;
   font-weight: 900;
-  color: #000000;
+  color: #ffffff !important;
   text-transform: uppercase;
   margin: 0;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .curators-sparkle-stars {
@@ -244,7 +247,7 @@
    PAGE 3: THE CARD (Dusty Rose #b88890)
    ========================================================================== */
 .page-the-card {
-  background-color: #b88890;
+  background-color: transparent;
   color: #ffffff;
 }
 
@@ -288,11 +291,11 @@
 .thecard-giant-title {
   font-family: 'Anton', 'Impact', sans-serif;
   font-size: clamp(80px, 18vw, 290px);
-  line-height: 0.88;
+  line-height: 1.0;
   font-weight: 900;
-  color: #000000;
+  color: #ffffff !important;
   text-transform: uppercase;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.01em;
   margin: 0;
   text-align: center;
   width: 100%;
@@ -309,6 +312,7 @@
   gap: clamp(16px, 3vw, 44px);
   z-index: 2;
   pointer-events: none;
+  will-change: transform;
 }
 
 /* Left Card: Peeling Orange Card with QR Code */
@@ -316,10 +320,11 @@
   width: clamp(180px, 20vw, 270px);
   aspect-ratio: 9 / 14;
   background-color: #ff5d22;
-  border-radius: 12px;
+  border-radius: 0px !important;
   padding: 16px;
   box-sizing: border-box;
-  box-shadow: -12px 18px 38px rgba(0, 0, 0, 0.45);
+  box-shadow: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   transform: rotate(-7deg) translateY(10px);
   display: flex;
   flex-direction: column;
@@ -340,53 +345,95 @@
   font-family: 'Space Grotesk', sans-serif;
   font-size: 11px;
   font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .thecard-peel-body {
   display: flex;
-  gap: 12px;
   align-items: center;
+  gap: 12px;
   margin: 12px 0;
 }
 
 .thecard-peel-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 6px;
+  width: 42px;
+  height: 42px;
+  border-radius: 0px !important;
   object-fit: cover;
-  background: #000;
+  background-color: #000;
 }
 
 .thecard-peel-name {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 13px;
-  font-weight: 800;
-  line-height: 1.2;
+  font-weight: 700;
+  color: #000;
 }
 
 .thecard-peel-meta {
   font-size: 10px;
-  opacity: 0.85;
+  color: rgba(0, 0, 0, 0.7);
+  line-height: 1.3;
 }
 
 .thecard-peel-qr {
-  width: 72px;
-  height: 72px;
-  align-self: center;
-  background: #ffffff;
+  width: clamp(64px, 7vw, 92px);
+  height: clamp(64px, 7vw, 92px);
+  background-color: #fff;
+  border-radius: 0px !important;
   padding: 6px;
-  border-radius: 6px;
+  box-sizing: border-box;
+  align-self: center;
 }
+
+.thecard-peel-footer {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.85);
+  text-align: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 8px;
+}
+
+/* Apple Wallet Add Button */
+.thecard-wallet-btn {
+  background: #000;
+  border-radius: 0px !important;
+  padding: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+.thecard-support-btn {
+  background: #ff5d22;
+  border-radius: 0px !important;
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  text-align: center;
+  color: #fff;
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+/* ==========================================================================
+   PAGE 4: CENTRALIZE
+   ========================================================================== */
 
 /* Right Card: Dark Mobile Card with Wallet button */
 .thecard-mobile-card {
   width: clamp(190px, 22vw, 290px);
   aspect-ratio: 9 / 15;
   background-color: #0d0d11;
-  border-radius: 16px;
+  border-radius: 0px !important;
   padding: 16px;
   box-sizing: border-box;
-  box-shadow: 12px 20px 42px rgba(0, 0, 0, 0.5);
+  box-shadow: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   transform: rotate(5deg) translateY(-10px);
   display: flex;
   flex-direction: column;
@@ -420,7 +467,7 @@
   width: 100%;
   height: 100px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 0px !important;
   margin: 10px 0;
 }
 
@@ -430,36 +477,11 @@
   gap: 6px;
 }
 
-.thecard-wallet-btn {
-  background: #1c1c22;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 6px;
-  padding: 8px;
-  font-size: 10px;
-  font-weight: 700;
-  text-align: center;
-  color: #fff;
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
-.thecard-support-btn {
-  background: #ff5d22;
-  border-radius: 6px;
-  padding: 8px;
-  font-size: 11px;
-  font-weight: 800;
-  text-align: center;
-  color: #fff;
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
 /* ==========================================================================
-   PAGE 4: CENTRALIZE (Sage Green #848c7c)
+   PAGE 4: CENTRALIZE
    ========================================================================== */
 .page-centralize {
-  background-color: #848c7c;
+  background-color: transparent;
   color: #ffffff;
 }
 
@@ -490,12 +512,12 @@
 .centralize-giant-title {
   font-family: 'Anton', 'Impact', sans-serif;
   font-size: clamp(52px, 8.8vw, 136px);
-  line-height: 0.9;
+  line-height: 1.02;
   font-weight: 900;
-  color: #000000;
+  color: #ffffff !important;
   text-transform: uppercase;
   margin: 0;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .centralize-star-doodle {
@@ -526,7 +548,7 @@
   font-size: clamp(15px, 1.4vw, 22px);
   font-weight: 500;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.85);
   margin: 0;
 }
 
@@ -536,6 +558,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  will-change: transform;
 }
 
 .centralize-orange-cross {
@@ -543,10 +566,11 @@
   width: clamp(260px, 32vw, 420px);
   height: clamp(260px, 32vw, 420px);
   background: #ff5d22;
-  border-radius: 20px;
+  border-radius: 0px !important;
   z-index: 1;
   transform: rotate(8deg);
   opacity: 0.95;
+  box-shadow: none !important;
 }
 
 .centralize-cards-grid {
@@ -559,7 +583,7 @@
 }
 
 .centralize-card-box {
-  background-color: #000000;
+  background-color: #18181b;
   aspect-ratio: 1 / 1;
   padding: clamp(14px, 2vw, 22px);
   box-sizing: border-box;
@@ -567,6 +591,9 @@
   flex-direction: column;
   justify-content: space-between;
   color: #ffffff;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   transition: transform 0.25s ease;
 }
 
@@ -590,10 +617,10 @@
 }
 
 /* ==========================================================================
-   PAGE 5: TESTIMONIALS (Slate Blue #788c9e)
+   PAGE 5: TESTIMONIALS
    ========================================================================== */
 .page-testimonials {
-  background-color: #788c9e;
+  background-color: transparent;
   color: #ffffff;
 }
 
@@ -604,11 +631,11 @@
   transform: translateX(-50%);
   font-family: 'Anton', 'Impact', sans-serif;
   font-size: clamp(70px, 16vw, 250px);
-  line-height: 0.88;
+  line-height: 1.0;
   font-weight: 900;
-  color: #000000;
+  color: #000000 !important;
   text-transform: uppercase;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.01em;
   margin: 0;
   white-space: nowrap;
   pointer-events: none;
@@ -621,7 +648,7 @@
   left: clamp(40px, 8vw, 140px);
   width: clamp(70px, 10vw, 140px);
   height: clamp(50px, 8vw, 100px);
-  color: #ffffff;
+  color: #000000;
   z-index: 2;
   pointer-events: none;
 }
@@ -645,6 +672,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  will-change: transform;
 }
 
 .testimonial-card-main {
@@ -654,8 +682,10 @@
   color: #000000;
   padding: clamp(20px, 3vh, 36px) clamp(22px, 3vw, 40px);
   box-sizing: border-box;
-  border-radius: 0px;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  filter: none !important;
+  border: none !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -688,7 +718,8 @@
 .testimonial-author-avatar {
   width: 44px;
   height: 44px;
-  border-radius: 50%;
+  border-radius: 0px !important;
+  border: none !important;
   object-fit: cover;
   background: #222;
 }
@@ -717,7 +748,10 @@
   background: #f4f4f5;
   z-index: 3;
   transform: rotate(6deg) translate(8%, 4%);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  filter: none !important;
+  border: none !important;
   pointer-events: none;
 }
 
@@ -728,7 +762,10 @@
   background: #e4e4e7;
   z-index: 2;
   transform: rotate(12deg) translate(14%, 8%);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  filter: none !important;
+  border: none !important;
   pointer-events: none;
 }
 
@@ -745,7 +782,7 @@
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(14px, 1.3vw, 20px);
   font-weight: 600;
-  color: #ffffff;
+  color: #000000;
 }
 
 .testimonials-nav-btns {
@@ -757,7 +794,7 @@
 .testimonials-nav-btn {
   background: transparent;
   border: none;
-  color: #ffffff;
+  color: #000000;
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(13px, 1.1vw, 16px);
   font-weight: 600;
@@ -775,11 +812,11 @@
 }
 
 /* ==========================================================================
-   PAGE 6: THE CONNECTORY (Sage Green #848c7c)
+   PAGE 6: THE CONNECTORY
    ========================================================================== */
 .page-connectory {
-  background-color: #848c7c;
-  color: #ffffff;
+  background-color: transparent;
+  color: #111111;
 }
 
 .connectory-giant-bg-title {
@@ -789,11 +826,11 @@
   transform: translateX(-50%);
   font-family: 'Anton', 'Impact', sans-serif;
   font-size: clamp(64px, 15vw, 240px);
-  line-height: 0.88;
+  line-height: 1.0;
   font-weight: 900;
-  color: #000000;
+  color: #000000 !important;
   text-transform: uppercase;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.01em;
   margin: 0;
   white-space: nowrap;
   pointer-events: none;
@@ -806,7 +843,7 @@
   left: clamp(30px, 8vw, 120px);
   font-family: 'Caveat', 'Brush Script MT', cursive;
   font-size: clamp(38px, 6vw, 92px);
-  color: #ffffff;
+  color: #111111;
   transform: rotate(-12deg);
   z-index: 2;
   pointer-events: none;
@@ -821,14 +858,17 @@
   justify-content: center;
   flex: 1;
   width: 100%;
+  will-change: transform;
 }
 
 .connectory-window-mockup {
   width: clamp(320px, 58vw, 840px);
   background-color: #ffffff;
   color: #000000;
-  border-radius: 8px;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  filter: none !important;
+  border: none !important;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -857,7 +897,8 @@
 
 .connectory-tab {
   padding: 4px 10px;
-  border-radius: 4px;
+  border-radius: 0px !important;
+  border: none !important;
   font-weight: 700;
   cursor: pointer;
 }
@@ -910,7 +951,10 @@
 .connectory-artist-card {
   background: #000000;
   color: #ffffff;
-  border-radius: 6px;
+  border-radius: 0px !important;
+  box-shadow: none !important;
+  filter: none !important;
+  border: none !important;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -927,15 +971,16 @@
   width: 100%;
   height: 70px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 0px !important;
+  border: none !important;
 }
 
 /* ==========================================================================
-   PAGE 7: JOIN US (Vibrant Orange #f25822)
+   PAGE 7: JOIN US
    ========================================================================== */
 .page-join-us {
-  background-color: #f25822;
-  color: #ffffff;
+  background-color: transparent;
+  color: #111111;
 }
 
 .join-main-grid {
@@ -959,12 +1004,12 @@
 .join-giant-title {
   font-family: 'Anton', 'Impact', sans-serif;
   font-size: clamp(100px, 24vw, 360px);
-  line-height: 0.85;
+  line-height: 0.98;
   font-weight: 900;
-  color: #000000;
+  color: #000000 !important;
   text-transform: uppercase;
   margin: 0;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.01em;
 }
 
 .join-us-script {
@@ -973,7 +1018,7 @@
   right: 18%;
   font-family: 'Caveat', 'Brush Script MT', cursive;
   font-size: clamp(52px, 9vw, 130px);
-  color: #ffffff;
+  color: #111111;
   transform: rotate(-10deg);
   z-index: 5;
   pointer-events: none;
@@ -986,14 +1031,16 @@
   display: flex;
   gap: 8px;
   z-index: 4;
+  will-change: transform;
 }
 
 .join-avatar-img {
   width: clamp(50px, 6vw, 90px);
   height: clamp(50px, 6vw, 90px);
   object-fit: cover;
-  border: 2px solid #ffffff;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  border: 2px solid #000000;
+  border-radius: 0px !important;
+  box-shadow: none !important;
 }
 
 .join-avatar-img:nth-child(2) {
@@ -1017,7 +1064,7 @@
   font-size: clamp(20px, 2.4vw, 38px);
   font-weight: 700;
   line-height: 1.3;
-  color: #ffffff;
+  color: #111111;
   letter-spacing: -0.02em;
   margin: 0 0 32px 0;
   max-width: 480px;

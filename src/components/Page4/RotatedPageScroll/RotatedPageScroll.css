@@ -21,7 +21,7 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: none !important;
   display: flex;
   align-items: center;
   justify-content: center;
