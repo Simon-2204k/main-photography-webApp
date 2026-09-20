@@ -15,68 +15,56 @@ const ExpandingGalleryComponent = () => {
 
     let startWidth = 125;
     let endWidth = 500;
-    let cachedMetrics = [];
-    let lastScrollY = -1;
-    let animFrameId = null;
+    let isTickerActive = false;
+    let lastRenderedFrame = -1;
 
     const setupLayout = () => {
       const width = window.innerWidth;
-      if (width < 768) {
-        startWidth = 240;
-        endWidth = 620;
+      if (width < 640) {
+        startWidth = 260;
+        endWidth = 720;
+      } else if (width < 768) {
+        startWidth = 220;
+        endWidth = 640;
       } else if (width <= 1024) {
         startWidth = Math.round(125 * (1200 / Math.max(width, 500)));
-        endWidth = Math.round(startWidth * 3.4);
-      } else {
+        endWidth = Math.round(startWidth * 3.6);
+      } else if (width <= 1440) {
         startWidth = 125;
         endWidth = 500;
+      } else {
+        startWidth = 115;
+        endWidth = 450;
       }
 
-      if (rowsRef.current[0]) {
-        rowsRef.current[0].style.width = `${endWidth}%`;
-        const singleRowHeight = rowsRef.current[0].offsetHeight;
-        rowsRef.current[0].style.width = '';
-
-        const styles = getComputedStyle(section);
-        const gapSize = parseFloat(styles.gap) || 0;
-        const paddingTop = parseFloat(styles.paddingTop) || 0;
-        const paddingBottom = parseFloat(styles.paddingBottom) || 0;
-
-        section.style.height = `${singleRowHeight * ROWS_COUNT + gapSize * (ROWS_COUNT - 1) + paddingTop + paddingBottom}px`;
-      }
-
-      // Cache document-relative row positions ONCE on setup/resize to avoid layout thrashing
-      const scrollY = window.scrollY;
-      cachedMetrics = [];
-      for (let i = 0; i < ROWS_COUNT; i++) {
-        const row = rowsRef.current[i];
-        if (!row) continue;
-        const rect = row.getBoundingClientRect();
-        cachedMetrics.push({
-          row,
-          rowTop: rect.top + scrollY,
-          height: rect.height || 180,
-        });
-      }
-      lastScrollY = -1;
       updateScroll(true);
     };
 
     const updateScroll = (force = false) => {
-      const scrollY = window.scrollY;
-      if (!force && Math.abs(scrollY - lastScrollY) < 0.5) return;
-      lastScrollY = scrollY;
+      const rows = rowsRef.current;
+      if (!rows || rows.length === 0) return;
 
       const viewportHeight = window.innerHeight;
       const widthDelta = endWidth - startWidth;
 
-      for (let i = 0; i < cachedMetrics.length; i++) {
-        const { row, rowTop, height } = cachedMetrics[i];
-        const scrollStart = rowTop - viewportHeight;
-        const scrollEnd = rowTop + height;
-        const span = scrollEnd - scrollStart || 1;
+      // Phase 1: Batch all DOM layout reads together (triggers at most 1 layout pass)
+      const measurements = [];
+      for (let i = 0; i < ROWS_COUNT; i++) {
+        const row = rows[i];
+        if (!row) continue;
+        const rect = row.getBoundingClientRect();
+        measurements.push({
+          row,
+          rectTop: rect.top,
+          height: rect.height,
+        });
+      }
 
-        let progress = (scrollY - scrollStart) / span;
+      // Phase 2: Batch all DOM style writes together (zero interleaved reflows)
+      for (let i = 0; i < measurements.length; i++) {
+        const { row, rectTop, height } = measurements[i];
+        const span = viewportHeight + height || 1;
+        let progress = (viewportHeight - rectTop) / span;
         if (progress < 0) progress = 0;
         else if (progress > 1) progress = 1;
 
@@ -87,13 +75,11 @@ const ExpandingGalleryComponent = () => {
       }
     };
 
-    const handleScroll = () => {
-      if (!animFrameId) {
-        animFrameId = requestAnimationFrame(() => {
-          updateScroll();
-          animFrameId = null;
-        });
-      }
+    const onTick = () => {
+      const frame = gsap.ticker.frame;
+      if (frame === lastRenderedFrame) return;
+      lastRenderedFrame = frame;
+      updateScroll();
     };
 
     const observer = new IntersectionObserver(
@@ -101,17 +87,25 @@ const ExpandingGalleryComponent = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setupLayout();
-            window.addEventListener('scroll', handleScroll, { passive: true });
+            if (!isTickerActive) {
+              gsap.ticker.add(onTick);
+              if (window.lenis) {
+                window.lenis.on('scroll', onTick);
+              }
+              isTickerActive = true;
+            }
           } else {
-            window.removeEventListener('scroll', handleScroll);
-            if (animFrameId) {
-              cancelAnimationFrame(animFrameId);
-              animFrameId = null;
+            if (isTickerActive) {
+              gsap.ticker.remove(onTick);
+              if (window.lenis) {
+                window.lenis.off('scroll', onTick);
+              }
+              isTickerActive = false;
             }
           }
         });
       },
-      { threshold: 0.01, rootMargin: '250px 0px' }
+      { threshold: 0.01, rootMargin: '300px 0px' }
     );
 
     window.addEventListener('resize', setupLayout, { passive: true });
@@ -121,10 +115,12 @@ const ExpandingGalleryComponent = () => {
     return () => {
       observer.disconnect();
       window.removeEventListener('resize', setupLayout);
-      window.removeEventListener('scroll', handleScroll);
-      if (animFrameId) {
-        cancelAnimationFrame(animFrameId);
-        animFrameId = null;
+      if (isTickerActive) {
+        gsap.ticker.remove(onTick);
+        if (window.lenis) {
+          window.lenis.off('scroll', onTick);
+        }
+        isTickerActive = false;
       }
     };
   }, []);
@@ -153,7 +149,6 @@ const ExpandingGalleryComponent = () => {
         zIndex: 10
       }}
     >
-
       {rowsData.map((rowItems, rowIdx) => (
         <div
           key={rowIdx}
@@ -162,7 +157,9 @@ const ExpandingGalleryComponent = () => {
           style={{
             width: '125%',
             display: 'flex',
-            gap: '1rem'
+            gap: 'clamp(0.5rem, 1.2vw, 1rem)',
+            willChange: 'width',
+            transform: 'translateZ(0)'
           }}
         >
           {rowItems.map((item) => (
@@ -177,7 +174,6 @@ const ExpandingGalleryComponent = () => {
                 transform: 'translateZ(0)'
               }}
             >
-
               <div
                 style={{
                   display: 'inline-flex',
@@ -195,7 +191,9 @@ const ExpandingGalleryComponent = () => {
                   fontWeight: 700,
                   letterSpacing: '0.1em',
                   color: '#b0b0b8',
-                  textTransform: 'uppercase'
+                  textTransform: 'uppercase',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0
                 }}
               >
                 <span>{item.frameNumber}</span>
@@ -238,7 +236,8 @@ const ExpandingGalleryComponent = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   padding: '0.25rem 0',
-                  fontFamily: "'Space Grotesk', monospace"
+                  fontFamily: "'Space Grotesk', monospace",
+                  whiteSpace: 'nowrap'
                 }}
               >
                 <span
@@ -260,7 +259,8 @@ const ExpandingGalleryComponent = () => {
                   style={{
                     fontSize: '0.62rem',
                     color: '#6e6e78',
-                    letterSpacing: '0.06em'
+                    letterSpacing: '0.06em',
+                    whiteSpace: 'nowrap'
                   }}
                 >
                   {item.year}

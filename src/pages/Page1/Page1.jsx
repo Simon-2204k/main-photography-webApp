@@ -36,6 +36,7 @@ export const Page1Component = ({ onOpenMenu, isIntroActive = false }) => {
       smoothWheel: true,
       infinite: false,
     });
+    window.lenis = lenis;
 
     const getSpacerHeight = () => {
       if (heroSpacerRef.current) {
@@ -102,6 +103,7 @@ export const Page1Component = ({ onOpenMenu, isIntroActive = false }) => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
       gsap.ticker.remove(updateLenis);
+      delete window.lenis;
       lenis.destroy();
     };
   }, []);
